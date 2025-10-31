@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head (title)">
+    <!-- ==============================
+         🌐 META & CONFIGURATION GÉNÉRALE
+    =============================== -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f97316" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="BarikaWeb" />
+    <meta name="description" content="BarikaWeb – Travaux publics, immobilier et aménagements de qualité en Côte d’Ivoire. Construisons ensemble votre patrimoine en toute confiance." />
+
+    <!-- ==============================
+         🔖 TITLE
+    =============================== -->
+    <title th:text="${title} ?: 'BarikaWeb – Immobilier & Travaux Publics'">
+        BarikaWeb – Immobilier & Travaux Publics
+    </title>
+
+    <!-- ==============================
+         🖼️ FAVICON & ICONS
+    =============================== -->
+    <link rel="icon" type="image/png" th:href="@{/images/favicon.png}" />
+    <link rel="apple-touch-icon" th:href="@{/images/apple-icon.png}" />
+    <link rel="manifest" th:href="@{/manifest.json}" />
+
+    <!-- ==============================
+         🎨 STYLES
+    =============================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+    />
+
+    <!-- Fichier CSS principal -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+
+    <!-- ==============================
+         ⚡ SCRIPTS
+    =============================== -->
+    <script defer th:src="@{/js/script.js}"></script>
+
+    <!-- Animation ou librairies externes optionnelles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <!-- ==============================
+         💡 SEO / Open Graph
+    =============================== -->
+    <meta property="og:title" content="BarikaWeb – Immobilier & Travaux Publics" />
+    <meta property="og:description" content="Travaux publics, immobilier et finitions modernes. BarikaWeb vous accompagne pour construire votre patrimoine durablement." />
+    <meta property="og:image" th:content="@{/images/og-banner.jpg}" />
+    <meta property="og:url" th:content="@{/}" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- ==============================
+         💻 PERFORMANCE
+    =============================== -->
+    <link rel="preload" th:href="@{/css/style.css}" as="style" />
+    <link rel="preload" th:href="@{/js/script.js}" as="script" />
+
+</head>
+<body>
+</body>
+</html>

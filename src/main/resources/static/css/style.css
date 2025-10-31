@@ -1,0 +1,1895 @@
+:root {
+    --accent: #f97316;
+    --accent-dark: #ea580c;
+    --text: #111;
+    --muted: #555;
+    --bg: #f9f9f9;
+    --white: #fff;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    --radius: 16px;
+    --transition: all 0.3s ease;
+}
+
+/* ===== GLOBAL ===== */
+body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    margin: 0;
+    color: var(--text);
+    background: var(--bg);
+}
+
+.section {
+    padding: 80px 6%;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.section-header p {
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+}
+
+/* ===== HERO ===== */
+.hero-banner {
+    position: relative;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.hero-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+    transition: transform 4s ease-in-out;
+}
+
+.hero-banner:hover .hero-bg {
+    transform: scale(1.1);
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(15, 15, 15, 0.7));
+}
+
+.hero-content {
+    position: relative;
+    text-align: center;
+    color: white;
+    z-index: 10;
+    max-width: 800px;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    color: #f5f5f5;
+    margin-bottom: 25px;
+}
+
+.hero-btns {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+/* ===== CARDS ===== */
+.card-service,
+.card-product,
+.card-article {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.card-service:hover,
+.card-product:hover,
+.card-article:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+}
+
+.card-service img,
+.card-product img,
+.card-article img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-body h3 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: var(--text);
+}
+
+.card-body p {
+    margin: 10px 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.card-body .price {
+    color: var(--accent);
+    font-weight: 700;
+    margin: 8px 0;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    background: var(--accent-dark);
+    transform: scale(1.05);
+}
+
+.btn-outline {
+    display: inline-block;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    background: transparent;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.btn-outline:hover {
+    background: var(--accent);
+    color: white;
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background: var(--accent);
+    color: white;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.btn-secondary:hover {
+    background: var(--accent-dark);
+    transform: scale(1.07);
+}
+
+/* CTA */
+.cta {
+    background: linear-gradient(90deg, #ea580c, #f97316);
+    color: white;
+    padding: 70px 8%;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin: 60px auto;
+    max-width: 1100px;
+}
+
+.cta-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.cta-buttons a {
+    margin-left: 10px;
+}
+
+.btn-white {
+    background: white;
+    color: var(--accent-dark);
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.btn-white:hover {
+    transform: scale(1.05);
+    background: #f1f1f1;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fade-in-up {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+    animation: fade-in-up 1s ease forwards;
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .hero-content h1 { font-size: 1.8rem; }
+    .section { padding: 60px 5%; }
+    .cta-content { flex-direction: column; text-align: center; }
+}
+/* ============================
+   🌑 FOOTER STYLING (BarikaWeb)
+   ============================ */
+
+.footer {
+    background: linear-gradient(135deg, #0a0a0a, #1c1c1c);
+    color: #eaeaea;
+    padding: 70px 6% 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: 80px;
+    font-family: "Inter", sans-serif;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* --- TOP BRAND BAR --- */
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 24px;
+    margin-bottom: 36px;
+}
+
+.footer-brand {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+}
+
+.footer-rights {
+    font-size: 0.9rem;
+    color: #bfbfbf;
+}
+
+/* --- GRID CONTENT --- */
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+}
+
+.footer-block h4 {
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 14px;
+    font-weight: 600;
+}
+
+.footer-block p,
+.footer-block a {
+    color: #ccc;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    transition: all 0.3s ease;
+}
+
+.footer-block a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+}
+
+.footer-block ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-block ul li {
+    margin-bottom: 6px;
+}
+
+/* --- NEWSLETTER --- */
+.newsletter-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.newsletter-input {
+    flex: 1;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: none;
+    background: #2a2a2a;
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.newsletter-input:focus {
+    background: #333;
+    box-shadow: 0 0 0 2px var(--accent);
+}
+
+/* --- BOTTOM STRIPE --- */
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 20px;
+    color: #999;
+    font-size: 0.85rem;
+}
+
+.footer-bottom span {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .footer-top {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+    }
+
+    .newsletter-input {
+        width: 100%;
+    }
+
+    .footer {
+        padding: 60px 5% 20px;
+    }
+}
+/* =======================================
+   🌐 HEADER MODERNE — BarikaWeb
+   ======================================= */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.4s ease;
+}
+
+.header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: -0.4px;
+}
+
+.header-logo img {
+    height: 36px;
+    width: auto;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.nav a {
+    color: var(--text);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav a::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background-color: var(--accent);
+    transition: width 0.3s ease;
+}
+
+.nav a:hover {
+    color: var(--accent);
+}
+
+.nav a:hover::after {
+    width: 100%;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-actions .btn-login {
+    color: var(--accent);
+    font-weight: 600;
+    border: 2px solid var(--accent);
+    padding: 6px 14px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.header-actions .btn-login:hover {
+    background: var(--accent);
+    color: white;
+}
+
+.header-actions .btn-cart {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.header-actions .btn-cart:hover {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+}
+
+/* ===== MENU MOBILE ===== */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    width: 24px;
+    height: 2px;
+    background-color: var(--text);
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 900px) {
+    .nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.97);
+        backdrop-filter: blur(8px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 28px;
+        transition: right 0.4s ease;
+        box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav.open {
+        right: 0;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .header-actions {
+        display: none;
+    }
+}
+
+/* =======================================
+   ✨ ANIMATION — HEADER SCROLL EFFECT
+   ======================================= */
+
+.scrolled {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(6px);
+}
+
+/* =======================================
+   🛍️ MINI STYLE GLOBAL DE PAGE
+   ======================================= */
+
+:root {
+    --accent: #f97316;
+    --accent-dark: #ea580c;
+    --text: #111;
+    --muted: #555;
+    --bg: #f9f9f9;
+    --white: #fff;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    --radius: 16px;
+    --transition: all 0.3s ease;
+}
+
+/* =======================================
+   🪄 ANIMATION FADE-IN
+   ======================================= */
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fade-in-up 1s ease forwards;
+}
+/* ==========================================
+   ✉️ PAGE CONTACT — BarikaWeb
+   ========================================== */
+
+.container-contact {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 5%;
+}
+
+.contact-header {
+    text-align: center;
+    margin-bottom: 50px;
+    animation: fade-in-up 1s ease forwards;
+}
+
+.contact-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    margin: 0;
+}
+
+.contact-header .underline {
+    width: 70px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 4px;
+    margin: 12px auto 16px;
+}
+
+.contact-header p {
+    color: #555;
+    font-size: 1rem;
+    max-width: 540px;
+    margin: 0 auto;
+}
+
+/* ======= GRID STRUCTURE ======= */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 32px;
+}
+
+@media (max-width: 900px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ======= COORDONNÉES ======= */
+.contact-info {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    animation: fade-in-up 1s ease forwards;
+}
+
+.contact-info h2 {
+    font-size: 1.2rem;
+    color: var(--accent);
+    margin-bottom: 12px;
+}
+
+.contact-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #444;
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+.contact-info ul li {
+    padding-left: 2px;
+}
+
+.map-placeholder {
+    margin-top: 18px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+/* ======= FORMULAIRE ======= */
+.contact-form {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 28px;
+    animation: fade-in-up 1s ease forwards;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+}
+
+.form-group textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+/* ======= BUTTON ======= */
+.btn-primary {
+    background: var(--accent);
+    color: white;
+    font-weight: 600;
+    padding: 12px 26px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--accent-dark);
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25);
+}
+
+.form-actions {
+    text-align: right;
+    margin-top: 10px;
+}
+
+/* Animation réutilisée */
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* ==========================================
+   🧠 PAGE ADMIN - AJOUT ARTICLE
+   ========================================== */
+
+.admin-body {
+    background: #f9fafb;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #1f2937;
+}
+
+.admin-section {
+    max-width: 820px;
+    margin: 60px auto;
+    padding: 0 5%;
+}
+
+.admin-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    padding: 40px;
+    animation: fade-in-up 0.8s ease forwards;
+}
+
+.admin-card h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+/* ===== FORMULAIRE ===== */
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.form-input,
+.form-file,
+textarea.form-input {
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+textarea.form-input {
+    min-height: 140px;
+    resize: vertical;
+}
+
+.form-input:focus,
+textarea.form-input:focus,
+.form-file:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+}
+
+/* ===== BOUTONS ===== */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: white;
+    font-weight: 600;
+    padding: 12px 26px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(249, 115, 22, 0.25);
+}
+
+.btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #e5e7eb;
+}
+
+/* ===== FILE INPUT ===== */
+.form-file {
+    padding: 10px;
+    background: #f9fafb;
+    border: 2px dashed #d1d5db;
+    text-align: center;
+    cursor: pointer;
+}
+
+.form-file:hover {
+    background: #fff7f3;
+    border-color: var(--accent);
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 700px) {
+    .admin-card {
+        padding: 24px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+}
+/* ==========================================
+   ⚙️ PAGE ADMIN - AJOUT PRODUIT
+   ========================================== */
+
+.admin-body {
+    background: #f9fafb;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #1f2937;
+}
+
+.admin-section {
+    max-width: 820px;
+    margin: 60px auto;
+    padding: 0 5%;
+}
+
+.admin-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    padding: 40px;
+    animation: fade-in-up 0.8s ease forwards;
+}
+
+.admin-card h1 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 30px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* ===== FORMULAIRE ===== */
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.form-input,
+textarea.form-input,
+.form-file {
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+textarea.form-input {
+    min-height: 130px;
+    resize: vertical;
+}
+
+.form-input:focus,
+textarea.form-input:focus,
+.form-file:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+}
+
+/* ===== INPUT FILE ===== */
+.form-file {
+    padding: 10px;
+    background: #f9fafb;
+    border: 2px dashed #d1d5db;
+    text-align: center;
+    cursor: pointer;
+}
+
+.form-file:hover {
+    background: #fff7f3;
+    border-color: var(--accent);
+    transition: all 0.3s ease;
+}
+
+/* ===== BOUTONS ===== */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    padding: 12px 26px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(249, 115, 22, 0.25);
+}
+
+.btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #e5e7eb;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 700px) {
+    .admin-card {
+        padding: 24px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+}
+/* ==========================================
+   📊 ADMIN DASHBOARD - STYLE PRO
+   ========================================== */
+
+.admin-body {
+    background: #f9fafb;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #1f2937;
+}
+
+.admin-section {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 0 5%;
+}
+
+.dashboard-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    padding: 40px;
+    text-align: center;
+    animation: fade-in-up 0.8s ease forwards;
+}
+
+.dashboard-card h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #6b7280;
+    font-size: 1rem;
+    margin-bottom: 32px;
+}
+
+/* ======= STAT CARDS ======= */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 22px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+    padding: 20px 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: flex-start;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.stat-card h3 {
+    font-size: 1.1rem;
+    color: #374151;
+    margin: 0;
+}
+
+.stat-card p {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 4px 0 0 0;
+}
+
+/* ===== ICONES ===== */
+.stat-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.4rem;
+}
+
+.bg-blue {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.bg-green {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.bg-orange {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+}
+
+/* ===== BUTTONS ===== */
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 12px 26px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(249, 115, 22, 0.25);
+}
+
+.btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.btn-secondary:hover {
+    background: #e5e7eb;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 700px) {
+    .dashboard-card {
+        padding: 28px;
+    }
+
+    .stats-grid {
+        gap: 16px;
+    }
+
+    .stat-card {
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+    }
+
+    .stat-icon {
+        margin-bottom: 8px;
+    }
+}
+/* ==========================================
+   🔐 PAGE ADMIN LOGIN - STYLE PRO
+   ========================================== */
+
+.login-body {
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #1f2937;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.login-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+}
+
+.login-card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    animation: fade-in-up 0.8s ease forwards;
+}
+
+.login-card h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+
+.login-subtitle {
+    color: #6b7280;
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    text-align: left;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.form-input {
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: white;
+    font-weight: 600;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-primary:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(249, 115, 22, 0.25);
+}
+
+.login-hint {
+    margin-top: 24px;
+    color: #6b7280;
+    font-size: 0.85rem;
+}
+
+/* ===== Animation ===== */
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+    .login-card {
+        padding: 28px;
+    }
+    .login-card h1 {
+        font-size: 1.5rem;
+    }
+}
+/* ==========================================
+   📰 BLOG PAGE - STYLE PRO
+   ========================================== */
+
+.blog-body {
+    background: #f9fafb;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #1f2937;
+}
+
+.blog-section {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 5%;
+}
+
+.blog-header {
+    text-align: center;
+    margin-bottom: 40px;
+    animation: fade-in-up 0.7s ease;
+}
+
+.blog-header h1 {
+    font-size: 2rem;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.blog-header .subtitle {
+    color: #6b7280;
+    font-size: 1rem;
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+/* ======= GRID ======= */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+    animation: fade-in-up 0.8s ease;
+}
+
+/* ======= CARD ======= */
+.blog-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.blog-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* ======= IMAGE ======= */
+.blog-image {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+}
+
+.blog-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.blog-card:hover .blog-image img {
+    transform: scale(1.08);
+}
+
+/* ======= CONTENT ======= */
+.blog-content {
+    padding: 18px 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.blog-category {
+    display: inline-block;
+    font-size: 0.8rem;
+    background: rgba(249, 115, 22, 0.1);
+    color: var(--accent);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    align-self: flex-start;
+}
+
+.blog-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.3;
+}
+
+.blog-text {
+    color: #6b7280;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+/* ======= BUTTON ======= */
+.blog-actions {
+    margin-top: 12px;
+}
+
+.btn-read {
+    display: inline-block;
+    padding: 8px 18px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-read:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(249, 115, 22, 0.25);
+}
+
+/* ======= ANIMATIONS ======= */
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ======= RESPONSIVE ======= */
+@media (max-width: 700px) {
+    .blog-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .blog-image {
+        height: 160px;
+    }
+}
+/* ==========================================
+   🛒 PAGE PRODUITS - STYLE E-COMMERCE PRO
+   ========================================== */
+
+.products-body {
+    background: #f9fafb;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #1f2937;
+}
+
+.products-section {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 5%;
+    animation: fade-in-up 0.7s ease;
+}
+
+.products-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.products-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.products-header .subtitle {
+    color: #6b7280;
+    font-size: 1rem;
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+/* ======= GRID ======= */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 26px;
+}
+
+/* ======= PRODUCT CARD ======= */
+.product-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s ease;
+    position: relative;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.08);
+}
+
+/* ======= IMAGE ======= */
+.product-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.08);
+}
+
+/* ======= INFO ======= */
+.product-info {
+    padding: 16px 18px;
+    flex-grow: 1;
+}
+
+.product-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 6px;
+}
+
+.product-description {
+    font-size: 0.95rem;
+    color: #6b7280;
+    margin-bottom: 12px;
+    line-height: 1.6;
+    min-height: 50px;
+}
+
+.product-price {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 1.1rem;
+}
+
+/* ======= ACTIONS ======= */
+.product-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px 18px;
+    border-top: 1px solid #f3f4f6;
+    background: #fff;
+}
+
+.btn-view,
+.btn-buy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-view {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.btn-view:hover {
+    background: #e5e7eb;
+}
+
+.btn-buy {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-buy:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(249, 115, 22, 0.25);
+}
+
+/* ======= RESPONSIVE ======= */
+@media (max-width: 700px) {
+    .product-image {
+        height: 180px;
+    }
+
+    .product-card {
+        text-align: center;
+    }
+
+    .product-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+/* ======= ANIMATION ======= */
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* ==========================================
+   🏗️ PAGE PROJETS / RÉALISATIONS - STYLE PRO
+   ========================================== */
+
+.projects-body {
+    background: #f9fafb;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #1f2937;
+}
+
+.projects-section {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 5%;
+    animation: fade-in-up 0.7s ease;
+}
+
+/* ===== HEADER ===== */
+.projects-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.projects-header h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--accent);
+}
+
+.projects-header p {
+    color: #6b7280;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.divider {
+    width: 70px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 4px;
+    margin: 16px auto;
+}
+
+/* ===== GRID ===== */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 26px;
+}
+
+/* ===== CARD ===== */
+.project-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.08);
+}
+
+.project-image {
+    height: 180px;
+    overflow: hidden;
+}
+
+.project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.project-card:hover .project-image img {
+    transform: scale(1.08);
+}
+
+.project-content {
+    padding: 18px;
+}
+
+.project-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 6px;
+}
+
+.project-description {
+    color: #6b7280;
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+    line-height: 1.5;
+}
+
+.project-actions {
+    text-align: right;
+}
+
+.btn-view {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-view:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(249, 115, 22, 0.25);
+}
+
+/* ===== CASE STUDY ===== */
+.case-study {
+    margin-top: 70px;
+    text-align: center;
+}
+
+.case-study h2 {
+    color: var(--accent);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.case-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.05);
+    padding: 28px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.case-card p {
+    color: #4b5563;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 700px) {
+    .project-image {
+        height: 160px;
+    }
+
+    .projects-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .case-card {
+        padding: 20px;
+    }
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+

@@ -1,0 +1,14 @@
+<div class="card">
+    <a th:href="@{/produits/{id}(id=${produit.id})}">
+        <img th:src="${produit.imageUrl} ?: @{/images/placeholder.png}" alt="Produit"/>
+    </a>
+    <div class="meta">
+        <div class="title" th:text="${produit.nom}">Nom produit</div>
+        <div class="price" th:text="${produit.prix} + ' FCFA'">0 FCFA</div>
+    </div>
+    <p th:text="${produit.localisation} ?: 'Localisation'" style="color:var(--muted);font-size:13px"></p>
+    <div class="actions">
+        <button class="btn" th:onclick="|addToCart(${produit.id},1)|">Ajouter</button>
+        <button class="icon-btn" th:onclick="|toggleWishlist(${produit.id})|">♡</button>
+    </div>
+</div>

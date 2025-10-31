@@ -1,0 +1,19 @@
+<!doctype html>
+<div th:fragment="header" class="site-header">
+    <header>
+        <div class="container header-inner">
+            <div class="brand"><a th:href="@{/}">BarikaWeb</a></div>
+            <nav class="nav">
+                <a th:href="@{/}">Accueil</a>
+                <a th:href="@{/services}">Services</a>
+                <a th:href="@{/projets}">Projets</a>
+                <a th:href="@{/blog}">Blog</a>
+                <a th:href="@{/contact}">Contact</a>
+            </nav>
+            <div class="action">
+                <a class="btn" th:href="@{/produits}">Nos Offres</a>
+                <a th:href="@{/admin/login}">Admin</a>
+            </div>
+        </div>
+    </header>
+</div>

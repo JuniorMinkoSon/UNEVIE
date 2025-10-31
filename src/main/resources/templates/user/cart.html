@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head (title='Panier - BarikaWeb')"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<section class="container" style="padding:60px 0">
+    <h1>Votre panier</h1>
+    <div style="margin-top:20px;">
+        <table style="width:100%;border-collapse:collapse">
+            <thead>
+            <tr><th style="text-align:left">Produit</th><th>Qté</th><th>Prix</th><th></th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="l : ${panier}">
+                <td th:text="${l.produit.nom}">Nom</td>
+                <td th:text="${l.quantite}">1</td>
+                <td th:text="${l.produit.prix}">1000</td>
+                <td><a th:href="@{/cart/remove/{id}(id=${l.produit.id})}">Supprimer</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top:18px;display:flex;justify-content:flex-end;gap:12px">
+            <a class="btn" th:href="@{/checkout}">Passer à la commande</a>
+        </div>
+    </div>
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

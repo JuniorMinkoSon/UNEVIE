@@ -1,0 +1,51 @@
+<div th:fragment="footer">
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- ===== TOP SECTION ===== -->
+            <div class="footer-top">
+                <div class="footer-brand">BarikaWeb</div>
+                <p class="footer-rights">
+                    &copy; <span th:text="${#dates.format(#dates.createNow(),'yyyy')}">2025</span>
+                    BarikaWeb. Tous droits réservés.
+                </p>
+            </div>
+
+            <!-- ===== GRID CONTENT ===== -->
+            <div class="footer-grid">
+                <!-- Contact -->
+                <div class="footer-block">
+                    <h4>Contact</h4>
+                    <p>Cocody Angré, Abidjan</p>
+                    <p>Téléphone : <a href="tel:+2250700000000">+225 07 00 00 00 00</a></p>
+                    <p>Email : <a href="mailto:contact@barikaweb.ci">contact@barikaweb.ci</a></p>
+                </div>
+
+                <!-- Liens rapides -->
+                <div class="footer-block">
+                    <h4>Liens utiles</h4>
+                    <ul>
+                        <li><a th:href="@{/services}">Nos services</a></li>
+                        <li><a th:href="@{/projets}">Nos projets</a></li>
+                        <li><a th:href="@{/blog}">Blog</a></li>
+                        <li><a th:href="@{/contact}">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="footer-block">
+                    <h4>Newsletter</h4>
+                    <p>Recevez nos dernières offres et conseils.</p>
+                    <form th:action="@{/newsletter}" method="post" class="newsletter-form">
+                        <input class="newsletter-input" name="email" type="email" placeholder="Votre email" required>
+                        <button class="btn-primary" type="submit">S'inscrire</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ===== BOTTOM STRIPE ===== -->
+            <div class="footer-bottom">
+                <p>Conçu avec ❤️ par <span>BarikaWeb Team</span></p>
+            </div>
+        </div>
+    </footer>
+</div>

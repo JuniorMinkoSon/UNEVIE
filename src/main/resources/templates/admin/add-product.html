@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head (title='Admin - Ajouter produit')"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<section class="container" style="padding:40px 0;max-width:720px">
+    <h1>Ajouter un produit</h1>
+    <form th:action="@{/admin/product/save}" th:object="${produit}" method="post" enctype="multipart/form-data" style="display:grid;gap:12px">
+        <input class="form-input" th:field="*{nom}" placeholder="Nom">
+        <input class="form-input" th:field="*{localisation}" placeholder="Localisation">
+        <input class="form-input" th:field="*{prix}" placeholder="Prix">
+        <textarea class="form-input" th:field="*{description}" placeholder="Description"></textarea>
+        <input type="file" name="image">
+        <button class="btn" type="submit">Enregistrer</button>
+    </form>
+</section>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

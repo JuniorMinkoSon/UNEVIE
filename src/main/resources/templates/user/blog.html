@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head (title='Blog - BarikaWeb')"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<section class="container" style="padding:40px 0">
+    <h1>Nos articles</h1>
+    <div class="grid">
+        <div th:each="a : ${articles}" class="card">
+            <img th:src="${a.imageUrl}" alt="article" style="width:100%;height:150px;object-fit:cover;border-radius:8px">
+            <h3 th:text="${a.titre}"></h3>
+            <p th:text="${a.categorie}"></p>
+            <p th:text="${a.contenu}"></p>
+        </div>
+    </div>
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

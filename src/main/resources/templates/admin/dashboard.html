@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head (title='Admin - Dashboard')"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<section class="container" style="padding:40px 0">
+    <h1>Tableau de bord</h1>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-top:20px">
+        <div class="card"><h3>Produits</h3><p th:text="${stats.produits}?:'--'">0</p></div>
+        <div class="card"><h3>Articles</h3><p th:text="${stats.articles}?:'--'">0</p></div>
+        <div class="card"><h3>Commandes</h3><p th:text="${stats.commandes}?:'--'">0</p></div>
+    </div>
+
+    <div style="margin-top:24px">
+        <a class="btn" th:href="@{/admin/product/add}">Ajouter un produit</a>
+        <a class="btn" th:href="@{/admin/article/add}" style="margin-left:12px">Ajouter un article</a>
+    </div>
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
