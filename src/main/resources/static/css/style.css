@@ -409,6 +409,39 @@ header {
     transition: all 0.4s ease;
 }
 
+/* ===== TOPBAR (utility) ===== */
+.topbar {
+    background: #f6f6f6;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+.header-top {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.top-left { font-weight: 500; }
+.top-right a { color: var(--muted); text-decoration: none; margin-left: 10px; }
+.top-right .sep { margin: 0 8px; color: #ddd; }
+
+/* ===== HEADER GRID: left nav, centered logo, right actions ===== */
+.header-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+}
+.nav-left { justify-self: start; }
+.nav-right { justify-self: end; }
+.header-logo { justify-self: center; }
+.header-logo a { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--accent); font-weight: 700; }
+.header-logo img { height: 44px; width: auto; }
+
+
 .header-inner {
     max-width: 1200px;
     margin: 0 auto;

@@ -1,18 +1,43 @@
 <!doctype html>
 <div th:fragment="header" class="site-header">
+    <!-- Top utility bar (language / contact similar to the reference site) -->
+    <div class="topbar">
+        <div class="container header-top">
+            <div class="top-left">ALLER DIRECTEMENT AU CONTENU PRINCIPAL</div>
+            <div class="top-right">
+                <a href="#">INTERNATIONAL (FR)</a>
+                <span class="sep">|</span>
+                <a href="tel:+41225802948">+41 22 580 29 48</a>
+            </div>
+        </div>
+    </div>
+
     <header>
-        <div class="container header-inner">
-            <div class="brand"><a th:href="@{/}">BarikaWeb</a></div>
-            <nav class="nav">
-                <a th:href="@{/}">Accueil</a>
-                <a th:href="@{/services}">Services</a>
-                <a th:href="@{/projets}">Projets</a>
-                <a th:href="@{/blog}">Blog</a>
-                <a th:href="@{/contact}">Contact</a>
+        <div class="container header-inner header-grid">
+            <!-- left nav (desktop) -->
+            <nav class="nav nav-left">
+                <a th:href="@{/montres}">Montres</a>
+                <a th:href="@{/la-maison}">La maison</a>
+                <a th:href="@{/service-client}">Service client</a>
             </nav>
-            <div class="action">
-                <a class="btn" th:href="@{/produits}">Nos Offres</a>
-                <a th:href="@{/admin/login}">Admin</a>
+
+            <!-- centered brand/logo -->
+            <div class="header-logo">
+                <a th:href="@{/}"><img th:src="@{/images/logo.svg}" alt="BarikaWeb Logo" /> <span>BarikaWeb</span></a>
+            </div>
+
+            <!-- right nav / actions -->
+            <div class="header-actions">
+                <nav class="nav nav-right">
+                    <a th:href="@{/points-de-vente}">Points de vente</a>
+                    <a th:href="@{/mentions-legales}">Mentions légales</a>
+                </nav>
+
+                <a class="btn-login" th:href="@{/admin/login}">Admin</a>
+                <a class="btn-cart" th:href="@{/produits}">Nos Offres</a>
+                <div class="menu-toggle" onclick="document.querySelector('.nav').classList.toggle('open')">
+                    <span></span><span></span><span></span>
+                </div>
             </div>
         </div>
     </header>
