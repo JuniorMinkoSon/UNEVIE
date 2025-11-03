@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head (title='Votre Panier')}"></head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="section">
+    <h2>Votre panier</h2>
+
+    <div th:if="${panier == null or #lists.isEmpty(panier)}">
+        <p>Votre panier est vide.</p>
+    </div>
+
+    <table th:if="${panier}">
+        <tr>
+            <th>Produit</th>
+            <th>Prix</th>
+        </tr>
+        <tr th:each="prod : ${panier}">
+            <td th:text="${prod.nom}"></td>
+            <td th:text="${prod.prix} + ' FCFA'"></td>
+        </tr>
+    </table>
+
+    <h3>Total : <span th:text="${total} + ' FCFA'"></span></h3>
+
+    <form method="post" action="/panier/valider">
+        <label><input type="radio" name="modePaiement" value="VISA" required> Visa</label>
+        <label><input type="radio" name="modePaiement" value="WAVE"> Wave</label>
+        <label><input type="radio" name="modePaiement" value="ORANGE"> Orange Money</label>
+        <label><input type="radio" name="modePaiement" value="LIVRAISON"> Paiement à la livraison</label>
+
+        <button type="submit" class="btn-primary">Valider la commande</button>
+    </form>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

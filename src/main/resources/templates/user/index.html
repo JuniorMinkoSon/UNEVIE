@@ -71,7 +71,11 @@
                 <h3 th:text="${p.nom}"></h3>
                 <p class="description" th:text="${p.description}"></p>
                 <p class="price" th:text="${p.prix} + ' FCFA'"></p>
-                <button class="btn-primary">Acheter</button>
+                <form th:action="@{'/panier/ajouter/' + ${p.id}}" method="post">
+                    <button class="btn-primary" type="submit">Acheter</button>
+                </form>
+
+
             </div>
         </div>
     </div>
