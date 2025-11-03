@@ -22,7 +22,8 @@
                     <p>Solutions complètes en travaux publics, immobilier sécurisé et finitions soignées.</p>
                     <div class="hero-btns">
                         <a th:href="@{/produits}" class="btn-primary">Découvrir nos offres</a>
-                        <a th:href="@{/contact}" class="btn-outline">Demander un devis</a>
+                        <a th:href="@{/contact}" class="btn-primary">Demander un devis</a>
+                        <!-- <a th:href="@{/contact}" class="btn-outline">Demander un devis</a> -->
                     </div>
                 </div>
             </div>
@@ -72,33 +73,146 @@
         <p>Un savoir-faire reconnu dans plusieurs secteurs clés.</p>
     </div>
 
-    <div class="grid-3">
-        <div class="card-service animate-fade-in-up delay-100">
-            <img th:src="@{/images/Travaux-publics-génie-civil-3.jpg}" alt="Travaux publics">
-            <div class="card-body">
-                <h3>Travaux publics & génie civil</h3>
-                <p>Routes, terrassement, aménagements durables et verdissement.</p>
-                <button class="btn-secondary">Réserver</button>
+    <div class="services-grid">
+        <!-- Service 1 -->
+        <a href="#" class="service-card">
+            <img th:src="@{/images/bat-moderne-1.jpg}" alt="Offre spéciale construction">
+            <div class="service-overlay">
+                <div class="service-tag">OFFRE SPÉCIALE</div>
+                <h3 class="service-title">Garantie décennale offerte</h3>
+            </div>
+        </a>
+
+        <!-- Service 2 -->
+        <a href="#" class="service-card">
+            <img th:src="@{/images/Travaux-publics-génie-civil-3.jpg}" alt="Extension de garantie">
+            <div class="service-overlay">
+                <div class="service-tag">EXTENSION DE GARANTIE</div>
+                <h3 class="service-title">Protection renforcée</h3>
+            </div>
+        </a>
+
+        <!-- Service 3 -->
+        <a href="#" class="service-card">
+            <img th:src="@{/images/chantier.jpg}" alt="Offre finitions">
+            <div class="service-overlay">
+                <div class="service-tag">OFFRE FINITIONS</div>
+                <h3 class="service-title">Pack personnalisation</h3>
+            </div>
+        </a>
+
+        <!-- Service 4 -->
+        <a href="#" class="service-card">
+            <img th:src="@{/images/bat-moderne-1.jpg}" alt="Nos services">
+            <div class="service-overlay">
+                <div class="service-tag">NOS SERVICES</div>
+                <h3 class="service-title">Services exclusifs</h3>
+            </div>
+        </a>
+    </div>
+    </div>
+</section>
+
+<!-- ================= FEATURED PROJECT ================= -->
+<section class="featured-section">
+    <div class="featured-image" style="background-image: url('/images/bat-moderne-1.jpg')"></div>
+    <div class="featured-content">
+        <h2>RÉSIDENCE BELLE VUE : UNE ARCHITECTURE CONTEMPORAINE À L'ESTHÉTIQUE RAFFINÉE</h2>
+        <p>Cette réalisation exclusive, limitée à 7 appartements de standing, en hommage à l'excellence artisanale, incarne la quintessence du luxe résidentiel moderne.</p>
+        <a href="#" class="btn-discover">Découvrir</a>
+    </div>
+</section>
+
+<!-- ================= FEATURED COLLECTION ================= -->
+<section class="featured-section light reversed">
+    <div class="featured-image" style="background-image: url('/images/chantier.jpg')"></div>
+    <div class="featured-content">
+        <h2>LA NOUVELLE COLLECTION RÉSIDENTIELLE : L'ART DE MAGNIFIER L'ÉQUILIBRE ENTRE MODERNITÉ ET TRADITION</h2>
+        <p>La collection résidentielle incarne avec virtuosité l'alliance d'une architecture à la fois contemporaine et classique. Elle s'adresse à un propriétaire moderne, un esthète, amoureux des beaux espaces et du savoir-faire artisanal, épris d'une élégance raffinée qui puise son origine dans le style des années 1950.</p>
+        <a href="#" class="btn-discover">Découvrir</a>
+    </div>
+</section>
+
+<!-- ================= NOUVEAUTÉS ================= -->
+<section class="nouveautes">
+    <div class="nouveautes-header">
+        <h2>NOUVEAUTÉS</h2>
+    </div>
+    
+    <div class="nouveautes-grid">
+        <!-- Montre 1 -->
+        <div class="nouveaute-card">
+            <img class="nouveaute-image" th:src="@{/images/bat-moderne-1.jpg}" alt="Riviera 10827">
+            <h3 class="nouveaute-title">Riviera 10827</h3>
+            <p class="nouveaute-subtitle">Montre automatique, Chronographe - 41 mm</p>
+            <p class="nouveaute-price">CHF 3'800</p>
+            <div class="nouveaute-actions">
+                <a href="#" class="btn-discover">Découvrir</a>
+                <div class="nouveaute-badge">Nouveau</div>
+                <button class="btn-favorite">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    Ajouter à mes favoris
+                </button>
             </div>
         </div>
 
-        <div class="card-service animate-fade-in-up delay-200">
-            <img th:src="@{/images/bat-moderne-1.jpg}" alt="Immobilier">
-            <div class="card-body">
-                <h3>Immobilier & foncier sécurisé</h3>
-                <p>Sécurisation foncière (ACD), ventes, locations et lotissements.</p>
-                <button class="btn-secondary">Réserver</button>
+        <!-- Montre 2 -->
+        <div class="nouveaute-card">
+            <img class="nouveaute-image" th:src="@{/images/chantier.jpg}" alt="Riviera 10828">
+            <h3 class="nouveaute-title">Riviera 10828</h3>
+            <p class="nouveaute-subtitle">Montre automatique, Chronographe - 41 mm</p>
+            <p class="nouveaute-price">CHF 7'550</p>
+            <div class="nouveaute-actions">
+                <a href="#" class="btn-discover">Découvrir</a>
+                <div class="nouveaute-badge">Édition Limitée</div>
+                <button class="btn-favorite">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    Ajouter à mes favoris
+                </button>
             </div>
         </div>
 
-        <div class="card-service animate-fade-in-up delay-300">
-            <img th:src="@{/images/chantier.jpg}" alt="Finitions">
-            <div class="card-body">
-                <h3>Finitions & aménagement</h3>
-                <p>Peinture, menuiserie, carrelage, vitrerie et décoration intérieure.</p>
-                <button class="btn-secondary">Réserver</button>
+        <!-- Montre 3 -->
+        <div class="nouveaute-card">
+            <img class="nouveaute-image" th:src="@{/images/Travaux-publics-génie-civil-3.jpg}" alt="Riviera 10825">
+            <h3 class="nouveaute-title">Riviera 10825</h3>
+            <p class="nouveaute-subtitle">Montre automatique, Chronographe - 41 mm</p>
+            <p class="nouveaute-price">CHF 3'800</p>
+            <div class="nouveaute-actions">
+                <a href="#" class="btn-discover">Découvrir</a>
+                <div class="nouveaute-badge">Nouveau</div>
+                <button class="btn-favorite">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    Ajouter à mes favoris
+                </button>
             </div>
         </div>
+
+        <!-- Montre 4 -->
+        <div class="nouveaute-card">
+            <img class="nouveaute-image" th:src="@{/images/bat-moderne-1.jpg}" alt="Riviera 10826">
+            <h3 class="nouveaute-title">Riviera 10826</h3>
+            <p class="nouveaute-subtitle">Montre automatique, Chronographe - 41 mm</p>
+            <p class="nouveaute-price">CHF 3'800</p>
+            <div class="nouveaute-actions">
+                <a href="#" class="btn-discover">Découvrir</a>
+                <div class="nouveaute-badge">Nouveau</div>
+                <button class="btn-favorite">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    Ajouter à mes favoris
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
     </div>
 </section>
 

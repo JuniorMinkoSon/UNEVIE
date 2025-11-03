@@ -39,8 +39,77 @@
     <!-- Script pour le menu -->
     <script>
         function toggleMenu() {
-            document.querySelector('.extended-menu').classList.toggle('open');
-            document.querySelector('.menu-toggle').classList.toggle('active');
+            const menu = document.querySelector('.extended-menu');
+            const toggle = document.querySelector('.menu-toggle');
+            const body = document.body;
+
+            menu.classList.toggle('open');
+            toggle.classList.toggle('active');
+            
+            // Empêcher le défilement du body quand le menu est ouvert
+            if (menu.classList.contains('open')) {
+                body.style.overflow = 'hidden';
+            } else {
+                body.style.overflow = '';
+            }
+        }
+
+        // Détecter le défilement
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.site-header');
+            if (window.scrollY > 10) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Détecter le hover
+        document.querySelector('.site-header').addEventListener('mouseenter', () => {
+            document.querySelector('.site-header').classList.add('hovered');
+        });
+
+        document.querySelector('.site-header').addEventListener('mouseleave', () => {
+            if (window.scrollY <= 10) {
+                document.querySelector('.site-header').classList.remove('hovered');
+            }
+        });
+
+        // Fermer le menu quand on clique sur un lien
+        document.querySelectorAll('.menu-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.extended-menu').classList.remove('open');
+                document.querySelector('.menu-toggle').classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+    </script>
+
+    <!-- Bouton retour en haut -->
+    <!-- <button onclick="scrollToTop()" class="back-to-top" aria-label="Retour en haut">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+        </svg>
+        Retour en haut
+    </button> -->
+
+    <script>
+        // Gestion du bouton retour en haut
+        const backToTopButton = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
     </script>
 </div>
