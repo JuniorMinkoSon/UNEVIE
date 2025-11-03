@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head (title='Admin - Connexion')"></head>
+<head th:replace="~{fragments/head :: head (title='Admin - Connexion')}"></head>
 <body>
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="~{fragments/header :: header}"></div>
 
 <section class="container" style="padding:80px 0;max-width:480px">
     <h1>Connexion Admin</h1>
@@ -13,6 +13,6 @@
     </form>
 </section>
 
-<div th:replace="fragments/footer :: footer"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
