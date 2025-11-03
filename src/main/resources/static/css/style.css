@@ -106,6 +106,15 @@ body {
 .carousel-track { display: flex; transition: transform 0.7s ease; height: 100%; }
 .carousel-slide { min-width: 100%; position: relative; overflow: hidden; }
 .carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.carousel-slide .carousel-video,
+.carousel-slide video.carousel-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 .slide-caption { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: white; text-align: center; z-index: 5; max-width: 900px; padding: 0 16px; }
 .slide-caption h1 { font-size: 2.6rem; font-weight: 800; margin-bottom: 12px; text-shadow: 0 6px 20px rgba(0,0,0,0.45); }
 .slide-caption p { font-size: 1.1rem; color: #f0f0f0; margin-bottom: 18px; text-shadow: 0 4px 12px rgba(0,0,0,0.35); }

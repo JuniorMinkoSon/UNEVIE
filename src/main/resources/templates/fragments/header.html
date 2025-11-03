@@ -1,44 +1,46 @@
 <!doctype html>
 <div th:fragment="header" class="site-header">
-    <!-- Top utility bar (language / contact similar to the reference site) -->
-    <div class="topbar">
-        <div class="container header-top">
-            <div class="top-left">ALLER DIRECTEMENT AU CONTENU PRINCIPAL</div>
-            <div class="top-right">
-                <a href="#">INTERNATIONAL (FR)</a>
-                <span class="sep">|</span>
-                <a href="tel:+41225802948">+41 22 580 29 48</a>
+    <header>
+        <div class="container header-inner">
+            <!-- Login/Register à gauche -->
+            <div class="auth-links">
+                <a th:href="@{/admin/login}" class="btn-auth">Se connecter</a>
+                <span class="auth-sep">/</span>
+                <a th:href="@{/register}" class="btn-auth">S'inscrire</a>
+            </div>
+
+            <!-- Logo/titre au centre -->
+            <div class="header-logo">
+                <a th:href="@{/}" class="main-link">BarikaWeb</a>
+            </div>
+
+            <!-- Actions de droite (panier + toggle) -->
+            <div class="right-actions">
+                <a th:href="@{/cart}" class="btn-cart">Panier</a>
+                <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
             </div>
         </div>
-    </div>
 
-    <header>
-        <div class="container header-inner header-grid">
-            <!-- left nav (desktop) -->
-            <nav class="nav nav-left">
+        <!-- Menu étendu (caché par défaut) -->
+        <div class="extended-menu">
+            <nav class="menu-links">
                 <a th:href="@{/montres}">Montres</a>
                 <a th:href="@{/la-maison}">La maison</a>
                 <a th:href="@{/service-client}">Service client</a>
+                <a th:href="@{/points-de-vente}">Points de vente</a>
+                <a th:href="@{/mentions-legales}">Mentions légales</a>
+                <a th:href="@{/produits}">Nos Offres</a>
             </nav>
-
-            <!-- centered brand/logo -->
-            <div class="header-logo">
-                <a th:href="@{/}"><img th:src="@{/images/logo.svg}" alt="BarikaWeb Logo" /> <span>BarikaWeb</span></a>
-            </div>
-
-            <!-- right nav / actions -->
-            <div class="header-actions">
-                <nav class="nav nav-right">
-                    <a th:href="@{/points-de-vente}">Points de vente</a>
-                    <a th:href="@{/mentions-legales}">Mentions légales</a>
-                </nav>
-
-                <a class="btn-login" th:href="@{/admin/login}">Admin</a>
-                <a class="btn-cart" th:href="@{/produits}">Nos Offres</a>
-                <div class="menu-toggle" onclick="document.querySelector('.nav').classList.toggle('open')">
-                    <span></span><span></span><span></span>
-                </div>
-            </div>
         </div>
     </header>
+
+    <!-- Script pour le menu -->
+    <script>
+        function toggleMenu() {
+            document.querySelector('.extended-menu').classList.toggle('open');
+            document.querySelector('.menu-toggle').classList.toggle('active');
+        }
+    </script>
 </div>

@@ -12,7 +12,11 @@
     <div class="carousel" id="mainCarousel">
         <div class="carousel-track">
             <div class="carousel-slide">
-                <img th:src="@{/images/bat-moderne-1.jpg}" alt="Slide 1" />
+                <video class="carousel-video" autoplay muted loop playsinline poster="" preload="auto">
+                    <source th:src="@{/images/banniere.mp4}" type="video/mp4">
+                    <!-- fallback image -->
+                    <img th:src="@{/images/bat-moderne-1.jpg}" alt="Slide 1" />
+                </video>
                 <div class="slide-caption">
                     <h1>Patrimoine & Confiance</h1>
                     <p>Solutions complètes en travaux publics, immobilier sécurisé et finitions soignées.</p>
@@ -24,7 +28,10 @@
             </div>
 
             <div class="carousel-slide">
-                <img th:src="@{/images/Travaux-publics-génie-civil-3.jpg}" alt="Slide 2" />
+                <video class="carousel-video" autoplay muted loop playsinline poster="" preload="auto">
+                    <source th:src="@{/images/banniere.mp4}" type="video/mp4">
+                    <img th:src="@{/images/Travaux-publics-génie-civil-3.jpg}" alt="Slide 2" />
+                </video>
                 <div class="slide-caption">
                     <h1>Projets d'envergure</h1>
                     <p>Expertise en génie civil et aménagement durable pour vos infrastructures.</p>
@@ -35,7 +42,10 @@
             </div>
 
             <div class="carousel-slide">
-                <img th:src="@{/images/chantier.jpg}" alt="Slide 3" />
+                <video class="carousel-video" autoplay muted loop playsinline poster="" preload="auto">
+                    <source th:src="@{/images/banniere.mp4}" type="video/mp4">
+                    <img th:src="@{/images/chantier.jpg}" alt="Slide 3" />
+                </video>
                 <div class="slide-caption">
                     <h1>Finitions & Qualité</h1>
                     <p>Finitions haut de gamme pour des réalisations durables et esthétiques.</p>

@@ -30,13 +30,12 @@
     =============================== -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-            rel="stylesheet"
-    />
+    <!-- Futuristic font (Orbitron) + Inter fallback -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Fichier CSS principal -->
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <link th:href="@{/css/header.css}" rel="stylesheet" />
 
     <!-- ==============================
          ⚡ SCRIPTS
@@ -49,11 +48,14 @@
     <!-- ==============================
          💡 SEO / Open Graph
     =============================== -->
-    <meta property="og:title" content="BarikaWeb – Immobilier & Travaux Publics" />
+     <meta property="og:title" content="BarikaWeb – Immobilier & Travaux Publics" />
     <meta property="og:description" content="Travaux publics, immobilier et finitions modernes. BarikaWeb vous accompagne pour construire votre patrimoine durablement." />
     <meta property="og:image" th:content="@{/images/og-banner.jpg}" />
     <meta property="og:url" th:content="@{/}" />
     <meta name="twitter:card" content="summary_large_image" />
+
+     <!-- Theme color updated for futuristic accents -->
+     <meta name="theme-color" content="#0ff6ff" />
 
     <!-- ==============================
          💻 PERFORMANCE
