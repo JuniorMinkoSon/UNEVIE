@@ -7,16 +7,51 @@
 <div th:replace="fragments/header :: header"></div>
 
 <!-- ================= HERO / BANNIÈRE ================= -->
-<section class="hero-banner">
-    <div class="hero-overlay"></div>
-    <img th:src="@{/images/bat-moderne-1.jpg}" alt="Bannière" class="hero-bg" />
-    <div class="hero-content animate-fade-in-up">
-        <h1>Construisons ensemble votre patrimoine en toute confiance</h1>
-        <p>Solutions complètes en travaux publics, immobilier sécurisé et finitions de qualité.</p>
-        <div class="hero-btns">
-            <a th:href="@{/produits}" class="btn-primary">Découvrir nos offres</a>
-            <a th:href="@{/contact}" class="btn-outline">Demander un devis</a>
+<!-- ================= HERO / CARROUSEL ================= -->
+<section class="hero-carousel">
+    <div class="carousel" id="mainCarousel">
+        <div class="carousel-track">
+            <div class="carousel-slide">
+                <img th:src="@{/images/bat-moderne-1.jpg}" alt="Slide 1" />
+                <div class="slide-caption">
+                    <h1>Patrimoine & Confiance</h1>
+                    <p>Solutions complètes en travaux publics, immobilier sécurisé et finitions soignées.</p>
+                    <div class="hero-btns">
+                        <a th:href="@{/produits}" class="btn-primary">Découvrir nos offres</a>
+                        <a th:href="@{/contact}" class="btn-outline">Demander un devis</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-slide">
+                <img th:src="@{/images/Travaux-publics-génie-civil-3.jpg}" alt="Slide 2" />
+                <div class="slide-caption">
+                    <h1>Projets d'envergure</h1>
+                    <p>Expertise en génie civil et aménagement durable pour vos infrastructures.</p>
+                    <div class="hero-btns">
+                        <a th:href="@{/projets}" class="btn-primary">Voir nos projets</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-slide">
+                <img th:src="@{/images/chantier.jpg}" alt="Slide 3" />
+                <div class="slide-caption">
+                    <h1>Finitions & Qualité</h1>
+                    <p>Finitions haut de gamme pour des réalisations durables et esthétiques.</p>
+                    <div class="hero-btns">
+                        <a th:href="@{/services}" class="btn-primary">Nos services</a>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <div class="carousel-controls">
+            <button class="carousel-prev" aria-label="Précédent">‹</button>
+            <button class="carousel-next" aria-label="Suivant">›</button>
+        </div>
+
+        <div class="carousel-indicators" id="carouselIndicators"></div>
     </div>
 </section>
 
@@ -54,6 +89,48 @@
                 <button class="btn-secondary">Réserver</button>
             </div>
         </div>
+    </div>
+</section>
+
+<!-- ================= COLLECTIONS (inspiré) ================= -->
+<section class="section bg-white">
+    <div class="section-header">
+        <h2>Collections</h2>
+        <p>Nos univers de savoir-faire et d'expertise.</p>
+    </div>
+
+    <div class="grid-4 collections">
+        <a href="#" class="card-service">
+            <img th:src="@{/images/bat-moderne-1.jpg}" alt="Collection 1">
+            <div class="card-body">
+                <h3>Riviera (inspiré)</h3>
+                <p>Élégance sportive et caractère.</p>
+            </div>
+        </a>
+
+        <a href="#" class="card-service">
+            <img th:src="@{/images/Immobilier-foncier-sécurisé-1.jpg}" alt="Collection 2">
+            <div class="card-body">
+                <h3>Clifton (inspiré)</h3>
+                <p>Classique réinventé, équilibre subtil.</p>
+            </div>
+        </a>
+
+        <a href="#" class="card-service">
+            <img th:src="@{/images/Immobilier-foncier-sécurisé-2.jpg}" alt="Collection 3">
+            <div class="card-body">
+                <h3>Hampton (inspiré)</h3>
+                <p>Design épuré, lignes pures.</p>
+            </div>
+        </a>
+
+        <a href="#" class="card-service">
+            <img th:src="@{/images/chantier1.jpg}" alt="Collection 4">
+            <div class="card-body">
+                <h3>Classima (inspiré)</h3>
+                <p>Élégance au quotidien.</p>
+            </div>
+        </a>
     </div>
 </section>
 
@@ -115,6 +192,40 @@
 </section>
 
 <!-- ================= FOOTER ================= -->
+<!-- small carousel script -->
+<script>
+    (function(){
+        const carousel = document.getElementById('mainCarousel');
+        if(!carousel) return;
+        const track = carousel.querySelector('.carousel-track');
+        const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
+        const prev = carousel.querySelector('.carousel-prev');
+        const next = carousel.querySelector('.carousel-next');
+        const indicatorsWrap = document.getElementById('carouselIndicators');
+        let index = 0;
+        const buildIndicators = () => {
+            slides.forEach((s,i)=>{
+                const btn = document.createElement('button');
+                btn.addEventListener('click', ()=> goTo(i));
+                if(i===0) btn.classList.add('active');
+                indicatorsWrap.appendChild(btn);
+            });
+        };
+        const update = ()=>{
+            track.style.transform = `translateX(-${index*100}%)`;
+            const dots = indicatorsWrap.querySelectorAll('button');
+            dots.forEach((d,i)=> d.classList.toggle('active', i===index));
+        };
+        const goTo = (i)=>{ index = (i+slides.length)%slides.length; update(); };
+        prev.addEventListener('click', ()=> goTo(index-1));
+        next.addEventListener('click', ()=> goTo(index+1));
+        buildIndicators();
+        let auto = setInterval(()=> goTo(index+1), 6000);
+        carousel.addEventListener('mouseenter', ()=> clearInterval(auto));
+        carousel.addEventListener('mouseleave', ()=> auto = setInterval(()=> goTo(index+1), 6000));
+    })();
+</script>
+
 <div th:replace="fragments/footer :: footer"></div>
 
 </body>

@@ -100,6 +100,26 @@ body {
     gap: 16px;
 }
 
+/* ===== CAROUSEL HERO (inspiré) ===== */
+.hero-carousel { position: relative; overflow: hidden; }
+.carousel { position: relative; height: 80vh; }
+.carousel-track { display: flex; transition: transform 0.7s ease; height: 100%; }
+.carousel-slide { min-width: 100%; position: relative; overflow: hidden; }
+.carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.slide-caption { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: white; text-align: center; z-index: 5; max-width: 900px; padding: 0 16px; }
+.slide-caption h1 { font-size: 2.6rem; font-weight: 800; margin-bottom: 12px; text-shadow: 0 6px 20px rgba(0,0,0,0.45); }
+.slide-caption p { font-size: 1.1rem; color: #f0f0f0; margin-bottom: 18px; text-shadow: 0 4px 12px rgba(0,0,0,0.35); }
+.carousel-controls { position: absolute; inset: auto 20px 20px auto; z-index: 10; display: flex; gap: 8px; right: 22px; bottom: 22px; }
+.carousel-prev, .carousel-next { background: rgba(0,0,0,0.45); color: white; border: none; padding: 10px 12px; border-radius: 6px; font-size: 20px; cursor: pointer; }
+.carousel-indicators { position: absolute; left: 50%; transform: translateX(-50%); bottom: 18px; display: flex; gap: 8px; z-index: 10; }
+.carousel-indicators button { width: 10px; height: 10px; border-radius: 50%; border: none; background: rgba(255,255,255,0.5); cursor: pointer; }
+.carousel-indicators button.active { background: var(--accent); }
+
+/* Collections grid */
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+.collections .card-service img { height: 260px; object-fit: cover; }
+
+
 /* ===== CARDS ===== */
 .card-service,
 .card-product,
