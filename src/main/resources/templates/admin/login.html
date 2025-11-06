@@ -1,18 +1,22 @@
-<!doctype html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head (title='Admin - Connexion')}"></head>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Connexion Admin</title>
+</head>
 <body>
-<div th:replace="~{fragments/header :: header}"></div>
+<h2>Connexion Administrateur</h2>
+<form method="post" th:action="@{/admin/login}">
+    <label>Email :</label>
+    <input type="text" name="username" required/><br>
 
-<section class="container" style="padding:80px 0;max-width:480px">
-    <h1>Connexion Admin</h1>
-    <form th:action="@{/admin/login}" method="post" style="display:grid;gap:12px">
-        <input class="form-input" name="username" placeholder="Nom d'utilisateur" required>
-        <input class="form-input" name="password" type="password" placeholder="Mot de passe" required>
-        <button class="btn" type="submit">Se connecter</button>
-    </form>
-</section>
+    <label>Mot de passe :</label>
+    <input type="password" name="password" required/><br>
 
-<div th:replace="~{fragments/footer :: footer}"></div>
+    <button type="submit">Se connecter</button>
+
+    <p th:if="${param.error}" style="color:red;">Email ou mot de passe incorrect.</p>
+</form>
+
+
 </body>
 </html>

@@ -1,20 +1,55 @@
 <!doctype html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head (title='Blog - BarikaWeb')"></head>
+<link rel="stylesheet" th:href="@{/css/blog.css}">
 <body>
 <div th:replace="fragments/header :: header"></div>
-<section class="container" style="padding:40px 0">
-    <h1>Nos articles</h1>
-    <div class="grid">
-        <div th:each="a : ${articles}" class="card">
-            <img th:src="${a.imageUrl}" alt="article" style="width:100%;height:150px;object-fit:cover;border-radius:8px">
-            <h3 th:text="${a.titre}"></h3>
-            <p th:text="${a.categorie}"></p>
-            <p th:text="${a.contenu}"></p>
+
+<!-- 🌟 SECTION CARROUSEL -->
+<section class="carousel">
+    <div class="carousel-images">
+        <img src="/images/Travaux-publics-génie-civil-2.jpg" alt="Travaux 1" class="active">
+        <img src="/images/Travaux-publics-génie-civil-3.jpg" alt="Travaux 2">
+    </div>
+
+    <div class="carousel-overlay">
+        <h1 class="carousel-title">Construisons ensemble votre patrimoine en toute confiance</h1>
+    </div>
+
+    <div class="carousel-indicators">
+        <span class="indicator active"></span>
+        <span class="indicator"></span>
+    </div>
+</section>
+
+<!-- 📰 SECTION ARTICLES -->
+<section class="container articles-section">
+    <h2 class="section-title">📌 Nos Articles</h2>
+    <div class="articles-grid">
+        <div th:each="a : ${articles}" class="article-card">
+            <img th:src="${a.imageUrl}" alt="image article">
+            <div class="article-content">
+                <h3 th:text="${a.titre}"></h3>
+                <p class="categorie" th:text="${a.categorie}"></p>
+                <p class="description" th:text="${#strings.abbreviate(a.contenu, 150)}"></p>
+            </div>
         </div>
     </div>
 </section>
 
+<!-- 👤 SECTION CONTACT -->
+<section class="contact-section">
+    <h2>À propos de l’auteur / Contact</h2>
+    <div class="contact-box">
+        <p><strong>Zoro Zipa</strong> – Président de <strong>Barika Synergies Group</strong></p>
+        <p><strong>📍 Adresse :</strong> Abidjan, Cocody Angré-Bessikoi, Base CIE</p>
+        <p><strong>📞 Téléphone :</strong> +225 07 68 18 93 40 / +225 07 48 818 816</p>
+        <p><strong>💬 WhatsApp :</strong> +225 07 68 18 93 40</p>
+        <p><strong>📧 Email :</strong> Contacts@barakasynergiesgroup.com</p>
+    </div>
+</section>
+
 <div th:replace="fragments/footer :: footer"></div>
+<script src="/js/carousel.js"></script>
 </body>
 </html>

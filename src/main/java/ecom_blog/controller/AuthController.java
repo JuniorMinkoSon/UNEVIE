@@ -1,13 +1,41 @@
 package ecom_blog.controller;
 
+import ecom_blog.model.User;
+import ecom_blog.service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AuthController {
 
-    @GetMapping("/admin/login")
-    public String login() {
-        return "admin/login";
+    private final UserService userService;
+
+    public AuthController(UserService userService) {
+        this.userService = userService;
+    }
+
+    // ✅ Page de login (UNE SEULE)
+    @GetMapping("/login")
+    public String showLogin() {
+        return "login"; // fichier : templates/login.html
+    }
+
+    // ✅ Page inscription
+    @GetMapping("/register")
+    public String showRegisterForm(Model model) {
+        model.addAttribute("user", new User());
+        return "user/inscription";
+    }
+
+    // ✅ Traitement du formulaire d'inscription
+    @PostMapping("/register")
+    public String register(@ModelAttribute("user") User user, Model model) {
+        if (userService.findByEmail(user.getEmail()) != null) {
+            model.addAttribute("error", "Cet email est déjà utilisé.");
+            return "user/inscription";
+        }
+        userService.saveUser(user);
+        return "redirect:/login?success";
     }
 }

@@ -40,12 +40,11 @@ public class CommandeController {
     @GetMapping
     public String afficherPanier(Model model, HttpSession session) {
         List<Produit> panier = (List<Produit>) session.getAttribute("panier");
-        double total = panier == null ? 0 :
-                panier.stream().mapToDouble(Produit::getPrix).sum();
+        double total = panier == null ? 0 : panier.stream().mapToDouble(Produit::getPrix).sum();
 
         model.addAttribute("panier", panier);
         model.addAttribute("total", total);
-        return "user/panier";
+        return "user/panier"; // Vue user/panier.html
     }
 
     @PostMapping("/valider")
@@ -58,6 +57,8 @@ public class CommandeController {
         Commande commande = new Commande();
         commande.setTotal(panier.stream().mapToDouble(Produit::getPrix).sum());
         commande.setUser((User) session.getAttribute("user"));
+        commande.setModePaiement(modePaiement);
+        commande.setStatut("EN_ATTENTE");
 
         commandeService.save(commande);
         session.removeAttribute("panier");

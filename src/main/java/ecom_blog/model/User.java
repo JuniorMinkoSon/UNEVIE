@@ -8,10 +8,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nom;
     private String email;
     private String password;
-    private String role; // "USER" ou "ADMIN"
+
+
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.ROLE_USER;
+
 }

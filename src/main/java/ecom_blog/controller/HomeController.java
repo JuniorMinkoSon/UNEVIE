@@ -36,4 +36,10 @@ public class HomeController {
     public String contact() {
         return "user/contact";
     }
+    @GetMapping("/confirmation")
+    public String confirmation() {
+        return "user/confirmation";
+    }
+
+
 }

@@ -47,6 +47,12 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+        <!-- ✅ (IMPORTANT) Thymeleaf + Spring Security -->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
+        </dependency>
+
         <!-- 🔐 Sécurité Spring -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

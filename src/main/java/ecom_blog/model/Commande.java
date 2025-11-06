@@ -16,7 +16,7 @@ public class Commande implements Serializable {
     private Long id;
 
     @ManyToOne
-    private User user;  // Client
+    private User user;  // Client qui passe la commande
 
     private LocalDate dateCommande = LocalDate.now();
 
@@ -24,28 +24,14 @@ public class Commande implements Serializable {
 
     private double total;
 
-    // Explicit setters/getters to ensure availability
-    public void setStatut(String statut) {
-        this.statut = statut;
+    private String modePaiement; // ✅ Ajout du moyen de paiement (VISA, WAVE…)
+
+    // ✅ Setters/Getters explicites (si tu veux garder le contrôle)
+    public String getModePaiement() {
+        return this.modePaiement;
     }
 
-    public String getStatut() {
-        return this.statut;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
-    }
-
-    public double getTotal() {
-        return this.total;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public User getUser() {
-        return this.user;
+    public void setModePaiement(String modePaiement) {
+        this.modePaiement = modePaiement;
     }
 }
