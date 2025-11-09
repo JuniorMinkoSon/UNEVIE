@@ -3,20 +3,17 @@
 <head>
     <title>Connexion Admin</title>
 </head>
-<body>
-<h2>Connexion Administrateur</h2>
-<form method="post" th:action="@{/admin/login}">
+<body><form th:action="@{/admin/login}" method="post">
     <label>Email :</label>
-    <input type="text" name="username" required/><br>
+    <input type="text" name="username" required>
 
     <label>Mot de passe :</label>
-    <input type="password" name="password" required/><br>
+    <input type="password" name="password" required>
 
     <button type="submit">Se connecter</button>
 
-    <p th:if="${param.error}" style="color:red;">Email ou mot de passe incorrect.</p>
+    <p th:if="${param.error}" style="color:red;">Identifiants incorrects</p>
 </form>
-
 
 </body>
 </html>

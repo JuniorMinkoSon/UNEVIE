@@ -10,10 +10,6 @@
     <!-- ✅ Cartes statistiques -->
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-top:20px">
         <div class="card">
-            <h3>Produits</h3>
-            <p th:text="${stats.produits} ?: '--'">0</p>
-        </div>
-        <div class="card">
             <h3>Articles</h3>
             <p th:text="${stats.articles} ?: '--'">0</p>
         </div>

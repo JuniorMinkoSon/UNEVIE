@@ -15,13 +15,17 @@ public class AuthController {
         this.userService = userService;
     }
 
-    // ✅ Page de login (UNE SEULE)
+    // ✅ Page de connexion utilisateur (standard)
     @GetMapping("/login")
-    public String showLogin() {
-        return "login"; // fichier : templates/login.html
+    public String showUserLogin() {
+        return "login";   // templates/login.html
     }
 
-    // ✅ Page inscription
+    // ❌ SUPPRIMÉ : plus de /admin/login ici
+    // @GetMapping("/admin/login")
+    // public String showAdminLogin() { return "admin/login"; }
+
+    // ✅ Page d'inscription
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
         model.addAttribute("user", new User());

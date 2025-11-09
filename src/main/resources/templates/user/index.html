@@ -1,20 +1,18 @@
 <!doctype html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head (title='Accueil - BarikaWeb')"></head>
+<head th:replace="~{fragments/head :: head (title='Accueil - BarikaWeb')}"></head>
 <body class="bg-[#f9f9f9] font-sans text-gray-800">
 
 <!-- ================= HEADER ================= -->
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="~{fragments/header :: header}"></div>
 
-<!-- ================= HERO / BANNIÈRE ================= -->
 <!-- ================= HERO / CARROUSEL ================= -->
 <section class="hero-carousel">
     <div class="carousel" id="mainCarousel">
         <div class="carousel-track">
             <div class="carousel-slide">
-                <video class="carousel-video" autoplay muted loop playsinline poster="" preload="auto">
+                <video class="carousel-video" autoplay muted loop playsinline preload="auto">
                     <source th:src="@{/images/banniere.mp4}" type="video/mp4">
-                    <!-- fallback image -->
                     <img th:src="@{/images/bat-moderne-1.jpg}" alt="Slide 1" />
                 </video>
                 <div class="slide-caption">
@@ -28,7 +26,7 @@
             </div>
 
             <div class="carousel-slide">
-                <video class="carousel-video" autoplay muted loop playsinline poster="" preload="auto">
+                <video class="carousel-video" autoplay muted loop playsinline preload="auto">
                     <source th:src="@{/images/banniere.mp4}" type="video/mp4">
                     <img th:src="@{/images/Travaux-publics-génie-civil-3.jpg}" alt="Slide 2" />
                 </video>
@@ -42,7 +40,7 @@
             </div>
 
             <div class="carousel-slide">
-                <video class="carousel-video" autoplay muted loop playsinline poster="" preload="auto">
+                <video class="carousel-video" autoplay muted loop playsinline preload="auto">
                     <source th:src="@{/images/banniere.mp4}" type="video/mp4">
                     <img th:src="@{/images/chantier.jpg}" alt="Slide 3" />
                 </video>
@@ -60,7 +58,6 @@
             <button class="carousel-prev" aria-label="Précédent">‹</button>
             <button class="carousel-next" aria-label="Suivant">›</button>
         </div>
-
         <div class="carousel-indicators" id="carouselIndicators"></div>
     </div>
 </section>
@@ -73,74 +70,27 @@
     </div>
 
     <div class="grid-3">
-        <div class="card-service animate-fade-in-up delay-100">
+        <div class="card-service">
             <img th:src="@{/images/Travaux-publics-génie-civil-3.jpg}" alt="Travaux publics">
             <div class="card-body">
                 <h3>Travaux publics & génie civil</h3>
                 <p>Routes, terrassement, aménagements durables et verdissement.</p>
-                <button class="btn-secondary">Réserver</button>
             </div>
         </div>
-
-        <div class="card-service animate-fade-in-up delay-200">
+        <div class="card-service">
             <img th:src="@{/images/bat-moderne-1.jpg}" alt="Immobilier">
             <div class="card-body">
                 <h3>Immobilier & foncier sécurisé</h3>
                 <p>Sécurisation foncière (ACD), ventes, locations et lotissements.</p>
-                <button class="btn-secondary">Réserver</button>
             </div>
         </div>
-
-        <div class="card-service animate-fade-in-up delay-300">
+        <div class="card-service">
             <img th:src="@{/images/chantier.jpg}" alt="Finitions">
             <div class="card-body">
                 <h3>Finitions & aménagement</h3>
                 <p>Peinture, menuiserie, carrelage, vitrerie et décoration intérieure.</p>
-                <button class="btn-secondary">Réserver</button>
             </div>
         </div>
-    </div>
-</section>
-
-<!-- ================= COLLECTIONS (inspiré) ================= -->
-<section class="section bg-white">
-    <div class="section-header">
-        <h2>Collections</h2>
-        <p>Nos univers de savoir-faire et d'expertise.</p>
-    </div>
-
-    <div class="grid-4 collections">
-        <a href="#" class="card-service">
-            <img th:src="@{/images/bat-moderne-1.jpg}" alt="Collection 1">
-            <div class="card-body">
-                <h3>Riviera (inspiré)</h3>
-                <p>Élégance sportive et caractère.</p>
-            </div>
-        </a>
-
-        <a href="#" class="card-service">
-            <img th:src="@{/images/Immobilier-foncier-sécurisé-1.jpg}" alt="Collection 2">
-            <div class="card-body">
-                <h3>Clifton (inspiré)</h3>
-                <p>Classique réinventé, équilibre subtil.</p>
-            </div>
-        </a>
-
-        <a href="#" class="card-service">
-            <img th:src="@{/images/Immobilier-foncier-sécurisé-2.jpg}" alt="Collection 3">
-            <div class="card-body">
-                <h3>Hampton (inspiré)</h3>
-                <p>Design épuré, lignes pures.</p>
-            </div>
-        </a>
-
-        <a href="#" class="card-service">
-            <img th:src="@{/images/chantier1.jpg}" alt="Collection 4">
-            <div class="card-body">
-                <h3>Classima (inspiré)</h3>
-                <p>Élégance au quotidien.</p>
-            </div>
-        </a>
     </div>
 </section>
 
@@ -155,14 +105,13 @@
         <div th:each="p : ${produits}" class="card-product">
             <img th:src="${p.imageUrl}" alt="Produit">
             <div class="card-body">
-                <h3 th:text="${p.nom}"></h3>
-                <p class="description" th:text="${p.description}"></p>
-                <p class="price" th:text="${p.prix} + ' FCFA'"></p>
+                <h3 th:text="${p.nom}">Nom produit</h3>
+                <p th:text="${p.description}">Description</p>
+                <p th:text="${p.prix} + ' FCFA'"></p>
+
                 <form th:action="@{'/panier/ajouter/' + ${p.id}}" method="post">
-                    <button class="btn-primary" type="submit">Acheter</button>
+                    <button type="submit" class="btn-primary">Acheter</button>
                 </form>
-
-
             </div>
         </div>
     </div>
@@ -180,63 +129,18 @@
             <img th:src="${a.imageUrl}" alt="Article">
             <div class="card-body">
                 <h3 th:text="${a.titre}"></h3>
-                <p class="category" th:text="${a.categorie}"></p>
+                <p th:text="${a.categorie}" class="category"></p>
                 <a th:href="@{/blog}" class="btn-outline">Lire plus</a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ================= CTA ================= -->
-<section class="cta">
-    <div class="cta-content">
-        <div>
-            <h3>Prêt à concrétiser votre projet ?</h3>
-            <p>Contactez notre équipe pour un accompagnement sur mesure.</p>
-        </div>
-        <div class="cta-buttons">
-            <a th:href="@{/contact}" class="btn-white">Nous contacter</a>
-            <a th:href="@{/services}" class="btn-primary">Voir nos services</a>
-        </div>
-    </div>
-</section>
-
 <!-- ================= FOOTER ================= -->
-<!-- small carousel script -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 <script>
-    (function(){
-        const carousel = document.getElementById('mainCarousel');
-        if(!carousel) return;
-        const track = carousel.querySelector('.carousel-track');
-        const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
-        const prev = carousel.querySelector('.carousel-prev');
-        const next = carousel.querySelector('.carousel-next');
-        const indicatorsWrap = document.getElementById('carouselIndicators');
-        let index = 0;
-        const buildIndicators = () => {
-            slides.forEach((s,i)=>{
-                const btn = document.createElement('button');
-                btn.addEventListener('click', ()=> goTo(i));
-                if(i===0) btn.classList.add('active');
-                indicatorsWrap.appendChild(btn);
-            });
-        };
-        const update = ()=>{
-            track.style.transform = `translateX(-${index*100}%)`;
-            const dots = indicatorsWrap.querySelectorAll('button');
-            dots.forEach((d,i)=> d.classList.toggle('active', i===index));
-        };
-        const goTo = (i)=>{ index = (i+slides.length)%slides.length; update(); };
-        prev.addEventListener('click', ()=> goTo(index-1));
-        next.addEventListener('click', ()=> goTo(index+1));
-        buildIndicators();
-        let auto = setInterval(()=> goTo(index+1), 6000);
-        carousel.addEventListener('mouseenter', ()=> clearInterval(auto));
-        carousel.addEventListener('mouseleave', ()=> auto = setInterval(()=> goTo(index+1), 6000));
-    })();
+    // Script du carousel
 </script>
-
-<div th:replace="fragments/footer :: footer"></div>
-
 </body>
 </html>

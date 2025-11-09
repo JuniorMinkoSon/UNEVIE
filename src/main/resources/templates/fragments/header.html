@@ -1,46 +1,36 @@
-<!doctype html>
 <div th:fragment="header" class="site-header">
     <header>
         <div class="container header-inner">
-            <!-- Login/Register à gauche -->
+            <!-- ✅ Login en haut à gauche -->
             <div class="auth-links">
-                <a th:href="@{/admin/login}" class="btn-auth">Se connecter</a>
-                <span class="auth-sep">/</span>
-                <a th:href="@{/register}" class="btn-auth">S'inscrire</a>
+                <a th:href="@{/login}" class="btn-auth">Connexion</a>
+                <span>/</span>
+                <a th:href="@{/register}" class="btn-auth">Inscription</a>
+                <span>/</span>
+                <a th:href="@{/admin/login}" class="btn-auth">Admin</a>
             </div>
 
-            <!-- Logo/titre au centre -->
+            <!-- Logo -->
             <div class="header-logo">
-                <a th:href="@{/}" class="main-link">BarikaWeb</a>
+                <a th:href="@{/}">BarikaWeb</a>
             </div>
 
-            <!-- Actions de droite (panier + toggle) -->
+            <!-- Actions -->
             <div class="right-actions">
                 <a th:href="@{/cart}" class="btn-cart">Panier</a>
-                <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">
-                    <span></span><span></span><span></span>
-                </button>
+                <button onclick="toggleMenu()" class="menu-toggle"><span></span><span></span><span></span></button>
             </div>
         </div>
 
-        <!-- Menu étendu (caché par défaut) -->
+        <!-- ✅ Menu déroulant -->
         <div class="extended-menu">
             <nav class="menu-links">
-                <a th:href="@{/montres}">Montres</a>
-                <a th:href="@{/la-maison}">La maison</a>
-                <a th:href="@{/service-client}">Service client</a>
-                <a th:href="@{/points-de-vente}">Points de vente</a>
-                <a th:href="@{/mentions-legales}">Mentions légales</a>
-                <a th:href="@{/produits}">Nos Offres</a>
+                <a th:href="@{/blog}">Blog</a>
+                <a th:href="@{/produits}">Produits</a>
+                <a th:href="@{/cart}">Panier</a>
+                <a th:href="@{/services}">Services</a>
+                <a th:href="@{/contact}">Contact</a>
             </nav>
         </div>
     </header>
-
-    <!-- Script pour le menu -->
-    <script>
-        function toggleMenu() {
-            document.querySelector('.extended-menu').classList.toggle('open');
-            document.querySelector('.menu-toggle').classList.toggle('active');
-        }
-    </script>
 </div>
