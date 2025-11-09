@@ -1,41 +1,45 @@
 package ecom_blog.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Produit implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Table(name = "produit")
+public class Produit {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nom;
-    private String description;
-    private String localisation;
-    private double prix;
-    private boolean disponible;
-    private String imageUrl;
     private String categorie;
+    private Double prix;
+    private String description;
+    private String imageUrl;
+    private boolean disponible = true;
+    private LocalDateTime dateAjout = LocalDateTime.now();
 
-    // Explicit getters/setters to ensure availability even if Lombok processing is not active
-    public double getPrix() {
-        return this.prix;
-    }
+    // --- Getters et Setters ---
+    public Long getId() { return id; }
 
-    public void setPrix(double prix) {
-        this.prix = prix;
-    }
+    public String getNom() { return nom; }
+    public void setNom(String nom) { this.nom = nom; }
 
-    public String getImageUrl() {
-        return this.imageUrl;
-    }
+    public String getCategorie() { return categorie; }
+    public void setCategorie(String categorie) { this.categorie = categorie; }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+    public Double getPrix() { return prix; }
+    public void setPrix(Double prix) { this.prix = prix; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public boolean isDisponible() { return disponible; }
+    public void setDisponible(boolean disponible) { this.disponible = disponible; }
+
+    public LocalDateTime getDateAjout() { return dateAjout; }
+    public void setDateAjout(LocalDateTime dateAjout) { this.dateAjout = dateAjout; }
 }

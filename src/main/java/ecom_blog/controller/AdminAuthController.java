@@ -16,12 +16,12 @@ public class AdminAuthController {
         return "admin/login"; // ✅ Affiche login.html
     }
 
-    @GetMapping("/dashboard")
-    public String dashboard(Model model) {
-        model.addAttribute("stats", new HashMap<>() {{
-            put("articles", 0);
-            put("commandes", 0);
-        }});
-        return "admin/dashboard"; // ✅ Affiche dashboard.html
-    }
+  //  @GetMapping("/dashboard")
+    //public String dashboard(Model model) {
+      //  model.addAttribute("stats", new HashMap<>() {{
+        //    put("articles", 0);
+          //  put("commandes", 0);
+       // }});
+        //return "admin/dashboard"; // ✅ Affiche dashboard.html
+    //}
 }

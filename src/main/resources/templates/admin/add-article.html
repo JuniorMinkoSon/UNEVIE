@@ -1,18 +1,23 @@
 <!doctype html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head (title='Admin - Ajouter article')"></head>
+<head th:replace="~{fragments/head :: head (title='Admin - Ajouter article')}"></head>
 <body>
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="~{fragments/header :: header}"></div>
+
 <section class="container" style="padding:40px 0;max-width:720px">
     <h1>Ajouter un article</h1>
+
     <form th:action="@{/admin/article/save}" th:object="${article}" method="post" enctype="multipart/form-data" style="display:grid;gap:12px">
-        <input class="form-input" th:field="*{titre}" placeholder="Titre">
-        <input class="form-input" th:field="*{categorie}" placeholder="Catégorie">
+        <input class="form-input" th:field="*{titre}" placeholder="Titre" required>
+        <input class="form-input" th:field="*{categorie}" placeholder="Catégorie" required>
         <textarea class="form-input" th:field="*{contenu}" placeholder="Contenu"></textarea>
-        <input type="file" name="image">
+        <input type="file" name="image" required>
         <button class="btn" type="submit">Publier</button>
     </form>
+
+    <a class="btn-outline" th:href="@{/admin/dashboard}" style="margin-top:20px;">⬅ Retour au tableau de bord</a>
 </section>
-<div th:replace="fragments/footer :: footer"></div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

@@ -33,4 +33,10 @@ public class CommandeService {
         }
         return false;
     }
+
+    // ✅ Ajoute cette méthode :
+    public long count() {
+        return commandeRepository.count();
+    }
+
 }

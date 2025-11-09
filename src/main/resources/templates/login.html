@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Connexion</title>
+    <title>Connexion Utilisateur</title>
 </head>
 <body>
-<h2>Se connecter</h2>
+<h2>Connexion Utilisateur</h2>
 
 <form th:action="@{/login}" method="post">
     <label>Email :</label>
-    <input type="text" name="username" required><br>
+    <input type="email" name="email" required /><br>
 
     <label>Mot de passe :</label>
-    <input type="password" name="password" required><br>
+    <input type="password" name="password" required /><br>
 
-    <button type="submit">Connexion</button>
+    <button type="submit">Se connecter</button>
 
-    <p th:if="${param.error}" style="color:red;">Login ou mot de passe incorrect</p>
+    <div th:if="${param.error}" style="color:red;">Email ou mot de passe incorrect.</div>
+    <div th:if="${param.logout}" style="color:green;">Déconnexion réussie.</div>
 </form>
 
 </body>
