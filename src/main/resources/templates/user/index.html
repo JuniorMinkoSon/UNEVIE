@@ -15,7 +15,16 @@
     <!-- ================= HEADER ================= -->
     <div th:replace="~{fragments/header :: header}"></div>
 
-    
+    <!-- ========== BANNIÈRE HERO ========== -->
+    <section class="hero">
+        <h1>Construisons ensemble <br/> votre patrimoine en toute  <br/> confiance</h1>
+        <p>Votre partenaire de confiance pour vos projets de construction, d'immobilier et d'aménagement en Côte d'Ivoire</p>
+        <div class="btn-hero">
+            <a th:href="@{/projets}" class="prim1">Voir nos réalisations</a>
+            <a th:href="@{/contact}" class="prim2">Démarrer un projet</a>
+        </div>
+
+    </section>
 
     <!-- ========== NOS SERVICES ========== -->
     <section class="section">
@@ -57,107 +66,10 @@
                         <h3>Finitions & Aménagements</h3>
                         <p>Décoration intérieure, menuiserie, plomberie, électricité et tous travaux de finition pour sublimer vos espaces de vie et de travail.</p>
                         <a th:href="@{/services}" class="btn-svce" style="margin-top: 1rem;">En savoir plus<i class="fa-solid fa-arrow-right"></i></a>
->>>>>>> master
                     </div>
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
-
-        <div class="carousel-controls">
-            <button class="carousel-prev" aria-label="Précédent">‹</button>
-            <button class="carousel-next" aria-label="Suivant">›</button>
-        </div>
-        <div class="carousel-indicators" id="carouselIndicators"></div>
-    </div>
-</section>
-
-<!-- ================= SERVICES ================= -->
-<section class="section">
-    <div class="section-header">
-        <h2>Nos domaines d’expertise</h2>
-        <p>Un savoir-faire reconnu dans plusieurs secteurs clés.</p>
-    </div>
-
-    <div class="grid-3">
-        <div class="card-service">
-            <img th:src="@{/images/Travaux-publics-génie-civil-3.jpg}" alt="Travaux publics">
-            <div class="card-body">
-                <h3>Travaux publics & génie civil</h3>
-                <p>Routes, terrassement, aménagements durables et verdissement.</p>
-            </div>
-        </div>
-        <div class="card-service">
-            <img th:src="@{/images/bat-moderne-1.jpg}" alt="Immobilier">
-            <div class="card-body">
-                <h3>Immobilier & foncier sécurisé</h3>
-                <p>Sécurisation foncière (ACD), ventes, locations et lotissements.</p>
-            </div>
-        </div>
-        <div class="card-service">
-            <img th:src="@{/images/chantier.jpg}" alt="Finitions">
-            <div class="card-body">
-                <h3>Finitions & aménagement</h3>
-                <p>Peinture, menuiserie, carrelage, vitrerie et décoration intérieure.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ================= PRODUITS ================= -->
-<section class="section bg-white">
-    <div class="section-header">
-        <h2>Nos produits récents</h2>
-        <p>Découvrez nos dernières offres disponibles.</p>
-    </div>
-
-    <div class="grid-3">
-        <div th:each="p : ${produits}" class="card-product">
-            <!-- ✅ Image dynamique depuis /uploads avec image par défaut -->
-            <img th:src="${p.imageUrl != null && !p.imageUrl.isEmpty()} ? @{${p.imageUrl}} : @{/images/default-product.jpg}"
-                 alt="Produit" style="object-fit:cover;width:100%;height:200px;">
-            <div class="card-body">
-                <h3 th:text="${p.nom}">Nom produit</h3>
-                <p th:text="${p.description}">Description</p>
-                <p th:text="${p.prix} + ' FCFA'"></p>
-
-                <form th:action="@{'/panier/ajouter/' + ${p.id}}" method="post">
-                    <button type="submit" class="btn-primary">Acheter</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ================= ARTICLES ================= -->
-<section class="section">
-    <div class="section-header">
-        <h2>Nos articles récents</h2>
-        <p>Actualités et conseils pour mieux investir.</p>
-    </div>
-
-    <div class="grid-3">
-        <div th:each="a : ${articles}" class="card-article">
-            <!-- ✅ Image dynamique depuis /uploads avec image par défaut -->
-            <img th:src="${a.imageUrl != null && !a.imageUrl.isEmpty()} ? @{${a.imageUrl}} : @{/images/default-article.jpg}"
-                 alt="Article" style="object-fit:cover;width:100%;height:200px;">
-            <div class="card-body">
-                <h3 th:text="${a.titre}"></h3>
-                <p th:text="${a.categorie}" class="category"></p>
-                <a th:href="@{/blog}" class="btn-outline">Lire plus</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ================= FOOTER ================= -->
-<div th:replace="~{fragments/footer :: footer}"></div>
-
-<script>
-    // Script du carousel
-</script>
-</body>
-</html>
     </section>
 
     <!-- ========== NOS RÉALISATIONS RÉCENTES ========== -->
