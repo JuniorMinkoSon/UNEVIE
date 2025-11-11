@@ -41,8 +41,6 @@ public class HomeController {
         return "user/confirmation";
     }
 
-<<<<<<< HEAD
-=======
     @GetMapping("/services")
     public String services() {
         return "user/services"; 
@@ -63,8 +61,5 @@ public class HomeController {
         return "user/objectifs"; 
     }
 
-
-
->>>>>>> master
 
 }

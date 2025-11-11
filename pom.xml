@@ -47,8 +47,6 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-<<<<<<< HEAD
-=======
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -57,7 +55,7 @@
         </dependency>
 
 
->>>>>>> master
+
         <!-- ✅ (IMPORTANT) Thymeleaf + Spring Security -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
