@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <th:block th:replace="fragments/head :: head (title='Nos Services - BarikaWeb')"></th:block>
 <div th:replace="fragments/header :: header"></div>
 
@@ -27,3 +28,338 @@
 </section>
 
 <div th:replace="fragments/footer :: footer"></div>
+=======
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvrez nos services : travaux publics, immobilier, finitions et aménagements">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <title>Nos Services - BTP Immobilier CI</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    
+    <!-- ================= HEADER ================= -->
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <!-- ========== BANNIÈRE PAGE ========== -->
+    <section class="hero" style="padding: 5rem 2rem;">
+        <h1>Nos Services</h1>
+        <p>Des solutions complètes adaptées à tous vos besoins</p>
+    </section>
+
+    <!-- ========== INTRODUCTION ========== -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Expertise et Savoir-Faire</h2>
+            <p class="section-subtitle">
+                De la conception à la réalisation, nous mettons notre expertise au service de vos projets les plus ambitieux. Découvrez nos trois grands domaines d'intervention.
+            </p>
+        </div>
+    </section>
+
+    <!-- ========== SERVICE 1 : TRAVAUX PUBLICS ========== -->
+    <section class="section bg-light">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 style="color: var(--bleu-fonce); font-size: 2.5rem; margin-bottom: 1.5rem;">
+                        🏗️ Travaux Publics & Génie Civil
+                    </h2>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                        Nous réalisons des infrastructures d'envergure qui contribuent au développement économique et social de la Côte d'Ivoire. Notre expertise couvre l'ensemble du cycle de vie de vos projets, de l'étude à la maintenance.
+                    </p>
+                    
+                    <h3 style="color: var(--or); margin-top: 2rem; margin-bottom: 1rem;">Nos Prestations :</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Construction de routes et voiries</strong><br>
+                            <span style="color: var(--texte-leger);">Routes nationales, urbaines, pistes rurales, aménagement de carrefours</span>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Ouvrages d'art</strong><br>
+                            <span style="color: var(--texte-leger);">Ponts, viaducs, passerelles, murs de soutènement</span>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Assainissement et drainage</strong><br>
+                            <span style="color: var(--texte-leger);">Réseaux d'évacuation des eaux, caniveaux, bassins de rétention</span>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Terrassement et VRD</strong><br>
+                            <span style="color: var(--texte-leger);">Nivellement, déblai-remblai, voirie et réseaux divers</span>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Construction de bâtiments publics</strong><br>
+                            <span style="color: var(--texte-leger);">Écoles, hôpitaux, mairies, édifices administratifs</span>
+                        </li>
+                        <li style="padding: 0.8rem 0;">
+                            <strong>✓ Maintenance et réhabilitation</strong><br>
+                            <span style="color: var(--texte-leger);">Réfection, renforcement d'infrastructures existantes</span>
+                        </li>
+                    </ul>
+
+                    <a th:href="@{/contact}" class="btn-primary" style="margin-top: 2rem; display: inline-block;">Demander un Devis</a>
+                </div>
+                <div class="about-image">
+                    <img th:src="@{/images/travaux-publics-detail.jpg}" 
+                         src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=700" 
+                         alt="Travaux publics">
+                    
+                    <div style="margin-top: 2rem; background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px var(--ombre);">
+                        <h4 style="color: var(--bleu-fonce); margin-bottom: 1rem;">Nos Points Forts</h4>
+                        <p style="margin-bottom: 0.5rem;">• Équipements modernes et performants</p>
+                        <p style="margin-bottom: 0.5rem;">• Équipes expérimentées et qualifiées</p>
+                        <p style="margin-bottom: 0.5rem;">• Respect des normes et délais</p>
+                        <p>• Suivi rigoureux des chantiers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SERVICE 2 : IMMOBILIER ========== -->
+    <section class="section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-image">
+                    <img th:src="@{/images/immobilier-detail.jpg}" 
+                         src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=700" 
+                         alt="Immobilier">
+                    
+                    <div style="margin-top: 2rem; background: var(--gris-clair); padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px var(--ombre);">
+                        <h4 style="color: var(--bleu-fonce); margin-bottom: 1rem;">🛡️ Sécurité Garantie</h4>
+                        <p style="margin-bottom: 0.5rem;">✓ Tous nos terrains sont titrés (ACD)</p>
+                        <p style="margin-bottom: 0.5rem;">✓ Vérification juridique complète</p>
+                        <p style="margin-bottom: 0.5rem;">✓ Accompagnement administratif</p>
+                        <p>✓ Transparence totale sur les prix</p>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <h2 style="color: var(--bleu-fonce); font-size: 2.5rem; margin-bottom: 1.5rem;">
+                        🏘️ Immobilier & Foncier Sécurisé (ACD)
+                    </h2>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                        Investissez en toute sérénité dans des biens immobiliers sécurisés juridiquement. Nous vous accompagnons dans vos acquisitions foncières avec la garantie de titres fonciers authentiques (Arrêté de Concession Définitive).
+                    </p>
+                    
+                    <h3 style="color: var(--or); margin-top: 2rem; margin-bottom: 1rem;">Nos Services Immobiliers :</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Vente de terrains titrés</strong><br>
+                            <span style="color: var(--texte-leger);">Parcelles résidentielles et commerciales avec titre foncier (ACD)</span>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Lotissements sécurisés</strong><br>
+                            <span style="color: var(--texte-leger);">Aménagement de zones résidentielles viabilisées et sécurisées</span>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Viabilisation de terrains</strong><br>
+                            <span style="color: var(--texte-leger);">Électricité, eau potable, voirie, assainissement</span>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Accompagnement juridique</strong><br>
+                            <span style="color: var(--texte-leger);">Assistance dans toutes les démarches d'acquisition et de sécurisation</span>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Promotion immobilière</strong><br>
+                            <span style="color: var(--texte-leger);">Construction clé en main de villas et immeubles</span>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Gestion immobilière</strong><br>
+                            <span style="color: var(--texte-leger);">Location, maintenance et administration de biens</span>
+                        </li>
+                        <li style="padding: 0.8rem 0;">
+                            <strong>✓ Conseil et expertise</strong><br>
+                            <span style="color: var(--texte-leger);">Évaluation, étude de marché, conseil en investissement</span>
+                        </li>
+                    </ul>
+
+                    <a th:href="@{/projets}" class="btn-primary" style="margin-top: 2rem; display: inline-block;">Voir Nos Terrains Disponibles</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SERVICE 3 : FINITIONS ========== -->
+    <section class="section bg-light">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 style="color: var(--bleu-fonce); font-size: 2.5rem; margin-bottom: 1.5rem;">
+                        🎨 Finitions & Aménagements Intérieurs
+                    </h2>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                        Sublimez vos espaces de vie et de travail avec nos services de finitions haut de gamme. Du choix des matériaux à la réalisation finale, nous créons des intérieurs qui vous ressemblent.
+                    </p>
+                    
+                    <h3 style="color: var(--or); margin-top: 2rem; margin-bottom: 1rem;">Nos Prestations :</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Revêtements de sols</strong><br>
+                            <span style="color: var(--texte-leger);">Carrelage, parquet, marbre, granit, résine</span>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Peinture et décoration</strong><br>
+                            <span style="color: var(--texte-leger);">Peinture intérieure/extérieure, enduits décoratifs, papiers peints</span>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Menuiserie</strong><br>
+                            <span style="color: var(--texte-leger);">Portes, fenêtres, placards, cuisine équipée, dressing</span>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Plomberie et sanitaires</strong><br>
+                            <span style="color: var(--texte-leger);">Installation complète, robinetterie, salles de bain, cuisines</span>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Électricité</strong><br>
+                            <span style="color: var(--texte-leger);">Installation électrique, luminaires, domotique</span>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Climatisation</strong><br>
+                            <span style="color: var(--texte-leger);">Installation et maintenance de systèmes de climatisation</span>
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong>✓ Faux plafonds</strong><br>
+                            <span style="color: var(--texte-leger);">Placo, gypse, staff, éclairage intégré</span>
+                        </li>
+                        <li style="padding: 0.8rem 0;">
+                            <strong>✓ Aménagements extérieurs</strong><br>
+                            <span style="color: var(--texte-leger);">Terrasses, jardins, clôtures, portails automatiques</span>
+                        </li>
+                    </ul>
+
+                    <a th:href="@{/contact}" class="btn-primary" style="margin-top: 2rem; display: inline-block;">Demander un Devis Gratuit</a>
+                </div>
+                <div class="about-image">
+                    <img th:src="@{/images/finitions-detail.jpg}" 
+                         src="https://images.unsplash.com/photo-1615873968403-89e068629265?w=700" 
+                         alt="Finitions">
+                    
+                    <div style="margin-top: 2rem; background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px var(--ombre);">
+                        <h4 style="color: var(--bleu-fonce); margin-bottom: 1rem;">Notre Approche</h4>
+                        <p style="margin-bottom: 0.5rem;">🎯 Écoute de vos besoins</p>
+                        <p style="margin-bottom: 0.5rem;">✏️ Conception sur-mesure</p>
+                        <p style="margin-bottom: 0.5rem;">🏆 Matériaux de qualité</p>
+                        <p style="margin-bottom: 0.5rem;">👷 Artisans qualifiés</p>
+                        <p>✅ Finitions impeccables</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PROCESSUS DE TRAVAIL ========== -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Notre Processus de Travail</h2>
+            <p class="section-subtitle">Un accompagnement structuré pour la réussite de votre projet</p>
+            
+            <div class="services-grid" style="margin-top: 3rem;">
+                <div class="service-card">
+                    <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">1️⃣</div>
+                        <h3 style="color: var(--or); font-size: 1.5rem;">Consultation</h3>
+                    </div>
+                    <div class="service-content">
+                        <p>
+                            Rencontre initiale pour comprendre vos besoins, objectifs et contraintes. Visite du site si nécessaire.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">2️⃣</div>
+                        <h3 style="color: var(--or); font-size: 1.5rem;">Étude & Devis</h3>
+                    </div>
+                    <div class="service-content">
+                        <p>
+                            Analyse technique, élaboration des plans et présentation d'un devis détaillé et transparent.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">3️⃣</div>
+                        <h3 style="color: var(--or); font-size: 1.5rem;">Planification</h3>
+                    </div>
+                    <div class="service-content">
+                        <p>
+                            Établissement du planning détaillé, commande des matériaux et mobilisation des équipes.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">4️⃣</div>
+                        <h3 style="color: var(--or); font-size: 1.5rem;">Réalisation</h3>
+                    </div>
+                    <div class="service-content">
+                        <p>
+                            Exécution des travaux avec suivi quotidien, contrôle qualité et communication régulière.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">5️⃣</div>
+                        <h3 style="color: var(--or); font-size: 1.5rem;">Livraison</h3>
+                    </div>
+                    <div class="service-content">
+                        <p>
+                            Réception des travaux, vérification finale et remise des clés. Explications sur l'entretien.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">6️⃣</div>
+                        <h3 style="color: var(--or); font-size: 1.5rem;">Suivi</h3>
+                    </div>
+                    <div class="service-content">
+                        <p>
+                            Service après-vente réactif et disponible pour toute intervention ou conseil.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== APPEL À L'ACTION ========== -->
+    <section class="section" style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); color: white; text-align: center;">
+        <div class="container">
+            <h2 style="color: white; font-size: 2.5rem; margin-bottom: 1rem;">Un Projet en Tête ?</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
+                Contactez-nous pour une consultation gratuite et un devis personnalisé
+            </p>
+            <a th:href="@{/contact}" class="btn-primary">Obtenir un Devis Gratuit</a>
+        </div>
+    </section>
+
+   <!-- ================= FOOTER ================= -->
+   <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- ========== BOUTON WHATSAPP FLOTTANT ========== -->
+    <a href="https://wa.me/225XXXXXXXXXX" class="whatsapp-float" target="_blank" aria-label="Contactez-nous sur WhatsApp">
+        <svg viewBox="0 0 32 32" fill="currentColor">
+            <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 7.933-2.127c2.42 1.37 5.173 2.127 8.067 2.127 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.467c-2.482 0-4.908-0.646-7.07-1.87l-0.507-0.292-5.247 1.408 1.435-5.34-0.335-0.552c-1.354-2.23-2.068-4.801-2.068-7.421 0-7.868 6.402-14.267 14.267-14.267s14.267 6.398 14.267 14.267c0 7.868-6.402 14.267-14.267 14.267zM21.984 18.508c-0.403-0.201-2.383-1.176-2.754-1.311-0.371-0.134-0.641-0.201-0.911 0.201-0.269 0.403-1.044 1.311-1.28 1.581s-0.471 0.302-0.874 0.101c-0.403-0.201-1.7-0.627-3.239-1.998-1.197-1.067-2.006-2.383-2.241-2.786s-0.025-0.621 0.176-0.822c0.181-0.181 0.403-0.471 0.604-0.707s0.269-0.403 0.403-0.672c0.134-0.269 0.067-0.504-0.034-0.707s-0.911-2.196-1.248-3.004c-0.329-0.789-0.663-0.682-0.911-0.695-0.235-0.012-0.504-0.015-0.774-0.015s-0.707 0.101-1.078 0.504c-0.371 0.403-1.416 1.384-1.416 3.377s1.449 3.914 1.65 4.184c0.201 0.269 2.831 4.324 6.859 6.063 0.958 0.415 1.707 0.663 2.291 0.848 0.965 0.307 1.843 0.264 2.538 0.161 0.774-0.116 2.383-0.974 2.72-1.916s0.337-1.75 0.236-1.916c-0.101-0.166-0.371-0.269-0.774-0.471z"/>
+        </svg>
+    </a>
+
+    <!-- ========== SCRIPT MENU MOBILE ========== -->
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('mainNav');
+            nav.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
+>>>>>>> master

@@ -1,6 +1,10 @@
 // =====================
 // main.js — interactions BarikaWeb
 // =====================
+<<<<<<< HEAD
+=======
+import '@fortawesome/fontawesome-free/css/all.min.css';
+>>>>>>> master
 
 // --- Bouton WhatsApp ---
 document.addEventListener('click', e => {

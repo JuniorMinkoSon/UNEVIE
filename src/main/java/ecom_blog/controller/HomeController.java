@@ -41,5 +41,30 @@ public class HomeController {
         return "user/confirmation";
     }
 
+<<<<<<< HEAD
+=======
+    @GetMapping("/services")
+    public String services() {
+        return "user/services"; 
+    }
+
+    @GetMapping("/propos")
+    public String propos() {
+        return "user/propos"; 
+    }
+
+    @GetMapping("/projets")
+    public String projets() {
+        return "user/projets"; 
+    }
+
+    @GetMapping("/objectifs")
+    public String objectifs() {
+        return "user/objectifs"; 
+    }
+
+
+
+>>>>>>> master
 
 }
