@@ -8,6 +8,7 @@
 /* === VARIABLES CSS === */
 :root {
   --bleu-fonce: #1E3A8A;
+  --bleu-claire: rgb(123, 140, 188);
   --or:rgb(228, 179, 19);
   --vert : #34bc67;
   --orange: #da8a27;
@@ -15,7 +16,7 @@
   --marron: #847062;
   --gris-clair: #F5F5F5;
   --blanc: #FFFFFF;
-  --noir:rgb(57, 57, 57);
+  --noir:rgb(73, 73, 73);
   --texte-gris: #333333;
   --texte-leger: #666666;
   --ombre: rgba(0, 0, 0, 0.1);
@@ -567,7 +568,8 @@ nav a.active::after {
 }
 
 .info-item {
-  display: flex;
+  display: grid;
+  grid-template-columns: 2;
   align-items: flex-start;
   gap: 1rem;
   margin-bottom: 2rem;
@@ -607,7 +609,7 @@ nav a.active::after {
 
 /* === FOOTER === */
 footer {
-  background-color:  rgba(var(--noir), 0.4);
+  background-color: var(--noir);
   color: var(--blanc);
   padding: 3rem 2rem 1rem;
 }
@@ -640,7 +642,7 @@ footer {
 
 .footer-section p,
 .footer-section a {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--noir);
   line-height: 2;
   display: block;
 }
@@ -677,6 +679,207 @@ footer {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.6);
 }
+
+
+/* start section faq */
+.accordion-section {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #fae9da;
+  margin-top: 6rem;
+}
+
+.accordion-container {
+  display: flex;
+  max-width: 1200px;
+  margin: 5rem auto;
+  padding: 0 2rem;
+  gap: 2rem;
+}
+
+.accordion-image img {
+  width: 100%;
+  max-width: 70rem;
+  height: auto;
+  border-radius: 10px;
+}
+
+.accordion-content {
+  flex: 1; 
+  margin-top: 6rem;
+}
+
+.accordion-content h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--noir);
+}
+
+
+.accordion-content h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.accordion-item {
+  margin-bottom: 0.8rem;
+  background-color: #fff; 
+  border-radius: 5px;
+  overflow: hidden; 
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); */
+
+}
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  cursor: pointer;
+  transition: border 0.3s ease;
+}
+
+/* .accordion-header:hover {
+  border: 1px solid #E40046;
+}
+ */
+.accordion-header h3 {
+  font-size: 1rem;
+  margin: 0;
+  color: #444;
+}
+
+.accordion-icon {
+  font-size: 1.5rem;
+  color: #ff8674;
+  transition: transform 0.3s ease;
+}
+
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 1rem;
+  transition: max-height 0.3s ease-in-out, padding 0 0.3s ease-in-out;
+}
+
+.accordion-body p {
+  margin: 1rem 0;
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+}
+
+.accordion-item.active .accordion-body {
+  max-height: 200px; 
+  padding: 1rem 1rem; 
+}
+
+.accordion-item.active .accordion-icon {
+  transform: rotate(45deg); 
+}
+
+.accordion-item.active{
+  border: 1px solid #ff8674;
+}
+
+/* end section faq */
+
+
+/* start section membres */
+
+.team-section {
+  padding: 2rem 0 0 0;
+/*     background-color: #fbfbfb; */ 
+ margin: 0 auto;
+}
+
+.team-section_text{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.team-section_text h3{
+  font-size: 3rem;
+  margin-top:2rem;
+  color: var(--orange);
+}
+
+.team-section_text h1{
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  color: var(--texte-gris);
+}
+
+.team-section_text p{
+  font-size: 1rem;
+  margin-top: 2rem;
+  line-height: 2.5rem;
+  text-align: center;
+  width: 100%;
+  max-width: 50rem;
+}
+
+.team-grid {
+  margin:5rem 12rem 0 12rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem; 
+  padding: 0 1rem;
+  justify-content: center;
+}
+
+.team-card {
+  background-color: #fff3f1;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 1rem;
+  width: 100%;
+}
+
+.team-card img {
+  width: 100%;
+  max-height: 40rem;
+  height: auto;
+  aspect-ratio: 4/5; 
+  object-fit: cover;
+  display: block;
+  border-radius: 10px 10px 0 0;
+}
+
+.team-card h3 {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+.team-card p {
+  font-size: 0.8rem;
+  color: var(--texte-gris);
+  margin-bottom: 0.5rem;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.social-icons i {
+  font-size: 1.5rem;
+  color: #666;
+  cursor: pointer;
+}
+
+.social-icons i:hover {
+  color: var(--orange-fonce);
+}
+
+/* end section membres */
 
 /* === BOUTON WHATSAPP FLOTTANT === */
 .whatsapp-float {
@@ -809,6 +1012,11 @@ footer {
 
   .section-title {
     font-size: 1.7rem;
+  }
+
+  .mission h2{
+      margin: 0;
+      padding: 0;
   }
 
   .stats-grid {

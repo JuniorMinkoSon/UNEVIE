@@ -36,24 +36,88 @@
                     </p>
                 </div>
                 <div class="about-image">
-                    <img th:src="@{/images/equipe.jpg}" 
-                         src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=700" 
+                    <img th:src="@{/images/dg.jpg}" 
+                         src="images/dg.jpg" 
                          alt="Notre équipe">
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- start section membres -->
+
+     <section class="team-section">
+
+        <div class="team-section_text">
+
+       
+            <h3>Notre équipe</h3>
+            <h1>Présentation des membres de notre équipe</h1>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus veritatis suscipit pariatur nisi tenetur blanditiis quod doloremque
+                sit dolores non minima, ea aperiam perferendis? Neque sequi laudantium at illo possimus.
+            </p>
+        </div>
+        <div class="team-grid">
+          <div class="team-card">
+                <img 
+                    th:src="@{/images/etudiant_heureuse.webp}" 
+                    src="images/etudiant_heureuse.webp" alt="Leila Jamil" loading="lazy">
+                <h3>Leila Jamil</h3>
+                <p>UI/UX Designer</p>
+                <div class="social-icons">
+                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands fa-instagram"></i>
+                </div>
+          </div>
+          <div class="team-card">
+                <img 
+                    th:src="@{/images/etudiant_christianne.webp}" 
+                    src="images/etudiant_christianne.webp" alt="Christianne Kouame" loading="lazy">
+                <h3>Christianne Kouamé</h3>
+                <p>Développeur Mobile</p>
+                <div class="social-icons">
+                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands fa-instagram"></i>
+                </div>
+          </div>
+          <div class="team-card">
+                <img 
+                    th:src="@{/images/etudiant_john.webp}" 
+                    src="images/etudiant_john.webp" alt="John Nas" loading="lazy">
+                <h3>John Nas</h3>
+                <p>Développeur Backend</p>
+                <div class="social-icons">
+                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands fa-instagram"></i>
+               </div>
+          </div>
+          <div class="team-card">
+                <img 
+                    th:src="@{/images/etudiant_khalil.webp}" 
+                    src="images/etudiant_khalil.webp" alt="Leila Jamil" loading="lazy">
+                <h3>Khalil Judes</h3>
+                <p>Développeur Frontend</p>
+                <div class="social-icons">
+                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands fa-instagram"></i>
+               </div>
+          </div>
+        </div>
+      </section>
+
+    <!-- end section alumni et mentor -->
+
     <!-- ========== NOTRE MISSION ========== -->
     <section class="section">
         <div class="container">
-            <h2 class="section-title">Notre Mission</h2>
+            <h2 class="section-title mission">Notre Mission</h2>
             <p class="section-subtitle">Ce qui nous anime au quotidien</p>
             
             <div class="about-content">
                 <div class="about-image">
-                    <img th:src="@{/images/mission.jpg}" 
-                         src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=700" 
+                    <img th:src="@{/images/bat4.png}" 
+                         src="images/bat4.png" 
                          alt="Notre mission">
                 </div>
                 <div class="about-text">
@@ -79,40 +143,30 @@
             
             <div class="avantages-grid">
                 <div class="avantage-item">
-                    <div class="avantage-icon"></div>
+                    <div class="avantage-icon"> <i class="fa-solid fa-shapes"></div>
                     <h3>Excellence</h3>
                     <p>Nous visons l'excellence dans chaque projet, en utilisant des matériaux de qualité supérieure et en respectant les normes internationales de construction.</p>
                 </div>
 
                 <div class="avantage-item">
-                    <div class="avantage-icon"></div>
+                    <div class="avantage-icon"><i class="fa-solid fa-spinner"></i></div>
                     <h3>Intégrité</h3>
                     <p>Transparence, honnêteté et respect des engagements sont au cœur de notre relation avec nos clients et partenaires.</p>
                 </div>
 
                 <div class="avantage-item">
-                    <div class="avantage-icon"></div>
+                    <div class="avantage-icon"><i class="fa-solid fa-lightbulb"></i></div>
                     <h3>Innovation</h3>
                     <p>Nous adoptons les dernières technologies et méthodes de construction pour offrir des solutions modernes et efficaces.</p>
                 </div>
 
                 <div class="avantage-item">
-                    <div class="avantage-icon"></div>
+                    <div class="avantage-icon"><i class="fa-solid fa-helmet-safety"></i></div>
                     <h3>Durabilité</h3>
                     <p>Nous intégrons des pratiques écologiques et durables dans nos projets pour préserver l'environnement.</p>
                 </div>
 
-                <div class="avantage-item">
-                    <div class="avantage-icon"></div>
-                    <h3>Proximité</h3>
-                    <p>À l'écoute de nos clients, nous garantissons un accompagnement personnalisé et un service de proximité.</p>
-                </div>
-
-                <div class="avantage-item">
-                    <div class="avantage-icon"></div>
-                    <h3>Réactivité</h3>
-                    <p>Nous répondons rapidement à vos besoins et adaptons nos services pour respecter vos délais et contraintes.</p>
-                </div>
+            
             </div>
         </div>
     </section>
@@ -126,8 +180,8 @@
             <div class="services-grid">
                 <!-- Avantage 1 -->
                 <div class="service-card">
-                    <img th:src="@{/images/expertise.jpg}" 
-                         src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600" 
+                    <img th:src="@{/images/travaux.jpg}" 
+                         src="images/travaux.jpg" 
                          alt="Expertise locale">
                     <div class="service-content">
                         <h3> Expertise Reconnue</h3>
@@ -139,8 +193,8 @@
 
                 <!-- Avantage 2 -->
                 <div class="service-card">
-                    <img th:src="@{/images/securite.jpg}" 
-                         src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600" 
+                    <img th:src="@{/images/terrain.png}" 
+                         src="images/terrain.png" 
                          alt="Sécurité juridique">
                     <div class="service-content">
                         <h3> Sécurité Totale</h3>
@@ -152,8 +206,8 @@
 
                 <!-- Avantage 3 -->
                 <div class="service-card">
-                    <img th:src="@{/images/accompagnement.jpg}" 
-                         src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600" 
+                    <img th:src="@{/images/imo3.png}" 
+                         src="images/imo3.png" 
                          alt="Accompagnement personnalisé">
                     <div class="service-content">
                         <h3> Accompagnement 360°</h3>
@@ -201,7 +255,7 @@
                 </div>
                 <div class="about-image">
                     <img th:src="@{/images/team.jpg}" 
-                         src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=700" 
+                         src="images/team.jpg" 
                          alt="Notre équipe de professionnels">
                 </div>
             </div>
@@ -209,7 +263,7 @@
     </section>
 
     <!-- ========== ENGAGEMENT QUALITÉ ========== -->
-    <section class="section">
+   <!--  <section class="section">
         <div class="container">
             <h2 class="section-title">Notre Engagement Qualité</h2>
             <p class="section-subtitle">Des garanties concrètes pour votre tranquillité</p>
@@ -238,68 +292,59 @@
                
             </div>
         </div>
-    </section>
+    </section> -->
 
-     <!-- ========== FAQ RAPIDE ========== -->
-     <section class="section">
-        <div class="container">
-            <h2 class="section-title">Questions Fréquentes</h2>
-            <p class="section-subtitle">Des réponses rapides à vos questions courantes</p>
-            
-            <div style="max-width: 800px; margin: 3rem auto 0;">
-                <!-- Question 1 -->
-                <div style="background: white; padding: 2rem; margin-bottom: 1.5rem; border-radius: 10px; box-shadow: 0 3px 10px var(--ombre);">
-                    <h3 style="color: var(--bleu-fonce); margin-bottom: 1rem; font-size: 1.3rem;">
-                        Comment obtenir un devis pour mon projet ?
-                    </h3>
-                    <p style="color: var(--texte-leger); line-height: 1.8;">
-                        Remplissez simplement le formulaire ci-dessus en détaillant votre projet. Nous vous recontacterons dans les 24h pour planifier une consultation gratuite et établir un devis personnalisé.
-                    </p>
-                </div>
+     <!-- ========== FAQ  ========== -->
 
-                <!-- Question 2 -->
-                <div style="background: white; padding: 2rem; margin-bottom: 1.5rem; border-radius: 10px; box-shadow: 0 3px 10px var(--ombre);">
-                    <h3 style="color: var(--bleu-fonce); margin-bottom: 1rem; font-size: 1.3rem;">
-                        Proposez-vous des facilités de paiement ?
-                    </h3>
-                    <p style="color: var(--texte-leger); line-height: 1.8;">
-                        Oui ! Nous proposons des plans de financement flexibles adaptés à votre budget. Contactez-nous pour discuter des modalités de paiement échelonné.
+     <section class="accordion-section">
+        <div class="accordion-container">
+          <div class="accordion-image">
+            <img src="images/crea1.png" alt="Accordion Image" loading="lazy">
+          </div>
+          <div class="accordion-content">
+            <h2>Faq</h2>
+            <h1>Questions fréquentes</h1>
+            <div class="accordion">
+              <div class="accordion-item">
+                    <div class="accordion-header">
+                    <h3>Comment s'inscrire à un évènement ?</h3>
+                    <i class="fa-solid fa-plus accordion-icon"></i>
+                    </div>
+                    <div class="accordion-body">
+                    <p>
+                        Pour s'inscrire à un évènement, il suffit de cliquer sur le bouton "S'inscrire maintenant" sur la page de l'évènement, remplir le formulaire d'inscription et confirmer sa participation par email.
                     </p>
+                    </div>
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-header">
+                  <h3>Les évènements sont-ils gratuits ?</h3>
+                  <i class="fa-solid fa-plus accordion-icon"></i>
                 </div>
-
-                <!-- Question 3 -->
-                <div style="background: white; padding: 2rem; margin-bottom: 1.5rem; border-radius: 10px; box-shadow: 0 3px 10px var(--ombre);">
-                    <h3 style="color: var(--bleu-fonce); margin-bottom: 1rem; font-size: 1.3rem;">
-                        Comment vérifier l'authenticité des titres fonciers ?
-                    </h3>
-                    <p style="color: var(--texte-leger); line-height: 1.8;">
-                        Nous vous accompagnons personnellement au Domaine et aux services compétents pour vérifier l'authenticité du titre foncier (ACD) avant tout engagement. Transparence totale garantie.
-                    </p>
+                <div class="accordion-body">
+                  <p>
+                    Certains évènements sont gratuits, tandis que d'autres peuvent être payants. Vous trouverez les informations sur les tarifs dans la description de chaque évènement.
+                  </div>
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-header">
+                  <h3>Puis-je annuler ma participation ?</h3>
+                  <i class="fa-solid fa-plus accordion-icon"></i>
                 </div>
-
-                <!-- Question 4 -->
-                <div style="background: white; padding: 2rem; margin-bottom: 1.5rem; border-radius: 10px; box-shadow: 0 3px 10px var(--ombre);">
-                    <h3 style="color: var(--bleu-fonce); margin-bottom: 1rem; font-size: 1.3rem;">
-                        Quels sont vos délais de réalisation ?
-                    </h3>
-                    <p style="color: var(--texte-leger); line-height: 1.8;">
-                        Les délais varient selon la nature et l'ampleur du projet. En moyenne : 6 à 12 mois pour une villa, 3 à 6 semaines pour des finitions, 1 à 3 mois pour l'acquisition d'un terrain titré. Nous établissons un planning précis dès la phase de consultation.
-                    </p>
+                <div class="accordion-body">
+                  <p>
+                    Oui, vous pouvez annuler votre participation en nous contactant au moins 48 heures avant l'évènement. Veuillez consulter nos conditions d'annulation pour plus de détails.
+                  </p>
                 </div>
-
-                <!-- Question 5 -->
-                <div style="background: white; padding: 2rem; margin-bottom: 1.5rem; border-radius: 10px; box-shadow: 0 3px 10px var(--ombre);">
-                    <h3 style="color: var(--bleu-fonce); margin-bottom: 1rem; font-size: 1.3rem;">
-                       Puis-je visiter vos terrains avant d'acheter ?
-                    </h3>
-                    <p style="color: var(--texte-leger); line-height: 1.8;">
-                        Absolument ! Nous organisons des visites guidées de tous nos terrains disponibles. Prenez rendez-vous via WhatsApp ou le formulaire de contact pour planifier votre visite.
-                    </p>
-                </div>
+              </div>
             </div>
+          </div>
         </div>
-    </section>
-
+      </section>
+      
+     
+      <!--  faq -->
+    
       <!-- ================= FOOTER ================= -->
       <div th:replace="~{fragments/footer :: footer}"></div>
 
@@ -316,6 +361,41 @@
             const nav = document.getElementById('mainNav');
             nav.classList.toggle('active');
         }
+
+        // Script pour FAQ
+        const accordionItems = document.querySelectorAll('.accordion-item');
+
+        accordionItems.forEach(item => {
+        const header = item.querySelector('.accordion-header');
+        if (header) {
+            header.addEventListener('click', () => {
+                accordionItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.accordion-body').style.maxHeight = '0';
+                        otherItem.querySelector('.accordion-body').style.padding = '0 1rem';
+                        otherItem.querySelector('.accordion-icon').classList.remove('fa-minus');
+                        otherItem.querySelector('.accordion-icon').classList.add('fa-plus');
+                    }
+                });
+
+                item.classList.toggle('active');
+                const body = item.querySelector('.accordion-body');
+                const icon = item.querySelector('.accordion-icon');
+                if (item.classList.contains('active')) {
+                    body.style.maxHeight = '200px';
+                    body.style.padding = '1rem 1rem';
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-minus');
+                } else {
+                    body.style.maxHeight = '0';
+                    body.style.padding = '0 1rem';
+                    icon.classList.remove('fa-minus');
+                    icon.classList.add('fa-plus');
+                }
+            });
+        }
+        });
     </script>
 </body>
 </html>
