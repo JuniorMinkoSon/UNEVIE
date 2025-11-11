@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head (title='Projets - BarikaWeb')"></head>
+<body class="projects-body">
+<div th:replace="fragments/header :: header"></div>
+
+<main class="projects-section">
+    <!-- HEADER -->
+    <header class="projects-header">
+        <h1>🏗️ Projets & Réalisations</h1>
+        <div class="divider"></div>
+        <p>Avant / Après, lotissements et chantiers emblématiques.</p>
+    </header>
+
+    <!-- GRID DES PROJETS -->
+    <section class="projects-grid">
+        <div th:each="p : ${projets}" class="project-card">
+            <div class="project-image">
+                <img th:src="${p.imageUrl}" alt="Projet" />
+            </div>
+            <div class="project-content">
+                <h3 th:text="${p.nom}" class="project-title">Projet #1</h3>
+                <p th:text="${p.description}" class="project-description">Description courte du projet et résultats obtenus.</p>
+                <div class="project-actions">
+                    <a class="btn-view" th:href="@{'/projets/' + ${p.id}}">Voir détails</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ÉTUDE DE CAS -->
+    <section class="case-study">
+        <h2>Étude de cas</h2>
+        <div class="case-card">
+            <p>
+                Une famille de la diaspora a sécurisé un terrain grâce à notre accompagnement (ACD),
+                puis a lancé la construction d’une maison durable dans les délais.
+            </p>
+        </div>
+    </section>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

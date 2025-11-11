@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head (title='Blog - BarikaWeb')"></head>
+<body class="blog-page-body">
+<div th:replace="fragments/header :: header"></div>
+
+<!-- 🌟 SECTION HERO -->
+<section class="blog-hero">
+    <div class="blog-hero-content">
+        <h1 class="blog-hero-title">Notre Blog</h1>
+        <p class="blog-hero-subtitle">Actualités, conseils et astuces pour vos projets immobiliers et de construction</p>
+    </div>
+    <div class="blog-hero-overlay"></div>
+</section>
+
+<!-- 📰 SECTION ARTICLES -->
+<section class="blog-articles-section">
+    <div class="container">
+        <div class="blog-header-modern">
+            <span class="section-badge">Articles</span>
+            <h2 class="section-title">Dernières actualités</h2>
+            <p class="section-subtitle">Restez informé des dernières tendances et conseils dans le domaine de l'immobilier et de la construction.</p>
+        </div>
+
+        <div class="blog-articles-grid" th:if="${articles != null && !articles.isEmpty()}">
+            <article th:each="a : ${articles}" class="blog-article-card">
+                <div class="blog-article-image-wrapper">
+                    <img th:src="${a.imageUrl != null && !a.imageUrl.isEmpty()} ? @{${a.imageUrl}} : @{/images/chantier.jpg}"
+                         th:alt="${a.titre}" class="blog-article-image">
+                    <div class="blog-article-overlay"></div>
+                    <span class="blog-article-category" th:text="${a.categorie}">Catégorie</span>
+                </div>
+                <div class="blog-article-content">
+                    <h3 class="blog-article-title" th:text="${a.titre}">Titre de l'article</h3>
+                    <p class="blog-article-excerpt" th:text="${#strings.abbreviate(a.contenu, 200)}">Extrait de l'article avec une description plus détaillée...</p>
+                    <div class="blog-article-footer">
+                        <a th:href="@{/blog}" class="blog-article-link">
+                            Lire l'article
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="empty-state" th:if="${articles == null || articles.isEmpty()}">
+            <div class="empty-state-icon">📝</div>
+            <p>Aucun article disponible pour le moment.</p>
+            <p class="empty-state-subtitle">Revenez bientôt pour découvrir nos dernières actualités !</p>
+        </div>
+    </div>
+</section>
+
+<!-- 👤 SECTION CONTACT -->
+<section class="blog-author-section">
+    <div class="container">
+        <div class="author-card">
+            <div class="author-header">
+                <h2>À propos de l'auteur</h2>
+                <div class="author-divider"></div>
+            </div>
+            <div class="author-content">
+                <div class="author-info">
+                    <h3 class="author-name">Zoro Zipa</h3>
+                    <p class="author-title">Président de <strong>Barika Synergies Group</strong></p>
+                    <p class="author-description">Expert en immobilier et travaux publics avec plus de 15 ans d'expérience dans le secteur. Passionné par l'aménagement urbain durable et la sécurisation foncière.</p>
+                </div>
+                <div class="author-contact">
+                    <h4>Contact</h4>
+                    <ul class="contact-list">
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <span>Abidjan, Cocody Angré-Bessikoi, Base CIE</span>
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                            <span>+225 07 68 18 93 40</span>
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                            </svg>
+                            <span>+225 07 68 18 93 40</span>
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            <span>Contacts@barakasynergiesgroup.com</span>
+                        </li>
+                    </ul>
+                    <div class="author-cta">
+                        <a th:href="@{/contact}" class="btn-primary">Nous contacter</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head (title='Admin - Ajouter produit')}"></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="container" style="padding:40px 0;max-width:720px">
+    <h1>Ajouter un produit</h1>
+
+    <form th:action="@{/admin/product/save}" th:object="${produit}" method="post" enctype="multipart/form-data" style="display:grid;gap:12px">
+        <input class="form-input" th:field="*{nom}" placeholder="Nom du produit" required>
+        <input class="form-input" th:field="*{categorie}" placeholder="Catégorie" required>
+        <input class="form-input" th:field="*{prix}" placeholder="Prix" required>
+        <textarea class="form-input" th:field="*{description}" placeholder="Description"></textarea>
+        <input type="file" name="image" required>
+        <button class="btn" type="submit">Enregistrer</button>
+    </form>
+
+    <a class="btn-outline" th:href="@{/admin/dashboard}" style="margin-top:20px;">⬅ Retour au tableau de bord</a>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

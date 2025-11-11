@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvrez l'histoire, la mission et les valeurs de BTP CI">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <title>À Propos - BTP Immobilier CI</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    
+    <!-- ================= HEADER ================= -->
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <!-- ========== BANNIÈRE PAGE ========== -->
+    <section class="hero" style="padding: 5rem 2rem;">
+        <h1>À Propos de Nous</h1>
+        <p>Découvrez notre histoire, notre mission et nos valeurs</p>
+    </section>
+
+    <!-- ========== PRÉSENTATION DE L'ENTREPRISE ========== -->
+    <section class="section about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Qui Sommes-Nous ?</h2>
+                    <p>
+                        <strong>BTP CI</strong> est une entreprise ivoirienne dynamique et innovante, spécialisée dans les travaux publics, le génie civil, l'immobilier et les finitions. Fondée avec la vision de contribuer au développement infrastructurel de la Côte d'Ivoire, nous sommes aujourd'hui un acteur reconnu dans le secteur du BTP et de l'immobilier.
+                    </p>
+                    <p>
+                        Fort de plus de <strong>10 années d'expérience</strong>, notre équipe multidisciplinaire combine expertise technique, créativité et engagement pour concrétiser vos projets les plus ambitieux. Que vous soyez particulier, promoteur immobilier ou entreprise, nous mettons notre savoir-faire à votre service.
+                    </p>
+                    <p>
+                        Basés à <strong>Cocody Angré</strong>, nous intervenons sur l'ensemble du territoire ivoirien avec la même exigence de qualité et le même souci du détail qui ont fait notre réputation.
+                    </p>
+                </div>
+                <div class="about-image">
+                    <img th:src="@{/images/equipe.jpg}" 
+                         src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=700" 
+                         alt="Notre équipe">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== NOTRE MISSION ========== -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Notre Mission</h2>
+            <p class="section-subtitle">Ce qui nous anime au quotidien</p>
+            
+            <div class="about-content">
+                <div class="about-image">
+                    <img th:src="@{/images/mission.jpg}" 
+                         src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=700" 
+                         alt="Notre mission">
+                </div>
+                <div class="about-text">
+                    <p style="font-size: 1.1rem; line-height: 1.9;">
+                        Notre mission est de <strong>faciliter l'accès à un patrimoine immobilier sécurisé</strong> et de <strong>réaliser des infrastructures de qualité</strong> qui contribuent au développement économique et social de la Côte d'Ivoire.
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.9;">
+                        Nous croyons que chaque Ivoirien mérite d'investir en toute confiance dans des projets solides, transparents et durables. C'est pourquoi nous accompagnons nos clients de A à Z, de la conception à la livraison, avec rigueur et transparence.
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.9;">
+                        Au-delà de la construction, nous bâtissons des <strong>relations de confiance</strong> durables avec nos clients, partenaires et communautés.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== NOS VALEURS ========== -->
+    <section class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Nos Valeurs Fondamentales</h2>
+            <p class="section-subtitle">Les principes qui guident chacune de nos actions</p>
+            
+            <div class="avantages-grid">
+                <div class="avantage-item">
+                    <div class="avantage-icon">🎯</div>
+                    <h3>Excellence</h3>
+                    <p>Nous visons l'excellence dans chaque projet, en utilisant des matériaux de qualité supérieure et en respectant les normes internationales de construction.</p>
+                </div>
+
+                <div class="avantage-item">
+                    <div class="avantage-icon">🤝</div>
+                    <h3>Intégrité</h3>
+                    <p>Transparence, honnêteté et respect des engagements sont au cœur de notre relation avec nos clients et partenaires.</p>
+                </div>
+
+                <div class="avantage-item">
+                    <div class="avantage-icon">🚀</div>
+                    <h3>Innovation</h3>
+                    <p>Nous adoptons les dernières technologies et méthodes de construction pour offrir des solutions modernes et efficaces.</p>
+                </div>
+
+                <div class="avantage-item">
+                    <div class="avantage-icon">🌍</div>
+                    <h3>Durabilité</h3>
+                    <p>Nous intégrons des pratiques écologiques et durables dans nos projets pour préserver l'environnement.</p>
+                </div>
+
+                <div class="avantage-item">
+                    <div class="avantage-icon">💙</div>
+                    <h3>Proximité</h3>
+                    <p>À l'écoute de nos clients, nous garantissons un accompagnement personnalisé et un service de proximité.</p>
+                </div>
+
+                <div class="avantage-item">
+                    <div class="avantage-icon">⚡</div>
+                    <h3>Réactivité</h3>
+                    <p>Nous répondons rapidement à vos besoins et adaptons nos services pour respecter vos délais et contraintes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== POURQUOI NOUS CHOISIR ========== -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Pourquoi Nous Choisir ?</h2>
+            <p class="section-subtitle">Les garanties qui font notre différence</p>
+            
+            <div class="services-grid">
+                <!-- Avantage 1 -->
+                <div class="service-card">
+                    <img th:src="@{/images/expertise.jpg}" 
+                         src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600" 
+                         alt="Expertise locale">
+                    <div class="service-content">
+                        <h3>🏆 Expertise Reconnue</h3>
+                        <p>
+                            Plus de 10 ans d'expérience dans le secteur du BTP et de l'immobilier en Côte d'Ivoire. Notre équipe est composée d'ingénieurs qualifiés, d'architectes certifiés et d'artisans expérimentés.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Avantage 2 -->
+                <div class="service-card">
+                    <img th:src="@{/images/securite.jpg}" 
+                         src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600" 
+                         alt="Sécurité juridique">
+                    <div class="service-content">
+                        <h3>🛡️ Sécurité Totale</h3>
+                        <p>
+                            Tous nos terrains sont titrés avec Arrêté de Concession Définitive (ACD). Nous garantissons la conformité juridique de tous nos projets et vous accompagnons dans toutes les démarches administratives.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Avantage 3 -->
+                <div class="service-card">
+                    <img th:src="@{/images/accompagnement.jpg}" 
+                         src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600" 
+                         alt="Accompagnement personnalisé">
+                    <div class="service-content">
+                        <h3>💼 Accompagnement 360°</h3>
+                        <p>
+                            De l'étude de faisabilité à la livraison clé en main, nous sommes présents à chaque étape. Un chef de projet dédié assure le suivi personnalisé de votre dossier.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== NOTRE ÉQUIPE ========== -->
+    <section class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Une Équipe Passionnée</h2>
+            <p class="section-subtitle">Des professionnels dévoués à la réussite de vos projets</p>
+            
+            <div class="about-content" style="margin-top: 3rem;">
+                <div class="about-text">
+                    <h3 style="color: var(--bleu-fonce); font-size: 1.8rem; margin-bottom: 1.5rem;">Expertise Multidisciplinaire</h3>
+                    <p>
+                        Notre force réside dans la complémentarité de nos compétences. Nos équipes regroupent :
+                    </p>
+                    <ul style="list-style: none; padding: 0; margin-top: 1.5rem;">
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong style="color: var(--or);">✓</strong> Ingénieurs en génie civil et travaux publics
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong style="color: var(--or);">✓</strong> Architectes et urbanistes
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong style="color: var(--or);">✓</strong> Experts fonciers et juristes immobiliers
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong style="color: var(--or);">✓</strong> Designers d'intérieur et décorateurs
+                        </li>
+                        <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
+                            <strong style="color: var(--or);">✓</strong> Artisans qualifiés (maçons, menuisiers, électriciens)
+                        </li>
+                        <li style="padding: 0.8rem 0;">
+                            <strong style="color: var(--or);">✓</strong> Équipe commerciale et service client
+                        </li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <img th:src="@{/images/team.jpg}" 
+                         src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=700" 
+                         alt="Notre équipe de professionnels">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ENGAGEMENT QUALITÉ ========== -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Notre Engagement Qualité</h2>
+            <p class="section-subtitle">Des garanties concrètes pour votre tranquillité</p>
+            
+            <div class="avantages-grid" style="margin-top: 3rem;">
+                <div class="avantage-item">
+                    <h3>📋 Conformité Totale</h3>
+                    <p>Respect strict des normes ivoiriennes et internationales de construction. Tous nos projets sont validés par les autorités compétentes.</p>
+                </div>
+
+                <div class="avantage-item">
+                    <h3>🔍 Contrôle Qualité</h3>
+                    <p>Inspections régulières et contrôles qualité à chaque étape du chantier pour garantir un résultat impeccable.</p>
+                </div>
+
+                <div class="avantage-item">
+                    <h3>⏱️ Respect des Délais</h3>
+                    <p>Planning rigoureux et suivi minutieux pour livrer vos projets dans les temps convenus.</p>
+                </div>
+
+                <div class="avantage-item">
+                    <h3>💰 Transparence Tarifaire</h3>
+                    <p>Devis détaillés et transparents, sans frais cachés. Nous respectons scrupuleusement le budget établi.</p>
+                </div>
+
+                <div class="avantage-item">
+                    <h3>🔧 Garantie Après-Vente</h3>
+                    <p>Service après-vente réactif et garanties sur nos travaux pour votre totale satisfaction.</p>
+                </div>
+
+                <div class="avantage-item">
+                    <h3>📞 Disponibilité 7j/7</h3>
+                    <p>Notre équipe est joignable à tout moment pour répondre à vos questions et préoccupations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- ========== FAQ RAPIDE ========== -->
+     <section class="section">
+        <div class="container">
+            <h2 class="section-title">Questions Fréquentes</h2>
+            <p class="section-subtitle">Des réponses rapides à vos questions courantes</p>
+            
+            <div style="max-width: 800px; margin: 3rem auto 0;">
+                <!-- Question 1 -->
+                <div style="background: white; padding: 2rem; margin-bottom: 1.5rem; border-radius: 10px; box-shadow: 0 3px 10px var(--ombre);">
+                    <h3 style="color: var(--bleu-fonce); margin-bottom: 1rem; font-size: 1.3rem;">
+                        ❓ Comment obtenir un devis pour mon projet ?
+                    </h3>
+                    <p style="color: var(--texte-leger); line-height: 1.8;">
+                        Remplissez simplement le formulaire ci-dessus en détaillant votre projet. Nous vous recontacterons dans les 24h pour planifier une consultation gratuite et établir un devis personnalisé.
+                    </p>
+                </div>
+
+                <!-- Question 2 -->
+                <div style="background: white; padding: 2rem; margin-bottom: 1.5rem; border-radius: 10px; box-shadow: 0 3px 10px var(--ombre);">
+                    <h3 style="color: var(--bleu-fonce); margin-bottom: 1rem; font-size: 1.3rem;">
+                        ❓ Proposez-vous des facilités de paiement ?
+                    </h3>
+                    <p style="color: var(--texte-leger); line-height: 1.8;">
+                        Oui ! Nous proposons des plans de financement flexibles adaptés à votre budget. Contactez-nous pour discuter des modalités de paiement échelonné.
+                    </p>
+                </div>
+
+                <!-- Question 3 -->
+                <div style="background: white; padding: 2rem; margin-bottom: 1.5rem; border-radius: 10px; box-shadow: 0 3px 10px var(--ombre);">
+                    <h3 style="color: var(--bleu-fonce); margin-bottom: 1rem; font-size: 1.3rem;">
+                        ❓ Comment vérifier l'authenticité des titres fonciers ?
+                    </h3>
+                    <p style="color: var(--texte-leger); line-height: 1.8;">
+                        Nous vous accompagnons personnellement au Domaine et aux services compétents pour vérifier l'authenticité du titre foncier (ACD) avant tout engagement. Transparence totale garantie.
+                    </p>
+                </div>
+
+                <!-- Question 4 -->
+                <div style="background: white; padding: 2rem; margin-bottom: 1.5rem; border-radius: 10px; box-shadow: 0 3px 10px var(--ombre);">
+                    <h3 style="color: var(--bleu-fonce); margin-bottom: 1rem; font-size: 1.3rem;">
+                        ❓ Quels sont vos délais de réalisation ?
+                    </h3>
+                    <p style="color: var(--texte-leger); line-height: 1.8;">
+                        Les délais varient selon la nature et l'ampleur du projet. En moyenne : 6 à 12 mois pour une villa, 3 à 6 semaines pour des finitions, 1 à 3 mois pour l'acquisition d'un terrain titré. Nous établissons un planning précis dès la phase de consultation.
+                    </p>
+                </div>
+
+                <!-- Question 5 -->
+                <div style="background: white; padding: 2rem; margin-bottom: 1.5rem; border-radius: 10px; box-shadow: 0 3px 10px var(--ombre);">
+                    <h3 style="color: var(--bleu-fonce); margin-bottom: 1rem; font-size: 1.3rem;">
+                       Puis-je visiter vos terrains avant d'acheter ?
+                    </h3>
+                    <p style="color: var(--texte-leger); line-height: 1.8;">
+                        Absolument ! Nous organisons des visites guidées de tous nos terrains disponibles. Prenez rendez-vous via WhatsApp ou le formulaire de contact pour planifier votre visite.
+                    </p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem;">
+                <p style="font-size: 1.1rem; color: var(--texte-leger); margin-bottom: 1.5rem;">
+                    Vous avez d'autres questions ? Nous sommes là pour y répondre !
+                </p>
+                <a href="https://wa.me/225XXXXXXXXXX" class="btn-primary" target="_blank">
+                    Discuter sur WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== APPEL À L'ACTION ========== -->
+    <section class="section" style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); color: white; text-align: center;">
+        <div class="container">
+            <h2 style="color: white; font-size: 2.5rem; margin-bottom: 1rem;">Rejoignez Nos Clients Satisfaits</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
+                Faites-nous confiance pour concrétiser vos projets en toute sérénité
+            </p>
+            <a th:href="@{/contact}" class="btn-primary">Contactez-nous Maintenant</a>
+        </div>
+    </section>
+
+      <!-- ================= FOOTER ================= -->
+      <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- ========== BOUTON WHATSAPP FLOTTANT ========== -->
+    <a href="https://wa.me/225XXXXXXXXXX" class="whatsapp-float" target="_blank" aria-label="Contactez-nous sur WhatsApp">
+        <svg viewBox="0 0 32 32" fill="currentColor">
+            <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 7.933-2.127c2.42 1.37 5.173 2.127 8.067 2.127 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.467c-2.482 0-4.908-0.646-7.07-1.87l-0.507-0.292-5.247 1.408 1.435-5.34-0.335-0.552c-1.354-2.23-2.068-4.801-2.068-7.421 0-7.868 6.402-14.267 14.267-14.267s14.267 6.398 14.267 14.267c0 7.868-6.402 14.267-14.267 14.267zM21.984 18.508c-0.403-0.201-2.383-1.176-2.754-1.311-0.371-0.134-0.641-0.201-0.911 0.201-0.269 0.403-1.044 1.311-1.28 1.581s-0.471 0.302-0.874 0.101c-0.403-0.201-1.7-0.627-3.239-1.998-1.197-1.067-2.006-2.383-2.241-2.786s-0.025-0.621 0.176-0.822c0.181-0.181 0.403-0.471 0.604-0.707s0.269-0.403 0.403-0.672c0.134-0.269 0.067-0.504-0.034-0.707s-0.911-2.196-1.248-3.004c-0.329-0.789-0.663-0.682-0.911-0.695-0.235-0.012-0.504-0.015-0.774-0.015s-0.707 0.101-1.078 0.504c-0.371 0.403-1.416 1.384-1.416 3.377s1.449 3.914 1.65 4.184c0.201 0.269 2.831 4.324 6.859 6.063 0.958 0.415 1.707 0.663 2.291 0.848 0.965 0.307 1.843 0.264 2.538 0.161 0.774-0.116 2.383-0.974 2.72-1.916s0.337-1.75 0.236-1.916c-0.101-0.166-0.371-0.269-0.774-0.471z"/>
+        </svg>
+    </a>
+
+    <!-- ========== SCRIPT MENU MOBILE ========== -->
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('mainNav');
+            nav.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
