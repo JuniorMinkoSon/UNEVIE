@@ -6,6 +6,8 @@ import ecom_blog.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -23,12 +25,21 @@ public class UserServiceImpl implements UserService {
         if (user.getRole() == null) {
             user.setRole(Role.ROLE_USER);
         }
-
         return userRepository.save(user);
     }
 
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<User> getAllUsers() { // ✅ ajout de cette méthode
+        return userRepository.findAll();
+    }
+
+    @Override
+    public long count() { // ✅ ajout de cette méthode
+        return userRepository.count();
     }
 }

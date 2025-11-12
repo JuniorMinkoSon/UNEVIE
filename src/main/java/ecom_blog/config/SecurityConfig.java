@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 @Configuration
 public class SecurityConfig {
@@ -19,25 +21,38 @@ public class SecurityConfig {
         this.successHandler = successHandler;
     }
 
+    // ✅ Autoriser les doubles slash dans les URL (sinon les images sont bloquées)
+    @Bean
+    public HttpFirewall allowDoubleSlashFirewall() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowUrlEncodedDoubleSlash(true);
+        firewall.setAllowSemicolon(true);
+        firewall.setAllowBackSlash(true);
+        firewall.setAllowUrlEncodedSlash(true);
+        return firewall;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-
-                        .requestMatchers("/", "/index", "/index.html", "/register", "/blog/**", "/projets", "/services", "/objectifs", "/propos", "/produits/**", "/contact",
-                                "/css/**", "/js/**", "/images/**", "/videos/**").permitAll()
+                        .requestMatchers("/", "/index", "/index.html", "/register", "/blog/**",
+                                "/projets", "/services", "/objectifs", "/propos",
+                                "/produits/**", "/contact",
+                                "/css/**", "/js/**", "/images/**", "/uploads/**", "/videos/**")
+                        .permitAll()
                         .requestMatchers("/login", "/admin/login").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
-                        .loginPage("/login")                // ✅ unique pour tous
-                        .loginProcessingUrl("/login")       // ✅ POST géré par Spring
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
-                        .successHandler(successHandler)     // ✅ Redirection personnalisée
+                        .successHandler(successHandler)
                         .failureUrl("/login?error")
                         .permitAll()
                 )

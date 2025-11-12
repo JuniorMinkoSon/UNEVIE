@@ -7,50 +7,68 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProduitService {
 
-    private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
-
     @Autowired
     private ProduitRepository produitRepository;
 
+    // 📁 Dossier de stockage des images produits
+    private final String uploadDir = "src/main/resources/static/uploads/";
+
+    // 💾 Enregistrer un produit avec image
+    public void save(Produit produit, MultipartFile image) {
+        try {
+            if (image != null && !image.isEmpty()) {
+                byte[] bytes = image.getBytes();
+                Path path = Paths.get(uploadDir + image.getOriginalFilename());
+                Files.write(path, bytes);
+                produit.setImageUrl(image.getOriginalFilename());
+            }
+            produitRepository.save(produit);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 📜 Obtenir tous les produits
     public List<Produit> getAll() {
         return produitRepository.findAll();
     }
 
+    // ✅ Obtenir uniquement les produits disponibles
+    public List<Produit> getAllDisponibles() {
+        return produitRepository.findAll()
+                .stream()
+                .filter(Produit::isDisponible)
+                .collect(Collectors.toList());
+    }
+
+    // 🔍 Récupérer un produit par ID
+    public Produit findById(Long id) {
+        Optional<Produit> optionalProduit = produitRepository.findById(id);
+        return optionalProduit.orElse(null);
+    }
+
+    // ✅ Alias pour compatibilité avec ton contrôleur
+    public Produit getById(Long id) {
+        return findById(id);
+    }
+
+    // 🗑️ Supprimer un produit
+    public void delete(Long id) {
+        produitRepository.deleteById(id);
+    }
+
+    // 🔢 Compter le nombre total de produits
     public long count() {
         return produitRepository.count();
-    }
-
-    // ✅ Corrigé : renvoie directement un Produit (plus de Optional)
-    public Produit findById(Long id) {
-        return produitRepository.findById(id).orElse(null);
-    }
-
-    public void save(Produit produit, MultipartFile image) {
-        try {
-            if (image != null && !image.isEmpty()) {
-                String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-                Path path = Paths.get(UPLOAD_DIR + fileName);
-                Files.createDirectories(path.getParent());
-                Files.write(path, image.getBytes());
-                produit.setImageUrl("/uploads/" + fileName);
-            }
-            produitRepository.save(produit);
-        } catch (IOException e) {
-            throw new RuntimeException("Erreur lors de l’enregistrement de l’image", e);
-        }
-    }
-
-    public boolean delete(Long id) {
-        if (produitRepository.existsById(id)) {
-            produitRepository.deleteById(id);
-            return true;
-        }
-        return false;
     }
 }

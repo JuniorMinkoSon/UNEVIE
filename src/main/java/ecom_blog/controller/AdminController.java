@@ -5,14 +5,15 @@ import ecom_blog.model.Produit;
 import ecom_blog.service.ArticleService;
 import ecom_blog.service.CommandeService;
 import ecom_blog.service.ProduitService;
+import ecom_blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -27,15 +28,23 @@ public class AdminController {
     @Autowired
     private CommandeService commandeService;
 
+    @Autowired
+    private UserService userService;
+
     // 🏠 Tableau de bord principal
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
-        // ✅ Affiche les statistiques de base
-        model.addAttribute("stats", new Object() {
-            public long articles = articleService.count();
-            public long produits = produitService.count();
-            public long commandes = commandeService.count();
-        });
+        // ✅ Statistiques globales (ordre logique et cohérent)
+        Map<String, Object> stats = new LinkedHashMap<>();
+        stats.put("👥 Utilisateurs", userService.count());
+        stats.put("🛍️ Produits", produitService.count());
+        stats.put("📰 Articles", articleService.count());
+        stats.put("📦 Commandes", commandeService.count());
+        stats.put("🚚 Livrées", commandeService.countByStatut("LIVRÉ"));
+
+        model.addAttribute("stats", stats);
+        model.addAttribute("recentCommandes", commandeService.findLast5());
+
         return "admin/dashboard";
     }
 
@@ -48,12 +57,12 @@ public class AdminController {
 
     // 💾 Sauvegarde d’un produit
     @PostMapping("/product/save")
-    public String saveProduct(@ModelAttribute Produit produit, MultipartFile image) {
+    public String saveProduct(@ModelAttribute Produit produit, @RequestParam("image") MultipartFile image) {
         produitService.save(produit, image);
-        return "redirect:/admin/dashboard";
+        return "redirect:/admin/dashboard?success=produit";
     }
 
-    // 📝 Formulaire d’ajout d’article
+    // ➕ Formulaire d’ajout d’article
     @GetMapping("/article/add")
     public String showAddArticleForm(Model model) {
         model.addAttribute("article", new Article());
@@ -62,11 +71,8 @@ public class AdminController {
 
     // 💾 Sauvegarde d’un article
     @PostMapping("/article/save")
-    public String saveArticle(@ModelAttribute Article article, MultipartFile image) {
+    public String saveArticle(@ModelAttribute Article article, @RequestParam("image") MultipartFile image) {
         articleService.save(article, image);
-        return "redirect:/admin/dashboard";
+        return "redirect:/admin/dashboard?success=article";
     }
-
-    // ⚠️ SUPPRIMÉ : méthode /admin/commandes
-    // (elle est maintenant gérée dans AdminCommandeController)
 }

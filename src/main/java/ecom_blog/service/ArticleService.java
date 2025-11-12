@@ -30,14 +30,28 @@ public class ArticleService {
 
     public void save(Article article, MultipartFile image) {
         try {
-            if (!image.isEmpty()) {
+            if (image != null && !image.isEmpty()) {
+                // 📸 Nom unique du fichier
                 String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-                Path path = Paths.get(UPLOAD_DIR + fileName);
-                Files.createDirectories(path.getParent());
-                Files.write(path, image.getBytes());
-                article.setImageUrl("/uploads/" + fileName);
+
+                // 📂 Dossier de destination
+                Path uploadPath = Paths.get(UPLOAD_DIR);
+
+                // Créer le dossier s’il n’existe pas
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+
+                // 💾 Copier le fichier dans /static/uploads/
+                Files.copy(image.getInputStream(), uploadPath.resolve(fileName));
+
+                // ✅ Ne pas inclure "uploads/" dans la base de données
+                article.setImageUrl(fileName);
             }
+
+            // Enregistrement de l’article en base
             articleRepository.save(article);
+
         } catch (IOException e) {
             throw new RuntimeException("Erreur lors de l’enregistrement de l’image", e);
         }

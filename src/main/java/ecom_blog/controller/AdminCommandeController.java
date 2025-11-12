@@ -14,14 +14,14 @@ public class AdminCommandeController {
     @Autowired
     private CommandeService commandeService;
 
-    // ✅ Voir toutes les commandes
+    // ✅ Liste complète des commandes
     @GetMapping
     public String listeCommandes(Model model) {
         model.addAttribute("commandes", commandeService.getAll());
-        return "admin/commandes"; // fichier Thymeleaf
+        return "admin/commandes"; // templates/admin/commandes.html
     }
 
-    // ✅ Changer le statut (ex : EN_ATTENTE → LIVRÉ)
+    // ✅ Mise à jour du statut d'une commande
     @PostMapping("/update/{id}")
     public String updateStatut(@PathVariable Long id, @RequestParam String statut) {
         Commande commande = commandeService.getById(id);
@@ -29,6 +29,6 @@ public class AdminCommandeController {
             commande.setStatut(statut);
             commandeService.save(commande);
         }
-        return "redirect:/admin/commandes";
+        return "redirect:/admin/commandes?success";
     }
 }

@@ -44,7 +44,7 @@ public class CommandeController {
 
         model.addAttribute("panier", panier);
         model.addAttribute("total", total);
-        return "user/panier"; // Vue user/panier.html
+        return "produit"; // Vue user/produit.html
     }
 
     @PostMapping("/valider")

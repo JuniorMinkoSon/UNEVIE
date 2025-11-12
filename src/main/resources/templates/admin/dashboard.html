@@ -1,32 +1,160 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head (title='Admin - Dashboard')}"></head>
-<body>
+<head th:replace="~{fragments/head :: head(title='Tableau de Bord — Administration BarakaWeb')}"></head>
+<body style="background-color: #f9fafb; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, sans-serif; color: #1d1d1f;">
+
+<!-- ✅ HEADER GLOBAL -->
 <div th:replace="~{fragments/header :: header}"></div>
 
-<section class="container" style="padding:40px 0">
-    <h1>Tableau de bord</h1>
+<main class="container py-5">
 
-    <!-- ✅ Cartes statistiques -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-top:20px">
-        <div class="card">
-            <h3>Articles</h3>
-            <p th:text="${stats.articles} ?: '--'">0</p>
-        </div>
-        <div class="card">
-            <h3>Commandes</h3>
-            <p th:text="${stats.commandes} ?: '--'">0</p>
-        </div>
+    <!-- 🏷️ ENTÊTE DU TABLEAU DE BORD -->
+    <div class="text-center mb-5">
+        <h1 class="fw-bold" style="font-size: 2.2rem; letter-spacing: -0.5px;">
+            BarakaWeb <span style="color:#0071e3;">Admin Dashboard</span>
+        </h1>
+        <p class="text-muted" style="font-size: 1rem;">Contrôle global — Produits, Articles, Commandes et Utilisateurs</p>
     </div>
 
-    <!-- ✅ Boutons d’actions -->
-    <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap">
-        <a class="btn" th:href="@{/admin/product/add}">➕ Ajouter un produit</a>
-        <a class="btn" th:href="@{/admin/article/add}">📝 Ajouter un article</a>
-        <a class="btn" th:href="@{/admin/commandes}">📦 Voir les commandes</a>
-    </div>
-</section>
+    <!-- 🌟 SECTION STATISTIQUES (Disposition 100% horizontale) -->
+    <section class="bg-white p-5 shadow-sm rounded-4 mb-5" style="border: 1px solid #e5e7eb;">
+        <h2 class="text-center mb-5 fw-semibold" style="color:#1d1d1f;">
+            <i class="fa-solid fa-chart-pie me-3 text-primary"></i> Statistiques Globales
+        </h2>
 
+        <!-- ✅ Les stats sont ici sur UNE seule ligne -->
+        <div class="stats-row d-flex justify-content-center align-items-center text-center">
+            <div class="stat-card mx-3"
+                 th:each="entry : ${stats}">
+                <h6 class="text-uppercase small text-muted mb-2"
+                    style="letter-spacing: 0.5px;"
+                    th:text="${entry.key}"></h6>
+                <h2 class="fw-bold mb-0"
+                    style="color:#0071e3; font-size: 2.5rem;"
+                    th:text="${entry.value}"></h2>
+            </div>
+        </div>
+
+        <!-- 🔗 Actions rapides -->
+        <div class="text-center mt-5">
+            <a th:href="@{/admin/commandes}"
+               class="btn btn-light border rounded-pill mx-2 px-4 py-2 shadow-sm"
+               style="transition: all 0.3s ease; font-weight: 600; border-color:#d1d5db;"
+               onmouseover="this.style.backgroundColor='#0071e3'; this.style.color='white';"
+               onmouseout="this.style.backgroundColor='white'; this.style.color='#1d1d1f';">
+                <i class="fa-solid fa-box me-2"></i> Gérer les commandes
+            </a>
+            <a th:href="@{/admin/article/add}"
+               class="btn btn-light border rounded-pill mx-2 px-4 py-2 shadow-sm"
+               style="transition: all 0.3s ease; font-weight: 600; border-color:#d1d5db;"
+               onmouseover="this.style.backgroundColor='#0071e3'; this.style.color='white';"
+               onmouseout="this.style.backgroundColor='white'; this.style.color='#1d1d1f';">
+                <i class="fa-solid fa-pen-nib me-2"></i> Nouvel article
+            </a>
+            <a th:href="@{/admin/product/add}"
+               class="btn btn-light border rounded-pill mx-2 px-4 py-2 shadow-sm"
+               style="transition: all 0.3s ease; font-weight: 600; border-color:#d1d5db;"
+               onmouseover="this.style.backgroundColor='#0071e3'; this.style.color='white';"
+               onmouseout="this.style.backgroundColor='white'; this.style.color='#1d1d1f';">
+                <i class="fa-solid fa-plus-circle me-2"></i> Ajouter produit
+            </a>
+        </div>
+    </section>
+
+    <!-- 🧾 DERNIÈRES COMMANDES -->
+    <section class="bg-white p-5 shadow-sm rounded-4" style="border: 1px solid #e5e7eb;">
+        <h4 class="fw-semibold mb-4 d-flex align-items-center" style="color:#1d1d1f; font-size: 1.5rem;">
+            <i class="fa-solid fa-clock-rotate-left text-primary me-3" style="font-size: 1.8rem;"></i>
+            Dernières Commandes
+        </h4>
+
+        <!-- Aucun résultat -->
+        <div th:if="${#lists.isEmpty(recentCommandes)}"
+             class="alert alert-light text-center border-0 py-5"
+             style="background: #f9fafb;">
+            <i class="fa-solid fa-inbox fa-3x text-muted mb-3"></i>
+            <p class="mb-0 text-muted fw-semibold">Aucune commande récente.</p>
+        </div>
+
+        <!-- Liste des commandes -->
+        <div th:if="${!#lists.isEmpty(recentCommandes)}" class="table-responsive">
+            <table class="table align-middle text-center table-hover mb-0">
+                <thead style="background-color:#f3f4f6; color:#374151;">
+                <tr>
+                    <th class="py-3 fw-semibold text-uppercase small">ID</th>
+                    <th class="py-3 fw-semibold text-uppercase small">Client</th>
+                    <th class="py-3 fw-semibold text-uppercase small">Email</th>
+                    <th class="py-3 fw-semibold text-uppercase small">Téléphone</th>
+                    <th class="py-3 fw-semibold text-uppercase small">Total</th>
+                    <th class="py-3 fw-semibold text-uppercase small">Statut</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cmd : ${recentCommandes}"
+                    style="transition: all 0.3s ease;"
+                    onmouseover="this.style.backgroundColor='#f9fafb';"
+                    onmouseout="this.style.backgroundColor='white';">
+                    <td class="fw-bold text-primary" th:text="${cmd.id}"></td>
+                    <td class="fw-semibold" th:text="${cmd.user != null ? cmd.user.nom : 'Anonyme'}"></td>
+                    <td class="text-muted" th:text="${cmd.user != null ? cmd.user.email : '—'}"></td>
+                    <td class="text-muted" th:text="${cmd.user != null ? cmd.user.telephone : '—'}"></td>
+                    <td class="fw-bold" style="color:#198754;" th:text="${cmd.total} + ' FCFA'"></td>
+                    <td>
+                        <span class="badge px-3 py-2 rounded-pill shadow-sm"
+                              style="font-weight: 600; font-size: 0.85rem;"
+                              th:classappend="${cmd.statut == 'EN_ATTENTE' ? 'bg-warning text-dark' : cmd.statut == 'EN_COURS' ? 'bg-primary' : 'bg-success'}"
+                              th:text="${cmd.statut}">
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<!-- ✅ FOOTER GLOBAL -->
 <div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- ✅ STYLE SUPPLÉMENTAIRE POUR LES STATS -->
+<style>
+    .stats-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap; /* ✅ Empêche le retour à la ligne */
+        overflow-x: auto; /* ✅ Scrolling horizontal si trop d’éléments */
+        padding-bottom: 10px;
+    }
+
+    .stat-card {
+        background: #ffffff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        width: 200px;
+        height: 130px;
+        flex-shrink: 0; /* ✅ Maintient la taille fixe */
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 25px rgba(0, 113, 227, 0.15);
+    }
+
+    @media (max-width: 992px) {
+        .stat-card {
+            width: 160px;
+            height: 110px;
+        }
+
+        .stat-card h2 {
+            font-size: 1.8rem !important;
+        }
+    }
+</style>
+
 </body>
 </html>

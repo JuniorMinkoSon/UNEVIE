@@ -25,12 +25,12 @@ public class HomeController {
         model.addAttribute("articles", articleService.getAll());
         return "user/blog";
     }
-
-    @GetMapping("/produits")
-    public String produits(Model model) {
-        model.addAttribute("produits", produitService.getAll());
-        return "user/product-list";
-    }
+//
+   //  @GetMapping("/produits")
+    //public String produits(Model model) {
+      //  model.addAttribute("produits", produitService.getAll());
+        //return "user/product-list";
+    //}
 
     @GetMapping("/contact")
     public String contact() {
@@ -51,10 +51,12 @@ public class HomeController {
         return "user/propos"; 
     }
 
-    @GetMapping("/projets")
-    public String projets() {
-        return "user/projets"; 
+    //@GetMapping("/projets")
+    public String projets(Model model) {
+        model.addAttribute("produits", produitService.getAllDisponibles());
+        return "user/projets";
     }
+
 
     @GetMapping("/objectifs")
     public String objectifs() {

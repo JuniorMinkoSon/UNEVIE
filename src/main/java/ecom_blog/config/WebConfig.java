@@ -9,8 +9,13 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry
-                .addResourceHandler("/uploads/**")
-                .addResourceLocations("file:src/main/resources/static/uploads/");
+
+        // ✅ 1. Permet à Spring d'accéder au dossier /uploads/
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:C:/Users/DELL PRECISION 5550/Downloads/ecom-vente/ecom-vente/src/main/resources/static/uploads/");
+
+        // ✅ 2. (Optionnel) pour les ressources de base
+        registry.addResourceHandler("/static/**")
+                .addResourceLocations("classpath:/static/");
     }
 }
