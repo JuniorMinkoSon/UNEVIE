@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head (title='Commande confirmée')}"></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="container" style="padding:80px 0; text-align:center;">
+    <h1>✅ Merci pour votre commande !</h1>
+    <p>Votre commande a été enregistrée avec succès.</p>
+    <a th:href="@{/}" class="btn-primary">Retour à l'accueil</a>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

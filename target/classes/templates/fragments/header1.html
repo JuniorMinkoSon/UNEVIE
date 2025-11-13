@@ -1,0 +1,36 @@
+<div th:fragment="header" class="site-header">
+    <header>
+        <div class="container header-inner">
+            <!-- ✅ Login en haut à gauche -->
+            <div class="auth-links">
+                <a th:href="@{/login}" class="btn-auth">Connexion</a>
+                <span>/</span>
+                <a th:href="@{/register}" class="btn-auth">Inscription</a>
+                <span>/</span>
+                <a th:href="@{/admin/login}" class="btn-auth">Admin</a>
+            </div>
+
+            <!-- Logo -->
+            <div class="header-logo">
+                <a th:href="@{/}">BarikaWeb</a>
+            </div>
+
+            <!-- Actions -->
+            <div class="right-actions">
+                <a th:href="@{/cart}" class="btn-cart">Panier</a>
+                <button onclick="toggleMenu()" class="menu-toggle"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+
+        <!-- ✅ Menu déroulant -->
+        <div class="extended-menu">
+            <nav class="menu-links">
+                <a th:href="@{/blog}">Blog</a>
+                <a th:href="@{/produits}">Produits</a>
+                <a th:href="@{/cart}">Panier</a>
+                <a th:href="@{/services}">Services</a>
+                <a th:href="@{/contact}">Contact</a>
+            </nav>
+        </div>
+    </header>
+</div>

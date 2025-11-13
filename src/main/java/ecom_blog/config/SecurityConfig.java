@@ -1,6 +1,5 @@
 package ecom_blog.config;
 
-import ecom_blog.security.CustomLoginSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +11,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 
+import ecom_blog.security.CustomLoginSuccessHandler;
+import ecom_blog.service.CustomUserDetailsService;
+
 @Configuration
 public class SecurityConfig {
 
@@ -21,7 +23,7 @@ public class SecurityConfig {
         this.successHandler = successHandler;
     }
 
-    // ✅ Autoriser les doubles slash dans les URL (sinon les images sont bloquées)
+    // 🔓 Autoriser les doubles slash (nécessaire pour Render)
     @Bean
     public HttpFirewall allowDoubleSlashFirewall() {
         StrictHttpFirewall firewall = new StrictHttpFirewall();
@@ -32,13 +34,17 @@ public class SecurityConfig {
         return firewall;
     }
 
+    // 🛡️ Sécurité Spring
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   CustomUserDetailsService userDetailsService) throws Exception {
+
         http
                 .csrf(csrf -> csrf.disable())
+                .userDetailsService(userDetailsService)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/index", "/index.html", "/register", "/blog/**",
-                                "/projets", "/services", "/objectifs", "/propos",
+                        .requestMatchers("/", "/index", "/index.html", "/register",
+                                "/blog/**", "/projets", "/services", "/objectifs", "/propos",
                                 "/produits/**", "/contact",
                                 "/css/**", "/js/**", "/images/**", "/uploads/**", "/videos/**")
                         .permitAll()

@@ -1,12 +1,13 @@
 package ecom_blog.service;
 
-import ecom_blog.model.User;
-import ecom_blog.repository.UserRepository;
-import ecom_blog.security.CustomUserDetails;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import ecom_blog.model.User;
+import ecom_blog.repository.UserRepository;
+import ecom_blog.security.CustomUserDetails;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
