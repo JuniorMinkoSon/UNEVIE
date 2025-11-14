@@ -37,7 +37,7 @@
             text-align: center;
         }
 
-        .about-section .about-content {
+        /* .about-section .about-content {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
@@ -56,7 +56,42 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
             width: 100%;
             max-width: 450px;
+        } */
+
+        .about-content {
+            display: flex;
+            align-items: center;   /* aligne verticalement */
+            gap: 2rem;             /* espace normal entre image et texte */
         }
+
+        .about-image {
+            flex: 1;               /* l'image prend une partie de l'espace */
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .about-text {
+            flex: 1.5;             /* le texte prend plus d'espace */
+        }
+
+        /* 📱 VERSION MOBILE : image en haut, texte en bas */
+        @media (max-width: 768px) {
+            .about-content {
+                flex-direction: column; /* empile en colonne */
+                text-align: center;     /* optionnel : centrer le texte */
+            }
+
+            .about-image,
+            .about-text {
+                flex: unset;           /* réinitialise les proportions */
+                width: 100%;           /* chaque bloc prend la largeur */
+            }
+        }
+
 
         .section-title {
             font-weight: 700;
