@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head (title='Nos Services - BarikaWeb')"></head>
+<body class="services-page-body">
+<div th:replace="fragments/header :: header"></div>
+
+<!-- HERO SECTION -->
+<section class="services-hero">
+    <div class="services-hero-content">
+        <h1 class="services-hero-title">Nos Services</h1>
+        <p class="services-hero-subtitle">Des solutions intégrées en construction, immobilier et finitions haut de gamme, alliant modernité et fiabilité.</p>
+    </div>
+    <div class="services-hero-overlay"></div>
+</section>
+
+<!-- SERVICES SECTION -->
+<section class="services-main-section">
+    <div class="container">
+        <div class="services-intro">
+            <span class="section-badge">Expertise</span>
+            <h2 class="section-title">Domaines d'intervention</h2>
+            <p class="section-subtitle">Nous offrons une gamme complète de services pour répondre à tous vos besoins en construction, immobilier et aménagement.</p>
+        </div>
+
+        <div class="services-list">
+            <div class="service-item-modern">
+                <div class="service-item-image">
+                    <img th:src="@{/images/Travaux-publics-génie-civil-3.jpg}" alt="Travaux publics">
+                </div>
+                <div class="service-item-content">
+                    <div class="service-item-icon">🏗️</div>
+                    <h3>Travaux publics & génie civil</h3>
+                    <p>Routes, ponts, réseaux d'eau, assainissement et aménagements durables. Nous réalisons des infrastructures modernes et durables pour répondre aux défis urbains de demain.</p>
+                    <ul class="service-features">
+                        <li>Construction de routes et voies d'accès</li>
+                        <li>Réseaux d'eau et d'assainissement</li>
+                        <li>Terrassement et aménagement</li>
+                        <li>Verdissement et espaces verts</li>
+                    </ul>
+                    <a th:href="@{/contact}" class="btn-outline">Demander un devis</a>
+                </div>
+            </div>
+
+            <div class="service-item-modern reverse">
+                <div class="service-item-image">
+                    <img th:src="@{/images/bat-moderne-1.jpg}" alt="Immobilier">
+                </div>
+                <div class="service-item-content">
+                    <div class="service-item-icon">🏠</div>
+                    <h3>Immobilier & foncier sécurisé</h3>
+                    <p>Vente de parcelles, lotissements et assistance juridique ACD. Sécurisez vos investissements immobiliers avec notre accompagnement complet et personnalisé.</p>
+                    <ul class="service-features">
+                        <li>Vente de parcelles et terrains</li>
+                        <li>Lotissements sécurisés</li>
+                        <li>Assistance juridique ACD</li>
+                        <li>Conseil en investissement immobilier</li>
+                    </ul>
+                    <a th:href="@{/contact}" class="btn-outline">Demander un devis</a>
+                </div>
+            </div>
+
+            <div class="service-item-modern">
+                <div class="service-item-image">
+                    <img th:src="@{/images/chantier.jpg}" alt="Finitions">
+                </div>
+                <div class="service-item-content">
+                    <div class="service-item-icon">✨</div>
+                    <h3>Finitions & aménagements</h3>
+                    <p>Peinture, décoration, menuiserie et installations modernes. Donnez vie à vos espaces avec des finitions de qualité supérieure et un design soigné.</p>
+                    <ul class="service-features">
+                        <li>Peinture intérieure et extérieure</li>
+                        <li>Menuiserie sur mesure</li>
+                        <li>Carrelage et revêtements</li>
+                        <li>Décoration et aménagement intérieur</li>
+                    </ul>
+                    <a th:href="@{/contact}" class="btn-outline">Demander un devis</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA SECTION -->
+        <div class="services-cta">
+            <h3>Vous avez un projet en tête ?</h3>
+            <p>Contactez-nous pour discuter de vos besoins et obtenir un devis personnalisé.</p>
+            <a th:href="@{/contact}" class="btn-primary btn-large">Nous contacter</a>
+        </div>
+    </div>
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

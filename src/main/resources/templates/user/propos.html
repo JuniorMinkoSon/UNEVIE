@@ -222,5 +222,12 @@
 <!-- FOOTER -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
+<!-- ========== SCRIPT MENU MOBILE ========== -->
+<script>
+    function toggleMenu() {
+        const nav = document.getElementById('mainNav');
+        nav.classList.toggle('active');
+    }
+</script>
 </body>
 </html>
