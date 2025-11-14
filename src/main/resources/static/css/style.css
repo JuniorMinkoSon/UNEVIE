@@ -910,8 +910,35 @@ footer {
   height: 35px;
 }
 
-/* === RESPONSIVE === */
+/* Bouton flottant Scroll to Top */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 90px; /* au-dessus du bouton WhatsApp */
+    right: 20px;
+    background-color: #0c70f2; /* ou la couleur de ta charte */
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: none; /* caché par défaut */
+    z-index: 999;
+    transition: 0.3s ease;
+}
 
+.scroll-top-btn:hover {
+    transform: scale(1.1);
+    background-color: #0959c5;
+}
+
+.scroll-top-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+
+/* === RESPONSIVE === */
   
   /* Header mobile */
 @media (max-width: 768px) {
