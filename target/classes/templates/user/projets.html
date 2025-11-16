@@ -78,7 +78,7 @@
 </section>
 
 <!-- ========== SECTION ARTICLES (RÉALISATIONS) ========== -->
-<section class="section fade-in">
+<!-- <section class="section fade-in">
     <div class="container">
         <h2 class="text-center mb-3">Projets Réalisés</h2>
         <p class="text-center text-muted mb-5">Découvrez les réalisations partagées par BarakaWeb</p>
@@ -86,7 +86,6 @@
         <div class="row g-4 justify-content-center" th:if="${articles != null}">
             <div class="col-md-6 col-lg-4" th:each="article : ${articles}">
                 <div class="card projet-card h-100">
-                    <!-- ✅ Correction ici : imageUrl au lieu de image -->
                     <img th:src="@{'/uploads/' + ${article.imageUrl}}" class="card-img-top" alt="Projet réalisé">
                     <div class="card-body">
                         <h3 th:text="${article.titre}"></h3>
@@ -99,7 +98,6 @@
                 </div>
             </div>
 
-            <!-- ✅ Si aucun article -->
             <div class="col-12 text-center" th:if="${#lists.isEmpty(articles)}">
                 <div class="alert alert-light border-0 py-5">
                     <i class="fa-regular fa-folder-open fa-2x text-muted mb-3"></i>
@@ -108,10 +106,10 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
 <!-- ========== SECTION PRODUITS DISPONIBLES ========== -->
-<section class="section bg-white py-5 fade-in">
+<!-- <section class="section bg-white py-5 fade-in">
     <div class="container">
         <h2 class="text-center mb-4">Nos Produits Disponibles</h2>
         <p class="text-center text-muted mb-5">Terrains, véhicules, matériaux et services ACD</p>
@@ -139,7 +137,7 @@
             <p>Aucun produit disponible pour le moment.</p>
         </div>
     </div>
-</section>
+</section> -->
 
 <!-- ========== AVANT / APRÈS ========== -->
 <section class="section bg-light py-5 fade-in">
