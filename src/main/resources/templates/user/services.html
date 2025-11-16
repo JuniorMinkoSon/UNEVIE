@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Découvrez nos services : travaux publics, immobilier, finitions et aménagements">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    <title>Nos Services - BTP Immobilier CI</title>
+    <title>Nos Services Baraka CI</title>
     <link rel="shortcut icon" href="images/favicon-256x256.png" type="image/x-icon">
 
     <link rel="stylesheet" th:href="@{/css/style.css}">
@@ -43,7 +43,7 @@
                         Nous réalisons des infrastructures d'envergure qui contribuent au développement économique et social de la Côte d'Ivoire. Notre expertise couvre l'ensemble du cycle de vie de vos projets, de l'étude à la maintenance.
                     </p>
                     
-                    <h3 style="color: var(--or); margin-top: 2rem; margin-bottom: 1rem;">Nos Prestations :</h3>
+                    <h3 style="color: var(--orange); margin-top: 2rem; margin-bottom: 1rem;">Nos Prestations :</h3>
                     <ul style="list-style: none; padding: 0;">
                         <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
                             <strong>✓ Construction de routes et voiries</strong><br>
@@ -71,7 +71,7 @@
                         </li>
                     </ul>
 
-                    <a th:href="@{/contact}" class="btn-primary" style="margin-top: 2rem; display: inline-block;">Demander un Devis</a>
+                    <a th:href="@{/contact}" class="btn-primary" style="background-color: var(--orange);margin-top: 2rem; display: inline-block;">Demander un Devis</a>
                 </div>
                 <div class="about-image">
                     <img th:src="@{/images/travaux-publics-detail.jpg}" 
@@ -115,7 +115,7 @@
                         Investissez en toute sérénité dans des biens immobiliers sécurisés juridiquement. Nous vous accompagnons dans vos acquisitions foncières avec la garantie de titres fonciers authentiques (Arrêté de Concession Définitive).
                     </p>
                     
-                    <h3 style="color: var(--or); margin-top: 2rem; margin-bottom: 1rem;">Nos Services Immobiliers :</h3>
+                    <h3 style="color: var(--orqange); margin-top: 2rem; margin-bottom: 1rem;">Nos Services Immobiliers :</h3>
                     <ul style="list-style: none; padding: 0;">
                         <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
                             <strong>✓ Vente de terrains titrés</strong><br>
@@ -147,7 +147,7 @@
                         </li>
                     </ul>
 
-                    <a th:href="@{/projets}" class="btn-primary" style="margin-top: 2rem; display: inline-block;">Voir Nos Terrains Disponibles</a>
+                    <a th:href="@{/projets}" class="btn-primary" style="background-color: var(--orange);margin-top: 2rem; display: inline-block;">Voir nos terrains disponibles</a>
                 </div>
             </div>
         </div>
@@ -165,7 +165,7 @@
                         Sublimez vos espaces de vie et de travail avec nos services de finitions haut de gamme. Du choix des matériaux à la réalisation finale, nous créons des intérieurs qui vous ressemblent.
                     </p>
                     
-                    <h3 style="color: var(--or); margin-top: 2rem; margin-bottom: 1rem;">Nos Prestations :</h3>
+                    <h3 style="color: var(--orange); margin-top: 2rem; margin-bottom: 1rem;">Nos Prestations :</h3>
                     <ul style="list-style: none; padding: 0;">
                         <li style="padding: 0.8rem 0; border-bottom: 1px solid #e5e5e5;">
                             <strong>✓ Revêtements de sols</strong><br>
@@ -201,7 +201,7 @@
                         </li>
                     </ul>
 
-                    <a th:href="@{/contact}" class="btn-primary" style="margin-top: 2rem; display: inline-block;">Demander un Devis Gratuit</a>
+                    <a th:href="@{/contact}" class="btn-primary" style="background-color: var(--orange);margin-top: 2rem; display: inline-block;">Demander un Devis Gratuit</a>
                 </div>
                 <div class="about-image">
                     <img th:src="@{/images/finitions-detail.jpg}" 
@@ -314,12 +314,56 @@
         </svg>
     </a>
 
-    <!-- ========== SCRIPT MENU MOBILE ========== -->
+     <!-- ========== BOUTON SCROLL TO TOP ========== -->
+     <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Remonter en haut">
+        <p>Haut</p>
+    </button>
+
     <script>
+        const scrollBtn = document.getElementById("scrollTopBtn");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 200) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        });
+
+        scrollBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+
+         // ===== NAVIGATION ACTIVE =====
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('nav ul li a');
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            const linkPath = link.getAttribute('href');
+            
+            if (currentPath === '/' && linkPath === '/') {
+                link.classList.add('active');
+            } else if (linkPath !== '/' && currentPath.includes(linkPath)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+
+        //SCRIPT MENU MOBILE ========== -->
+
         function toggleMenu() {
             const nav = document.getElementById('mainNav');
             nav.classList.toggle('active');
         }
     </script>
+
+ 
 </body>
 </html>

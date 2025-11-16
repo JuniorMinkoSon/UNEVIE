@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Découvrez l'histoire, la mission et les valeurs de BTP CI">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    <title>À Propos - BTP Immobilier CI</title>
+    <title>À Propos - Baraka CI</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 
     <link rel="shortcut icon" href="images/favicon-256x256.png" type="image/x-icon">
@@ -366,13 +366,55 @@
         </svg>
     </a>
 
-    <!-- ========== SCRIPT MENU MOBILE ========== -->
+     <!-- ========== BOUTON SCROLL TO TOP ========== -->
+     <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Remonter en haut">
+        <p>Haut</p>
+    </button>
+
     <script>
+        
+        const scrollBtn = document.getElementById("scrollTopBtn");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 200) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        });
+
+        scrollBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+         // ===== NAVIGATION ACTIVE =====
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('nav ul li a');
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            const linkPath = link.getAttribute('href');
+            
+            if (currentPath === '/' && linkPath === '/') {
+                link.classList.add('active');
+            } else if (linkPath !== '/' && currentPath.includes(linkPath)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+
+        //SCRIPT MENU MOBILE
+    
         function toggleMenu() {
             const nav = document.getElementById('mainNav');
             nav.classList.toggle('active');
         }
-
+        
         // Script pour FAQ
         const accordionItems = document.querySelectorAll('.accordion-item');
 

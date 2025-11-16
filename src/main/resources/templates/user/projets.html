@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Découvrez nos réalisations : projets de construction, terrains disponibles et aménagements">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    <title>Nos Réalisations - BTP Immobilier CI</title>
+    <title>Nos Réalisations Baraka CI</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 
     <link rel="shortcut icon" href="images/favicon-256x256.png" type="image/x-icon">
@@ -25,7 +25,7 @@
     <section class="section" style="padding: 2rem;">
         <div class="container">
             <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-                <button class="btn-primary" style="background-color: var(--or); padding: 0.8rem 1.5rem;">Tous les projets</button>
+                <button class="btn-primary" style="background-color: var(--orange); padding: 0.8rem 1.5rem;">Tous les projets</button>
                 <button class="btn-primary" style="background-color: transparent; color: var(--bleu-fonce); border: 2px solid var(--bleu-fonce); padding: 0.8rem 1.5rem;">Constructions</button>
                 <button class="btn-primary" style="background-color: transparent; color: var(--bleu-fonce); border: 2px solid var(--bleu-fonce); padding: 0.8rem 1.5rem;">Terrains</button>
                 <button class="btn-primary" style="background-color: transparent; color: var(--bleu-fonce); border: 2px solid var(--bleu-fonce); padding: 0.8rem 1.5rem;">Finitions</button>
@@ -172,7 +172,7 @@
                         <img th:src="@{/images/apres-1.jpg}" 
                              src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600" 
                              alt="Après travaux">
-                        <div style="position: absolute; top: 10px; left: 10px; background: var(--or); color: white; padding: 0.5rem 1rem; border-radius: 5px; font-weight: 600;">APRÈS</div>
+                        <div style="position: absolute; top: 10px; left: 10px; background: var(--orange); color: white; padding: 0.5rem 1rem; border-radius: 5px; font-weight: 600;">APRÈS</div>
                     </div>
                     <div class="service-content">
                         <h3>Résultat Final</h3>
@@ -200,7 +200,7 @@
                         <img th:src="@{/images/renovation-apres.jpg}" 
                              src="https://images.unsplash.com/photo-1615873968403-89e068629265?w=600" 
                              alt="Intérieur après rénovation">
-                        <div style="position: absolute; top: 10px; left: 10px; background: var(--or); color: white; padding: 0.5rem 1rem; border-radius: 5px; font-weight: 600;">APRÈS</div>
+                        <div style="position: absolute; top: 10px; left: 10px; background: var(--orange); color: white; padding: 0.5rem 1rem; border-radius: 5px; font-weight: 600;">APRÈS</div>
                     </div>
                     <div class="service-content">
                         <h3>Transformation Moderne</h3>
@@ -327,5 +327,56 @@
 
         <!-- ================= FOOTER ================= -->
     <div th:replace="~{fragments/footer :: footer}"></div>
+
+ <!-- ========== BOUTON SCROLL TO TOP ========== -->
+ <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Remonter en haut">
+    <p>Haut</p>
+</button>
+
+<script>
+    const scrollBtn = document.getElementById("scrollTopBtn");
+
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 200) {
+            scrollBtn.style.display = "block";
+        } else {
+            scrollBtn.style.display = "none";
+        }
+    });
+
+    scrollBtn.addEventListener("click", () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+
+     // ===== NAVIGATION ACTIVE =====
+     document.addEventListener('DOMContentLoaded', function() {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('nav ul li a');
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            const linkPath = link.getAttribute('href');
+            
+            if (currentPath === '/' && linkPath === '/') {
+                link.classList.add('active');
+            } else if (linkPath !== '/' && currentPath.includes(linkPath)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+      //SCRIPT MENU MOBILE
+    
+      function toggleMenu() {
+        const nav = document.getElementById('mainNav');
+        nav.classList.toggle('active');
+    }
+</script>
+
+</body>
+</html>
 
            

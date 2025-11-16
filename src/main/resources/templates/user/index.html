@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="images/favicon-256x256.png" type="image/x-icon">
 
 
-    <title>Accueil - BTP Immobilier CI</title>
+    <title>Accueil Baraka CI</title>
 
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
@@ -21,8 +21,10 @@
 
     <!-- ========== BANNIÈRE HERO ========== -->
     <section class="hero">
-        <h1>Construisons ensemble <br/> votre patrimoine en toute  <br/> confiance</h1>
-        <p>Votre partenaire de confiance pour vos projets de construction, d'immobilier et d'aménagement en Côte d'Ivoire</p>
+        <div class="section_index">
+          <h1>Construisons ensemble <br/> votre patrimoine en toute  <br/> confiance</h1>
+           <p>Votre partenaire de confiance pour vos projets de construction, d'immobilier et d'aménagement en Côte d'Ivoire</p>
+        </div>
         <div class="btn-hero">
             <a th:href="@{/projets}" class="prim1">Voir nos réalisations</a>
             <a th:href="@{/contact}" class="prim2">Démarrer un projet</a>
@@ -33,7 +35,7 @@
     <!-- ========== NOS SERVICES ========== -->
     <section class="section">
         <div class="container">
-            <h2 class="section-title">Nos <strong class="title1"> Domaines d'Expertise </strong> </h2>
+            <h2 class="section-title">Nos <strong class="title1"> domaines d'expertise </strong> </h2>
             <p class="section-subtitle">Des solutions complètes pour tous vos besoins en construction et immobilier</p>
             
             <div class="services-grid">
@@ -43,7 +45,7 @@
                          src="images/bat4.jpg" 
                          alt="Travaux publics et génie civil">
                     <div class="service-content">
-                        <h3>Travaux Publics & Génie Civil</h3>
+                        <h3>Travaux publics & génie Civil</h3>
                         <p>Construction de routes, ponts, ouvrages d'art et infrastructures publiques. Nous assurons la réalisation de vos grands projets.</p>
                         <a th:href="@{/services}" class="btn-svce" style="margin-top: 1rem;">En savoir plus <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
@@ -55,7 +57,7 @@
                          src="images/imo2.png" 
                          alt="Immobilier et foncier sécurisé">
                     <div class="service-content">
-                        <h3>Immobilier & Foncier</h3>
+                        <h3>Immobilier & foncier</h3>
                         <p>Vente de terrains titrés, accompagnement dans vos acquisitions foncières et sécurisation juridique.</p>
                         <a th:href="@{/services}" class="btn-svce" style="margin-top: 1rem;">En savoir plus <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
@@ -67,7 +69,7 @@
                          src="images/imo3.jpg" 
                          alt="Finitions et aménagements">
                     <div class="service-content">
-                        <h3>Finitions & Aménagements</h3>
+                        <h3>Finitions & aménagements</h3>
                         <p>Décoration intérieure, menuiserie, plomberie, électricité et tous travaux de finition pour sublimer vos espaces de vie et de travail.</p>
                         <a th:href="@{/services}" class="btn-svce" style="margin-top: 1rem;">En savoir plus<i class="fa-solid fa-arrow-right"></i></a>
                     </div>
@@ -79,7 +81,7 @@
     <!-- ========== NOS RÉALISATIONS RÉCENTES ========== -->
     <section class="section bg-light">
         <div class="container">
-            <h2 class="section-title">Nos <strong class="title2"> Réalisations </strong> Récentes</h2>
+            <h2 class="section-title">Nos <strong class="title2"> réalisations </strong> récentes</h2>
             <p class="section-subtitle">Découvrez quelques-uns de nos projets réalisés avec succès</p>
             
             <div class="projets-grid">
@@ -89,7 +91,7 @@
                          src="images/bat2.jpg" 
                          alt="Construction résidentielle">
                     <div class="projet-content">
-                        <h3>Villa Moderne - Cocody</h3>
+                        <h3>Villa moderne - Cocody</h3>
                         <p><strong>Type :</strong> Construction résidentielle</p>
                         <p>Villa de standing avec finitions haut de gamme, piscine et jardin paysager sur 500m².</p>
                     </div>
@@ -101,7 +103,7 @@
                          src="images/bat1.jpg" 
                          alt="Immeuble commercial">
                     <div class="projet-content">
-                        <h3>Centre Commercial - Plateau</h3>
+                        <h3>Centre commercial - Plateau</h3>
                         <p><strong>Type :</strong> Bâtiment commercial</p>
                         <p>Immeuble R+4 avec espaces commerciaux et bureaux, livré en 18 mois.</p>
                     </div>
@@ -113,15 +115,15 @@
                          src="images/lot1.png" 
                          alt="Lotissement">
                     <div class="projet-content">
-                        <h3>Lotissement Sécurisé - Bingerville</h3>
+                        <h3>Lotissement sécurisé - Bingerville</h3>
                         <p><strong>Type :</strong> Aménagement foncier</p>
                         <p>120 parcelles viabilisées avec titres fonciers, voirie et réseaux complets.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="btn-hero all_projet ">
-                <a th:href="@{/projets}" class="prim1">Voir tous nos projets</a>
+            <div class="all_projet ">
+                <a th:href="@{/projets}" >Voir tous nos projets</a>
             </div>
         </div>
     </section>
@@ -129,7 +131,7 @@
     <!-- ========== POURQUOI NOUS CHOISIR ========== -->
     <section class="section">
         <div class="container">
-            <h2 class="section-title">Pourquoi Nous Choisir ?</h2>
+            <h2 class="section-title">Pourquoi nous choisir ?</h2>
             <p class="section-subtitle">Les garanties qui font notre différence</p>
             
             <div class="avantages-grid">
@@ -137,7 +139,7 @@
                     <div class="avantage-icon"> 
                         <img src="images/expertise.png" /> 
                     </div>
-                    <h3>Expertise Locale</h3>
+                    <h3>Expertise locale</h3>
                     <p>Plus de 10 ans d'expérience sur le marché ivoirien avec une parfaite connaissance des réglementations.</p>
                 </div>
 
@@ -145,7 +147,7 @@
                     <div class="avantage-icon"> 
                         <img src="images/securite.png" /> 
                     </div>
-                    <h3>Sécurité Juridique</h3>
+                    <h3>Sécurité juridique</h3>
                     <p>Tous nos terrains sont titrés (ACD) et nos projets respectent les normes de construction en vigueur.</p>
                 </div>
 
@@ -153,7 +155,7 @@
                     <div class="avantage-icon"> 
                         <img src="images/garantie.png" /> 
                     </div>
-                    <h3>Qualité Garantie</h3>
+                    <h3>Qualité garantie</h3>
                     <p>Matériaux de première qualité, artisans qualifiés et suivi rigoureux pour une satisfaction totale.</p>
                 </div>
 
@@ -161,7 +163,7 @@
                     <div class="avantage-icon"> 
                         <img src="images/accompagnement.png" /> 
                     </div>
-                    <h3>Accompagnement Complet</h3>
+                    <h3>Accompagnement complet</h3>
                     <p>De la conception à la livraison, nous vous accompagnons à chaque étape de votre projet.</p>
                 </div>
             </div>
@@ -228,8 +230,8 @@
                 Contactez-nous dès aujourd'hui pour une consultation gratuite
             </p>
 
-            <div class="btn-hero">
-                <a th:href="@{/contact}" class="prim2">Nous Contacter</a> 
+            <div class="btn-call">
+                <a th:href="@{/contact}" class="call">Nous Contacter</a> 
             </div>
 
         </div>
@@ -240,18 +242,75 @@
     <div th:replace="~{fragments/footer :: footer}"></div>
 
     <!-- ========== BOUTON WHATSAPP FLOTTANT ========== -->
-    <a href="https://wa.me/225XXXXXXXXXX" class="whatsapp-float" target="_blank" aria-label="Contactez-nous sur WhatsApp">
+    <a href="https://wa.me/2250768189340" class="whatsapp-float" target="_blank" aria-label="Contactez-nous sur WhatsApp">
         <svg viewBox="0 0 32 32" fill="currentColor">
             <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 7.933-2.127c2.42 1.37 5.173 2.127 8.067 2.127 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.467c-2.482 0-4.908-0.646-7.07-1.87l-0.507-0.292-5.247 1.408 1.435-5.34-0.335-0.552c-1.354-2.23-2.068-4.801-2.068-7.421 0-7.868 6.402-14.267 14.267-14.267s14.267 6.398 14.267 14.267c0 7.868-6.402 14.267-14.267 14.267zM21.984 18.508c-0.403-0.201-2.383-1.176-2.754-1.311-0.371-0.134-0.641-0.201-0.911 0.201-0.269 0.403-1.044 1.311-1.28 1.581s-0.471 0.302-0.874 0.101c-0.403-0.201-1.7-0.627-3.239-1.998-1.197-1.067-2.006-2.383-2.241-2.786s-0.025-0.621 0.176-0.822c0.181-0.181 0.403-0.471 0.604-0.707s0.269-0.403 0.403-0.672c0.134-0.269 0.067-0.504-0.034-0.707s-0.911-2.196-1.248-3.004c-0.329-0.789-0.663-0.682-0.911-0.695-0.235-0.012-0.504-0.015-0.774-0.015s-0.707 0.101-1.078 0.504c-0.371 0.403-1.416 1.384-1.416 3.377s1.449 3.914 1.65 4.184c0.201 0.269 2.831 4.324 6.859 6.063 0.958 0.415 1.707 0.663 2.291 0.848 0.965 0.307 1.843 0.264 2.538 0.161 0.774-0.116 2.383-0.974 2.72-1.916s0.337-1.75 0.236-1.916c-0.101-0.166-0.371-0.269-0.774-0.471z"/>
         </svg>
     </a>
 
-    <!-- ========== SCRIPT MENU MOBILE ========== -->
+  <!-- ========== BOUTON SCROLL TO TOP ========== -->
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Remonter en haut">
+        <p>Haut</p>
+    </button>
+
     <script>
+        const scrollBtn = document.getElementById("scrollTopBtn");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 200) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        });
+
+        scrollBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+        // ===== NAVIGATION ACTIVE =====
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('nav ul li a');
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            const linkPath = link.getAttribute('href');
+            
+            if (currentPath === '/' && linkPath === '/') {
+                link.classList.add('active');
+            } else if (linkPath !== '/' && currentPath.includes(linkPath)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+        //SCRIPT MENU MOBILE
+    
         function toggleMenu() {
             const nav = document.getElementById('mainNav');
             nav.classList.toggle('active');
         }
+
+        nav.classList.toggle('active');
+        menuToggle.classList.toggle('active');
+        
+        // Changer l'icône
+        const icon = menuToggle.querySelector('i');
+        if (nav.classList.contains('active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+    
     </script>
+
+   
+
 </body>
 </html>

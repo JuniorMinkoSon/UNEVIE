@@ -14,22 +14,56 @@
                 <li><a th:href="@{/services}">Services</a></li>
                 <li><a th:href="@{/objectifs}">Objectifs</a></li>
                 <li><a th:href="@{/projets}">Réalisations</a></li>
+                <li class="contact-item-mobile">
+                   <a th:href="@{/contact}" class="contact-nav-mobile-link">Nous contacter</a>
+                </li>
             </ul>
           
         </nav>
 
+
+      
+           <!-- ordinateur -->
         <div class="contact-nav">
             <a th:href="@{/contact}">Nous contacter</a>
         </div>
-        
+
+
        
         <div class="menu-toggle" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
+            <span><i class="fa-solid fa-bars"></i></span>
+           <!--  <span>-</span>
+            <span>-</span> -->
         </div>
     </div>
 </header>
 
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Récupérer l'URL actuelle
+        const currentPath = window.location.pathname;
+        
+        // Sélectionner tous les liens de navigation
+        const navLinks = document.querySelectorAll('nav ul li a');
+        
+        // Retirer la classe active de tous les liens
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            
+            // Ajouter la classe active au lien correspondant
+            const linkPath = link.getAttribute('href');
+            
+            // Pour la page d'accueil
+            if (currentPath === '/' && linkPath === '/') {
+                link.classList.add('active');
+            }
+            // Pour les autres pages
+            else if (currentPath.includes(linkPath) && linkPath !== '/') {
+                link.classList.add('active');
+            }
+        });
+    });
+    </script>
 
