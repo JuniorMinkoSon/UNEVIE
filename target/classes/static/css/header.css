@@ -1,289 +1,66 @@
-/* Header styles with transparency */
-.site-header {
-    position: fixed;
-    width: 100%;
+.header {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    position: sticky;
     top: 0;
-    left: 0;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.01);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    transition: all 0.3s ease;
 }
 
-.site-header.scrolled,
-.site-header.hovered {
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(15px) saturate(180%);
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-}
-
-.site-header.scrolled .btn-auth,
-.site-header.hovered .btn-auth,
-.site-header.scrolled .main-link,
-.site-header.hovered .main-link,
-.site-header.scrolled .btn-cart,
-.site-header.hovered .btn-cart {
-    color: black;
-}
-
-.site-header.scrolled .menu-toggle span,
-.site-header.hovered .menu-toggle span {
-    background: black;
-}
-
-.site-header.scrolled .auth-sep,
-.site-header.hovered .auth-sep {
-    color: rgba(0, 0, 0, 0.3);
-}
-
-header {
-    background: transparent;
-    transition: all 0.3s ease;
-}
-
-.header-inner {
-    padding: 20px;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    gap: 20px;
-    position: relative;
-}
-
-/* Liens d'authentification à gauche */
-.auth-links {
+.header-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 16px 30px;
     display: flex;
     align-items: center;
-    gap: 4px;
+    justify-content: space-between;
 }
 
-.btn-auth {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 8px 12px;
-    transition: all 0.3s ease;
-}
-
-.auth-sep {
-    color: rgba(0, 0, 0, 0.5);
-}
-
-/* Logo central */
-.header-logo {
-    text-align: center;
-}
-
-.main-link {
-    color: white;
-    text-decoration: none;
-    font-size: 1.5rem;
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-weight: 600;
-    letter-spacing: 1px;
-}
-
-/* Actions de droite (panier + toggle) */
-.right-actions {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.btn-cart {
-    color: white;
+    font-size: 20px;
+    color: #111;
     text-decoration: none;
-    padding: 8px 16px;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    border-radius: 4px;
-    transition: all 0.3s ease;
 }
 
-/* Menu burger toujours visible */
-.menu-toggle {
-    background: transparent;
-    border: 1px solid white;
-    border-radius: 4px;
-    cursor: pointer;
-    padding: 12px;
-    margin-left: 15px;
-    display: flex !important;  /* Force l'affichage */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s ease;
+.logo img {
+    height: 40px;
 }
 
-.menu-toggle:hover {
-    background: rgb(255, 255, 255);
-}
-
-.menu-toggle span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    margin: 2px 0;
-    background: white;
-    transition: all 0.3s ease;
-}
-
-.menu-toggle.active {
-    border-color: rgb(255, 255, 255);
-}
-
-.menu-toggle.active span {
-    background: white;
-}
-
-.menu-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translate(4px, 4px);
-}
-
-.menu-toggle.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.menu-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(4px, -4px);
-}
-
-/* Menu étendu */
-.menu-toggle {
-    position: relative;
-    z-index: 1002;  /* Au-dessus du menu */
-}
-
-.extended-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(15px) brightness(0.8);
-    -webkit-backdrop-filter: blur(15px) brightness(0.8);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 1001;
-}
-
-.extended-menu.open {
-    opacity: 1;
-    visibility: visible;
-}
-
-.menu-links {
-    padding: 80px 20px 20px;
+nav ul {
     display: flex;
-    flex-wrap: wrap;
+    gap: 30px;
+    list-style: none;
+}
+
+nav a {
+    text-decoration: none;
+    color: #444;
+    font-size: 15px;
+}
+
+nav a:hover {
+    color: #000;
+}
+
+.header-actions {
+    display: flex;
     gap: 20px;
-    justify-content: center;
-    transform: translateY(-20px);
-    transition: transform 0.3s ease;
 }
 
-.extended-menu.open .menu-links {
-    transform: translateY(0);
-}
-
-.menu-links a {
-    color: white;
+.btn-login {
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: #000;
+    color: #fff;
     text-decoration: none;
-    font-size: 1.1rem;
-    padding: 10px 20px;
-    border-radius: 4px;
-    transition: all 0.3s ease;
+    font-size: 14px;
 }
 
-/* Effet hover sur les liens du menu */
-.menu-links a:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    transform: translateY(-2px);
-}
-
-/* Effets hover */
-.btn-auth:hover,
-.main-link:hover,
-.btn-cart:hover,
-.menu-links a:hover {
-    color: black;
-    /* background: rgba(255, 255, 255, 0.9); */
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .header-inner {
-        grid-template-columns: auto 1fr auto;
-        gap: 10px;
-    }
-    
-    .auth-links {
-        font-size: 0.9rem;
-    }
-    
-    .main-link {
-        font-size: 1.2rem;
-    }
-}
-
-.btn-login:hover, .btn-cart:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.menu-toggle {
-    display: none;
-    flex-direction: column;
-    gap: 4px;
-    cursor: pointer;
-    padding: 4px;
-}
-
-.menu-toggle span {
-    width: 24px;
-    height: 2px;
-    background: var(--text);
-    transition: 0.3s;
-}
-
-@media (max-width: 992px) {
-    .nav {
-        display: none;
-    }
-    
-    .menu-toggle {
-        display: flex;
-    }
-    
-    .nav.open {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        padding: 20px;
-    }
-}
-
-@media (max-width: 768px) {
-    .header-grid {
-        grid-template-columns: auto 1fr auto;
-    }
-    
-    .nav-right {
-        display: none;
-    }
-    
-    .header-logo {
-        text-align: left;
-    }
+.panier {
+    text-decoration: none;
+    color: #444;
+    font-size: 15px;
 }

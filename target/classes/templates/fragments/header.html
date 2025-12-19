@@ -1,39 +1,39 @@
 
 <div th:fragment="header" class="">
 
-  <!-- ========== HEADER ========== -->
-  <header>
-    <div class="header-container">
-        <div class="logo"><img th:src="@{/images/logo-baraka.png}" alt="Baraka Synergies Group" style="height:60px; width:auto;">
-            </a>
-            <a th:href="@{/}">BARAKA<span>SYNERGIE</span></a>
-        </div>
-        <nav id="mainNav">
-            <ul>
-                <li><a th:href="@{/}" class="active">Accueil</a></li>
-                <li><a th:href="@{/propos}">À propos</a></li>
-                <li><a th:href="@{/services}">Services</a></li>
-                <li><a th:href="@{/objectifs}">Objectifs</a></li>
-                <li><a th:href="@{/projets}">Réalisations</a></li>
-            </ul>
+    <!-- ========== HEADER ========== -->
+    <header>
+        <div class="header-container">
+            <div class="logo"><img th:src="@{/images/logo-baraka.png}" alt="Baraka Synergies Group" style="height:60px; width:auto;">
+                </a>
+                <a th:href="@{/}">BARAKA<span>SYNERGIE</span></a>
+            </div>
+            <nav id="mainNav">
+                <ul>
+                    <li><a th:href="@{/}" class="active">Accueil</a></li>
+                    <li><a th:href="@{/propos}">À propos</a></li>
+                    <li><a th:href="@{/services}">Services</a></li>
+                    <li><a th:href="@{/objectifs}">Objectifs</a></li>
+                    <li><a th:href="@{/projets}">Réalisations</a></li>
+                </ul>
 
-        </nav>
+            </nav>
 
-        <div class="contact-nav">
-            <a th:href="@{/contact}">Nous contacter</a>
-        </div>
-        <div class="contact-nav">
-            <a th:href="@{/login}">Connexion</a>
-        </div>
+            <div class="contact-nav">
+                <a th:href="@{/contact}">Nous contacter</a>
+            </div>
+            <div class="contact-nav">
+                <a th:href="@{/login}">Connexion</a>
+            </div>
 
 
-        <div class="menu-toggle" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
-    </div>
-</header>
+    </header>
 
 </div>
 
