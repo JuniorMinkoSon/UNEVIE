@@ -78,7 +78,7 @@
 </section>
 
 <!-- ========== SECTION ARTICLES (RÉALISATIONS) ========== -->
-<section class="section fade-in">
+<!-- <section class="section fade-in">
     <div class="container">
         <h2 class="text-center mb-3">Projets Réalisés</h2>
         <p class="text-center text-muted mb-5">Découvrez les réalisations partagées par BarakaWeb</p>
@@ -86,7 +86,6 @@
         <div class="row g-4 justify-content-center" th:if="${articles != null}">
             <div class="col-md-6 col-lg-4" th:each="article : ${articles}">
                 <div class="card projet-card h-100">
-                    <!-- ✅ Correction ici : imageUrl au lieu de image -->
                     <img th:src="@{'/uploads/' + ${article.imageUrl}}" class="card-img-top" alt="Projet réalisé">
                     <div class="card-body">
                         <h3 th:text="${article.titre}"></h3>
@@ -99,7 +98,6 @@
                 </div>
             </div>
 
-            <!-- ✅ Si aucun article -->
             <div class="col-12 text-center" th:if="${#lists.isEmpty(articles)}">
                 <div class="alert alert-light border-0 py-5">
                     <i class="fa-regular fa-folder-open fa-2x text-muted mb-3"></i>
@@ -108,10 +106,10 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
 <!-- ========== SECTION PRODUITS DISPONIBLES ========== -->
-<section class="section bg-white py-5 fade-in">
+<!-- <section class="section bg-white py-5 fade-in">
     <div class="container">
         <h2 class="text-center mb-4">Nos Produits Disponibles</h2>
         <p class="text-center text-muted mb-5">Terrains, véhicules, matériaux et services ACD</p>
@@ -139,7 +137,7 @@
             <p>Aucun produit disponible pour le moment.</p>
         </div>
     </div>
-</section>
+</section> -->
 
 <!-- ========== AVANT / APRÈS ========== -->
 <section class="section bg-light py-5 fade-in">
@@ -179,6 +177,20 @@
 <!-- ================= FOOTER ================= -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
+<!-- ========== BOUTON WHATSAPP FLOTTANT ========== -->
+    <a href="https://wa.me/225XXXXXXXXXX" class="whatsapp-float" target="_blank" aria-label="Contactez-nous sur WhatsApp">
+        <svg viewBox="0 0 32 32" fill="currentColor">
+            <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 7.933-2.127c2.42 1.37 5.173 2.127 8.067 2.127 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.467c-2.482 0-4.908-0.646-7.07-1.87l-0.507-0.292-5.247 1.408 1.435-5.34-0.335-0.552c-1.354-2.23-2.068-4.801-2.068-7.421 0-7.868 6.402-14.267 14.267-14.267s14.267 6.398 14.267 14.267c0 7.868-6.402 14.267-14.267 14.267zM21.984 18.508c-0.403-0.201-2.383-1.176-2.754-1.311-0.371-0.134-0.641-0.201-0.911 0.201-0.269 0.403-1.044 1.311-1.28 1.581s-0.471 0.302-0.874 0.101c-0.403-0.201-1.7-0.627-3.239-1.998-1.197-1.067-2.006-2.383-2.241-2.786s-0.025-0.621 0.176-0.822c0.181-0.181 0.403-0.471 0.604-0.707s0.269-0.403 0.403-0.672c0.134-0.269 0.067-0.504-0.034-0.707s-0.911-2.196-1.248-3.004c-0.329-0.789-0.663-0.682-0.911-0.695-0.235-0.012-0.504-0.015-0.774-0.015s-0.707 0.101-1.078 0.504c-0.371 0.403-1.416 1.384-1.416 3.377s1.449 3.914 1.65 4.184c0.201 0.269 2.831 4.324 6.859 6.063 0.958 0.415 1.707 0.663 2.291 0.848 0.965 0.307 1.843 0.264 2.538 0.161 0.774-0.116 2.383-0.974 2.72-1.916s0.337-1.75 0.236-1.916c-0.101-0.166-0.371-0.269-0.774-0.471z"/>
+        </svg>
+    </a>
+
+    <!-- ========== BOUTON SCROLL TO TOP ========== -->
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Remonter en haut">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 4l-8 8h5v8h6v-8h5z"/>
+        </svg>
+    </button>
+
 <!-- ✅ Scripts Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -212,6 +224,33 @@
         }, { threshold: 0.2 });
         elements.forEach(el => observer.observe(el));
     });
+</script>
+
+<script>
+        const scrollBtn = document.getElementById("scrollTopBtn");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 200) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        });
+
+        scrollBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    </script>
+
+<!-- ========== SCRIPT MENU MOBILE ========== -->
+<script>
+    function toggleMenu() {
+        const nav = document.getElementById('mainNav');
+        nav.classList.toggle('active');
+    }
 </script>
 
 </body>

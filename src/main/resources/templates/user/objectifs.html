@@ -5,8 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Découvrez nos objectifs, notre vision et nos missions pour le développement en Côte d'Ivoire">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <title>Nos Objectifs - BTP Immobilier CI</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .about-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+/* Texte */
+.about-text {
+    flex: 1;
+}
+
+/* Image */
+.about-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.about-image img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+    </style>
 </head>
 <body>
 
@@ -25,91 +54,101 @@
             <h2 class="section-title">Nos Objectifs Stratégiques</h2>
             <p class="section-subtitle">Des ambitions claires pour servir au mieux nos clients et contribuer au développement du pays</p>
             
-            <div class="services-grid">
-                <!-- Objectif 1 -->
-                <div class="service-card">
-                    <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
-                        <div style="font-size: 4rem; margin-bottom: 1rem;"></div>
-                        <h3 style="color: var(--or); font-size: 1.8rem;">Sécuriser</h3>
-                    </div>
-                    <div class="service-content">
-                        <h3>Garantir des Investissements Sûrs</h3>
-                        <p>
-                            Offrir à nos clients des terrains et biens immobiliers 100% sécurisés avec titres fonciers authentiques (ACD). Nous éliminons tous les risques juridiques pour permettre à chacun d'investir en toute confiance.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Objectif 2 -->
-                <div class="service-card">
-                    <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
-                        <div style="font-size: 4rem; margin-bottom: 1rem;"></div>
-                        <h3 style="color: var(--or); font-size: 1.8rem;">Accompagner</h3>
-                    </div>
-                    <div class="service-content">
-                        <h3>Guider Nos Clients</h3>
-                        <p>
-                            Accompagner chaque client de A à Z dans son projet immobilier ou de construction. De la recherche du terrain idéal à la livraison clé en main, nous sommes présents à chaque étape avec expertise et bienveillance.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Objectif 3 -->
-                <div class="service-card">
-                    <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
-                        <div style="font-size: 4rem; margin-bottom: 1rem;"></div>
-                        <h3 style="color: var(--or); font-size: 1.8rem;">Faciliter</h3>
-                    </div>
-                    <div class="service-content">
-                        <h3>Simplifier l'Accès au Patrimoine</h3>
-                        <p>
-                            Rendre l'accession à la propriété plus simple et accessible. Nous proposons des solutions flexibles, des démarches simplifiées et un accompagnement administratif complet pour faciliter votre parcours.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Objectif 4 -->
-                <div class="service-card">
-                    <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
-                        <div style="font-size: 4rem; margin-bottom: 1rem;"></div>
-                        <h3 style="color: var(--or); font-size: 1.8rem;">Construire</h3>
-                    </div>
-                    <div class="service-content">
-                        <h3>Bâtir des Infrastructures Durables</h3>
-                        <p>
-                            Réaliser des projets de construction de qualité supérieure qui respectent les normes internationales. Nous contribuons au développement des infrastructures publiques et privées avec excellence.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Objectif 5 -->
-                <div class="service-card">
-                    <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
-                        <div style="font-size: 4rem; margin-bottom: 1rem;"></div>
-                        <h3 style="color: var(--or); font-size: 1.8rem;">Innover</h3>
-                    </div>
-                    <div class="service-content">
-                        <h3>Adopter les Meilleures Pratiques</h3>
-                        <p>
-                            Intégrer les technologies modernes et les pratiques durables dans tous nos projets. Nous sommes constamment à la recherche de solutions innovantes pour améliorer nos services.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Objectif 6 -->
-                <div class="service-card">
-                    <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
-                        <div style="font-size: 4rem; margin-bottom: 1rem;"></div>
-                        <h3 style="color: var(--or); font-size: 1.8rem;">Préserver</h3>
-                    </div>
-                    <div class="service-content">
-                        <h3>Respecter l'Environnement</h3>
-                        <p>
-                            Développer nos projets dans le respect de l'environnement. Nous intégrons des solutions écologiques et durables pour préserver notre patrimoine naturel pour les générations futures.
-                        </p>
-                    </div>
-                </div>
+            <!-- Objectif 1 : Sécuriser -->
+    <div class="service-card">
+        <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">
+                <i class="fas fa-shield-alt"></i>
             </div>
+            <h3 style="color: var(--or); font-size: 1.8rem;">Sécuriser</h3>
+        </div>
+        <div class="service-content">
+            <h3>Garantir des Investissements Sûrs</h3>
+            <p>
+                Offrir à nos clients des terrains et biens immobiliers 100% sécurisés avec titres fonciers authentiques (ACD). Nous éliminons tous les risques juridiques pour permettre à chacun d'investir en toute confiance.
+            </p>
+        </div>
+    </div>
+
+    <!-- Objectif 2 : Accompagner -->
+    <div class="service-card">
+        <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">
+                <i class="fas fa-hand-holding"></i>
+            </div>
+            <h3 style="color: var(--or); font-size: 1.8rem;">Accompagner</h3>
+        </div>
+        <div class="service-content">
+            <h3>Guider Nos Clients</h3>
+            <p>
+                Accompagner chaque client de A à Z dans son projet immobilier ou de construction. De la recherche du terrain idéal à la livraison clé en main, nous sommes présents à chaque étape avec expertise et bienveillance.
+            </p>
+        </div>
+    </div>
+
+    <!-- Objectif 3 : Faciliter -->
+    <div class="service-card">
+        <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">
+                <i class="fas fa-unlock"></i>
+            </div>
+            <h3 style="color: var(--or); font-size: 1.8rem;">Faciliter</h3>
+        </div>
+        <div class="service-content">
+            <h3>Simplifier l'Accès au Patrimoine</h3>
+            <p>
+                Rendre l'accession à la propriété plus simple et accessible. Nous proposons des solutions flexibles, des démarches simplifiées et un accompagnement administratif complet pour faciliter votre parcours.
+            </p>
+        </div>
+    </div>
+
+    <!-- Objectif 4 : Construire -->
+    <div class="service-card">
+        <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">
+                <i class="fas fa-hammer"></i>
+            </div>
+            <h3 style="color: var(--or); font-size: 1.8rem;">Construire</h3>
+        </div>
+        <div class="service-content">
+            <h3>Bâtir des Infrastructures Durables</h3>
+            <p>
+                Réaliser des projets de construction de qualité supérieure qui respectent les normes internationales. Nous contribuons au développement des infrastructures publiques et privées avec excellence.
+            </p>
+        </div>
+    </div>
+
+    <!-- Objectif 5 : Innover -->
+    <div class="service-card">
+        <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">
+                <i class="fas fa-lightbulb"></i>
+            </div>
+            <h3 style="color: var(--or); font-size: 1.8rem;">Innover</h3>
+        </div>
+        <div class="service-content">
+            <h3>Adopter les Meilleures Pratiques</h3>
+            <p>
+                Intégrer les technologies modernes et les pratiques durables dans tous nos projets. Nous sommes constamment à la recherche de solutions innovantes pour améliorer nos services.
+            </p>
+        </div>
+    </div>
+
+    <!-- Objectif 6 : Préserver -->
+    <div class="service-card">
+        <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <h3 style="color: var(--or); font-size: 1.8rem;">Préserver</h3>
+        </div>
+        <div class="service-content">
+            <h3>Respecter l'Environnement</h3>
+            <p>
+                Développer nos projets dans le respect de l'environnement. Nous intégrons des solutions écologiques et durables pour préserver notre patrimoine naturel pour les générations futures.
+            </p>
+        </div>
+    </div>
         </div>
     </section>
 
@@ -148,31 +187,33 @@
     <!-- ========== NOTRE VISION ========== -->
     <section class="section bg-light">
         <div class="container">
-            <h2 class="section-title">Notre Vision</h2>
-            <p class="section-subtitle">Un avenir ambitieux pour le secteur immobilier ivoirien</p>
-            
-            <div class="about-content" style="margin-top: 3rem;">
-                <div class="about-text">
-                    <h3 style="color: var(--bleu-fonce); font-size: 2rem; margin-bottom: 1.5rem;">
-                        Devenir la Référence Incontournable
-                    </h3>
-                    <p style="font-size: 1.1rem; line-height: 1.9; margin-bottom: 1.5rem;">
-                        Notre vision est de <strong>devenir l'entreprise de référence</strong> en Côte d'Ivoire dans les domaines du BTP, de l'immobilier et des finitions. Nous aspirons à être reconnus pour notre intégrité, notre excellence et notre contribution au développement du pays.
-                    </p>
-                    <p style="font-size: 1.1rem; line-height: 1.9; margin-bottom: 1.5rem;">
-                        D'ici 2030, nous souhaitons avoir facilité l'accès à la propriété pour <strong>plus de 1000 familles ivoiriennes</strong> et contribué à la construction de <strong>centaines d'infrastructures</strong> qui améliorent la qualité de vie des citoyens.
-                    </p>
-                    <p style="font-size: 1.1rem; line-height: 1.9;">
-                        Nous croyons en un développement immobilier <strong>inclusif, transparent et durable</strong> qui profite à tous les Ivoiriens, quel que soit leur niveau de revenu.
-                    </p>
-                </div>
-                <div class="about-image">
-                    <img th:src="@{/images/vision.jpg}" 
-                         src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=700" 
-                         alt="Notre vision">
-                </div>
-            </div>
+    <h2 class="section-title">Notre Vision</h2>
+    <p class="section-subtitle">Un avenir ambitieux pour le secteur immobilier ivoirien</p>
+
+    <div class="about-content">
+        <div class="about-text">
+            <h3 style="color: var(--bleu-fonce); font-size: 2rem; margin-bottom: 1.5rem;">
+                Devenir la Référence Incontournable
+            </h3>
+            <p style="font-size: 1.1rem; line-height: 1.9; margin-bottom: 1.5rem;">
+                Notre vision est de <strong>devenir l'entreprise de référence</strong> en Côte d'Ivoire dans les domaines du BTP, de l'immobilier et des finitions. Nous aspirons à être reconnus pour notre intégrité, notre excellence et notre contribution au développement du pays.
+            </p>
+            <p style="font-size: 1.1rem; line-height: 1.9; margin-bottom: 1.5rem;">
+                D'ici 2030, nous souhaitons avoir facilité l'accès à la propriété pour <strong>plus de 1000 familles ivoiriennes</strong> et contribué à la construction de <strong>centaines d'infrastructures</strong> qui améliorent la qualité de vie des citoyens.
+            </p>
+            <p style="font-size: 1.1rem; line-height: 1.9;">
+                Nous croyons en un développement immobilier <strong>inclusif, transparent et durable</strong> qui profite à tous les Ivoiriens, quel que soit leur niveau de revenu.
+            </p>
         </div>
+
+        <div class="about-image">
+            <img th:src="@{/images/vision.jpg}"
+                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=700"
+                alt="Notre vision">
+        </div>
+    </div>
+</div>
+
     </section>
 
     <!-- ========== NOS ENGAGEMENTS ========== -->
@@ -388,12 +429,38 @@
         </svg>
     </a>
 
+    <!-- ========== BOUTON SCROLL TO TOP ========== -->
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Remonter en haut">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 4l-8 8h5v8h6v-8h5z"/>
+        </svg>
+    </button>
+
     <!-- ========== SCRIPT MENU MOBILE ========== -->
     <script>
         function toggleMenu() {
             const nav = document.getElementById('mainNav');
             nav.classList.toggle('active');
         }
+    </script>
+
+    <script>
+        const scrollBtn = document.getElementById("scrollTopBtn");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 200) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        });
+
+        scrollBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
     </script>
 </body>
 </html>

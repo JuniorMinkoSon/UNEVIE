@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <title>Nos Services - BTP Immobilier CI</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
 </head>
 <body>
     
@@ -167,8 +169,83 @@
         <div class="container">
             <h2 class="section-title">Notre Processus de Travail</h2>
             <p class="section-subtitle">Un accompagnement structuré pour la réussite de votre projet</p>
-            
             <div class="services-grid" style="margin-top: 3rem;">
+
+    <div class="service-card">
+        <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;"><i class="fas fa-comments"></i></div>
+            <h3 style="color: var(--or); font-size: 1.5rem;">Consultation</h3>
+        </div>
+        <div class="service-content">
+            <p>
+                Rencontre initiale pour comprendre vos besoins, objectifs et contraintes. Visite du site si nécessaire.
+            </p>
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;"><i class="fas fa-file-invoice-dollar"></i></div>
+            <h3 style="color: var(--or); font-size: 1.5rem;">Étude & Devis</h3>
+        </div>
+        <div class="service-content">
+            <p>
+                Analyse technique, élaboration des plans et présentation d'un devis détaillé et transparent.
+            </p>
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;"><i class="fas fa-calendar-alt"></i></div>
+            <h3 style="color: var(--or); font-size: 1.5rem;">Planification</h3>
+        </div>
+        <div class="service-content">
+            <p>
+                Établissement du planning détaillé, commande des matériaux et mobilisation des équipes.
+            </p>
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;"><i class="fas fa-tools"></i></div>
+            <h3 style="color: var(--or); font-size: 1.5rem;">Réalisation</h3>
+        </div>
+        <div class="service-content">
+            <p>
+                Exécution des travaux avec suivi quotidien, contrôle qualité et communication régulière.
+            </p>
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;"><i class="fas fa-key"></i></div>
+            <h3 style="color: var(--or); font-size: 1.5rem;">Livraison</h3>
+        </div>
+        <div class="service-content">
+            <p>
+                Réception des travaux, vérification finale et remise des clés. Explications sur l'entretien.
+            </p>
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;"><i class="fas fa-headset"></i></div>
+            <h3 style="color: var(--or); font-size: 1.5rem;">Suivi</h3>
+        </div>
+        <div class="service-content">
+            <p>
+                Service après-vente réactif et disponible pour toute intervention ou conseil.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+            <!-- <div class="services-grid" style="margin-top: 3rem;">
                 <div class="service-card">
                     <div style="background: linear-gradient(135deg, var(--bleu-fonce), #2C5AA0); padding: 3rem 2rem; text-align: center; color: white;">
                         <div style="font-size: 3rem; margin-bottom: 1rem;">1️</div>
@@ -240,7 +317,7 @@
                         </p>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
 
@@ -255,12 +332,37 @@
         </svg>
     </a>
 
+    <!-- ========== BOUTON SCROLL TO TOP ========== -->
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Remonter en haut">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 4l-8 8h5v8h6v-8h5z"/>
+        </svg>
+    </button>
+
     <!-- ========== SCRIPT MENU MOBILE ========== -->
     <script>
         function toggleMenu() {
             const nav = document.getElementById('mainNav');
             nav.classList.toggle('active');
         }
+    </script>
+    <script>
+        const scrollBtn = document.getElementById("scrollTopBtn");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 200) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        });
+
+        scrollBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
     </script>
 </body>
 </html>
