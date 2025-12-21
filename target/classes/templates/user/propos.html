@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BarakaWeb - Vente et construction : terrains, voitures, matériaux de construction, peinture, et accompagnement jusqu’à l’ACD.">
+    <title>À Propos - BarakaWeb</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            color: #1d1d1f;
+            background-color: #f9fafb;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0071e3, #004a99);
+            color: white;
+            text-align: center;
+            padding: 6rem 2rem;
+        }
+
+        .hero h1 {
+            font-weight: 700;
+            font-size: 2.8rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 0.8rem;
+        }
+
+        .section {
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        /* .about-section .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            text-align: left;
+        }
+
+        .about-text {
+            max-width: 600px;
+            line-height: 1.8;
+        }
+
+        .about-image img {
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 450px;
+        } */
+
+        .about-content {
+            display: flex;
+            align-items: center;   /* aligne verticalement */
+            gap: 2rem;             /* espace normal entre image et texte */
+        }
+
+        .about-image {
+            flex: 1;               /* l'image prend une partie de l'espace */
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .about-text {
+            flex: 1.5;             /* le texte prend plus d'espace */
+        }
+
+        /* 📱 VERSION MOBILE : image en haut, texte en bas */
+        @media (max-width: 768px) {
+            .about-content {
+                flex-direction: column; /* empile en colonne */
+                text-align: center;     /* optionnel : centrer le texte */
+            }
+
+            .about-image,
+            .about-text {
+                flex: unset;           /* réinitialise les proportions */
+                width: 100%;           /* chaque bloc prend la largeur */
+            }
+        }
+
+
+        .section-title {
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #1d1d1f;
+        }
+
+        .section-subtitle {
+            color: #6b7280;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        .avantages-grid, .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .avantage-item, .service-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .avantage-item:hover, .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .avantage-icon i {
+            font-size: 2rem;
+            color: #0071e3;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<!-- HERO -->
+<section class="hero">
+    <h1>À propos de <span style="color:#ffd700;">BarakaWeb</span></h1>
+    <p>La référence ivoirienne en vente et construction — Terrains, voitures, matériaux et accompagnement ACD.</p>
+</section>
+
+<!-- PRÉSENTATION -->
+<section class="section about-section">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>Qui Sommes-Nous ?</h2>
+                <p>
+                    <strong>BarakaWeb</strong> est une entreprise ivoirienne innovante qui réunit en une seule plateforme tout l’univers de la <strong>vente et de la construction</strong>.
+                    Nous accompagnons les particuliers et les professionnels dans l’achat de <strong>terrains, de véhicules, de matériaux de construction</strong> et la réalisation de <strong>projets immobiliers</strong> complets.
+                </p>
+                <p>
+                    Nous intervenons de la conception à la livraison, jusqu’à l’obtention de votre <strong>ACD (Arrêté de Concession Définitive)</strong>, en vous garantissant fiabilité, transparence et excellence.
+                </p>
+                <p>
+                    Basée à <strong>Abidjan</strong>, notre mission est simple : <em>rendre l’investissement immobilier accessible, sécurisé et moderne pour tous les Ivoiriens.</em>
+                </p>
+            </div>
+
+            <div class="about-image">
+                <img th:src="@{/images/dg.jpg}" src="images/dg.jpg" alt="Équipe BarakaWeb">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MISSION -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Notre Mission</h2>
+        <p class="section-subtitle">Simplifier, sécuriser et moderniser l’accès à la propriété en Côte d’Ivoire</p>
+
+        <div class="about-content">
+            <div class="about-image">
+                <img th:src="@{/images/bat4.png}" src="images/bat4.png" alt="Notre mission">
+            </div>
+            <div class="about-text">
+                <p>
+                    Chez <strong>BarakaWeb</strong>, nous croyons que chaque citoyen mérite un accès simple et sûr à un patrimoine immobilier durable.
+                    Nous unissons les métiers de la construction, de la vente et du conseil pour bâtir une expérience complète, de la première idée à la remise des clés.
+                </p>
+                <p>
+                    Nos solutions digitales et nos équipes locales facilitent vos démarches, réduisent vos coûts et accélèrent vos projets.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- VALEURS -->
+<section class="section bg-light">
+    <div class="container">
+        <h2 class="section-title">Nos Valeurs</h2>
+        <p class="section-subtitle">Les piliers qui fondent BarakaWeb</p>
+
+        <div class="avantages-grid">
+            <div class="avantage-item">
+                <div class="avantage-icon"><i class="fa-solid fa-handshake"></i></div>
+                <h3>Confiance</h3>
+                <p>Nous plaçons la transparence et l’honnêteté au cœur de toutes nos relations clients et partenaires.</p>
+            </div>
+            <div class="avantage-item">
+                <div class="avantage-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                <h3>Innovation</h3>
+                <p>Nous intégrons les dernières technologies pour faciliter vos achats et vos projets de construction.</p>
+            </div>
+            <div class="avantage-item">
+                <div class="avantage-icon"><i class="fa-solid fa-helmet-safety"></i></div>
+                <h3>Qualité</h3>
+                <p>Des standards élevés dans la sélection des produits et la réalisation de vos travaux.</p>
+            </div>
+            <div class="avantage-item">
+                <div class="avantage-icon"><i class="fa-solid fa-tree-city"></i></div>
+                <h3>Durabilité</h3>
+                <p>Nous promouvons une approche éthique et écologique pour construire un futur responsable.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- POURQUOI NOUS CHOISIR -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Pourquoi Choisir BarakaWeb ?</h2>
+        <p class="section-subtitle">Parce que tout est réuni ici, pour vous.</p>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <img th:src="@{/images/travaux.jpg}" src="images/travaux.jpg" alt="Construction">
+                <div class="service-content">
+                    <h3>Construction & Rénovation</h3>
+                    <p>Des projets livrés clé en main, réalisés avec rigueur et selon vos besoins esthétiques et budgétaires.</p>
+                </div>
+            </div>
+            <div class="service-card">
+                <img th:src="@{/images/terrain.png}" src="images/terrain.png" alt="Terrains">
+                <div class="service-content">
+                    <h3>Vente de Terrains & ACD</h3>
+                    <p>Terrains titrés, accompagnement juridique complet jusqu’à l’obtention de votre ACD.</p>
+                </div>
+            </div>
+            <div class="service-card">
+                <img th:src="@{/images/imo3.png}" src="images/imo3.png" alt="Matériaux">
+                <div class="service-content">
+                    <h3>Matériaux & Véhicules</h3>
+                    <p>Large sélection de produits de construction, véhicules et équipements pour vos projets.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- ========== BOUTON SCROLL TO TOP ========== -->
+<button id="scrollTopBtn" class="scroll-top-btn" aria-label="Remonter en haut">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 4l-8 8h5v8h6v-8h5z"/>
+    </svg>
+</button>
+
+<!-- ========== BOUTON WHATSAPP FLOTTANT ========== -->
+<a href="https://wa.me/2250768189340" class="whatsapp-float" target="_blank" aria-label="Contactez-nous sur WhatsApp">
+    <svg viewBox="0 0 32 32" fill="currentColor">
+        <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 7.933-2.127c2.42 1.37 5.173 2.127 8.067 2.127 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.467c-2.482 0-4.908-0.646-7.07-1.87l-0.507-0.292-5.247 1.408 1.435-5.34-0.335-0.552c-1.354-2.23-2.068-4.801-2.068-7.421 0-7.868 6.402-14.267 14.267-14.267s14.267 6.398 14.267 14.267c0 7.868-6.402 14.267-14.267 14.267zM21.984 18.508c-0.403-0.201-2.383-1.176-2.754-1.311-0.371-0.134-0.641-0.201-0.911 0.201-0.269 0.403-1.044 1.311-1.28 1.581s-0.471 0.302-0.874 0.101c-0.403-0.201-1.7-0.627-3.239-1.998-1.197-1.067-2.006-2.383-2.241-2.786s-0.025-0.621 0.176-0.822c0.181-0.181 0.403-0.471 0.604-0.707s0.269-0.403 0.403-0.672c0.134-0.269 0.067-0.504-0.034-0.707s-0.911-2.196-1.248-3.004c-0.329-0.789-0.663-0.682-0.911-0.695-0.235-0.012-0.504-0.015-0.774-0.015s-0.707 0.101-1.078 0.504c-0.371 0.403-1.416 1.384-1.416 3.377s1.449 3.914 1.65 4.184c0.201 0.269 2.831 4.324 6.859 6.063 0.958 0.415 1.707 0.663 2.291 0.848 0.965 0.307 1.843 0.264 2.538 0.161 0.774-0.116 2.383-0.974 2.72-1.916s0.337-1.75 0.236-1.916c-0.101-0.166-0.371-0.269-0.774-0.471z"/>
+    </svg>
+</a>
+
+<!-- ========== SCRIPT MENU MOBILE ========== -->
+<script>
+    function toggleMenu() {
+        const nav = document.getElementById('mainNav');
+        nav.classList.toggle('active');
+    }
+</script>
+<script>
+    const scrollBtn = document.getElementById("scrollTopBtn");
+
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 200) {
+            scrollBtn.style.display = "block";
+        } else {
+            scrollBtn.style.display = "none";
+        }
+    });
+
+    scrollBtn.addEventListener("click", () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+</script>
+</body>
+</html>

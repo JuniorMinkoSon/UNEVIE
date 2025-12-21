@@ -1,13 +1,11 @@
 package ecom_blog.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PanierItem {
+public class PanierItem extends BaseEntity{
     private Produit produit;
     private int quantite;
 

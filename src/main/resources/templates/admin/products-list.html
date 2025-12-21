@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/head :: head (title='Admin - Liste des Produits')}"></div>
+    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+</head>
+
+<body>
+    <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
+        <section>
+            <div class="container-fluid">
+                <!-- Entête -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="h3 fw-bold text-gray-800">
+                        <i class="fa-solid fa-box text-primary me-2"></i>
+                        Gestion des Produits
+                    </h1>
+                    <a th:href="@{/admin/product/add}" class="btn btn-primary rounded-pill px-4">
+                        <i class="fa-solid fa-plus me-2"></i> Nouveau Produit
+                    </a>
+                </div>
+
+                <!-- Carte Tableau -->
+                <div class="glass-card shadow-sm border-0">
+                    <div class="table-responsive">
+                        <table class="table align-middle table-hover mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Image</th>
+                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Nom</th>
+                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Catégorie</th>
+                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Prix</th>
+                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Statut</th>
+                                    <th class="py-3 text-secondary text-uppercase small fw-bold text-center">Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:if="${#lists.isEmpty(produits)}">
+                                    <td colspan="6" class="text-center py-5 text-muted">
+                                        <i class="fa-solid fa-box-open fa-3x mb-3 d-block"></i>
+                                        Aucun produit trouvé
+                                    </td>
+                                </tr>
+                                <tr th:each="p : ${produits}">
+                                    <td style="width: 80px;">
+                                        <div class="rounded-3 overflow-hidden"
+                                            style="width: 50px; height: 50px; background: #f1f5f9;">
+                                            <img th:if="${p.imageUrl}" th:src="@{/uploads/{img}(img=${p.imageUrl})}"
+                                                class="w-100 h-100 object-fit-cover" alt="Produit">
+                                            <div th:unless="${p.imageUrl}"
+                                                class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
+                                                <i class="fa-solid fa-image"></i>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="fw-semibold text-dark" th:text="${p.nom}">Nom du produit</div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border"
+                                            th:text="${p.categorie}">Catégorie</span>
+                                    </td>
+                                    <td class="fw-bold text-primary" th:text="${p.prix} + ' FCFA'">0 FCFA</td>
+                                    <td>
+                                        <span th:if="${p.disponible}"
+                                            class="badge bg-success-subtle text-success rounded-pill px-3">
+                                            En Stock
+                                        </span>
+                                        <span th:unless="${p.disponible}"
+                                            class="badge bg-danger-subtle text-danger rounded-pill px-3">
+                                            Épuisé
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="#" class="btn btn-sm btn-outline-primary rounded-circle"
+                                            title="Modifier">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-sm btn-outline-danger rounded-circle ms-1"
+                                            title="Supprimer"
+                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>

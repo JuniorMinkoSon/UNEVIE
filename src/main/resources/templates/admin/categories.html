@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/head :: head (title='Admin - Gestion des Catégories')}"></div>
+    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+</head>
+
+<body>
+    <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
+        <section>
+            <div class="container-fluid">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="h3 fw-bold text-gray-800">
+                        <i class="fa-solid fa-tags text-primary me-2"></i>
+                        Gestion des Catégories
+                    </h1>
+                    <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal"
+                        data-bs-target="#addCategoryModal">
+                        <i class="fa-solid fa-plus me-2"></i> Nouvelle Catégorie
+                    </button>
+                </div>
+
+                <!-- 📋 Liste des catégories -->
+                <div class="glass-card shadow-sm border-0">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold m-0 text-primary">Liste existante</h5>
+                        <span class="badge bg-primary rounded-pill" th:text="${#lists.size(categories)} + ' items'">0
+                            items</span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table align-middle table-hover mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="py-3 text-secondary text-uppercase small fw-bold">ID</th>
+                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Libellé</th>
+                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Description</th>
+                                    <th class="py-3 text-secondary text-uppercase small fw-bold text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:if="${#lists.isEmpty(categories)}">
+                                    <td colspan="4" class="text-center py-5 text-muted">
+                                        <i class="fa-solid fa-tags fa-3x mb-3 d-block opacity-50"></i>
+                                        Aucune catégorie pour le moment.
+                                    </td>
+                                </tr>
+                                <tr th:each="cat : ${categories}">
+                                    <td class="text-muted fw-bold" th:text="'#' + ${cat.id}">#1</td>
+                                    <td>
+                                        <span class="fw-bold text-dark" th:text="${cat.libelle}">Nom</span>
+                                    </td>
+                                    <td class="text-muted small" th:text="${cat.description}">Desc</td>
+                                    <td class="text-end">
+                                        <a th:href="@{'/admin/categories/delete/' + ${cat.id}}"
+                                            class="btn btn-sm btn-outline-danger rounded-circle"
+                                            onclick="return confirm('Confirmer la suppression ?')">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 🛠 MODAL AJOUT CATÉGORIE -->
+                <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px; overflow: hidden;">
+                            <div class="modal-header bg-primary text-white border-0">
+                                <h5 class="modal-title fw-bold" id="addCategoryModalLabel">
+                                    <i class="fa-solid fa-folder-plus me-2"></i> Ajouter une catégorie
+                                </h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form th:action="@{/admin/categories/save}" th:object="${categorie}" method="post">
+                                <div class="modal-body p-4">
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold text-dark">Libellé de la catégorie</label>
+                                        <input type="text" class="form-control form-control-lg bg-light border-0"
+                                            th:field="*{libelle}" placeholder="Ex: Électronique, Mode..." required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold text-dark">Description (optionnel)</label>
+                                        <textarea class="form-control bg-light border-0" rows="4"
+                                            th:field="*{description}"
+                                            placeholder="Une courte description..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer border-0 bg-light p-3">
+                                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4"
+                                        data-bs-dismiss="modal">Annuler</button>
+                                    <button type="submit" class="btn btn-primary rounded-pill px-5 fw-bold">
+                                        Enregistrer
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>
