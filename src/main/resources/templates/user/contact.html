@@ -1,201 +1,181 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Contactez Baraka Synergies Group pour vos projets immobiliers, BTP et automobiles">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    <title>Contact - Baraka Synergies Group</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Contact | UNEVIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 
-<body>
+<body class="bg-gray-50 text-gray-800">
 
 <!-- ================= HEADER ================= -->
 <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- ========== BANNIÈRE PAGE ========== -->
-<section class="hero" style="padding: 5rem 2rem;">
-    <h1>Contactez-Nous</h1>
-    <p>Nous sommes à votre écoute pour digitaliser vos projets</p>
+<!-- ================= HERO ================= -->
+<section class="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-20 text-center">
+    <h1 class="text-4xl font-extrabold mb-4">
+        Contactez <span class="text-yellow-400">UNEVIE</span>
+    </h1>
+    <p class="max-w-2xl mx-auto text-blue-100 text-lg">
+        Une question ? Un projet ? Un partenariat ?
+        Notre équipe vous répond rapidement.
+    </p>
 </section>
 
-<!-- ========== SECTION CONTACT PRINCIPALE ========== -->
-<section class="section contact-section">
-    <div class="container">
-        <h2 class="section-title">Parlons de Votre Projet</h2>
-        <p class="section-subtitle">Remplissez le formulaire ci-dessous ou utilisez nos coordonnées pour nous joindre</p>
+<!-- ================= CONTACT ================= -->
+<section class="max-w-7xl mx-auto px-6 py-20">
+    <div class="grid lg:grid-cols-2 gap-12">
 
-        <div class="contact-container">
+        <!-- ================= FORMULAIRE ================= -->
+        <div class="bg-white p-10 rounded-2xl shadow-lg">
+            <h2 class="text-2xl font-extrabold mb-6">
+                Envoyez-nous un message
+            </h2>
 
-            <!-- 📨 FORMULAIRE DE CONTACT -->
-            <div class="contact-form">
-                <h3 style="color: var(--bleu-fonce); margin-bottom: 1.5rem; font-size: 1.8rem;">Envoyez-nous un Message</h3>
+            <form class="space-y-5">
 
+                <div>
+                    <label class="block text-sm font-medium mb-1">Nom complet</label>
+                    <input type="text"
+                           placeholder="Votre nom et prénom"
+                           class="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 outline-none">
+                </div>
 
-                    <div class="form-group">
-                        <label for="nom">Nom Complet *</label>
-                        <input type="text" id="nom" name="nom" required placeholder="Votre nom et prénom">
-                    </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Adresse email</label>
+                    <input type="email"
+                           placeholder="exemple@email.com"
+                           class="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 outline-none">
+                </div>
 
-                    <div class="form-group">
-                        <label for="email">Adresse Email *</label>
-                        <input type="email" id="email" name="email" required placeholder="votre.email@exemple.com">
-                    </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Téléphone</label>
+                    <input type="tel"
+                           placeholder="+225 07 14 36 75 25"
+                           class="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 outline-none">
+                </div>
 
-                    <div class="form-group">
-                        <label for="telephone">Téléphone *</label>
-                        <input type="tel" id="telephone" name="telephone" required placeholder="+225 07 68 18 93 40">
-                    </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Sujet</label>
+                    <input type="text"
+                           placeholder="Objet de votre message"
+                           class="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 outline-none">
+                </div>
 
-                    <div class="form-group">
-                        <label for="sujet">Sujet *</label>
-                        <input type="text" id="sujet" name="sujet" required placeholder="Objet de votre message">
-                    </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Message</label>
+                    <textarea rows="5"
+                              placeholder="Décrivez votre besoin ou votre projet…"
+                              class="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-600 outline-none"></textarea>
+                </div>
 
-                    <div class="form-group">
-                        <label for="message">Votre Message *</label>
-                        <textarea id="message" name="message" required placeholder="Décrivez-nous votre projet en détail..."></textarea>
-                    </div>
+                <button type="submit"
+                        class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-4 rounded-xl transition">
+                    Envoyer le message
+                </button>
 
-                    <div class="btn-hero">
-                        <button type="submit" class="prim1" style="width: 100%;">
-                            Envoyer le Message
-                        </button>
-                    </div>
-                </form>
-
-                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--texte-leger); text-align: center;">
-                    * Champs obligatoires. Nous vous répondrons dans les 24h.
+                <p class="text-sm text-gray-500 text-center">
+                    Réponse sous 24h ouvrées
                 </p>
-            </div>
+            </form>
+        </div>
 
-            <!-- 📞 INFORMATIONS DE CONTACT -->
-            <div class="contact-info">
-                <h3 style="color: var(--bleu-fonce); margin-bottom: 1.5rem; font-size: 1.8rem;">Nos Coordonnées</h3>
+        <!-- ================= INFOS ================= -->
+        <div class="space-y-6">
 
-                <!-- Adresse -->
-                <div class="info-item">
-                    <div class="info-details">
-                        <i class="fa-solid fa-location-dot"></i>
-                        <div>
-                            <h3>Adresse</h3>
-                            <p>ABIDJAN, COCODY - ANGRE BESSIKOI, BASE CIE</p>
-                        </div>
+            <div class="bg-white p-8 rounded-2xl shadow">
+                <h3 class="text-xl font-bold mb-4">Coordonnées UNEVIE</h3>
+
+                <div class="space-y-4 text-gray-600">
+
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-location-dot text-blue-700 text-xl mt-1"></i>
+                        <p>
+                            Abidjan – Côte d’Ivoire<br>
+                            Cocody
+                        </p>
                     </div>
-                </div>
 
-                <!-- Téléphones -->
-                <div class="info-item">
-                    <div class="info-details">
-                        <i class="fa-solid fa-phone"></i>
-                        <div>
-                            <h3>Téléphones</h3>
-                            <p>+225 07 68 18 93 40</p>
-                            <p>+225 07 48 81 88 16</p>
-                        </div>
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-phone text-blue-700 text-xl mt-1"></i>
+                        <p>
+                            +225 07 14 36 75 25<br>
+                            +225 05 76 57 44 57
+                        </p>
                     </div>
-                </div>
 
-                <!-- WhatsApp -->
-                <div class="info-item">
-                    <div class="info-details">
-                        <i class="fa-brands fa-whatsapp"></i>
-                        <div>
-                            <h3>WhatsApp</h3>
-                            <p><a href="https://wa.me/2250768189340" target="_blank">+225 07 68 18 93 40</a></p>
-                        </div>
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-envelope text-blue-700 text-xl mt-1"></i>
+                        <p>
+                            <a href="mailto:son.minko@esatic.edu.ci"
+                               class="text-blue-600 hover:underline">
+                                son.minko@esatic.edu.ci
+                            </a>
+                        </p>
                     </div>
-                </div>
 
-                <!-- Email -->
-                <div class="info-item">
-                    <div class="info-details">
-                        <i class="fa-solid fa-envelope"></i>
-                        <div>
-                            <h3>Email</h3>
-                            <p><a href="mailto:Contacts@barakasynergiesgroup.com">Contacts@barakasynergiesgroup.com</a></p>
-                        </div>
+                    <div class="flex items-start gap-4">
+                        <i class="fab fa-whatsapp text-green-600 text-xl mt-1"></i>
+                        <p>
+                            <a href="https://wa.me/2250714367525"
+                               target="_blank"
+                               class="text-green-600 hover:underline">
+                                WhatsApp UNEVIE
+                            </a>
+                        </p>
                     </div>
-                </div>
 
-                <!-- Horaires -->
-                <div class="info-item">
-                    <div class="info-details">
-                        <i class="fa-solid fa-clock"></i>
-                        <div>
-                            <h3>Horaires d'Ouverture</h3>
-                            <p>Lundi - Vendredi : 8h00 - 18h00</p>
-                            <p>Samedi : 9h00 - 14h00</p>
-                            <p>Dimanche : Fermé</p>
-                        </div>
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-clock text-blue-700 text-xl mt-1"></i>
+                        <p>
+                            Lun – Ven : 8h00 – 18h00<br>
+                            Sam : 9h00 – 14h00
+                        </p>
                     </div>
+
                 </div>
             </div>
+
+            <!-- CTA -->
+            <div class="bg-gradient-to-r from-blue-700 to-blue-500 text-white p-8 rounded-2xl shadow text-center">
+                <h3 class="text-xl font-extrabold mb-2">
+                    Vous êtes prestataire ?
+                </h3>
+                <p class="text-blue-100 mb-4">
+                    Rejoignez l’écosystème UNEVIE et développez votre activité.
+                </p>
+                <a th:href="@{/contact}"
+                   class="inline-block bg-white text-blue-700 font-semibold px-6 py-3 rounded-xl hover:bg-gray-100 transition">
+                    Devenir partenaire
+                </a>
+            </div>
+
         </div>
     </div>
 </section>
 
-<!-- ========== GOOGLE MAPS ========== -->
-<section class="section" style="padding: 0;">
-    <div class="map-container" style="height: 450px;">
-        <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.3647448128896!2d-3.9820987!3d5.373481!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNcKwMjInMjQuNSJOIDPCsDU4JzU1LjYiVw!5e0!3m2!1sfr!2sci!4v1234567890123!5m2!1sfr!2sci"
-                width="100%"
-                height="450"
-                style="border:0;"
-                allowfullscreen=""
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                title="Localisation Baraka Synergies Group">
-        </iframe>
-    </div>
+<!-- ================= MAP ================= -->
+<section class="w-full h-[400px]">
+    <iframe
+            class="w-full h-full border-0"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=Abidjan%20Cocody&output=embed">
+    </iframe>
 </section>
 
 <!-- ================= FOOTER ================= -->
 <div th:replace="~{fragments/footer :: footer}"></div>
-
-<!-- ========== BOUTON SCROLL TO TOP ========== -->
-<button id="scrollTopBtn" class="scroll-top-btn" aria-label="Remonter en haut">
-    <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 4l-8 8h5v8h6v-8h5z"/>
-    </svg>
-</button>
-
-<!-- ========== BOUTON WHATSAPP FLOTTANT ========== -->
-<a href="https://wa.me/2250768189340" class="whatsapp-float" target="_blank" aria-label="Contactez-nous sur WhatsApp">
-    <svg viewBox="0 0 32 32" fill="currentColor">
-        <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 7.933-2.127c2.42 1.37 5.173 2.127 8.067 2.127 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.467c-2.482 0-4.908-0.646-7.07-1.87l-0.507-0.292-5.247 1.408 1.435-5.34-0.335-0.552c-1.354-2.23-2.068-4.801-2.068-7.421 0-7.868 6.402-14.267 14.267-14.267s14.267 6.398 14.267 14.267c0 7.868-6.402 14.267-14.267 14.267zM21.984 18.508c-0.403-0.201-2.383-1.176-2.754-1.311-0.371-0.134-0.641-0.201-0.911 0.201-0.269 0.403-1.044 1.311-1.28 1.581s-0.471 0.302-0.874 0.101c-0.403-0.201-1.7-0.627-3.239-1.998-1.197-1.067-2.006-2.383-2.241-2.786s-0.025-0.621 0.176-0.822c0.181-0.181 0.403-0.471 0.604-0.707s0.269-0.403 0.403-0.672c0.134-0.269 0.067-0.504-0.034-0.707s-0.911-2.196-1.248-3.004c-0.329-0.789-0.663-0.682-0.911-0.695-0.235-0.012-0.504-0.015-0.774-0.015s-0.707 0.101-1.078 0.504c-0.371 0.403-1.416 1.384-1.416 3.377s1.449 3.914 1.65 4.184c0.201 0.269 2.831 4.324 6.859 6.063 0.958 0.415 1.707 0.663 2.291 0.848 0.965 0.307 1.843 0.264 2.538 0.161 0.774-0.116 2.383-0.974 2.72-1.916s0.337-1.75 0.236-1.916c-0.101-0.166-0.371-0.269-0.774-0.471z"/>
-    </svg>
-</a>
-
-
-<!-- ========== SCRIPT MENU MOBILE ========== -->
-<script>
-    function toggleMenu() {
-        const nav = document.getElementById('mainNav');
-        nav.classList.toggle('active');
-    }
-</script>
-
-<script>
-    const scrollBtn = document.getElementById("scrollTopBtn");
-
-    window.addEventListener("scroll", () => {
-        if (window.scrollY > 200) {
-            scrollBtn.style.display = "block";
-        } else {
-            scrollBtn.style.display = "none";
-        }
-    });
-
-    scrollBtn.addEventListener("click", () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    });
-</script>
 
 </body>
 </html>

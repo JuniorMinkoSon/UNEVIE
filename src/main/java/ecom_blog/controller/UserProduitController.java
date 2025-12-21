@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Controller
 public class UserProduitController {
 
@@ -29,19 +31,41 @@ public class UserProduitController {
     @Autowired
     private ArticleService articleService;
 
-    // ✅ Route principale qui affiche articles + produits
+    /**
+     * Page projets / produits avec filtre par catégorie
+     */
     @GetMapping("/projets")
-    public String projets(Model model) {
-        model.addAttribute("produits", produitService.getAllDisponibles());
+    public String projets(
+            @RequestParam(required = false) String categorie,
+            Model model
+    ) {
+        List<Produit> produits;
+
+        if (categorie == null || categorie.isBlank()) {
+            produits = produitService.getAllDisponibles();
+        } else {
+            produits = produitService.getAllDisponibles()
+                    .stream()
+                    .filter(p -> p.getCategorie() != null &&
+                            p.getCategorie().equalsIgnoreCase(categorie))
+                    .toList();
+        }
+
+        model.addAttribute("produits", produits);
         model.addAttribute("articles", articleService.getAll());
         return "user/projets";
-        // 🔥 le nom du fichier sans extension
     }
 
+    /**
+     * Commander un produit (POST obligatoire)
+     */
     @PostMapping("/produits/commander/{id}")
-    public String commanderProduit(@PathVariable Long id, Principal principal) {
+    public String commanderProduit(
+            @PathVariable Long id,
+            Principal principal
+    ) {
         if (principal == null) {
-            return "redirect:/login?redirect=projets";
+            return "redirect:/login";
         }
 
         Produit produit = produitService.getById(id);
@@ -50,6 +74,7 @@ public class UserProduitController {
         }
 
         User user = userService.findByEmail(principal.getName());
+
         Commande commande = new Commande();
         commande.setProduit(produit);
         commande.setUser(user);
@@ -58,6 +83,7 @@ public class UserProduitController {
         commande.setStatut("EN_ATTENTE");
 
         commandeService.save(commande);
+
         return "redirect:/projets?success=commande";
     }
 }

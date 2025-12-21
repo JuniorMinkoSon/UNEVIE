@@ -71,4 +71,9 @@ public class ProduitService {
     public long count() {
         return produitRepository.count();
     }
+    // 🔍 Produits par catégorie (disponibles uniquement)
+    public List<Produit> getByCategorie(String categorie) {
+        return produitRepository.findByCategorieIgnoreCaseAndDisponibleTrue(categorie);
+    }
+
 }

@@ -2,7 +2,6 @@ package ecom_blog.service;
 
 import ecom_blog.model.Commande;
 import ecom_blog.repository.CommandeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,21 +9,29 @@ import java.util.List;
 @Service
 public class CommandeService {
 
-    @Autowired
-    private CommandeRepository commandeRepository;
+    private final CommandeRepository commandeRepository;
 
+    public CommandeService(CommandeRepository commandeRepository) {
+        this.commandeRepository = commandeRepository;
+    }
+
+    // 📦 Toutes les commandes
     public List<Commande> getAll() {
         return commandeRepository.findAll();
     }
 
+    // 🔎 Récupération sûre par ID (OBLIGATOIRE)
     public Commande getById(Long id) {
-        return commandeRepository.findById(id).orElse(null);
+        return commandeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Commande introuvable"));
     }
 
+    // 💾 Sauvegarde
     public void save(Commande commande) {
         commandeRepository.save(commande);
     }
 
+    // 📊 Statistiques
     public long count() {
         return commandeRepository.count();
     }
@@ -33,6 +40,7 @@ public class CommandeService {
         return commandeRepository.countByStatut(statut);
     }
 
+    // 🕒 Dernières commandes
     public List<Commande> findLast5() {
         return commandeRepository.findTop5ByOrderByDateCommandeDesc();
     }

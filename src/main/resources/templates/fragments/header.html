@@ -1,50 +1,45 @@
+<div th:fragment="header"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<div th:fragment="header" class="" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <header class="bg-white shadow sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
-    <!-- ========== HEADER ========== -->
-    <header>
-        <div class="header-container">
-            <div class="logo"><img th:src="@{/images/logo-baraka.png}" alt="Baraka Synergies Group" style="height:60px; width:auto;">
-                </a>
-                <a th:href="@{/}">BARAKA<span>SYNERGIE</span></a>
-            </div>
-            <nav id="mainNav">
-                <ul>
-                    <li><a th:href="@{/}" class="active">Accueil</a></li>
-                    <li><a th:href="@{/propos}">À propos</a></li>
-                    <li><a th:href="@{/services}">Services</a></li>
-                    <li><a th:href="@{/objectifs}">Objectifs</a></li>
-                    <li><a th:href="@{/projets}">Réalisations</a></li>
-                </ul>
+            <!-- Logo -->
+            <a th:href="@{/}" class="flex items-center gap-2 text-xl font-extrabold">
+                <img th:src="@{/images/logo-baraka.png}" class="h-10">
+                UNE<span class="text-primary">VIE</span>
+            </a>
 
+            <!-- Menu -->
+            <nav class="hidden md:flex gap-8 font-medium">
+                <a th:href="@{/}" class="hover:text-primary">Accueil</a>
+                <a th:href="@{/propos}" class="hover:text-primary">À propos</a>
+                <a th:href="@{/services}" class="hover:text-primary">Services</a>
+                <a th:href="@{/objectifs}" class="hover:text-primary">Objectifs</a>
+                <a th:href="@{/projets}" class="hover:text-primary">Réalisations</a>
             </nav>
 
-            <div class="contact-nav">
-                <a th:href="@{/contact}">Nous contacter</a>
-            </div>
-            <div class="contact-nav" sec:authorize="isAnonymous()">
-                <a th:href="@{/login}">Connexion</a>
-            </div>
+            <!-- Actions -->
+            <div class="flex items-center gap-4">
+                <a th:href="@{/contact}"
+                   class="hidden md:block text-gray-600 hover:text-primary">
+                    Nous contacter
+                </a>
 
-            <div class="contact-nav" sec:authorize="isAuthenticated()">
-                <form th:action="@{/logout}" method="post" style="display: inline;">
-                    <button type="submit" style="background:none; border:none; color:inherit; cursor:pointer;">Déconnexion</button>
-                </form>
-            </div>
+                <a sec:authorize="isAnonymous()"
+                   th:href="@{/login}"
+                   class="px-4 py-2 border border-primary text-primary rounded-lg
+                      hover:bg-primary hover:text-white transition">
+                    Connexion
+                </a>
 
-            <div class="" sec:authorize="isAuthenticated()" style="margin-left: 10px; font-weight: bold;">
-                <span sec:authentication="name"></span>
-            </div>
-
-            <div class="menu-toggle" onclick="toggleMenu()">
-                <span></span><span></span><span></span>
-            </div>
-
-
-            <div class="menu-toggle" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
+                <div sec:authorize="isAuthenticated()" class="flex items-center gap-3">
+                    <span sec:authentication="name" class="text-sm"></span>
+                    <form th:action="@{/logout}" method="post">
+                        <button class="text-red-500 text-sm">Déconnexion</button>
+                    </form>
+                </div>
             </div>
         </div>
     </header>

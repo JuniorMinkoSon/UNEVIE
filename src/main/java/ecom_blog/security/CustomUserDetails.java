@@ -1,5 +1,6 @@
 package ecom_blog.security;
 
+import ecom_blog.model.Role;
 import ecom_blog.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,24 +17,57 @@ public class CustomUserDetails implements UserDetails {
         this.user = user;
     }
 
+    // 🔐 Autorités Spring Security (ADMIN / USER)
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // ✅ Conversion de l’enum Role en texte
-        return Collections.singleton(new SimpleGrantedAuthority(user.getRole().name()));
+
+        Role role = user.getRole(); // ENUM Role
+
+        if (role == null) {
+            return Collections.emptyList();
+        }
+
+        // ⚠️ ICI ON NE RAJOUTE PAS "ROLE_" SI L’ENUM LE CONTIENT DÉJÀ
+        return Collections.singleton(
+                new SimpleGrantedAuthority(role.name())
+        );
     }
 
+    // 🔑 Mot de passe
     @Override
     public String getPassword() {
         return user.getPassword();
     }
 
+    // 👤 Identifiant (email)
     @Override
     public String getUsername() {
-        return user.getEmail(); // ✅ Email utilisé pour se connecter
+        return user.getEmail();
     }
 
-    @Override public boolean isAccountNonExpired() { return true; }
-    @Override public boolean isAccountNonLocked() { return true; }
-    @Override public boolean isCredentialsNonExpired() { return true; }
-    @Override public boolean isEnabled() { return true; }
+    // ✅ États du compte
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    // 🔁 Accès à l’utilisateur métier
+    public User getUser() {
+        return user;
+    }
 }

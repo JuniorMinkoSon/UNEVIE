@@ -2,67 +2,56 @@ package ecom_blog.controller;
 
 import ecom_blog.model.Commande;
 import ecom_blog.model.Produit;
-import ecom_blog.model.User;
+import ecom_blog.security.CustomUserDetails;
 import ecom_blog.service.CommandeService;
 import ecom_blog.service.ProduitService;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
-@RequestMapping("/panier")
 public class CommandeController {
 
-    @Autowired
-    private ProduitService produitService;
+    private final ProduitService produitService;
+    private final CommandeService commandeService;
 
-    @Autowired
-    private CommandeService commandeService;
-
-    @PostMapping("/ajouter/{id}")
-    public String ajouterPanier(@PathVariable Long id, HttpSession session) {
-        Produit produit = produitService.findById(id);
-        if (produit == null) return "redirect:/";
-
-        List<Produit> panier = (List<Produit>) session.getAttribute("panier");
-        if (panier == null) panier = new ArrayList<>();
-
-        panier.add(produit);
-        session.setAttribute("panier", panier);
-
-        return "redirect:/panier";
+    public CommandeController(ProduitService produitService,
+                              CommandeService commandeService) {
+        this.produitService = produitService;
+        this.commandeService = commandeService;
     }
 
-    @GetMapping
-    public String afficherPanier(Model model, HttpSession session) {
-        List<Produit> panier = (List<Produit>) session.getAttribute("panier");
-        double total = panier == null ? 0 : panier.stream().mapToDouble(Produit::getPrix).sum();
+    // 📄 AFFICHER LE FORMULAIRE DE COMMANDE
+    @GetMapping("/commande/{id}")
+    public String afficherFormulaire(@PathVariable Long id, Model model) {
 
-        model.addAttribute("panier", panier);
-        model.addAttribute("total", total);
-        return "produit"; // Vue user/produit.html
+        Produit produit = produitService.getById(id);
+
+        model.addAttribute("produit", produit);
+        return "user/commande-form";
     }
 
-    @PostMapping("/valider")
-    public String validerCommande(HttpSession session, @RequestParam String modePaiement) {
-        List<Produit> panier = (List<Produit>) session.getAttribute("panier");
-        if (panier == null || panier.isEmpty()) {
-            return "redirect:/panier?error=vide";
-        }
+    // 🛒 VALIDER LA COMMANDE
+    @PostMapping("/commande/valider")
+    public String validerCommande(@RequestParam Long produitId,
+                                  @RequestParam String modePaiement,
+                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        Produit produit = produitService.getById(produitId);
 
         Commande commande = new Commande();
-        commande.setTotal(panier.stream().mapToDouble(Produit::getPrix).sum());
-        commande.setUser((User) session.getAttribute("user"));
+        commande.setProduit(produit);
+        commande.setTotal(produit.getPrix());
         commande.setModePaiement(modePaiement);
-        commande.setStatut("EN_ATTENTE");
+
+        // 👤 Si utilisateur connecté
+        if (userDetails != null) {
+            commande.setUser(userDetails.getUser());
+        }
 
         commandeService.save(commande);
-        session.removeAttribute("panier");
 
-        return "redirect:/confirmation";
+        return "redirect:/projets?success=commande";
     }
 }

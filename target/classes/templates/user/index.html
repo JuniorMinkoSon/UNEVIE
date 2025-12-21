@@ -1,253 +1,208 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Entreprise ivoirienne spécialisée en travaux publics, génie civil, immobilier et finitions">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <title>Accueil | UNEVIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Accueil - BTP Immobilier CI</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
-<body>
 
-    <!-- ================= HEADER ================= -->
-    <div th:replace="~{fragments/header :: header}"></div>
+<body class="bg-gray-50 text-gray-800">
 
-    <!-- ========== BANNIÈRE HERO ========== -->
-    <section class="hero">
-        <h1>Construisons ensemble <br/> votre patrimoine en toute  <br/> confiance</h1>
-        <p>Votre partenaire de confiance pour vos projets de construction, d'immobilier et d'aménagement en Côte d'Ivoire</p>
-        <div class="btn-hero">
-            <a th:href="@{/projets}" class="prim1">Voir nos réalisations</a>
-            <a th:href="@{/contact}" class="prim2">Démarrer un projet</a>
+<!-- ================= HEADER ================= -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<!-- ================= HERO ================= -->
+<section class="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-24 text-center">
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
+        Bienvenue sur <span class="text-yellow-400">UNEVIE</span>
+    </h1>
+
+    <p class="max-w-3xl mx-auto text-blue-100 text-lg mb-10">
+        Commandez une voiture ou réservez une résidence selon votre localisation,
+        de façon <strong>simple</strong>, <strong>rapide</strong> et
+        <strong>sécurisée</strong>.
+    </p>
+
+    <div class="flex justify-center gap-4 flex-wrap">
+        <a th:href="@{/projets}"
+           class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold
+                  px-8 py-4 rounded-xl transition">
+            Découvrir les offres
+        </a>
+
+        <a th:href="@{/contact}"
+           class="border border-white text-white hover:bg-white hover:text-blue-800
+                  font-semibold px-8 py-4 rounded-xl transition">
+            Nous contacter
+        </a>
+    </div>
+</section>
+
+<!-- ================= COMMENT ÇA FONCTIONNE ================= -->
+<section class="max-w-7xl mx-auto px-6 py-20">
+
+    <div class="text-center mb-16">
+        <h2 class="text-3xl font-extrabold mb-4">
+            Comment ça <span class="text-blue-700">fonctionne</span> ?
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+            UNEVIE vous accompagne à chaque étape pour une expérience fluide et sécurisée.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+        <!-- Étape 1 -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-2xl transition">
+            <div class="text-blue-700 text-4xl mb-4">
+                <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <h3 class="text-lg font-bold mb-2">1. Choisissez votre localisation</h3>
+            <p class="text-gray-600 text-sm">
+                Connectez-vous à la plateforme et sélectionnez votre zone.
+                Utilisez notre carte intelligente pour trouver le lieu qui vous convient.
+            </p>
         </div>
 
-    </section>
-
-    <!-- ========== NOS SERVICES ========== -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Nos <strong class="title1"> Domaines d'Expertise </strong> </h2>
-            <p class="section-subtitle">Des solutions complètes pour tous vos besoins en construction et immobilier</p>
-
-            <div class="services-grid">
-                <!-- Service 1 : Travaux publics -->
-                <div class="service-card">
-                    <img th:src="@{/images/bat4.jpg}"
-                         src="images/bat4.jpg"
-                         alt="Travaux publics et génie civil">
-                    <div class="service-content">
-                        <h3>Travaux Publics & Génie Civil</h3>
-                        <p>Construction de routes, ponts, ouvrages d'art et infrastructures publiques. Nous assurons la réalisation de vos grands projets.</p>
-                        <a th:href="@{/services}" class="btn-svce" style="margin-top: 1rem;">En savoir plus <i class="fa-solid fa-arrow-right"></i></a>
-                    </div>
-                </div>
-
-                <!-- Service 2 : Immobilier -->
-                <div class="service-card">
-                    <img th:src="@{/images/imo2.png}"
-                         src="images/imo2.png"
-                         alt="Immobilier et foncier sécurisé">
-                    <div class="service-content">
-                        <h3>Immobilier & Foncier</h3>
-                        <p>Vente de terrains titrés, accompagnement dans vos acquisitions foncières et sécurisation juridique.</p>
-                        <a th:href="@{/services}" class="btn-svce" style="margin-top: 1rem;">En savoir plus <i class="fa-solid fa-arrow-right"></i></a>
-                    </div>
-                </div>
-
-                <!-- Service 3 : Finitions -->
-                <div class="service-card">
-                    <img th:src="@{/images/imo3.jpg}"
-                         src="images/imo3.jpg"
-                         alt="Finitions et aménagements">
-                    <div class="service-content">
-                        <h3>Finitions & Aménagements</h3>
-                        <p>Décoration intérieure, menuiserie, plomberie, électricité et tous travaux de finition pour sublimer vos espaces de vie et de travail.</p>
-                        <a th:href="@{/services}" class="btn-svce" style="margin-top: 1rem;">En savoir plus<i class="fa-solid fa-arrow-right"></i></a>
-                    </div>
-                </div>
+        <!-- Étape 2 -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-2xl transition">
+            <div class="text-blue-700 text-4xl mb-4">
+                <i class="fas fa-filter"></i>
             </div>
+            <h3 class="text-lg font-bold mb-2">2. Filtrez les offres</h3>
+            <p class="text-gray-600 text-sm">
+                Parcourez et filtrez les offres de voitures ou de résidences
+                selon vos préférences et votre budget.
+            </p>
         </div>
-    </section>
 
-    <!-- ========== NOS RÉALISATIONS RÉCENTES ========== -->
-    <section class="section bg-light">
-        <div class="container">
-            <h2 class="section-title">Nos <strong class="title2"> Réalisations </strong> Récentes</h2>
-            <p class="section-subtitle">Découvrez quelques-uns de nos projets réalisés avec succès</p>
-
-            <div class="projets-grid">
-                <!-- Projet 1 -->
-                <div class="projet-card">
-                    <img th:src="@{/images/bat2.jpg}"
-                         src="images/bat2.jpg"
-                         alt="Construction résidentielle">
-                    <div class="projet-content">
-                        <h3>Villa Moderne - Cocody</h3>
-                        <p><strong>Type :</strong> Construction résidentielle</p>
-                        <p>Villa de standing avec finitions haut de gamme, piscine et jardin paysager sur 500m².</p>
-                    </div>
-                </div>
-
-                <!-- Projet 2 -->
-                <div class="projet-card">
-                    <img th:src="@{/images/bat1.jpg}"
-                         src="images/bat1.jpg"
-                         alt="Immeuble commercial">
-                    <div class="projet-content">
-                        <h3>Centre Commercial - Plateau</h3>
-                        <p><strong>Type :</strong> Bâtiment commercial</p>
-                        <p>Immeuble R+4 avec espaces commerciaux et bureaux, livré en 18 mois.</p>
-                    </div>
-                </div>
-
-                <!-- Projet 3 -->
-                <div class="projet-card">
-                    <img th:src="@{/images/lot1.png}"
-                         src="images/lot1.png"
-                         alt="Lotissement">
-                    <div class="projet-content">
-                        <h3>Lotissement Sécurisé - Bingerville</h3>
-                        <p><strong>Type :</strong> Aménagement foncier</p>
-                        <p>120 parcelles viabilisées avec titres fonciers, voirie et réseaux complets.</p>
-                    </div>
-                </div>
+        <!-- Étape 3 -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-2xl transition">
+            <div class="text-blue-700 text-4xl mb-4">
+                <i class="fas fa-check-circle"></i>
             </div>
-
-            <div class="btn-hero all_projet ">
-                <a th:href="@{/projets}" class="prim1">Voir tous nos projets</a>
-            </div>
+            <h3 class="text-lg font-bold mb-2">3. Commandez facilement</h3>
+            <p class="text-gray-600 text-sm">
+                Cliquez sur <strong>Commander</strong>, remplissez vos informations
+                et soumettez votre commande en toute sécurité.
+            </p>
         </div>
-    </section>
 
-    <!-- ========== POURQUOI NOUS CHOISIR ========== -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Pourquoi Nous Choisir ?</h2>
-            <p class="section-subtitle">Les garanties qui font notre différence</p>
+    </div>
+</section>
 
-            <div class="avantages-grid">
-                <div class="avantage-item">
-                    <div class="avantage-icon">
-                        <img src="images/expertise.png" />
-                    </div>
-                    <h3>Expertise Locale</h3>
-                    <p>Plus de 10 ans d'expérience sur le marché ivoirien avec une parfaite connaissance des réglementations.</p>
-                </div>
+<!-- ================= MODE DE PAIEMENT ================= -->
+<section class="bg-white py-20">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
 
-                <div class="avantage-item">
-                    <div class="avantage-icon">
-                        <img src="images/securite.png" />
-                    </div>
-                    <h3>Sécurité Juridique</h3>
-                    <p>Tous nos terrains sont titrés (ACD) et nos projets respectent les normes de construction en vigueur.</p>
-                </div>
-
-                <div class="avantage-item">
-                    <div class="avantage-icon">
-                        <img src="images/garantie.png" />
-                    </div>
-                    <h3>Qualité Garantie</h3>
-                    <p>Matériaux de première qualité, artisans qualifiés et suivi rigoureux pour une satisfaction totale.</p>
-                </div>
-
-                <div class="avantage-item">
-                    <div class="avantage-icon">
-                        <img src="images/accompagnement.png" />
-                    </div>
-                    <h3>Accompagnement Complet</h3>
-                    <p>De la conception à la livraison, nous vous accompagnons à chaque étape de votre projet.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== TÉMOIGNAGES ========== -->
-    <section class="section temoignages-section">
-        <div class="container">
-            <h2 class="section-title">Ce Que Disent <strong class="title3"> Nos Clients </strong> </h2>
-            <p class="section-subtitle">La satisfaction client au cœur de nos priorités</p>
-
-            <div class="temoignages-grid">
-                <!-- Témoignage 1 -->
-                <div class="temoignage-card">
-                    <p class="temoignage-text">
-                        "J'ai acheté mon terrain par leur intermédiaire et ils m'ont accompagné jusqu'à l'obtention du titre foncier. Service impeccable et très professionnel. Je recommande vivement !"
-                    </p>
-                    <div class="temoignage-auteur">
-                        <div class="auteur-avatar">KM</div>
-                        <div class="auteur-info">
-                            <h4>Kouassi Marcel</h4>
-                            <p>Propriétaire, Bingerville</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Témoignage 2 -->
-                <div class="temoignage-card">
-                    <p class="temoignage-text">
-                        "Excellente entreprise ! Ils ont rénové mon appartement en respectant les délais et le budget. Le résultat dépasse mes attentes. Équipe sérieuse et à l'écoute."
-                    </p>
-                    <div class="temoignage-auteur">
-                        <div class="auteur-avatar">AD</div>
-                        <div class="auteur-info">
-                            <h4>Aya Diallo</h4>
-                            <p>Cliente, Cocody</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Témoignage 3 -->
-                <div class="temoignage-card">
-                    <p class="temoignage-text">
-                        "Pour la construction de notre siège social, nous avons fait confiance à BTP CI. Résultat exceptionnel ! Professionnalisme, respect des normes et finitions soignées."
-                    </p>
-                    <div class="temoignage-auteur">
-                        <div class="auteur-avatar">JB</div>
-                        <div class="auteur-info">
-                            <h4>Jean-Baptiste N.</h4>
-                            <p>Directeur, Plateau</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== APPEL À L'ACTION ========== -->
-    <section class="section" style="background: linear-gradient(135deg, var(--bleu-claire),rgb(111, 144, 194)); color: white; text-align: center;">
-        <div class="container">
-            <h2 style="color: white; font-size: 2.5rem; margin-bottom: 1rem;">Prêt à Démarrer Votre Projet ?</h2>
-            <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
-                Contactez-nous dès aujourd'hui pour une consultation gratuite
+        <div>
+            <h2 class="text-3xl font-extrabold mb-4">
+                Des paiements <span class="text-blue-700">simples et sécurisés</span>
+            </h2>
+            <p class="text-gray-600 mb-6">
+                Nous proposons plusieurs moyens de paiement pour faciliter vos commandes.
             </p>
 
-            <div class="btn-hero">
-                <a th:href="@{/contact}" class="prim2">Nous Contacter</a>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-center gap-3">
+                    <i class="fas fa-credit-card text-green-600"></i>
+                    Paiement en ligne sécurisé (carte bancaire et moyens acceptés)
+                </li>
+                <li class="flex items-center gap-3">
+                    <i class="fas fa-money-bill-wave text-green-600"></i>
+                    Paiement en espèces auprès de nos agents agréés
+                </li>
+            </ul>
+        </div>
+
+        <div class="bg-blue-50 rounded-2xl p-8">
+            <h3 class="font-bold text-lg mb-3">🔐 Sécurité garantie</h3>
+            <p class="text-gray-600 text-sm">
+                Toutes les transactions sont protégées afin de garantir la
+                confidentialité et la sécurité de vos données.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= PARTENAIRES ================= -->
+<section class="max-w-7xl mx-auto px-6 py-20">
+    <div class="text-center mb-14">
+        <h2 class="text-3xl font-extrabold mb-4">
+            Des partenaires de <span class="text-blue-700">confiance</span>
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+            Nous collaborons avec des prestataires fiables pour garantir la qualité des services.
+        </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-10">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h3 class="font-bold mb-2">🚗 Location de véhicules</h3>
+            <p class="text-gray-600 text-sm">
+                Nos partenaires assurent la livraison et la disponibilité
+                des véhicules dans les meilleures conditions.
+            </p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h3 class="font-bold mb-2">🏠 Gestion de résidences</h3>
+            <p class="text-gray-600 text-sm">
+                Les résidences sont préparées et vérifiées avant votre arrivée
+                pour garantir confort et sécurité.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ================= SUIVI & AVANTAGES ================= -->
+<section class="bg-gradient-to-r from-blue-700 to-blue-500 text-white py-20">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+
+        <h2 class="text-3xl font-extrabold mb-6">
+            Suivi de commande & avantages
+        </h2>
+
+        <p class="text-blue-100 mb-10 max-w-2xl mx-auto">
+            Une fois votre commande passée, vous suivez son état en temps réel
+            et recevez des mises à jour régulières.
+        </p>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+
+            <div class="bg-white/10 rounded-xl p-6">
+                ✅ Commande simple et rapide
+            </div>
+            <div class="bg-white/10 rounded-xl p-6">
+                🚘 Large choix de voitures et résidences
+            </div>
+            <div class="bg-white/10 rounded-xl p-6">
+                💰 Prix compétitifs
+            </div>
+            <div class="bg-white/10 rounded-xl p-6">
+                🔐 Paiement sécurisé
+            </div>
+            <div class="bg-white/10 rounded-xl p-6">
+                📦 Suivi de commande en ligne
             </div>
 
         </div>
-    </section>
+    </div>
+</section>
 
+<!-- ================= FOOTER ================= -->
+<div th:replace="~{fragments/footer :: footer}"></div>
 
-    <!-- ================= FOOTER ================= -->
-    <div th:replace="~{fragments/footer :: footer}"></div>
-
-    <!-- ========== BOUTON WHATSAPP FLOTTANT ========== -->
-    <a href="https://wa.me/225XXXXXXXXXX" class="whatsapp-float" target="_blank" aria-label="Contactez-nous sur WhatsApp">
-        <svg viewBox="0 0 32 32" fill="currentColor">
-            <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 7.933-2.127c2.42 1.37 5.173 2.127 8.067 2.127 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.467c-2.482 0-4.908-0.646-7.07-1.87l-0.507-0.292-5.247 1.408 1.435-5.34-0.335-0.552c-1.354-2.23-2.068-4.801-2.068-7.421 0-7.868 6.402-14.267 14.267-14.267s14.267 6.398 14.267 14.267c0 7.868-6.402 14.267-14.267 14.267zM21.984 18.508c-0.403-0.201-2.383-1.176-2.754-1.311-0.371-0.134-0.641-0.201-0.911 0.201-0.269 0.403-1.044 1.311-1.28 1.581s-0.471 0.302-0.874 0.101c-0.403-0.201-1.7-0.627-3.239-1.998-1.197-1.067-2.006-2.383-2.241-2.786s-0.025-0.621 0.176-0.822c0.181-0.181 0.403-0.471 0.604-0.707s0.269-0.403 0.403-0.672c0.134-0.269 0.067-0.504-0.034-0.707s-0.911-2.196-1.248-3.004c-0.329-0.789-0.663-0.682-0.911-0.695-0.235-0.012-0.504-0.015-0.774-0.015s-0.707 0.101-1.078 0.504c-0.371 0.403-1.416 1.384-1.416 3.377s1.449 3.914 1.65 4.184c0.201 0.269 2.831 4.324 6.859 6.063 0.958 0.415 1.707 0.663 2.291 0.848 0.965 0.307 1.843 0.264 2.538 0.161 0.774-0.116 2.383-0.974 2.72-1.916s0.337-1.75 0.236-1.916c-0.101-0.166-0.371-0.269-0.774-0.471z"/>
-        </svg>
-    </a>
-
-    <!-- ========== SCRIPT MENU MOBILE ========== -->
-    <script>
-        function toggleMenu() {
-            const nav = document.getElementById('mainNav');
-            nav.classList.toggle('active');
-        }
-    </script>
 </body>
 </html>

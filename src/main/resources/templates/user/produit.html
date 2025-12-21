@@ -31,7 +31,11 @@
                 </div>
                 <div class="card-footer bg-white text-center">
                     <form th:action="@{'/produits/commander/' + ${p.id}}" method="post">
-                        <button class="btn btn-primary w-100">Commander</button>
+                        <a th:href="@{'/commande/' + ${p.id}}"
+                           class="block text-center bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 rounded-xl transition">
+                            Commander
+                        </a>
+
                     </form>
                 </div>
             </div>
