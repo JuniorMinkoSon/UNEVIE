@@ -4,6 +4,7 @@
 <head>
     <div th:replace="~{fragments/head :: head(title='Tableau de Bord — Administration BarakaWeb')}"></div>
     <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body
@@ -25,21 +26,54 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- ⚡ ACTIONS RAPIDES -->
-                    <div class="quick-actions">
-                        <a th:href="@{/admin/commandes}" class="action-btn primary">
-                            <i class="fa-solid fa-box"></i> Commandes
-                        </a>
-                        <a th:href="@{/admin/article/add}" class="action-btn">
-                            <i class="fa-solid fa-pen-nib"></i> Nouvel article
-                        </a>
-                        <a th:href="@{/admin/product/add}" class="action-btn">
-                            <i class="fa-solid fa-plus-circle"></i> Produit
-                        </a>
-                    </div>
                 </section>
                 <br />
+
+                <section class="dashboard-card mb-5">
+                    <h4 class="section-title">
+                        <i class="fa-solid fa-chart-bar text-primary"></i>
+                        Commandes Mensuelles
+                    </h4>
+                    <div style="height: 300px; position: relative;">
+                        <canvas id="orderChart"></canvas>
+                    </div>
+                </section>
+
+                <script th:inline="javascript">
+                    document.addEventListener("DOMContentLoaded", () => {
+                        const stats = /*[[${orderStats}]]*/ {};
+                        const labels = Object.keys(stats);
+                        const data = Object.values(stats);
+
+                        const ctx = document.getElementById('orderChart').getContext('2d');
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Nombre de commandes',
+                                    data: data,
+                                    backgroundColor: '#0d6efd',
+                                    borderRadius: 8,
+                                    borderWidth: 0
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: { stepSize: 1 }
+                                    }
+                                },
+                                plugins: {
+                                    legend: { display: false }
+                                }
+                            }
+                        });
+                    });
+                </script>
 
                 <!-- 🧾 DERNIÈRES COMMANDES -->
                 <section class="dashboard-card mt-5">

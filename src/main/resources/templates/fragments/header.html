@@ -1,6 +1,5 @@
-<div th:fragment="header"
-     xmlns:th="http://www.thymeleaf.org"
-     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:fragment="header" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
     <header class="bg-white shadow sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -22,23 +21,26 @@
 
             <!-- Actions -->
             <div class="flex items-center gap-4">
-                <a th:href="@{/contact}"
-                   class="hidden md:block text-gray-600 hover:text-primary">
+                <a th:href="@{/contact}" class="hidden md:block text-gray-600 hover:text-primary">
                     Nous contacter
                 </a>
 
-                <a sec:authorize="isAnonymous()"
-                   th:href="@{/login}"
-                   class="px-4 py-2 border border-primary text-primary rounded-lg
+                <a sec:authorize="isAnonymous()" th:href="@{/login}" class="px-4 py-2 border border-primary text-primary rounded-lg
                       hover:bg-primary hover:text-white transition">
                     Connexion
                 </a>
 
-                <div sec:authorize="isAuthenticated()" class="flex items-center gap-3">
-                    <span sec:authentication="name" class="text-sm"></span>
-                    <form th:action="@{/logout}" method="post">
-                        <button class="text-red-500 text-sm">Déconnexion</button>
-                    </form>
+                <div sec:authorize="isAuthenticated()" class="flex items-center gap-6">
+                    <a th:href="@{/mes-commandes}"
+                        class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition">
+                        Mes Commandes
+                    </a>
+                    <div class="flex items-center gap-3">
+                        <span sec:authentication="name" class="text-sm text-gray-600"></span>
+                        <form th:action="@{/logout}" method="post">
+                            <button class="text-red-500 text-sm hover:text-red-700 transition">Déconnexion</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
 package ecom_blog.service;
 
+import ecom_blog.dto.UpdateProduitDto;
 import ecom_blog.model.Produit;
 import ecom_blog.repository.ProduitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,13 +68,48 @@ public class ProduitService {
         produitRepository.deleteById(id);
     }
 
+    // 📝 Mettre à jour un produit
+    public void update(Long id, UpdateProduitDto dto, MultipartFile image) {
+        Produit produit = getById(id);
+        if (produit != null) {
+            produit.setNom(dto.getNom());
+            produit.setCategorie(dto.getCategorie());
+            produit.setPrix(dto.getPrix());
+            produit.setDescription(dto.getDescription());
+            produit.setDisponible(dto.isDisponible());
+
+            if (image != null && !image.isEmpty()) {
+                try {
+                    byte[] bytes = image.getBytes();
+                    Path path = Paths.get(uploadDir + image.getOriginalFilename());
+                    Files.write(path, bytes);
+                    produit.setImageUrl(image.getOriginalFilename());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            produitRepository.save(produit);
+        }
+    }
+
     // 🔢 Compter le nombre total de produits
     public long count() {
         return produitRepository.count();
     }
+
     // 🔍 Produits par catégorie (disponibles uniquement)
     public List<Produit> getByCategorie(String categorie) {
         return produitRepository.findByCategorieIgnoreCaseAndDisponibleTrue(categorie);
+    }
+
+    // 📋 Obtenir toutes les catégories distinctes
+    public List<String> getAllCategories() {
+        return produitRepository.findAll()
+                .stream()
+                .map(Produit::getCategorie)
+                .filter(c -> c != null && !c.isBlank())
+                .distinct()
+                .collect(Collectors.toList());
     }
 
 }

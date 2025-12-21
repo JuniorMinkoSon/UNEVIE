@@ -3,6 +3,7 @@ package ecom_blog.controller;
 import ecom_blog.dto.CreateArticleDto;
 import ecom_blog.dto.CreateProduitDto;
 import ecom_blog.dto.UpdateArticleDto;
+import ecom_blog.dto.UpdateProduitDto;
 import ecom_blog.mapper.ArticleMapper;
 import ecom_blog.mapper.ProduitMapper;
 import ecom_blog.model.Article;
@@ -58,6 +59,7 @@ public class AdminController {
 
         model.addAttribute("stats", stats);
         model.addAttribute("recentCommandes", commandeService.findLast5());
+        model.addAttribute("orderStats", commandeService.getMonthlyOrders());
 
         return "admin/dashboard";
     }
@@ -77,7 +79,50 @@ public class AdminController {
 
         Produit produit = produitMapper.toEntity(dto);
         produitService.save(produit, image);
-        return "redirect:/admin/dashboard?success=produit";
+        return "redirect:/admin/products?success=produit";
+    }
+
+    @GetMapping("/product/delete/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        try {
+            produitService.delete(id);
+            return "redirect:/admin/products?deleted";
+        } catch (Exception e) {
+            return "redirect:/admin/products?error=delete_constraint";
+        }
+    }
+
+    @GetMapping("/product/edit/{id}")
+    public String showEditProductForm(@PathVariable Long id, Model model) {
+        Produit produit = produitService.getById(id);
+        if (produit == null) {
+            return "redirect:/admin/products?error=notfound";
+        }
+
+        UpdateProduitDto dto = new UpdateProduitDto();
+        dto.setId(produit.getId());
+        dto.setNom(produit.getNom());
+        dto.setCategorie(produit.getCategorie());
+        dto.setPrix(produit.getPrix());
+        dto.setDescription(produit.getDescription());
+        dto.setImageUrl(produit.getImageUrl());
+        dto.setDisponible(produit.isDisponible());
+
+        model.addAttribute("produit", dto);
+        return "admin/edit-product";
+    }
+
+    @PostMapping("/product/update/{id}")
+    public String updateProduct(@PathVariable Long id,
+            @Valid @ModelAttribute("produit") UpdateProduitDto dto,
+            BindingResult bindingResult,
+            @RequestParam(value = "image", required = false) MultipartFile image) {
+        if (bindingResult.hasErrors()) {
+            return "admin/edit-product";
+        }
+
+        produitService.update(id, dto, image);
+        return "redirect:/admin/products?success=update";
     }
 
     @GetMapping("/article/add")

@@ -1,45 +1,74 @@
 <div th:fragment="footer">
 
-    <footer class="bg-dark text-gray-300 mt-20">
+    <footer class="bg-gray-900 text-gray-300 mt-20" style="background-color: #111827; color: #d1d5db;">
         <div class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-4 gap-10">
 
+            <!-- Logo & Description -->
             <div>
-                <h3 class="text-white font-bold text-lg mb-3">UNEVIE</h3>
-                <p class="text-sm leading-relaxed">
+                <h3 class="text-white font-bold text-2xl mb-4 tracking-wide" style="color: #ffffff;">UNEVIE</h3>
+                <p class="text-sm leading-relaxed text-gray-400" style="color: #9ca3af;">
                     Plateforme digitale connectant éleveurs, fournisseurs,
-                    services, résidences et particuliers.
+                    services, résidences et particuliers pour simplifier votre quotidien.
                 </p>
             </div>
 
+            <!-- Services -->
             <div>
-                <h4 class="text-white font-semibold mb-3">Services</h4>
-                <ul class="space-y-2 text-sm">
-                    <li>Vente de poulets</li>
-                    <li>Réservation de résidences</li>
-                    <li>Location de véhicules</li>
-                    <li>Traiteur haut de gamme</li>
+                <h4 class="text-white font-semibold text-lg mb-4" style="color: #ffffff;">Services</h4>
+                <ul class="space-y-2 text-sm text-gray-400" style="color: #9ca3af;">
+                    <li class="hover:text-yellow-500 transition cursor-pointer">Vente de poulets</li>
+                    <li class="hover:text-yellow-500 transition cursor-pointer">Réservation de résidences</li>
+                    <li class="hover:text-yellow-500 transition cursor-pointer">Location de véhicules</li>
+                    <li class="hover:text-yellow-500 transition cursor-pointer">Traiteur haut de gamme</li>
                 </ul>
             </div>
 
+            <!-- Contact -->
             <div>
-                <h4 class="text-white font-semibold mb-3">Contact</h4>
-                <p class="text-sm">Abidjan – Côte d’Ivoire</p>
-                <p class="text-sm">+225 07 68 18 93 40</p>
-                <p class="text-sm">contact@unevie.app</p>
+                <h4 class="text-white font-semibold text-lg mb-4" style="color: #ffffff;">Contact</h4>
+                <ul class="space-y-3 text-sm text-gray-400" style="color: #9ca3af;">
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-map-marker-alt mt-1 text-yellow-500" style="color: #eab308;"></i>
+                        <span>Abidjan – Côte d’Ivoire</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-phone text-yellow-500" style="color: #eab308;"></i>
+                        <span>+225 07 68 18 93 40</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-envelope text-yellow-500" style="color: #eab308;"></i>
+                        <span>contact@unevie.app</span>
+                    </li>
+                </ul>
             </div>
 
+            <!-- Suivez-nous -->
             <div>
-                <h4 class="text-white font-semibold mb-3">Suivez-nous</h4>
-                <div class="flex gap-4 text-xl">
-                    <i class="fab fa-facebook"></i>
-                    <i class="fab fa-instagram"></i>
-                    <i class="fab fa-linkedin"></i>
+                <h4 class="text-white font-semibold text-lg mb-4" style="color: #ffffff;">Suivez-nous</h4>
+                <div class="flex gap-4">
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-blue-600 transition"
+                        style="background-color: #1f2937; color: #ffffff;">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-pink-600 transition"
+                        style="background-color: #1f2937; color: #ffffff;">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-blue-700 transition"
+                        style="background-color: #1f2937; color: #ffffff;">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
                 </div>
             </div>
         </div>
 
-        <div class="border-t border-gray-700 py-4 text-center text-sm">
-            © 2025 UNEVIE — Tous droits réservés
+        <!-- Copyright -->
+        <div class="border-t border-gray-800 py-6 text-center text-sm text-gray-500"
+            style="border-top-color: #1f2937; color: #6b7280;">
+            © 2025 <span class="text-white font-semibold" style="color: #ffffff;">UNEVIE</span> — Tous droits réservés.
         </div>
     </footer>
 

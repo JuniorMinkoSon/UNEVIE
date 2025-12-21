@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mes Commandes | Baraka Synergie</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- HEADER -->
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        <div class="mb-10">
+            <h1 class="text-3xl font-extrabold text-gray-900">Mes Commandes</h1>
+            <p class="text-gray-600">Consultez l'historique et le statut de vos commandes.</p>
+        </div>
+
+        <!-- ORDER LIST -->
+        <div th:if="${#lists.isEmpty(commandes)}" class="text-center py-20 bg-white rounded-2xl shadow-sm">
+            <div class="mb-4 text-gray-300">
+                <svg class="mx-auto h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+            </div>
+            <p class="text-xl font-medium text-gray-500">Vous n'avez pas encore passé de commande.</p>
+            <a th:href="@{/projets}"
+                class="mt-6 inline-block bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 transition shadow-lg">
+                Découvrir nos produits
+            </a>
+        </div>
+
+        <div th:if="${!#lists.isEmpty(commandes)}"
+            class="overflow-hidden bg-white shadow-sm sm:rounded-2xl border border-gray-100">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col"
+                            class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Produit</th>
+                        <th scope="col"
+                            class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Date</th>
+                        <th scope="col"
+                            class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Total</th>
+                        <th scope="col"
+                            class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Paiement</th>
+                        <th scope="col"
+                            class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Statut</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-100">
+                    <tr th:each="c : ${commandes}" class="hover:bg-gray-50 transition">
+                        <td class="px-6 py-5 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="h-12 w-12 flex-shrink-0">
+                                    <img th:if="${c.produit.imageUrl}" th:src="@{'/uploads/' + ${c.produit.imageUrl}}"
+                                        class="h-12 w-12 rounded-lg object-cover shadow-sm">
+                                    <div th:unless="${c.produit.imageUrl}"
+                                        class="h-12 w-12 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400">
+                                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path
+                                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-bold text-gray-900" th:text="${c.produit.nom}"></div>
+                                    <div class="text-xs text-gray-500" th:text="'Qté: ' + ${c.quantite ?: 1}"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-5 whitespace-nowrap">
+                            <div class="text-sm text-gray-900"
+                                th:text="${#temporals.format(c.dateCommande, 'dd/MM/yyyy HH:mm')}">12/12/2023</div>
+                        </td>
+                        <td class="px-6 py-5 whitespace-nowrap">
+                            <div class="text-sm font-bold text-blue-600"
+                                th:text="${#numbers.formatDecimal(c.total, 0, 'COMMA', 0, 'POINT')} + ' FCFA'">25,000
+                                FCFA</div>
+                        </td>
+                        <td class="px-6 py-5 whitespace-nowrap">
+                            <div class="flex flex-col">
+                                <span class="text-xs font-medium text-gray-700" th:text="${c.modePaiement}"></span>
+                                <span class="text-[10px] text-gray-400" th:text="${c.operateur}"></span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-5 whitespace-nowrap">
+                            <span th:if="${c.statut == 'EN_ATTENTE'}"
+                                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                En attente
+                            </span>
+                            <span th:if="${c.statut == 'VALIDEE'}"
+                                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                Validée
+                            </span>
+                            <span th:if="${c.statut == 'LIVREE'}"
+                                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                Livrée
+                            </span>
+                            <span th:if="${c.statut == 'ANNULEE'}"
+                                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                Annulée
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+
+</html>

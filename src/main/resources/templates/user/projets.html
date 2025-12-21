@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -14,104 +12,100 @@
 
 <body class="bg-gray-50 text-gray-800">
 
-<!-- HEADER -->
-<div th:replace="~{fragments/header :: header}"></div>
+    <!-- HEADER -->
+    <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- HERO -->
-<section class="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16 text-center">
-    <h1 class="text-4xl font-extrabold mb-3">Nos Produits & Services</h1>
-    <p class="max-w-2xl mx-auto text-blue-100">
-        Découvrez nos offres disponibles et commandez en toute simplicité
-    </p>
-</section>
+    <!-- HERO -->
+    <section class="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16 text-center">
+        <h1 class="text-4xl font-extrabold mb-3">Nos Produits & Services</h1>
+        <p class="max-w-2xl mx-auto text-blue-100">
+            Découvrez nos offres disponibles et commandez en toute simplicité
+        </p>
+    </section>
 
-<!-- MESSAGE SUCCÈS -->
-<div th:if="${param.success == 'commande'}"
-     class="max-w-3xl mx-auto mt-6 bg-green-100 text-green-800 px-6 py-4 rounded-xl shadow">
-    ✅ Votre commande a été enregistrée avec succès.
-</div>
-
-<!-- CATÉGORIES -->
-<section class="max-w-7xl mx-auto my-10 px-6">
-    <div class="flex flex-wrap gap-3 justify-center">
-
-        <a href="/projets" class="categorie-btn px-4 py-2 rounded-full border">Tous</a>
-        <a href="/projets?categorie=voiture" class="categorie-btn px-4 py-2 rounded-full bg-blue-100">🚗 Voitures</a>
-        <a href="/projets?categorie=poulet" class="categorie-btn px-4 py-2 rounded-full bg-green-100">🍗 Poulets</a>
-        <a href="/projets?categorie=residence" class="categorie-btn px-4 py-2 rounded-full bg-yellow-100">🏠 Résidences</a>
-        <a href="/projets?categorie=traiteur" class="categorie-btn px-4 py-2 rounded-full bg-red-100">🍽️ Traiteur</a>
-
-    </div>
-</section>
-
-<!-- PRODUITS -->
-<section class="max-w-7xl mx-auto px-6 pb-20">
-
-    <div th:if="${#lists.isEmpty(produits)}"
-         class="text-center text-gray-500 mt-20">
-        Aucun produit disponible pour cette catégorie.
+    <!-- MESSAGE SUCCÈS -->
+    <div th:if="${param.success == 'commande'}"
+        class="max-w-3xl mx-auto mt-6 bg-green-100 text-green-800 px-6 py-4 rounded-xl shadow">
+        ✅ Votre commande a été enregistrée avec succès.
     </div>
 
-    <div th:if="${!#lists.isEmpty(produits)}"
-         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+    <!-- CATÉGORIES -->
+    <section class="max-w-7xl mx-auto my-10 px-6">
+        <div class="flex flex-wrap gap-3 justify-center">
 
-        <div th:each="p : ${produits}"
-             class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition">
+            <a href="/projets" class="categorie-btn px-4 py-2 rounded-full border">Tous</a>
+            <a href="/projets?categorie=voitures" class="categorie-btn px-4 py-2 rounded-full bg-blue-100">🚗
+                Voitures</a>
+            <a href="/projets?categorie=poulets" class="categorie-btn px-4 py-2 rounded-full bg-green-100">🍗
+                Poulets</a>
+            <a href="/projets?categorie=residences" class="categorie-btn px-4 py-2 rounded-full bg-yellow-100">🏠
+                Résidences</a>
+            <a href="/projets?categorie=traiteurs" class="categorie-btn px-4 py-2 rounded-full bg-red-100">🍽️
+                Traiteur</a>
 
-            <img th:src="@{'/uploads/' + ${p.imageUrl}}"
-                 class="h-56 w-full object-cover">
+        </div>
+    </section>
 
-            <div class="p-6 space-y-3">
-                <h3 class="text-lg font-bold" th:text="${p.nom}"></h3>
-                <p class="text-sm text-gray-600" th:text="${p.description}"></p>
-                <p class="text-xl font-semibold text-yellow-600"
-                   th:text="${p.prix} + ' FCFA'"></p>
+    <!-- PRODUITS -->
+    <section class="max-w-7xl mx-auto px-6 pb-20">
 
-                <span th:if="${p.disponible}"
-                      class="inline-block px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full">
-                    Disponible
-                </span>
-            </div>
+        <div th:if="${#lists.isEmpty(produits)}" class="text-center text-gray-500 mt-20">
+            Aucun produit disponible pour cette catégorie.
+        </div>
 
-            <div class="p-6 pt-0">
-                <form th:if="${p.disponible}"
-                      th:action="@{'/produits/commander/' + ${p.id}}"
-                      method="post">
-                    <button type="submit"
-                            class="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-3 rounded-xl font-semibold">
+        <div th:if="${!#lists.isEmpty(produits)}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+
+            <div th:each="p : ${produits}"
+                class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition">
+
+                <img th:src="@{'/uploads/' + ${p.imageUrl}}" class="h-56 w-full object-cover">
+
+                <div class="p-6 space-y-3">
+                    <h3 class="text-lg font-bold" th:text="${p.nom}"></h3>
+                    <p class="text-sm text-gray-600" th:text="${p.description}"></p>
+                    <p class="text-xl font-semibold text-yellow-600" th:text="${p.prix} + ' FCFA'"></p>
+
+                    <span th:if="${p.disponible}"
+                        class="inline-block px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full">
+                        Disponible
+                    </span>
+                </div>
+
+                <div class="p-6 pt-0">
+                    <a th:if="${p.disponible}" th:href="@{'/produits/commander/' + ${p.id}}"
+                        class="block w-full text-center bg-yellow-500 hover:bg-yellow-600 text-white py-3 rounded-xl font-semibold transition">
                         Commander
-                    </button>
-                </form>
+                    </a>
 
-                <button th:if="${!p.disponible}"
-                        disabled
+                    <button th:if="${!p.disponible}" disabled
                         class="w-full bg-gray-300 py-3 rounded-xl cursor-not-allowed">
-                    Indisponible
-                </button>
+                        Indisponible
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- FOOTER -->
-<div th:replace="~{fragments/footer :: footer}"></div>
+    <!-- FOOTER -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
-<!-- JS -->
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const params = new URLSearchParams(window.location.search);
-        const activeCategorie = params.get("categorie");
+    <!-- JS -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const activeCategorie = params.get("categorie");
 
-        document.querySelectorAll(".categorie-btn").forEach(btn => {
-            if (
-                (!activeCategorie && btn.textContent.trim() === "Tous") ||
-                (activeCategorie && btn.href.includes("categorie=" + activeCategorie))
-            ) {
-                btn.classList.add("ring", "ring-2", "ring-yellow-400");
-            }
+            document.querySelectorAll(".categorie-btn").forEach(btn => {
+                if (
+                    (!activeCategorie && btn.textContent.trim() === "Tous") ||
+                    (activeCategorie && btn.href.includes("categorie=" + activeCategorie))
+                ) {
+                    btn.classList.add("ring", "ring-2", "ring-yellow-400");
+                }
+            });
         });
-    });
-</script>
+    </script>
 
 </body>
+
 </html>

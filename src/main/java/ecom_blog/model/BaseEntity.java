@@ -2,10 +2,12 @@ package ecom_blog.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @MappedSuperclass
 public abstract class BaseEntity {
 
@@ -26,10 +28,13 @@ public abstract class BaseEntity {
     protected void onUpdate() {
         this.updated_at = LocalDateTime.now();
     }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BaseEntity)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof BaseEntity))
+            return false;
         BaseEntity alpha = (BaseEntity) o;
         return id != null && id.equals(alpha.id);
     }

@@ -22,7 +22,13 @@
                         <input class="form-input" th:field="*{nom}" placeholder="Nom du produit" required>
 
                         <div class="form-row">
-                            <input class="form-input" th:field="*{categorie}" placeholder="Catégorie" required>
+                            <select class="form-input" th:field="*{categorie}" required>
+                                <option value="" disabled selected>Choisir une catégorie</option>
+                                <option value="Voitures">🚗 Voitures</option>
+                                <option value="Poulets">🍗 Poulets</option>
+                                <option value="Résidences">🏠 Résidences</option>
+                                <option value="Traiteur">🍽️ Traiteur</option>
+                            </select>
 
                             <input class="form-input" th:field="*{prix}" type="number" placeholder="Prix (FCFA)" min="0"
                                 step="0.01" required>
@@ -40,9 +46,9 @@
                     </form>
 
                     <div class="text-center mt-4">
-                        <a class="btn btn-outline" th:href="@{/admin/dashboard}">
+                        <a class="btn btn-outline" th:href="@{/admin/products}">
                             <i class="fa-solid fa-arrow-left"></i>
-                            Retour au tableau de bord
+                            Retour à la liste
                         </a>
                     </div>
                 </div>

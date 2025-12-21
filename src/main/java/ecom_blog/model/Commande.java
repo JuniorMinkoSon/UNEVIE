@@ -39,8 +39,24 @@ public class Commande extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    // 🚗 Champs spécifiques Voiture
+    private Boolean avecChauffeur;
+    private String lieuPriseEnCharge; // Localisation spécifique voiture
+
+    // 🏠 Champs spécifiques Résidence
+    private Integer nombreJours;
+
+    // 🍗 Champs spécifiques Poulet
+    private Integer quantite;
+
+    // 📍 Localisation générale (utilisé si lieuPrise EnCharge non spé)
+    private String localisation;
+
+    // 📱 Opérateur Mobile Money
+    private String operateur;
+
     // 🔗 Produit commandé
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "produit_id")
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "produit_id", nullable = true)
     private Produit produit;
 }

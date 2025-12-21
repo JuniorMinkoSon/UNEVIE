@@ -74,12 +74,12 @@
                                         </span>
                                     </td>
                                     <td class="text-center">
-                                        <a href="#" class="btn btn-sm btn-outline-primary rounded-circle"
-                                            title="Modifier">
+                                        <a th:href="@{'/admin/product/edit/' + ${p.id}}"
+                                            class="btn btn-sm btn-outline-primary rounded-circle" title="Modifier">
                                             <i class="fa-solid fa-pen"></i>
                                         </a>
-                                        <a href="#" class="btn btn-sm btn-outline-danger rounded-circle ms-1"
-                                            title="Supprimer"
+                                        <a th:href="@{/admin/product/delete/{id}(id=${p.id})}"
+                                            class="btn btn-sm btn-outline-danger rounded-circle ms-1" title="Supprimer"
                                             onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">
                                             <i class="fa-solid fa-trash"></i>
                                         </a>
