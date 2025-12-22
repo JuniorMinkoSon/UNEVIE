@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Nos Objectifs & Vision | UNEVIE</title>
+    <title>Vision & Objectifs | UNEVIE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Tailwind -->
@@ -14,140 +14,172 @@
     <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        africanOrange: '#F59E0B',
+                        africanGreen: '#15803D',
+                        africanDark: '#0F172A'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-slate-50 text-slate-800">
 
 <!-- ================= HEADER ================= -->
 <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- ================= HERO ================= -->
-<section class="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-24 text-center">
-    <h1 class="text-4xl md:text-5xl font-extrabold mb-6">
-        Notre vision pour <span class="text-yellow-400">simplifier la vie</span>
-    </h1>
-    <p class="max-w-3xl mx-auto text-blue-100 text-lg">
-        UNEVIE est née pour connecter les besoins du quotidien
-        à des services fiables, rapides et accessibles à tous.
+<!-- ================= HERO IMMERSIF ================= -->
+<section class="relative py-32 overflow-hidden text-white">
+
+    <img src="/images/vision.jpg"
+         class="absolute inset-0 w-full h-full object-cover">
+
+    <div class="absolute inset-0 bg-gradient-to-r from-africanDark/90 via-africanGreen/80 to-africanOrange/70"></div>
+
+    <div class="relative max-w-7xl mx-auto px-6 text-center">
+        <span class="uppercase tracking-widest text-sm text-white/80">
+            Vision & ambition
+        </span>
+
+        <h1 class="text-4xl md:text-5xl font-extrabold mt-4 mb-6 leading-tight">
+            Construire la plateforme <br>
+            qui <span class="underline">simplifie la vie en Afrique</span>
+        </h1>
+
+        <p class="max-w-3xl mx-auto text-white/90 text-lg">
+            UNEVIE connecte les besoins du quotidien à des services fiables,
+            accessibles et sécurisés, pensés pour les réalités locales.
+        </p>
+    </div>
+</section>
+
+<!-- ================= NOTRE RAISON D’ÊTRE ================= -->
+<section class="max-w-7xl mx-auto px-6 py-28 text-center">
+    <span class="text-africanOrange font-semibold uppercase text-sm">
+        Pourquoi UNEVIE existe
+    </span>
+
+    <h2 class="text-3xl font-extrabold mt-3 mb-6">
+        Une vision claire, un impact réel
+    </h2>
+
+    <p class="text-slate-600 max-w-4xl mx-auto text-lg">
+        En Afrique, accéder à un véhicule, une résidence ou un service fiable
+        reste complexe. UNEVIE est née pour structurer ces usages,
+        sécuriser les échanges et créer de la confiance entre
+        clients et prestataires.
     </p>
 </section>
 
 <!-- ================= OBJECTIFS STRATÉGIQUES ================= -->
-<section class="max-w-7xl mx-auto px-6 py-20">
-    <h2 class="text-3xl font-extrabold text-center mb-12">
-        Nos objectifs clés
+<section class="max-w-7xl mx-auto px-6 pb-28">
+    <h2 class="text-3xl font-extrabold text-center mb-16">
+        Nos objectifs stratégiques
     </h2>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
 
-        <div class="bg-white p-8 rounded-2xl shadow hover:shadow-xl transition">
-            <i class="fas fa-shield-halved text-blue-700 text-4xl mb-4"></i>
+        <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl transition">
+            <i class="fas fa-shield-halved text-africanGreen text-4xl mb-5"></i>
             <h3 class="text-xl font-bold mb-3">Sécuriser chaque réservation</h3>
-            <p class="text-gray-600">
-                Chaque produit, résidence ou service proposé sur UNEVIE
-                est vérifié. L’utilisateur réserve sans stress, sans arnaque,
-                avec des informations claires et fiables.
+            <p class="text-slate-600">
+                Des annonces vérifiées, des informations claires
+                et des paiements maîtrisés pour une confiance totale.
             </p>
         </div>
 
-        <div class="bg-white p-8 rounded-2xl shadow hover:shadow-xl transition">
-            <i class="fas fa-route text-blue-700 text-4xl mb-4"></i>
+        <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl transition">
+            <i class="fas fa-route text-africanGreen text-4xl mb-5"></i>
             <h3 class="text-xl font-bold mb-3">Simplifier le parcours utilisateur</h3>
-            <p class="text-gray-600">
-                Localisation → sélection → commande → suivi.
-                UNEVIE élimine les démarches compliquées
-                et réduit le temps de décision.
+            <p class="text-slate-600">
+                Localisation, filtrage, commande et suivi :
+                UNEVIE élimine toute complexité inutile.
             </p>
         </div>
 
-        <div class="bg-white p-8 rounded-2xl shadow hover:shadow-xl transition">
-            <i class="fas fa-handshake text-blue-700 text-4xl mb-4"></i>
+        <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl transition">
+            <i class="fas fa-handshake text-africanGreen text-4xl mb-5"></i>
             <h3 class="text-xl font-bold mb-3">Valoriser les prestataires locaux</h3>
-            <p class="text-gray-600">
-                Les fournisseurs gagnent en visibilité,
-                en crédibilité et en clients grâce à une
-                plateforme commune et professionnelle.
+            <p class="text-slate-600">
+                Offrir visibilité, crédibilité et croissance
+                aux acteurs économiques locaux.
             </p>
         </div>
 
-        <div class="bg-white p-8 rounded-2xl shadow hover:shadow-xl transition">
-            <i class="fas fa-chart-line text-blue-700 text-4xl mb-4"></i>
+        <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl transition">
+            <i class="fas fa-chart-line text-africanGreen text-4xl mb-5"></i>
             <h3 class="text-xl font-bold mb-3">Créer de la valeur économique</h3>
-            <p class="text-gray-600">
-                UNEVIE stimule l’économie locale en facilitant
-                les transactions, la réservation et la confiance
-                entre acteurs.
+            <p class="text-slate-600">
+                Faciliter les transactions et structurer
+                un écosystème rentable et durable.
             </p>
         </div>
 
-        <div class="bg-white p-8 rounded-2xl shadow hover:shadow-xl transition">
-            <i class="fas fa-mobile-screen text-blue-700 text-4xl mb-4"></i>
+        <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl transition">
+            <i class="fas fa-mobile-screen text-africanGreen text-4xl mb-5"></i>
             <h3 class="text-xl font-bold mb-3">Digitaliser les usages quotidiens</h3>
-            <p class="text-gray-600">
-                Commander une voiture, une résidence ou un service
-                devient aussi simple qu’un clic, depuis un téléphone.
+            <p class="text-slate-600">
+                Rendre accessibles des services essentiels
+                depuis un simple smartphone.
             </p>
         </div>
 
-        <div class="bg-white p-8 rounded-2xl shadow hover:shadow-xl transition">
-            <i class="fas fa-leaf text-blue-700 text-4xl mb-4"></i>
+        <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl transition">
+            <i class="fas fa-leaf text-africanGreen text-4xl mb-5"></i>
             <h3 class="text-xl font-bold mb-3">Construire durablement</h3>
-            <p class="text-gray-600">
-                UNEVIE favorise des pratiques responsables,
-                des services de qualité et une croissance
-                durable à long terme.
+            <p class="text-slate-600">
+                Privilégier la qualité, la responsabilité
+                et une croissance à long terme.
             </p>
         </div>
 
     </div>
 </section>
 
-<!-- ================= BÉNÉFICES PAR FONCTIONNALITÉ ================= -->
-<section class="bg-white py-20">
+<!-- ================= VALEUR CONCRÈTE ================= -->
+<section class="bg-white py-28">
     <div class="max-w-7xl mx-auto px-6">
-        <h2 class="text-3xl font-extrabold text-center mb-12">
-            Ce que UNEVIE vous apporte concrètement
+        <h2 class="text-3xl font-extrabold text-center mb-16">
+            Ce que UNEVIE change concrètement
         </h2>
 
-        <div class="space-y-10">
+        <div class="grid md:grid-cols-2 gap-10">
 
-            <div class="bg-gray-50 p-8 rounded-xl shadow">
+            <div class="bg-slate-50 rounded-2xl p-8 shadow">
                 <h3 class="text-xl font-bold mb-3">📍 Géolocalisation intelligente</h3>
-                <p class="text-gray-600">
-                    Voir uniquement les offres réellement disponibles autour de vous.
-                    Zéro perte de temps, zéro fausse annonce.
+                <p class="text-slate-600">
+                    Vous voyez uniquement les offres réellement
+                    disponibles autour de vous.
                 </p>
             </div>
 
-            <div class="bg-gray-50 p-8 rounded-xl shadow">
-                <h3 class="text-xl font-bold mb-3">🧭 Filtrage par catégorie</h3>
-                <p class="text-gray-600">
-                    Voitures, résidences, poulets, traiteur, services.
-                    Chaque besoin a sa catégorie claire et accessible.
+            <div class="bg-slate-50 rounded-2xl p-8 shadow">
+                <h3 class="text-xl font-bold mb-3">🧭 Filtrage clair par besoin</h3>
+                <p class="text-slate-600">
+                    Voitures, résidences, produits, services :
+                    chaque besoin a sa catégorie.
                 </p>
             </div>
 
-            <div class="bg-gray-50 p-8 rounded-xl shadow">
-                <h3 class="text-xl font-bold mb-3">🛒 Commande simple et rapide</h3>
-                <p class="text-gray-600">
-                    Un bouton “Commander”, un formulaire clair,
-                    une validation immédiate.
+            <div class="bg-slate-50 rounded-2xl p-8 shadow">
+                <h3 class="text-xl font-bold mb-3">🛒 Commande sans friction</h3>
+                <p class="text-slate-600">
+                    Un formulaire simple, une validation rapide,
+                    zéro perte de temps.
                 </p>
             </div>
 
-            <div class="bg-gray-50 p-8 rounded-xl shadow">
+            <div class="bg-slate-50 rounded-2xl p-8 shadow">
                 <h3 class="text-xl font-bold mb-3">💳 Paiements flexibles</h3>
-                <p class="text-gray-600">
-                    Paiement en ligne ou en espèces selon le service,
-                    sans friction ni contrainte.
-                </p>
-            </div>
-
-            <div class="bg-gray-50 p-8 rounded-xl shadow">
-                <h3 class="text-xl font-bold mb-3">📦 Suivi de commande</h3>
-                <p class="text-gray-600">
-                    L’utilisateur sait exactement où en est sa commande
-                    et quand le service sera livré.
+                <p class="text-slate-600">
+                    En ligne ou en espèces, selon les réalités locales.
                 </p>
             </div>
 
@@ -155,41 +187,38 @@
     </div>
 </section>
 
-<!-- ================= VISION ================= -->
-<section class="max-w-7xl mx-auto px-6 py-20 text-center">
+<!-- ================= VISION LONG TERME ================= -->
+<section class="max-w-7xl mx-auto px-6 py-28 text-center">
     <h2 class="text-3xl font-extrabold mb-6">
-        Notre vision à long terme
+        Une ambition panafricaine
     </h2>
-    <p class="max-w-4xl mx-auto text-gray-600 text-lg">
+    <p class="max-w-4xl mx-auto text-slate-600 text-lg">
         Devenir la plateforme de référence en Afrique
         pour la réservation de services locaux,
         en commençant par la Côte d’Ivoire.
-        UNEVIE ambitionne de structurer,
-        sécuriser et moderniser les échanges
-        entre clients et prestataires.
+        UNEVIE structure, sécurise et modernise
+        l’économie des services.
     </p>
 </section>
 
 <!-- ================= CTA ================= -->
-<section class="bg-gradient-to-r from-blue-700 to-blue-500 text-white py-20 text-center">
+<section class="bg-gradient-to-r from-africanGreen to-africanOrange text-white py-24 text-center">
     <h2 class="text-3xl font-extrabold mb-4">
         Rejoignez l’écosystème UNEVIE
     </h2>
-    <p class="text-blue-100 mb-8">
+    <p class="text-white/90 mb-10">
         Utilisateurs, prestataires, partenaires :
-        UNEVIE est faite pour vous.
+        construisons ensemble le futur des services en Afrique.
     </p>
 
     <div class="flex justify-center gap-4 flex-wrap">
         <a th:href="@{/projets}"
-           class="bg-white text-blue-700 font-semibold px-10 py-4 rounded-xl
-                  hover:bg-gray-100 transition">
+           class="bg-white text-africanDark font-semibold px-10 py-4 rounded-xl hover:bg-slate-100 transition">
             Explorer les offres
         </a>
 
         <a th:href="@{/contact}"
-           class="border border-white text-white px-10 py-4 rounded-xl
-                  hover:bg-white hover:text-blue-800 transition">
+           class="border border-white px-10 py-4 rounded-xl hover:bg-white hover:text-africanDark transition">
             Devenir partenaire
         </a>
     </div>

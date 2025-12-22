@@ -3,7 +3,6 @@ package ecom_blog.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -11,14 +10,13 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        // ✅ 1. Permet à Spring d'accéder au dossier /uploads/
-        // Path adjusted for current user GUEYE
+        // ✅ 1. Accès aux images uploadées (/uploads/**)
         registry.addResourceHandler("/uploads/**")
-                // .addResourceLocations(
-                // "file:C:/Users/DELL PRECISION
-                // 5550/Downloads/ecom-vente/ecom-vente/src/main/resources/static/uploads/");
-                .addResourceLocations("file:C:/Users/GUEYE/Desktop/projet/UNEVIE/src/main/resources/static/uploads/");
-        // ✅ 2. (Optionnel) pour les ressources de base
+                .addResourceLocations(
+                        "file:C:/Users/DELL PRECISION 5550/Downloads/barikaweb-clean/src/main/resources/static/uploads/"
+                );
+
+        // ✅ 2. Ressources statiques classiques
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
     }

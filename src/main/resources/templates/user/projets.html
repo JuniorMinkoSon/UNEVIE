@@ -1,111 +1,167 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
-    <title>Nos Produits | Baraka Synergie</title>
+    <title>Nos Produits | UNEVIE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        africanOrange: '#F59E0B',
+                        africanGreen: '#15803D',
+                        africanDark: '#0F172A'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-slate-50 text-slate-800">
 
-    <!-- HEADER -->
-    <div th:replace="~{fragments/header :: header}"></div>
+<!-- HEADER -->
+<div th:replace="~{fragments/header :: header}"></div>
 
-    <!-- HERO -->
-    <section class="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16 text-center">
-        <h1 class="text-4xl font-extrabold mb-3">Nos Produits & Services</h1>
-        <p class="max-w-2xl mx-auto text-blue-100">
-            Découvrez nos offres disponibles et commandez en toute simplicité
+<!-- ================= HERO ================= -->
+<section class="relative py-24 text-white overflow-hidden">
+
+    <img src="/images/voiture.jpeg"
+         class="absolute inset-0 w-full h-full object-cover">
+
+    <div class="absolute inset-0 bg-gradient-to-r from-africanGreen/90 to-africanOrange/80"></div>
+
+    <div class="relative max-w-7xl mx-auto px-6 text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+            Nos Produits & Services
+        </h1>
+        <p class="max-w-2xl mx-auto text-white/90 text-lg">
+            Découvrez les meilleures offres disponibles près de chez vous
         </p>
-    </section>
+    </div>
+</section>
 
-    <!-- MESSAGE SUCCÈS -->
-    <div th:if="${param.success == 'commande'}"
-        class="max-w-3xl mx-auto mt-6 bg-green-100 text-green-800 px-6 py-4 rounded-xl shadow">
-        ✅ Votre commande a été enregistrée avec succès.
+<!-- ================= MESSAGE SUCCÈS ================= -->
+<div th:if="${param.success == 'commande'}"
+     class="max-w-4xl mx-auto mt-8 bg-green-100 text-green-800 px-6 py-4 rounded-xl shadow">
+    ✅ Votre commande a été enregistrée avec succès.
+</div>
+
+<!-- ================= CATÉGORIES ================= -->
+<section class="max-w-7xl mx-auto my-14 px-6">
+
+    <div class="flex flex-wrap justify-center gap-4">
+
+        <a href="/projets"
+           class="categorie-btn px-6 py-2 rounded-full border border-slate-300 bg-white hover:bg-slate-100 transition">
+            Tous
+        </a>
+
+        <a href="/projets?categorie=voitures"
+           class="categorie-btn px-6 py-2 rounded-full bg-africanGreen/10 text-africanGreen hover:bg-africanGreen/20 transition">
+            🚗 Véhicules
+        </a>
+
+        <a href="/projets?categorie=poulets"
+           class="categorie-btn px-6 py-2 rounded-full bg-africanOrange/10 text-africanOrange hover:bg-africanOrange/20 transition">
+            🍗 Poulets
+        </a>
+
+        <a href="/projets?categorie=residences"
+           class="categorie-btn px-6 py-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition">
+            🏠 Résidences
+        </a>
+
+        <a href="/projets?categorie=traiteurs"
+           class="categorie-btn px-6 py-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition">
+            🍽️ Traiteurs
+        </a>
+
+    </div>
+</section>
+
+<!-- ================= PRODUITS ================= -->
+<section class="max-w-7xl mx-auto px-6 pb-24">
+
+    <div th:if="${#lists.isEmpty(produits)}"
+         class="text-center text-slate-500 mt-20 text-lg">
+        Aucun produit disponible pour cette catégorie.
     </div>
 
-    <!-- CATÉGORIES -->
-    <section class="max-w-7xl mx-auto my-10 px-6">
-        <div class="flex flex-wrap gap-3 justify-center">
+    <div th:if="${!#lists.isEmpty(produits)}"
+         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
 
-            <a href="/projets" class="categorie-btn px-4 py-2 rounded-full border">Tous</a>
-            <a href="/projets?categorie=voitures" class="categorie-btn px-4 py-2 rounded-full bg-blue-100">🚗
-                Voitures</a>
-            <a href="/projets?categorie=poulets" class="categorie-btn px-4 py-2 rounded-full bg-green-100">🍗
-                Poulets</a>
-            <a href="/projets?categorie=residences" class="categorie-btn px-4 py-2 rounded-full bg-yellow-100">🏠
-                Résidences</a>
-            <a href="/projets?categorie=traiteurs" class="categorie-btn px-4 py-2 rounded-full bg-red-100">🍽️
-                Traiteur</a>
+        <div th:each="p : ${produits}"
+             class="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
 
-        </div>
-    </section>
+            <!-- IMAGE -->
+            <div class="relative overflow-hidden">
+                <img th:src="@{'/uploads/' + ${p.imageUrl}}"
+                     class="h-64 w-full object-cover group-hover:scale-110 transition duration-500">
 
-    <!-- PRODUITS -->
-    <section class="max-w-7xl mx-auto px-6 pb-20">
+                <span th:if="${p.disponible}"
+                      class="absolute top-4 left-4 bg-green-500 text-white text-xs px-3 py-1 rounded-full shadow">
+                    Disponible
+                </span>
+            </div>
 
-        <div th:if="${#lists.isEmpty(produits)}" class="text-center text-gray-500 mt-20">
-            Aucun produit disponible pour cette catégorie.
-        </div>
+            <!-- CONTENU -->
+            <div class="p-6 space-y-3">
+                <h3 class="text-xl font-bold" th:text="${p.nom}"></h3>
+                <p class="text-sm text-slate-600" th:text="${p.description}"></p>
 
-        <div th:if="${!#lists.isEmpty(produits)}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-
-            <div th:each="p : ${produits}"
-                class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition">
-
-                <img th:src="@{'/uploads/' + ${p.imageUrl}}" class="h-56 w-full object-cover">
-
-                <div class="p-6 space-y-3">
-                    <h3 class="text-lg font-bold" th:text="${p.nom}"></h3>
-                    <p class="text-sm text-gray-600" th:text="${p.description}"></p>
-                    <p class="text-xl font-semibold text-yellow-600" th:text="${p.prix} + ' FCFA'"></p>
-
-                    <span th:if="${p.disponible}"
-                        class="inline-block px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full">
-                        Disponible
-                    </span>
-                </div>
-
-                <div class="p-6 pt-0">
-                    <a th:if="${p.disponible}" th:href="@{'/produits/commander/' + ${p.id}}"
-                        class="block w-full text-center bg-yellow-500 hover:bg-yellow-600 text-white py-3 rounded-xl font-semibold transition">
-                        Commander
-                    </a>
-
-                    <button th:if="${!p.disponible}" disabled
-                        class="w-full bg-gray-300 py-3 rounded-xl cursor-not-allowed">
-                        Indisponible
-                    </button>
+                <div class="flex items-center justify-between">
+                    <p class="text-xl font-extrabold text-africanOrange"
+                       th:text="${p.prix} + ' FCFA'"></p>
                 </div>
             </div>
+
+            <!-- ACTION -->
+            <div class="p-6 pt-0">
+                <a th:if="${p.disponible}"
+                   th:href="@{'/produits/commander/' + ${p.id}}"
+                   class="block w-full text-center bg-africanGreen hover:bg-africanOrange
+                          text-white py-3 rounded-xl font-semibold transition">
+                    Commander
+                </a>
+
+                <button th:if="${!p.disponible}" disabled
+                        class="w-full bg-slate-300 py-3 rounded-xl cursor-not-allowed">
+                    Indisponible
+                </button>
+            </div>
+
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- FOOTER -->
-    <div th:replace="~{fragments/footer :: footer}"></div>
+<!-- FOOTER -->
+<div th:replace="~{fragments/footer :: footer}"></div>
 
-    <!-- JS -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const params = new URLSearchParams(window.location.search);
-            const activeCategorie = params.get("categorie");
+<!-- ================= JS CATÉGORIE ACTIVE ================= -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        const activeCategorie = params.get("categorie");
 
-            document.querySelectorAll(".categorie-btn").forEach(btn => {
-                if (
-                    (!activeCategorie && btn.textContent.trim() === "Tous") ||
-                    (activeCategorie && btn.href.includes("categorie=" + activeCategorie))
-                ) {
-                    btn.classList.add("ring", "ring-2", "ring-yellow-400");
-                }
-            });
+        document.querySelectorAll(".categorie-btn").forEach(btn => {
+            if (
+                (!activeCategorie && btn.textContent.trim() === "Tous") ||
+                (activeCategorie && btn.href.includes("categorie=" + activeCategorie))
+            ) {
+                btn.classList.add("ring", "ring-2", "ring-africanOrange");
+            }
         });
-    </script>
+    });
+</script>
 
 </body>
-
 </html>

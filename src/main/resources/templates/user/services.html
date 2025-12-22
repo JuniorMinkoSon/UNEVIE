@@ -8,196 +8,206 @@
     <title>Nos Services | UNEVIE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        africanOrange: '#F59E0B',
+                        africanGreen: '#15803D',
+                        africanDark: '#0F172A'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-slate-50 text-slate-800">
 
 <!-- ================= HEADER ================= -->
 <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- ================= HERO ================= -->
-<section class="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-24 text-center">
-    <h1 class="text-4xl md:text-5xl font-extrabold mb-6">
-        Des services pensés pour <span class="text-yellow-400">simplifier votre vie</span>
-    </h1>
-    <p class="max-w-3xl mx-auto text-blue-100 text-lg">
-        UNEVIE vous permet de réserver des véhicules, des résidences
-        et des services premium en toute sécurité, où que vous soyez.
-    </p>
+<!-- ================= HERO IMMERSIF ================= -->
+<section class="relative py-28 text-white overflow-hidden">
 
-    <div class="mt-10 flex justify-center gap-4 flex-wrap">
-        <a th:href="@{/projets}"
-           class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-8 py-4 rounded-xl transition">
-            Explorer les offres
-        </a>
+    <img src="/images/Whresidencesassinie.jpeg"
+         class="absolute inset-0 w-full h-full object-cover">
 
-        <a th:href="@{/contact}"
-           class="border border-white text-white hover:bg-white hover:text-blue-800
-                  font-semibold px-8 py-4 rounded-xl transition">
-            Devenir partenaire
-        </a>
+    <div class="absolute inset-0 bg-gradient-to-r from-africanGreen/90 to-africanOrange/80"></div>
+
+    <div class="relative max-w-7xl mx-auto px-6 text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
+            Des services conçus pour <br>
+            <span class="underline">simplifier votre quotidien</span>
+        </h1>
+
+        <p class="max-w-3xl mx-auto text-white/90 text-lg">
+            Location de véhicules, résidences, traiteurs et services premium,
+            accessibles partout en Côte d’Ivoire.
+        </p>
+
+        <div class="mt-10 flex justify-center gap-4 flex-wrap">
+            <a th:href="@{/projets}"
+               class="bg-white text-africanDark font-semibold px-8 py-4 rounded-xl hover:bg-slate-100 transition">
+                Explorer les offres
+            </a>
+
+            <a th:href="@{/contact}"
+               class="border border-white text-white px-8 py-4 rounded-xl hover:bg-white hover:text-africanDark transition">
+                Devenir partenaire
+            </a>
+        </div>
     </div>
 </section>
 
 <!-- ================= INTRO ================= -->
-<section class="max-w-7xl mx-auto px-6 py-20 text-center">
-    <h2 class="text-3xl font-extrabold mb-4">
-        Pourquoi choisir <span class="text-blue-700">UNEVIE</span> ?
+<section class="max-w-7xl mx-auto px-6 py-24 text-center">
+    <span class="text-africanOrange font-semibold uppercase text-sm">
+        Notre promesse
+    </span>
+    <h2 class="text-3xl font-extrabold mt-2 mb-6">
+        UNEVIE, une seule plateforme, plusieurs solutions
     </h2>
-    <p class="text-gray-600 max-w-3xl mx-auto">
-        UNEVIE centralise les meilleurs services locaux sur une seule plateforme.
-        Vous gagnez du temps, vous économisez de l’argent et vous bénéficiez
-        d’une expérience fiable et fluide.
+    <p class="text-slate-600 max-w-3xl mx-auto">
+        UNEVIE centralise les meilleurs services locaux pour vous faire gagner
+        du temps, réduire les coûts et garantir une expérience fiable et sécurisée.
     </p>
 </section>
 
-<!-- ================= SERVICES PRINCIPAUX ================= -->
-<section class="max-w-7xl mx-auto px-6 pb-20">
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+<!-- ================= SERVICES VISUELS ================= -->
+<section class="max-w-7xl mx-auto px-6 pb-24">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
 
-        <!-- Service 1 -->
-        <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition">
-            <i class="fas fa-car text-blue-700 text-4xl mb-5"></i>
-            <h3 class="text-xl font-bold mb-3">Location de véhicules</h3>
-            <p class="text-gray-600 mb-4">
-                Voitures avec ou sans chauffeur, disponibles selon votre localisation.
-                Réservez en quelques clics, sans négociation interminable.
-            </p>
-            <ul class="text-sm text-gray-600 space-y-2">
-                <li>✔ Véhicules vérifiés</li>
-                <li>✔ Tarifs transparents</li>
-                <li>✔ Disponibilité immédiate</li>
-            </ul>
+        <!-- Véhicules -->
+        <div class="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
+            <div class="relative h-56">
+                <img src="/images/voiture.jpeg" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-africanDark/40"></div>
+            </div>
+            <div class="p-8">
+                <i class="fas fa-car text-africanGreen text-4xl mb-4"></i>
+                <h3 class="text-xl font-bold mb-3">Location de véhicules</h3>
+                <p class="text-slate-600 mb-4">
+                    Véhicules avec ou sans chauffeur, disponibles selon votre
+                    zone et vos besoins.
+                </p>
+                <ul class="text-sm text-slate-600 space-y-2">
+                    <li>✔ Véhicules vérifiés</li>
+                    <li>✔ Tarifs clairs</li>
+                    <li>✔ Réservation rapide</li>
+                </ul>
+            </div>
         </div>
 
-        <!-- Service 2 -->
-        <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition">
-            <i class="fas fa-house-user text-blue-700 text-4xl mb-5"></i>
-            <h3 class="text-xl font-bold mb-3">Réservation de résidences</h3>
-            <p class="text-gray-600 mb-4">
-                Résidences meublées, appartements et logements temporaires
-                pour vos séjours, événements ou missions professionnelles.
-            </p>
-            <ul class="text-sm text-gray-600 space-y-2">
-                <li>✔ Photos réelles</li>
-                <li>✔ Logements prêts à l’usage</li>
-                <li>✔ Paiement sécurisé</li>
-            </ul>
+        <!-- Résidences -->
+        <div class="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
+            <div class="relative h-56">
+                <img src="/images/residence1.jpeg" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-africanDark/40"></div>
+            </div>
+            <div class="p-8">
+                <i class="fas fa-house-user text-africanGreen text-4xl mb-4"></i>
+                <h3 class="text-xl font-bold mb-3">Réservation de résidences</h3>
+                <p class="text-slate-600 mb-4">
+                    Résidences meublées et logements temporaires prêts à l’usage.
+                </p>
+                <ul class="text-sm text-slate-600 space-y-2">
+                    <li>✔ Photos réelles</li>
+                    <li>✔ Confort garanti</li>
+                    <li>✔ Paiement sécurisé</li>
+                </ul>
+            </div>
         </div>
 
-        <!-- Service 3 -->
-        <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition">
-            <i class="fas fa-concierge-bell text-blue-700 text-4xl mb-5"></i>
-            <h3 class="text-xl font-bold mb-3">Services premium</h3>
-            <p class="text-gray-600 mb-4">
-                Traiteur haut de gamme, services événementiels et prestations
-                personnalisées selon vos besoins.
-            </p>
-            <ul class="text-sm text-gray-600 space-y-2">
-                <li>✔ Prestataires sélectionnés</li>
-                <li>✔ Qualité garantie</li>
-                <li>✔ Service sur mesure</li>
-            </ul>
+        <!-- Services premium -->
+        <div class="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
+            <div class="relative h-56">
+                <img src="/images/traiteurs.jpeg" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-africanDark/40"></div>
+            </div>
+            <div class="p-8">
+                <i class="fas fa-concierge-bell text-africanGreen text-4xl mb-4"></i>
+                <h3 class="text-xl font-bold mb-3">Services premium</h3>
+                <p class="text-slate-600 mb-4">
+                    Traiteurs, événements et prestations personnalisées.
+                </p>
+                <ul class="text-sm text-slate-600 space-y-2">
+                    <li>✔ Prestataires sélectionnés</li>
+                    <li>✔ Qualité contrôlée</li>
+                    <li>✔ Service sur mesure</li>
+                </ul>
+            </div>
         </div>
 
     </div>
 </section>
 
 <!-- ================= COMMENT ÇA MARCHE ================= -->
-<section class="bg-white py-20">
+<section class="bg-white py-24">
     <div class="max-w-7xl mx-auto px-6">
 
-        <h2 class="text-3xl font-extrabold text-center mb-12">
-            Comment ça <span class="text-blue-700">fonctionne</span> ?
+        <h2 class="text-3xl font-extrabold text-center mb-16">
+            Comment ça <span class="text-africanOrange">fonctionne</span> ?
         </h2>
 
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 text-center">
 
-            <div class="bg-gray-50 p-6 rounded-xl shadow">
-                <i class="fas fa-location-dot text-yellow-500 text-3xl mb-4"></i>
-                <h4 class="font-bold mb-2">1. Localisez-vous</h4>
-                <p class="text-sm text-gray-600">
-                    Sélectionnez votre zone pour voir les offres disponibles.
+            <div class="bg-slate-50 p-8 rounded-2xl shadow">
+                <i class="fas fa-location-dot text-africanOrange text-4xl mb-4"></i>
+                <h4 class="font-bold mb-2">Localisation</h4>
+                <p class="text-sm text-slate-600">
+                    Indiquez votre zone.
                 </p>
             </div>
 
-            <div class="bg-gray-50 p-6 rounded-xl shadow">
-                <i class="fas fa-filter text-yellow-500 text-3xl mb-4"></i>
-                <h4 class="font-bold mb-2">2. Choisissez</h4>
-                <p class="text-sm text-gray-600">
-                    Comparez les offres selon vos préférences.
+            <div class="bg-slate-50 p-8 rounded-2xl shadow">
+                <i class="fas fa-filter text-africanOrange text-4xl mb-4"></i>
+                <h4 class="font-bold mb-2">Choix</h4>
+                <p class="text-sm text-slate-600">
+                    Comparez les offres.
                 </p>
             </div>
 
-            <div class="bg-gray-50 p-6 rounded-xl shadow">
-                <i class="fas fa-credit-card text-yellow-500 text-3xl mb-4"></i>
-                <h4 class="font-bold mb-2">3. Payez</h4>
-                <p class="text-sm text-gray-600">
-                    Paiement en ligne ou en espèces selon le service.
+            <div class="bg-slate-50 p-8 rounded-2xl shadow">
+                <i class="fas fa-credit-card text-africanOrange text-4xl mb-4"></i>
+                <h4 class="font-bold mb-2">Paiement</h4>
+                <p class="text-sm text-slate-600">
+                    En ligne ou en espèces.
                 </p>
             </div>
 
-            <div class="bg-gray-50 p-6 rounded-xl shadow">
-                <i class="fas fa-check-circle text-yellow-500 text-3xl mb-4"></i>
-                <h4 class="font-bold mb-2">4. Profitez</h4>
-                <p class="text-sm text-gray-600">
-                    Suivez votre commande et profitez du service.
+            <div class="bg-slate-50 p-8 rounded-2xl shadow">
+                <i class="fas fa-check-circle text-africanOrange text-4xl mb-4"></i>
+                <h4 class="font-bold mb-2">Confirmation</h4>
+                <p class="text-sm text-slate-600">
+                    Profitez du service.
                 </p>
             </div>
 
         </div>
-    </div>
-</section>
-
-<!-- ================= AVANTAGES ================= -->
-<section class="max-w-7xl mx-auto px-6 py-20">
-    <h2 class="text-3xl font-extrabold text-center mb-12">
-        Les avantages <span class="text-blue-700">UNEVIE</span>
-    </h2>
-
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-
-        <div class="bg-white p-6 rounded-xl shadow">
-            <i class="fas fa-clock text-blue-700 text-3xl mb-3"></i>
-            <h4 class="font-bold">Gain de temps</h4>
-        </div>
-
-        <div class="bg-white p-6 rounded-xl shadow">
-            <i class="fas fa-lock text-blue-700 text-3xl mb-3"></i>
-            <h4 class="font-bold">Sécurité</h4>
-        </div>
-
-        <div class="bg-white p-6 rounded-xl shadow">
-            <i class="fas fa-tags text-blue-700 text-3xl mb-3"></i>
-            <h4 class="font-bold">Prix justes</h4>
-        </div>
-
-        <div class="bg-white p-6 rounded-xl shadow">
-            <i class="fas fa-star text-blue-700 text-3xl mb-3"></i>
-            <h4 class="font-bold">Qualité contrôlée</h4>
-        </div>
-
     </div>
 </section>
 
 <!-- ================= CTA FINAL ================= -->
-<section class="bg-gradient-to-r from-blue-700 to-blue-500 text-white py-20 text-center">
+<section class="bg-gradient-to-r from-africanGreen to-africanOrange text-white py-24 text-center">
     <h2 class="text-3xl font-extrabold mb-4">
-        Prêt à vivre l’expérience UNEVIE ?
+        Prêt à réserver avec UNEVIE ?
     </h2>
-    <p class="text-blue-100 mb-8">
-        Réservez dès maintenant et simplifiez votre quotidien
+    <p class="text-white/90 mb-8">
+        Une expérience simple, locale et sécurisée
     </p>
 
     <a th:href="@{/projets}"
-       class="bg-white text-blue-700 font-semibold px-10 py-4 rounded-xl
-              hover:bg-gray-100 transition">
+       class="bg-white text-africanDark font-semibold px-10 py-4 rounded-xl
+              hover:bg-slate-100 transition">
         Voir les offres disponibles
     </a>
 </section>

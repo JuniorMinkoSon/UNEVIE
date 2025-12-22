@@ -5,203 +5,201 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Accueil | UNEVIE</title>
+    <title>UNEVIE | Plateforme de services</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        africanOrange: '#F59E0B',
+                        africanGreen: '#15803D',
+                        africanDark: '#0F172A'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-slate-50 text-slate-800">
 
-<!-- ================= HEADER ================= -->
+<!-- HEADER -->
 <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- ================= HERO ================= -->
-<section class="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-24 text-center">
-    <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
-        Bienvenue sur <span class="text-yellow-400">UNEVIE</span>
-    </h1>
+<!-- ================= HERO FULL IMAGE ================= -->
+<section class="relative min-h-[90vh] flex items-center">
 
-    <p class="max-w-3xl mx-auto text-blue-100 text-lg mb-10">
-        Commandez une voiture ou réservez une résidence selon votre localisation,
-        de façon <strong>simple</strong>, <strong>rapide</strong> et
-        <strong>sécurisée</strong>.
-    </p>
+    <!-- Image de fond -->
+    <img src="/images/Whresidencesassinie.jpeg"
+         class="absolute inset-0 w-full h-full object-cover">
 
-    <div class="flex justify-center gap-4 flex-wrap">
-        <a th:href="@{/projets}"
-           class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold
-                  px-8 py-4 rounded-xl transition">
-            Découvrir les offres
-        </a>
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-r from-africanGreen/90 via-africanGreen/70 to-africanOrange/70"></div>
 
-        <a th:href="@{/contact}"
-           class="border border-white text-white hover:bg-white hover:text-blue-800
-                  font-semibold px-8 py-4 rounded-xl transition">
-            Nous contacter
-        </a>
+    <!-- Contenu -->
+    <div class="relative z-10 max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+
+        <div class="text-white">
+            <span class="inline-block mb-4 px-4 py-1 rounded-full bg-white/20 text-sm">
+                Plateforme africaine de services
+            </span>
+
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
+                Une seule plateforme.<br>
+                <span class="text-africanOrange">Tous vos besoins.</span>
+            </h1>
+
+            <p class="text-white/90 text-lg mb-10 max-w-xl">
+                Location de véhicules, résidences, traiteurs et produits locaux,
+                accessibles selon votre localisation, en toute confiance.
+            </p>
+
+            <div class="flex gap-4 flex-wrap">
+                <a th:href="@{/projets}"
+                   class="bg-white text-africanDark font-semibold px-8 py-4 rounded-xl shadow-lg hover:scale-105 transition">
+                    Explorer les offres
+                </a>
+
+                <a th:href="@{/contact}"
+                   class="border border-white text-white px-8 py-4 rounded-xl hover:bg-white hover:text-africanDark transition">
+                    Contactez-nous
+                </a>
+            </div>
+        </div>
+
+        <!-- Carte flottante -->
+        <div class="hidden md:block">
+            <div class="bg-white/20 backdrop-blur-xl rounded-3xl p-6 shadow-2xl">
+                <img src="/images/voiture.jpeg"
+                     class="rounded-2xl object-cover w-full h-80">
+                <p class="text-white text-sm mt-4">
+                    🚗 Véhicules disponibles partout en Côte d’Ivoire
+                </p>
+            </div>
+        </div>
+
     </div>
 </section>
 
-<!-- ================= COMMENT ÇA FONCTIONNE ================= -->
-<section class="max-w-7xl mx-auto px-6 py-20">
+<!-- ================= SERVICES ================= -->
+<section class="max-w-7xl mx-auto px-6 py-24">
 
     <div class="text-center mb-16">
-        <h2 class="text-3xl font-extrabold mb-4">
-            Comment ça <span class="text-blue-700">fonctionne</span> ?
+        <h2 class="text-4xl font-extrabold mb-4">
+            Nos <span class="text-africanOrange">services</span>
         </h2>
-        <p class="text-gray-600 max-w-2xl mx-auto">
-            UNEVIE vous accompagne à chaque étape pour une expérience fluide et sécurisée.
+        <p class="text-slate-600 max-w-2xl mx-auto">
+            UNEVIE connecte utilisateurs et prestataires fiables à travers toute l’Afrique.
         </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
-        <!-- Étape 1 -->
-        <div class="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-2xl transition">
-            <div class="text-blue-700 text-4xl mb-4">
-                <i class="fas fa-map-marker-alt"></i>
+        <!-- CARD -->
+        <div class="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition">
+            <img src="/images/voiture.jpeg"
+                 class="h-72 w-full object-cover group-hover:scale-110 transition duration-500">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <div class="absolute bottom-0 p-6 text-white">
+                <h3 class="text-xl font-bold">🚗 Véhicules</h3>
+                <p class="text-sm text-white/80">Avec ou sans chauffeur</p>
             </div>
-            <h3 class="text-lg font-bold mb-2">1. Choisissez votre localisation</h3>
-            <p class="text-gray-600 text-sm">
-                Connectez-vous à la plateforme et sélectionnez votre zone.
-                Utilisez notre carte intelligente pour trouver le lieu qui vous convient.
-            </p>
         </div>
 
-        <!-- Étape 2 -->
-        <div class="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-2xl transition">
-            <div class="text-blue-700 text-4xl mb-4">
-                <i class="fas fa-filter"></i>
+        <div class="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition">
+            <img src="/images/residence1.jpeg"
+                 class="h-72 w-full object-cover group-hover:scale-110 transition duration-500">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <div class="absolute bottom-0 p-6 text-white">
+                <h3 class="text-xl font-bold">🏠 Résidences</h3>
+                <p class="text-sm text-white/80">Séjours courts ou longs</p>
             </div>
-            <h3 class="text-lg font-bold mb-2">2. Filtrez les offres</h3>
-            <p class="text-gray-600 text-sm">
-                Parcourez et filtrez les offres de voitures ou de résidences
-                selon vos préférences et votre budget.
-            </p>
         </div>
 
-        <!-- Étape 3 -->
-        <div class="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-2xl transition">
-            <div class="text-blue-700 text-4xl mb-4">
-                <i class="fas fa-check-circle"></i>
+        <div class="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition">
+            <img src="/images/poulets.jpeg"
+                 class="h-72 w-full object-cover group-hover:scale-110 transition duration-500">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <div class="absolute bottom-0 p-6 text-white">
+                <h3 class="text-xl font-bold">🍗 Produits locaux</h3>
+                <p class="text-sm text-white/80">Frais et disponibles</p>
             </div>
-            <h3 class="text-lg font-bold mb-2">3. Commandez facilement</h3>
-            <p class="text-gray-600 text-sm">
-                Cliquez sur <strong>Commander</strong>, remplissez vos informations
-                et soumettez votre commande en toute sécurité.
-            </p>
+        </div>
+
+        <div class="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition">
+            <img src="/images/traiteurs.jpeg"
+                 class="h-72 w-full object-cover group-hover:scale-110 transition duration-500">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <div class="absolute bottom-0 p-6 text-white">
+                <h3 class="text-xl font-bold">🍽️ Traiteurs</h3>
+                <p class="text-sm text-white/80">Événements & cérémonies</p>
+            </div>
         </div>
 
     </div>
 </section>
 
-<!-- ================= MODE DE PAIEMENT ================= -->
-<section class="bg-white py-20">
-    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+<!-- ================= PAIEMENT ================= -->
+<section class="bg-gradient-to-r from-africanGreen to-africanOrange py-24 text-white">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
 
         <div>
-            <h2 class="text-3xl font-extrabold mb-4">
-                Des paiements <span class="text-blue-700">simples et sécurisés</span>
+            <h2 class="text-4xl font-extrabold mb-6">
+                Paiements flexibles
             </h2>
-            <p class="text-gray-600 mb-6">
-                Nous proposons plusieurs moyens de paiement pour faciliter vos commandes.
-            </p>
 
-            <ul class="space-y-3 text-gray-700">
-                <li class="flex items-center gap-3">
-                    <i class="fas fa-credit-card text-green-600"></i>
-                    Paiement en ligne sécurisé (carte bancaire et moyens acceptés)
-                </li>
-                <li class="flex items-center gap-3">
-                    <i class="fas fa-money-bill-wave text-green-600"></i>
-                    Paiement en espèces auprès de nos agents agréés
-                </li>
+            <ul class="space-y-4 text-lg">
+                <li>💳 Carte bancaire sécurisée</li>
+                <li>📱 Mobile Money</li>
+                <li>💵 Paiement en espèces</li>
             </ul>
         </div>
 
-        <div class="bg-blue-50 rounded-2xl p-8">
-            <h3 class="font-bold text-lg mb-3">🔐 Sécurité garantie</h3>
-            <p class="text-gray-600 text-sm">
-                Toutes les transactions sont protégées afin de garantir la
-                confidentialité et la sécurité de vos données.
-            </p>
+        <div class="bg-white/20 backdrop-blur-xl rounded-3xl p-6 shadow-2xl">
+            <img src="/images/Whresidencesassinie.jpeg"
+                 class="rounded-2xl object-cover w-full h-80">
         </div>
 
     </div>
 </section>
 
-<!-- ================= PARTENAIRES ================= -->
-<section class="max-w-7xl mx-auto px-6 py-20">
-    <div class="text-center mb-14">
-        <h2 class="text-3xl font-extrabold mb-4">
-            Des partenaires de <span class="text-blue-700">confiance</span>
-        </h2>
-        <p class="text-gray-600 max-w-2xl mx-auto">
-            Nous collaborons avec des prestataires fiables pour garantir la qualité des services.
-        </p>
-    </div>
+<!-- ================= AVANTAGES ================= -->
+<section class="max-w-7xl mx-auto px-6 py-24 text-center">
 
-    <div class="grid md:grid-cols-2 gap-10">
-        <div class="bg-white rounded-2xl shadow-lg p-8">
-            <h3 class="font-bold mb-2">🚗 Location de véhicules</h3>
-            <p class="text-gray-600 text-sm">
-                Nos partenaires assurent la livraison et la disponibilité
-                des véhicules dans les meilleures conditions.
-            </p>
+    <h2 class="text-4xl font-extrabold mb-14">
+        Pourquoi <span class="text-africanOrange">UNEVIE</span> ?
+    </h2>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+
+        <div class="bg-white rounded-2xl p-8 shadow hover:shadow-xl transition">
+            🚀 Commande rapide
+        </div>
+        <div class="bg-white rounded-2xl p-8 shadow hover:shadow-xl transition">
+            📍 Services géolocalisés
+        </div>
+        <div class="bg-white rounded-2xl p-8 shadow hover:shadow-xl transition">
+            🤝 Prestataires vérifiés
+        </div>
+        <div class="bg-white rounded-2xl p-8 shadow hover:shadow-xl transition">
+            🔐 Sécurité totale
+        </div>
+        <div class="bg-white rounded-2xl p-8 shadow hover:shadow-xl transition">
+            📦 Suivi en temps réel
+        </div>
+        <div class="bg-white rounded-2xl p-8 shadow hover:shadow-xl transition">
+            💰 Prix transparents
         </div>
 
-        <div class="bg-white rounded-2xl shadow-lg p-8">
-            <h3 class="font-bold mb-2">🏠 Gestion de résidences</h3>
-            <p class="text-gray-600 text-sm">
-                Les résidences sont préparées et vérifiées avant votre arrivée
-                pour garantir confort et sécurité.
-            </p>
-        </div>
-    </div>
-</section>
-
-<!-- ================= SUIVI & AVANTAGES ================= -->
-<section class="bg-gradient-to-r from-blue-700 to-blue-500 text-white py-20">
-    <div class="max-w-7xl mx-auto px-6 text-center">
-
-        <h2 class="text-3xl font-extrabold mb-6">
-            Suivi de commande & avantages
-        </h2>
-
-        <p class="text-blue-100 mb-10 max-w-2xl mx-auto">
-            Une fois votre commande passée, vous suivez son état en temps réel
-            et recevez des mises à jour régulières.
-        </p>
-
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-
-            <div class="bg-white/10 rounded-xl p-6">
-                ✅ Commande simple et rapide
-            </div>
-            <div class="bg-white/10 rounded-xl p-6">
-                🚘 Large choix de voitures et résidences
-            </div>
-            <div class="bg-white/10 rounded-xl p-6">
-                💰 Prix compétitifs
-            </div>
-            <div class="bg-white/10 rounded-xl p-6">
-                🔐 Paiement sécurisé
-            </div>
-            <div class="bg-white/10 rounded-xl p-6">
-                📦 Suivi de commande en ligne
-            </div>
-
-        </div>
     </div>
 </section>
 
-<!-- ================= FOOTER ================= -->
+<!-- FOOTER -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
