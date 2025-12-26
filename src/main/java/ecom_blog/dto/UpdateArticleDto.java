@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 public class UpdateArticleDto {
@@ -19,9 +18,10 @@ public class UpdateArticleDto {
     private Long category;
 
     @NotBlank(message = "Le contenu est obligatoire")
-    @Size(min = 10, max = 5000, message = "Le contenu doit contenir entre 10 et 5000 caractères")
+    @Size(min = 10, max = 50000, message = "Le contenu doit contenir entre 10 et 50000 caractères")
     private String contenu;
 
     private Long id;
     private String imageUrl;
+    private String slug;
 }

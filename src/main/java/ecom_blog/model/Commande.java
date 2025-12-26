@@ -1,5 +1,6 @@
 package ecom_blog.model;
 
+import ecom_blog.model.enums.StatutCommande;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -59,4 +60,23 @@ public class Commande extends BaseEntity {
     @ManyToOne(optional = true)
     @JoinColumn(name = "produit_id", nullable = true)
     private Produit produit;
+
+    // 🚀 NOUVEAUX CHAMPS POUR LE SUIVI EN TEMPS RÉEL
+
+    // Statut détaillé de la commande
+    @Enumerated(EnumType.STRING)
+    private StatutCommande statutDetaille;
+
+    // Prestataire assigné
+    @ManyToOne
+    @JoinColumn(name = "prestataire_id")
+    private Prestataire prestataire;
+
+    // Coordonnées GPS de la destination
+    private Double latitudeDestination;
+    private Double longitudeDestination;
+
+    // Horodatage
+    private LocalDateTime datePriseEnCharge; // Date d'assignation du prestataire
+    private LocalDateTime dateLivraison; // Date de livraison effective
 }

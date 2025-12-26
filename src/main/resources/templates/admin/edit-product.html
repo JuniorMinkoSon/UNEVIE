@@ -2,83 +2,130 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <div th:replace="~{fragments/head :: head (title='Admin - Modifier produit')}"></div>
-    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+    <div th:replace="~{fragments/admin-head :: head(title='Admin - Modifier produit')}"></div>
 </head>
 
 <body>
     <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
-        <section>
-            <div class="container-fluid">
-                <div class="glass-card">
-                    <h1>
-                        <i class="fa-solid fa-pen-to-square"></i>
-                        Modifier le Produit
-                    </h1>
+        <section class="animate-fadeIn">
+            <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+
+                <!-- Breadcrumb -->
+                <div class="mb-8 animate-slideUp">
+                    <a th:href="@{/admin/products}"
+                        class="group inline-flex items-center text-gray-500 hover:text-primary transition-colors font-medium">
+                        <i class="fa-solid fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
+                        Retour à la liste
+                    </a>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden animate-slideUp">
+                    <div class="bg-primary p-8 text-white">
+                        <h2 class="text-3xl font-extrabold flex items-center">
+                            <i class="fa-solid fa-pen-to-square mr-4"></i>
+                            Modifier le Produit
+                        </h2>
+                        <p class="text-white/80 mt-2">Mettez à jour les informations du produit ou service ci-dessous.
+                        </p>
+                    </div>
 
                     <form th:action="@{'/admin/product/update/' + ${produit.id}}" th:object="${produit}" method="post"
-                        enctype="multipart/form-data">
+                        enctype="multipart/form-data" class="p-8 space-y-8">
 
-                        <div class="mb-3">
-                            <label class="form-label">Nom du produit</label>
-                            <input class="form-input" th:field="*{nom}" placeholder="Nom du produit" required>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-gray-700">Nom du produit</label>
+                            <input type="text"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                                th:field="*{nom}" placeholder="Nom du produit" required>
                         </div>
 
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Catégorie</label>
-                                <select class="form-input" th:field="*{categorie}" required>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label class="block text-sm font-bold text-gray-700">Catégorie</label>
+                                <select
+                                    class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none cursor-pointer appearance-none"
+                                    th:field="*{categorie}" required>
                                     <option value="Voitures">🚗 Voitures</option>
                                     <option value="Poulets">🍗 Poulets</option>
-                                    <option value="Résidences">🏠 Résidences</option>
+                                    <option value="résidences">🏠 Résidences</option>
                                     <option value="Traiteur">🍽️ Traiteur</option>
                                 </select>
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Prix (FCFA)</label>
-                                <input class="form-input" th:field="*{prix}" type="number" placeholder="Prix (FCFA)"
-                                    min="0" step="0.01" required>
+                            <div class="space-y-2">
+                                <label class="block text-sm font-bold text-gray-700">Prix (FCFA)</label>
+                                <div class="relative flex items-center">
+                                    <input type="number"
+                                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                                        th:field="*{prix}" placeholder="Prix (FCFA)" min="0" step="0.01" required>
+                                    <span
+                                        class="absolute right-4 text-gray-400 font-bold pointer-events-none">FCFA</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Description</label>
-                            <textarea class="form-input" th:field="*{description}"
-                                placeholder="Description du produit..."></textarea>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-gray-700">Description</label>
+                            <textarea
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                                th:field="*{description}" placeholder="Description du produit..." rows="4"></textarea>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label d-block">Statut du produit</label>
-                            <div class="form-check form-switch h5">
-                                <input class="form-check-input" type="checkbox" th:field="*{disponible}"
-                                    id="dispoSwitch">
-                                <label class="form-check-label" for="dispoSwitch">Produit en stock / Disponible</label>
+                        <div class="space-y-4 bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                            <label class="block text-sm font-bold text-gray-700">Statut du produit</label>
+                            <div class="flex items-center gap-3">
+                                <label class="relative inline-flex items-center cursor-pointer group">
+                                    <input type="checkbox" th:field="*{disponible}" class="sr-only peer">
+                                    <div
+                                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary transition-colors">
+                                    </div>
+                                    <span
+                                        class="ml-3 text-sm font-medium text-gray-700 group-hover:text-primary transition-colors">Produit
+                                        en stock / Disponible</span>
+                                </label>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Image actuelle</label>
-                            <div th:if="*{imageUrl}" class="mb-2">
-                                <img th:src="@{'/uploads/' + *{imageUrl}}" class="rounded-3 shadow-sm border"
-                                    style="height: 120px; width: 120px; object-fit: cover;">
+                        <div class="space-y-6">
+                            <label class="block text-sm font-bold text-gray-700">Image du produit</label>
+                            <div class="flex flex-col md:flex-row gap-6 items-start">
+                                <div th:if="*{imageUrl}" class="shrink-0">
+                                    <p class="text-xs text-gray-500 mb-2 font-bold">Image actuelle</p>
+                                    <div class="relative group">
+                                        <img th:src="@{'/uploads/' + *{imageUrl}}"
+                                            class="h-32 w-32 rounded-2xl object-cover shadow-md border border-gray-200 group-hover:opacity-75 transition-opacity">
+                                    </div>
+                                </div>
+                                <div class="flex-1 w-full">
+                                    <div
+                                        class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-2xl hover:border-primary transition-colors bg-gray-50 group">
+                                        <div class="space-y-1 text-center">
+                                            <i
+                                                class="fa-solid fa-cloud-arrow-up text-3xl text-gray-400 group-hover:text-primary transition-colors mb-2"></i>
+                                            <div class="flex text-sm text-gray-600">
+                                                <label for="image-upload"
+                                                    class="relative cursor-pointer bg-white rounded-md font-medium text-primary hover:text-red-700 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary px-2">
+                                                    <span>Changer l'image</span>
+                                                    <input id="image-upload" name="image" type="file" class="sr-only"
+                                                        accept="image/*">
+                                                </label>
+                                            </div>
+                                            <p class="text-xs text-gray-500 mt-2">Laissez vide pour conserver l'image
+                                                actuelle.</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <input type="file" name="image" accept="image/*" class="form-control">
-                            <small class="text-muted">Laissez vide pour conserver l'image actuelle.</small>
                         </div>
 
-                        <button class="btn btn-primary d-block w-100" type="submit">
-                            <i class="fa-solid fa-save me-2"></i>
-                            Enregistrer les modifications
-                        </button>
+                        <div class="pt-6">
+                            <button type="submit"
+                                class="w-full bg-primary hover:bg-red-800 text-white font-extrabold py-4 rounded-2xl shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center">
+                                <i class="fa-solid fa-save mr-3"></i>
+                                Enregistrer les modifications
+                            </button>
+                        </div>
                     </form>
-
-                    <div class="text-center mt-4">
-                        <a class="btn btn-outline" th:href="@{/admin/products}">
-                            <i class="fa-solid fa-arrow-left me-2"></i>
-                            Retour à la liste
-                        </a>
-                    </div>
                 </div>
             </div>
         </section>

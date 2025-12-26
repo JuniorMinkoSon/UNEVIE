@@ -13,7 +13,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.Normalizer;
 import java.util.List;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 @Service
 public class ArticleService {
@@ -51,6 +54,12 @@ public class ArticleService {
         return articleMapper.toDtoList(articles);
     }
 
+    public ArticleDto findBySlug(String slug) {
+        Article article = articleRepository.findBySlug(slug)
+                .orElseThrow(() -> new RuntimeException("Article non trouvé avec le slug: " + slug));
+        return articleMapper.toDto(article);
+    }
+
     public long count() {
         return articleRepository.count();
     }
@@ -61,30 +70,39 @@ public class ArticleService {
     public void save(Article article, MultipartFile image) {
         try {
             if (image != null && !image.isEmpty()) {
-                // 📸 Nom unique du fichier
-                String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-
-                // 📂 Dossier de destination
-                Path uploadPath = Paths.get(UPLOAD_DIR);
-
-                // Créer le dossier s'il n'existe pas
-                if (!Files.exists(uploadPath)) {
-                    Files.createDirectories(uploadPath);
-                }
-
-                // 💾 Copier le fichier dans /static/uploads/
-                Files.copy(image.getInputStream(), uploadPath.resolve(fileName));
-
-                // ✅ Ne pas inclure "uploads/" dans la base de données
+                String fileName = uploadImage(image);
                 article.setImageUrl(fileName);
+            }
+
+            // slug generation
+            if (article.getSlug() == null || article.getSlug().isEmpty()) {
+                article.setSlug(slugify(article.getTitre()));
             }
 
             // Enregistrement de l'article en base
             articleRepository.save(article);
 
-        } catch (IOException e) {
-            throw new RuntimeException("Erreur lors de l'enregistrement de l'image", e);
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de l'enregistrement de l'article", e);
         }
+    }
+
+    public String uploadImage(MultipartFile image) throws IOException {
+        // 📸 Nom unique du fichier
+        String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+
+        // 📂 Dossier de destination
+        Path uploadPath = Paths.get(UPLOAD_DIR);
+
+        // Créer le dossier s'il n'existe pas
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        // 💾 Copier le fichier dans /static/uploads/
+        Files.copy(image.getInputStream(), uploadPath.resolve(fileName));
+
+        return fileName;
     }
 
     /**
@@ -100,22 +118,13 @@ public class ArticleService {
         // Gérer l'image si fournie
         try {
             if (image != null && !image.isEmpty()) {
-                // 📸 Nom unique du fichier
-                String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-
-                // 📂 Dossier de destination
-                Path uploadPath = Paths.get(UPLOAD_DIR);
-
-                // Créer le dossier s'il n'existe pas
-                if (!Files.exists(uploadPath)) {
-                    Files.createDirectories(uploadPath);
-                }
-
-                // 💾 Copier le fichier dans /static/uploads/
-                Files.copy(image.getInputStream(), uploadPath.resolve(fileName));
-
-                // ✅ Mettre à jour l'URL de l'image
+                String fileName = uploadImage(image);
                 article.setImageUrl(fileName);
+            }
+
+            // slug maintenance
+            if (article.getSlug() == null || article.getSlug().isEmpty()) {
+                article.setSlug(slugify(article.getTitre()));
             }
 
             // Enregistrement de l'article en base
@@ -133,5 +142,14 @@ public class ArticleService {
         Article article = articleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Article non trouvé avec l'ID: " + id));
         articleRepository.delete(article);
+    }
+
+    private String slugify(String input) {
+        if (input == null)
+            return "";
+        String nowhitespace = Pattern.compile("\\s+").matcher(input).replaceAll("-");
+        String normalized = Normalizer.normalize(nowhitespace, Normalizer.Form.NFD);
+        String slug = Pattern.compile("[^\\w-]").matcher(normalized).replaceAll("");
+        return slug.toLowerCase(Locale.ENGLISH);
     }
 }

@@ -1,0 +1,113 @@
+<!doctype html>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head (title=${article.titre} + ' — UNEVIE')}"></head>
+
+<body
+    class="bg-white dark:bg-africanDark text-slate-900 dark:text-white font-sans selection:bg-primary selection:text-white overflow-x-hidden transition-colors duration-500">
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <!-- Article Hero -->
+    <section class="relative pt-32 pb-24 overflow-hidden border-b border-slate-200 dark:border-white/5">
+        <div class="absolute inset-0 z-0">
+            <img th:src="${article.imageUrl != null && !article.imageUrl.isEmpty()} ? @{/uploads/{img}(img=${article.imageUrl})} : @{/images/chantier.jpg}"
+                class="w-full h-full object-cover opacity-20 dark:opacity-40 grayscale blur-sm">
+            <div
+                class="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-white dark:from-africanDark dark:via-africanDark/80 dark:to-africanDark">
+            </div>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-6 relative z-10 animate-fadeIn">
+            <nav
+                class="mb-10 flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-gray-500">
+                <a th:href="@{/blog}" class="hover:text-primary transition-colors">Blog</a>
+                <i class="fa-solid fa-chevron-right text-[8px]"></i>
+                <a th:href="@{/blog/categorie/{id}(id=${article.categoryId})}" class="text-primary"
+                    th:text="${article.categoryName}">Catégorie</a>
+            </nav>
+
+            <h1 class="text-4xl md:text-6xl font-black tracking-tighter mb-8 leading-tight italic text-slate-900 dark:text-white"
+                th:text="${article.titre}">
+                Titre de l'article
+            </h1>
+
+            <div class="flex flex-wrap items-center gap-8 pt-8 border-t border-slate-200 dark:border-white/10">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white text-sm">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-gray-500">
+                            Rédaction</p>
+                        <p class="text-xs font-bold text-slate-900 dark:text-white">UNEVIE Media</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center text-primary text-sm">
+                        <i class="fa-regular fa-calendar"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-gray-500">
+                            Publié le</p>
+                        <p class="text-xs font-bold text-slate-900 dark:text-white"
+                            th:text="${#temporals.format(article.createdAt, 'dd MMMM yyyy', #locale)}">12 Décembre 2024
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <article class="py-24 px-6 animate-slideUp">
+        <div class="max-w-4xl mx-auto">
+            <div
+                class="bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[3rem] overflow-hidden shadow-2xl dark:shadow-none mb-16">
+                <img th:src="${article.imageUrl != null && !article.imageUrl.isEmpty()} ? @{/uploads/{img}(img=${article.imageUrl})} : @{/images/chantier.jpg}"
+                    class="w-full aspect-video object-cover">
+            </div>
+
+            <div class="prose prose-lg dark:prose-invert max-w-none">
+                <div class="text-slate-700 dark:text-gray-300 text-lg leading-relaxed space-y-8 font-medium"
+                    th:utext="${article.contenu}">
+                    Contenu de l'article...
+                </div>
+            </div>
+
+            <!-- Footer of Article -->
+            <div
+                class="mt-24 pt-12 border-t border-slate-200 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-10">
+                <div class="flex items-center gap-4">
+                    <span
+                        class="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-gray-500">Partager
+                        :</span>
+                    <div class="flex gap-3">
+                        <button
+                            class="w-10 h-10 rounded-xl border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 hover:text-primary transition-colors">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </button>
+                        <button
+                            class="w-10 h-10 rounded-xl border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 hover:text-primary transition-colors">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </button>
+                        <button
+                            class="w-10 h-10 rounded-xl border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 hover:text-primary transition-colors">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <a th:href="@{/blog}"
+                    class="bg-primary hover:bg-red-800 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all active:scale-95 shadow-xl shadow-primary/20">
+                    Retour au Blog
+                </a>
+            </div>
+        </div>
+    </article>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+
+</html>

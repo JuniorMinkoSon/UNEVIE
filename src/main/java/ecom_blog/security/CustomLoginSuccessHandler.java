@@ -16,8 +16,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
-                                        HttpServletResponse response,
-                                        Authentication authentication) throws IOException, ServletException {
+            HttpServletResponse response,
+            Authentication authentication) throws IOException, ServletException {
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
@@ -31,6 +31,10 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
             } else if (role.equals("ROLE_USER")) {
                 // ✅ Redirige les utilisateurs simples vers la page d’accueil dynamique ("/")
                 response.sendRedirect("/");
+                return;
+            } else if (role.equals("ROLE_PRESTATAIRE")) {
+                // ✅ Redirige les prestataires vers leur dashboard
+                response.sendRedirect("/prestataire/dashboard");
                 return;
             }
         }

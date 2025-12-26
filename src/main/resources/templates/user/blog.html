@@ -1,132 +1,197 @@
 <!doctype html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/head :: head (title='Blog - BarikaWeb')"></head>
-<link rel="stylesheet" th:href="@{/css/blog.css}">
+<head th:replace="~{fragments/head :: head (title=#{blog.hero.title} + ' — UNEVIE')}"></head>
 
-<body class="blog-page-body">
-<!--================= HEADER =================-->
-<div th:replace="~{fragments/header :: header}"></div>
+<body
+    class="bg-white dark:bg-africanDark text-slate-900 dark:text-white font-sans selection:bg-primary selection:text-white overflow-x-hidden transition-colors duration-500">
+    <div th:replace="~{fragments/header :: header}"></div>
 
-
-    <!-- 🌟 SECTION HERO -->
-    <section class="blog-hero">
-        <div class="blog-hero-content">
-            <h1 class="blog-hero-title">Notre Blog</h1>
-            <p class="blog-hero-subtitle">Actualités, conseils et astuces pour vos projets immobiliers et de
-                construction</p>
+    <!-- Hero Section -->
+    <section
+        class="relative pt-32 pb-24 overflow-hidden border-b border-slate-200 dark:border-white/5 transition-colors duration-500">
+        <!-- Background Decor -->
+        <div
+            class="absolute top-0 left-0 w-[500px] h-[500px] bg-primary/5 dark:bg-primary/10 rounded-full blur-[120px] -z-10">
         </div>
-        <div class="blog-hero-overlay"></div>
-    </section>
+        <div
+            class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-red-900/5 dark:bg-red-900/10 rounded-full blur-[100px] -z-10">
+        </div>
 
-    <!-- 📰 SECTION ARTICLES -->
-    <section class="blog-articles-section">
-        <div class="container">
-            <div class="blog-header-modern">
-                <span class="section-badge">Articles</span>
-                <h2 class="section-title">Dernières actualités</h2>
-                <p class="section-subtitle">Restez informé des dernières tendances et conseils dans le domaine de
-                    l'immobilier et de la construction.</p>
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center animate-fadeIn">
+            <div
+                class="inline-flex items-center gap-3 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-6 py-2 rounded-full mb-8">
+                <i class="fa-solid fa-feather-pointed text-primary"></i>
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-gray-400"
+                    th:text="#{blog.hero.badge}">Chroniques & Visions</span>
             </div>
 
-            <div class="blog-articles-grid" th:if="${articles != null && !articles.isEmpty()}">
-                <article th:each="a : ${articles}" class="blog-article-card">
-                    <div class="blog-article-image-wrapper">
+            <h1
+                class="text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-tight italic text-slate-900 dark:text-white">
+                <span th:text="#{blog.hero.title_part1 ?: 'Notre'}">Notre</span> <span class="text-primary italic"
+                    th:text="#{blog.hero.title_part2 ?: 'Blog'}">Blog</span>
+            </h1>
+
+            <p class="max-w-2xl mx-auto text-slate-600 dark:text-gray-400 text-lg md:text-xl font-medium leading-relaxed mb-10"
+                th:text="#{blog.hero.description}">
+                Analyses, tendances et expertises sur le foncier et la construction en Afrique.
+            </p>
+        </div>
+    </section>
+
+    <!-- Articles Section -->
+    <section class="py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+
+            <div class="flex items-end justify-between mb-16">
+                <div>
+                    <span class="text-primary font-black uppercase tracking-widest text-[10px] mb-4 block"
+                        th:text="#{blog.section.badge}">Dossiers</span>
+                    <h2
+                        class="text-3xl md:text-4xl font-black tracking-tighter uppercase italic text-slate-900 dark:text-white">
+                        <span th:text="#{blog.section.title}">Dernières</span> <span class="text-primary"
+                            th:text="#{blog.section.accent}">Parutions</span>
+                    </h2>
+                </div>
+            </div>
+
+            <!-- Articles Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+                th:if="${articles != null && !articles.isEmpty()}">
+                <article th:each="a, iterStat : ${articles}"
+                    class="group bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[2.5rem] overflow-hidden hover:bg-white dark:hover:bg-white/[0.08] hover:border-primary/30 transition-all duration-500 animate-slideUp shadow-xl dark:shadow-none"
+                    th:style="'animation-delay: ' + ${iterStat.index * 100} + 'ms'">
+
+                    <div class="relative aspect-[16/10] overflow-hidden">
                         <img th:src="${a.imageUrl != null && !a.imageUrl.isEmpty()} ? @{/uploads/{img}(img=${a.imageUrl})} : @{/images/chantier.jpg}"
-                            th:alt="${a.titre}" class="blog-article-image">
-                        <div class="blog-article-overlay"></div>
-                        <!-- Lien vers la catégorie -->
-                        <a th:href="@{/blog/categorie/{id}(id=${a.categoryId})}" class="blog-article-category"
-                            th:text="${a.categoryName}">Catégorie</a>
+                            th:alt="${a.titre}"
+                            class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent dark:from-africanDark dark:via-transparent dark:to-transparent opacity-60">
+                        </div>
+                        <a th:href="@{/blog/categorie/{id}(id=${a.categoryId})}"
+                            class="absolute bottom-6 left-6 bg-primary text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-lg hover:bg-red-800 transition-colors"
+                            th:text="${a.categoryName}">
+                            Catégorie
+                        </a>
                     </div>
-                    <div class="blog-article-content">
-                        <h3 class="blog-article-title" th:text="${a.titre}">Titre de l'article</h3>
-                        <p class="blog-article-date">
-                            <i class="fa-regular fa-calendar"></i>
-                            <span th:text="${#temporals.format(a.created_at, 'dd MMMM yyyy', #locale)}">12 Décembre
+
+                    <div class="p-8 space-y-4">
+                        <div
+                            class="flex items-center gap-4 text-[10px] font-black text-slate-500 dark:text-gray-500 uppercase tracking-widest">
+                            <i class="fa-regular fa-calendar text-primary"></i>
+                            <span th:text="${#temporals.format(a.createdAt, 'dd MMMM yyyy', #locale)}">12 Décembre
                                 2024</span>
+                        </div>
+
+                        <h3 class="text-2xl font-black leading-tight group-hover:text-primary transition-colors line-clamp-2 text-slate-900 dark:text-white"
+                            th:text="${a.titre}">
+                            Titre de l'article
+                        </h3>
+
+                        <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-3 font-medium"
+                            th:text="${#strings.abbreviate(a.contenu.replaceAll('<[^>]*>', ' '), 150)}">
+                            Extrait de l'article...
                         </p>
-                        <p class="blog-article-excerpt" th:text="${#strings.abbreviate(a.contenu, 200)}">Extrait de
-                            l'article avec une description plus détaillée...</p>
-                        <div class="blog-article-footer">
-                            <a href="#" class="blog-article-link">
-                                Lire l'article
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M5 12h14M12 5l7 7-7 7" />
-                                </svg>
+
+                        <div class="pt-6 border-t border-slate-200 dark:border-white/5">
+                            <a th:href="@{/blog/article/{slug}(slug=${a.slug ?: a.id})}"
+                                class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-white group/link hover:text-primary transition-colors">
+                                <span th:text="#{blog.article.read_more}">Lire le dossier</span>
+                                <i
+                                    class="fa-solid fa-arrow-right group-hover/link:translate-x-1 transition-transform"></i>
                             </a>
                         </div>
                     </div>
                 </article>
             </div>
 
-            <div class="empty-state" th:if="${articles == null || articles.isEmpty()}">
-                <div class="empty-state-icon">📝</div>
-                <p>Aucun article disponible pour le moment.</p>
-                <p class="empty-state-subtitle">Revenez bientôt pour découvrir nos dernières actualités !</p>
+            <!-- Empty State -->
+            <div class="text-center py-32 bg-slate-50 dark:bg-white/5 rounded-[3rem] border border-slate-200 dark:border-white/10 animate-fadeIn"
+                th:if="${articles == null || articles.isEmpty()}">
+                <div
+                    class="w-24 h-24 bg-white dark:bg-white/5 rounded-full flex items-center justify-center mx-auto mb-8 text-4xl text-slate-300 dark:text-gray-600 border border-slate-200 dark:border-white/10">
+                    <i class="fa-solid fa-pen-nib"></i>
+                </div>
+                <h2 class="text-3xl font-black mb-4 italic text-slate-900 dark:text-white"
+                    th:text="#{blog.empty.title}">Plume en attente...</h2>
+                <p class="text-slate-500 dark:text-gray-400 max-w-md mx-auto mb-10 font-medium"
+                    th:text="#{blog.empty.description}">Nous
+                    préparons actuellement des contenus
+                    exclusifs pour vous.</p>
             </div>
         </div>
     </section>
 
-    <!-- 👤 SECTION CONTACT -->
-    <section class="blog-author-section">
-        <div class="container">
-            <div class="author-card">
-                <div class="author-header">
-                    <h2>À propos de l'auteur</h2>
-                    <div class="author-divider"></div>
+    <!-- Author Section -->
+    <section
+        class="py-24 bg-slate-50 dark:bg-white/[0.02] border-y border-slate-200 dark:border-white/5 px-6 transition-colors duration-500">
+        <div class="max-w-7xl mx-auto">
+            <div
+                class="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[4rem] p-10 md:p-16 relative overflow-hidden group shadow-xl dark:shadow-none">
+                <!-- Background decor -->
+                <div
+                    class="absolute -right-20 -bottom-20 opacity-5 group-hover:opacity-10 transition-opacity duration-700">
+                    <i class="fa-solid fa-quote-right text-[20rem] text-slate-900 dark:text-white"></i>
                 </div>
-                <div class="author-content">
-                    <div class="author-info">
-                        <h3 class="author-name">Zoro Zipa</h3>
-                        <p class="author-title">Président de <strong>Barika Synergies Group</strong></p>
-                        <p class="author-description">Expert en immobilier et travaux publics avec plus de 15 ans
-                            d'expérience dans le secteur. Passionné par l'aménagement urbain durable et la sécurisation
-                            foncière.</p>
+
+                <div class="grid lg:grid-cols-2 gap-16 items-center relative z-10">
+                    <div>
+                        <span class="text-primary font-black uppercase tracking-widest text-[10px] mb-4 block"
+                            th:text="#{blog.director.badge}">Note de
+                            la direction</span>
+                        <h2
+                            class="text-4xl md:text-5xl font-black tracking-tighter italic uppercase mb-8 leading-tight text-slate-900 dark:text-white">
+                            <span th:text="#{blog.director.title}">Bâtir avec</span> <br><span
+                                class="text-primary italic" th:text="#{blog.director.accent}">Conscience</span>
+                        </h2>
+                        <div class="space-y-6">
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white"
+                                th:text="#{blog.director.name}">Zoro Zipa</h3>
+                            <p class="text-primary font-black uppercase tracking-widest text-xs"
+                                th:text="#{blog.director.role}">Président de UNEVIE
+                                Group</p>
+                            <p class="text-slate-600 dark:text-gray-400 text-lg font-medium leading-relaxed"
+                                th:text="#{blog.director.quote}">
+                                "Expert en aménagement urbain et sécurisation foncière, ma mission est de vulgariser les
+                                meilleures pratiques pour un habitat durable en Afrique."
+                            </p>
+                        </div>
+
+                        <div class="mt-12 flex flex-wrap gap-4">
+                            <a th:href="@{/contact}"
+                                class="bg-primary hover:bg-red-800 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all active:scale-95 shadow-xl shadow-primary/20"
+                                th:text="#{blog.director.btn}">
+                                Me Contacter Directement
+                            </a>
+                        </div>
                     </div>
-                    <div class="author-contact">
-                        <h4>Contact</h4>
-                        <ul class="contact-list">
-                            <li>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                    <circle cx="12" cy="10" r="3"></circle>
-                                </svg>
-                                <span>Abidjan, Cocody Angré-Bessikoi, Base CIE</span>
-                            </li>
-                            <li>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path
-                                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
-                                    </path>
-                                </svg>
-                                <span>+225 07 68 18 93 40</span>
-                            </li>
-                            <li>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path
-                                        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
-                                    </path>
-                                </svg>
-                                <span>+225 07 68 18 93 40</span>
-                            </li>
-                            <li>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path
-                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-                                    </path>
-                                    <polyline points="22,6 12,13 2,6"></polyline>
-                                </svg>
-                                <span>Contacts@barakasynergiesgroup.com</span>
-                            </li>
-                        </ul>
-                        <div class="author-cta">
-                            <a th:href="@{/contact}" class="btn-primary">Nous contacter</a>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div
+                            class="bg-slate-50 dark:bg-white/5 p-8 rounded-[2.5rem] border border-slate-200 dark:border-white/10 shadow-md dark:shadow-none">
+                            <i class="fa-solid fa-location-dot text-primary mb-6 text-2xl"></i>
+                            <p class="text-[10px] font-black text-slate-400 dark:text-gray-500 uppercase tracking-widest mb-2"
+                                th:text="#{blog.info.office}">Bureaux</p>
+                            <p class="text-sm font-bold text-slate-600 dark:text-gray-300">Cocody Angré-Bessikoi, Base
+                                CIE, Abidjan</p>
+                        </div>
+                        <div
+                            class="bg-slate-50 dark:bg-white/5 p-8 rounded-[2.5rem] border border-slate-200 dark:border-white/10 shadow-md dark:shadow-none">
+                            <i class="fa-solid fa-phone text-primary mb-6 text-2xl"></i>
+                            <p class="text-[10px] font-black text-slate-400 dark:text-gray-500 uppercase tracking-widest mb-2"
+                                th:text="#{blog.info.phone}">Ligne Directe
+                            </p>
+                            <p class="text-sm font-bold text-slate-600 dark:text-gray-300">+225 07 68 18 93 40</p>
+                        </div>
+                        <div
+                            class="bg-slate-50 dark:bg-white/5 p-8 rounded-[2.5rem] border border-slate-200 dark:border-white/10 shadow-md dark:shadow-none sm:col-span-2">
+                            <i class="fa-solid fa-envelope text-primary mb-6 text-2xl"></i>
+                            <p class="text-[10px] font-black text-slate-400 dark:text-gray-500 uppercase tracking-widest mb-2"
+                                th:text="#{blog.info.email}">Email
+                                Professionnel</p>
+                            <p class="text-sm font-bold text-slate-600 dark:text-gray-300">
+                                Contacts@barakasynergiesgroup.com</p>
                         </div>
                     </div>
                 </div>
@@ -134,7 +199,7 @@
         </div>
     </section>
 
-    <div th:replace="fragments/footer :: footer"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 
 </html>

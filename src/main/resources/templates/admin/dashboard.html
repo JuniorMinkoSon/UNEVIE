@@ -2,39 +2,72 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <div th:replace="~{fragments/head :: head(title='Tableau de Bord — Administration BarakaWeb')}"></div>
-    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div th:replace="~{fragments/admin-head :: head(title=#{app.title})}"></div>
 </head>
 
-<body
-    style="background:#f9fafb; font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,sans-serif; color:#1d1d1f;">
+<body class="bg-slate-50 dark:bg-africanDark transition-colors duration-300">
 
     <!-- ✅ ADMIN LAYOUT -->
     <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
-        <section>
-            <div class="container-fluid py-4">
+        <section class="animate-fadeIn">
+            <!-- ✅ ADMIN LAYOUT CONTENT -->
+            <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
 
                 <!-- 🔢 STATS -->
-                <section class=" mb-5">
-                    <div class="stats-row">
-                        <div class="stat-card" th:each="entry : ${stats}">
-
-                            <div>
-                                <h6 th:text="${entry.key}"></h6>
-                                <h2 th:text="${entry.value}"></h2>
+                <section class="mb-10 animate-slideUp">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="bg-white dark:bg-white/5 backdrop-blur-xl rounded-[2rem] border border-slate-200 dark:border-white/5 p-8 flex items-center justify-between transition-all hover:shadow-2xl hover:bg-white/10 group"
+                            th:each="entry : ${stats}" th:with="cardColor=${
+                                entry.key.contains('Utilisateurs') ? 'blue' :
+                                entry.key.contains('Produits') ? 'green' :
+                                entry.key.contains('Articles') ? 'purple' :
+                                entry.key.contains('Commandes') ? 'amber' :
+                                entry.key.contains('Livrées') ? 'emerald' : 'slate'
+                            }">
+                            <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shrink-0 transition-all duration-500"
+                                th:classappend="${
+                                    cardColor == 'blue' ? 'bg-blue-500/10 text-blue-500 group-hover:bg-blue-500 group-hover:text-white' :
+                                    cardColor == 'green' ? 'bg-green-500/10 text-green-500 group-hover:bg-green-500 group-hover:text-white' :
+                                    cardColor == 'purple' ? 'bg-purple-500/10 text-purple-500 group-hover:bg-purple-500 group-hover:text-white' :
+                                    cardColor == 'amber' ? 'bg-amber-500/10 text-amber-500 group-hover:bg-amber-500 group-hover:text-white' :
+                                    cardColor == 'emerald' ? 'bg-emerald-500/10 text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white' :
+                                    'bg-slate-500/10 text-slate-500 group-hover:bg-slate-500 group-hover:text-white'
+                                }" th:switch="${entry.key}">
+                                <i th:case="'👥 Utilisateurs'" class="fa-solid fa-users"></i>
+                                <i th:case="'🛍️ Produits'" class="fa-solid fa-box-open"></i>
+                                <i th:case="'📰 Articles'" class="fa-solid fa-newspaper"></i>
+                                <i th:case="'📦 Commandes'" class="fa-solid fa-shopping-cart"></i>
+                                <i th:case="'🚚 Livrées'" class="fa-solid fa-truck-fast"></i>
+                                <i th:case="*" class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <div class="ml-4 text-right">
+                                <p class="text-[10px] font-black text-slate-500 dark:text-gray-500 uppercase tracking-widest"
+                                    th:text="${entry.key.contains(' ') ? #strings.substringAfter(entry.key, ' ') : entry.key}">
+                                </p>
+                                <h2 class="text-3xl font-black text-slate-900 dark:text-white mt-1 drop-shadow-md tracking-tighter"
+                                    th:text="${entry.value}"></h2>
                             </div>
                         </div>
                     </div>
                 </section>
-                <br />
 
-                <section class="dashboard-card mb-5">
-                    <h4 class="section-title">
-                        <i class="fa-solid fa-chart-bar text-primary"></i>
-                        Commandes Mensuelles
-                    </h4>
-                    <div style="height: 300px; position: relative;">
+                <!-- 📊 PERFORMANCE CHART -->
+                <section
+                    class="bg-white dark:bg-white/5 backdrop-blur-xl rounded-[2rem] border border-slate-200 dark:border-white/5 p-8 mb-10 animate-slideUp"
+                    style="animation-delay: 0.1s;">
+                    <div class="flex items-center justify-between mb-8">
+                        <h4
+                            class="text-xl font-black text-slate-900 dark:text-white italic uppercase flex items-center">
+                            <span
+                                class="w-10 h-10 bg-primary/10 text-primary rounded-xl flex items-center justify-center mr-4">
+                                <i class="fa-solid fa-chart-bar"></i>
+                            </span>
+                            <span th:text="#{dashboard.performance.title}">Performance</span>
+                        </h4>
+                        <div class="text-[10px] font-black text-slate-500 dark:text-gray-500 uppercase tracking-widest"
+                            th:text="#{dashboard.performance.subtitle}">Temps réel</div>
+                    </div>
+                    <div class="relative h-[350px] w-full">
                         <canvas id="orderChart"></canvas>
                     </div>
                 </section>
@@ -42,76 +75,136 @@
                 <script th:inline="javascript">
                     document.addEventListener("DOMContentLoaded", () => {
                         const stats = /*[[${orderStats}]]*/ {};
-                        const labels = Object.keys(stats);
-                        const data = Object.values(stats);
+                        if (typeof Chart !== 'undefined') {
+                            const labels = Object.keys(stats);
+                            const data = Object.values(stats);
+                            const isDark = document.documentElement.classList.contains('dark');
 
-                        const ctx = document.getElementById('orderChart').getContext('2d');
-                        new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: labels,
-                                datasets: [{
-                                    label: 'Nombre de commandes',
-                                    data: data,
-                                    backgroundColor: '#0d6efd',
-                                    borderRadius: 8,
-                                    borderWidth: 0
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                scales: {
-                                    y: {
-                                        beginAtZero: true,
-                                        ticks: { stepSize: 1 }
-                                    }
+                            const ctx = document.getElementById('orderChart').getContext('2d');
+                            const chart = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: labels,
+                                    datasets: [{
+                                        label: /*[[#{dashboard.stats.orders}]]*/ 'Commandes',
+                                        data: data,
+                                        backgroundColor: '#8e1010',
+                                        borderRadius: 8,
+                                        borderWidth: 0,
+                                        hoverBackgroundColor: '#6d0c0c'
+                                    }]
                                 },
-                                plugins: {
-                                    legend: { display: false }
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: {
+                                        legend: { display: false },
+                                        tooltip: {
+                                            backgroundColor: isDark ? '#1E293B' : '#FFFFFF',
+                                            titleColor: isDark ? '#FFFFFF' : '#1E293B',
+                                            bodyColor: isDark ? '#CBD5E1' : '#475569',
+                                            titleFont: { size: 13, weight: 'bold' },
+                                            bodyFont: { size: 12 },
+                                            padding: 12,
+                                            cornerRadius: 12,
+                                            displayColors: false,
+                                            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                                        }
+                                    },
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            grid: {
+                                                color: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+                                                drawBorder: false
+                                            },
+                                            ticks: { color: '#64748b', font: { size: 11, weight: '600' } }
+                                        },
+                                        x: {
+                                            grid: { display: false },
+                                            ticks: { color: '#64748b', font: { size: 11, weight: '600' } }
+                                        }
+                                    }
                                 }
-                            }
-                        });
+                            });
+
+                            // Listen for theme changes to update chart
+                            const themeObserver = new MutationObserver(() => {
+                                const newDark = document.documentElement.classList.contains('dark');
+                                chart.options.scales.y.grid.color = newDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+                                chart.options.plugins.tooltip.backgroundColor = newDark ? '#1E293B' : '#FFFFFF';
+                                chart.options.plugins.tooltip.titleColor = newDark ? '#FFFFFF' : '#1E293B';
+                                chart.options.plugins.tooltip.bodyColor = newDark ? '#CBD5E1' : '#475569';
+                                chart.update();
+                            });
+                            themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+                        }
                     });
                 </script>
 
-                <!-- 🧾 DERNIÈRES COMMANDES -->
-                <section class="dashboard-card mt-5">
-                    <h4 class="section-title">
-                        <i class="fa-solid fa-clock-rotate-left text-primary"></i>
-                        Dernières Commandes
-                    </h4>
-
-                    <!-- Aucun résultat -->
-                    <div th:if="${#lists.isEmpty(recentCommandes)}" class="empty-state">
-                        <i class="fa-solid fa-inbox"></i>
-                        <p>Aucune commande récente.</p>
+                <!-- 🧾 RECENT COMMANDS -->
+                <section
+                    class="bg-white dark:bg-white/5 backdrop-blur-xl rounded-[2rem] border border-slate-200 dark:border-white/5 overflow-hidden animate-slideUp"
+                    style="animation-delay: 0.2s;">
+                    <div class="p-8 border-b border-slate-200 dark:border-white/5 flex justify-between items-center">
+                        <h4
+                            class="text-xl font-black text-slate-900 dark:text-white italic uppercase flex items-center">
+                            <span
+                                class="w-10 h-10 bg-primary/10 text-primary rounded-xl flex items-center justify-center mr-4">
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                            </span>
+                            <span th:text="#{dashboard.recent.title}">Récent</span>
+                        </h4>
+                        <a th:href="@{/admin/commandes}"
+                            class="text-[10px] font-black text-primary hover:text-white hover:underline uppercase tracking-widest transition-colors"
+                            th:text="#{dashboard.recent.all}">Tout
+                            voir</a>
                     </div>
 
-                    <!-- Tableau -->
-                    <div th:if="${!#lists.isEmpty(recentCommandes)}" class="table-responsive">
-                        <table class="table align-middle text-center mb-0">
-                            <thead>
+                    <div th:if="${#lists.isEmpty(recentCommandes)}" class="p-20 text-center text-gray-500">
+                        <div
+                            class="w-20 h-20 bg-white/5 rounded-3xl flex items-center justify-center mx-auto mb-6 text-gray-600 text-3xl">
+                            <i class="fa-solid fa-inbox"></i>
+                        </div>
+                        <p class="font-bold text-gray-600 uppercase tracking-widest text-xs"
+                            th:text="#{dashboard.recent.empty}">Aucune commande</p>
+                    </div>
+
+                    <div th:if="${!#lists.isEmpty(recentCommandes)}" class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-slate-100 dark:bg-white/5">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Client</th>
-                                    <th>Email</th>
-                                    <th>Téléphone</th>
-                                    <th>Total</th>
-                                    <th>Statut</th>
+                                    <th class="py-4 px-8 text-[9px] font-black text-gray-600 uppercase tracking-[0.2em]"
+                                        th:text="#{dashboard.table.id}">
+                                        ID</th>
+                                    <th class="py-4 px-8 text-[9px] font-black text-gray-600 uppercase tracking-[0.2em]"
+                                        th:text="#{dashboard.table.client}">
+                                        Client</th>
+                                    <th class="py-4 px-8 text-[9px] font-black text-gray-600 uppercase tracking-[0.2em]"
+                                        th:text="#{dashboard.table.amount}">
+                                        Montant</th>
+                                    <th class="py-4 px-8 text-[9px] font-black text-gray-600 uppercase tracking-[0.2em] text-center"
+                                        th:text="#{dashboard.table.status}">
+                                        Statut</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr th:each="cmd : ${recentCommandes}">
-                                    <td class="fw-bold text-primary" th:text="${cmd.id}"></td>
-                                    <td th:text="${cmd.user != null ? cmd.user.nom : 'Anonyme'}"></td>
-                                    <td class="text-muted" th:text="${cmd.user != null ? cmd.user.email : '—'}"></td>
-                                    <td class="text-muted" th:text="${cmd.user != null ? cmd.user.telephone : '—'}">
+                            <tbody class="divide-y divide-slate-200 dark:divide-white/5">
+                                <tr th:each="cmd : ${recentCommandes}" class="hover:bg-white/5 transition-all group">
+                                    <td class="py-5 px-8 text-sm font-mono font-black text-primary"
+                                        th:text="'#' + ${cmd.id}"></td>
+                                    <td class="py-5 px-8">
+                                        <div class="font-black text-slate-900 dark:text-white group-hover:text-primary transition-colors text-sm uppercase tracking-tight"
+                                            th:text="${cmd.user != null ? cmd.user.nom : 'Anonyme'}"></div>
+                                        <div class="text-[10px] text-slate-500 dark:text-gray-500 font-bold uppercase tracking-widest"
+                                            th:text="${cmd.user != null ? cmd.user.email : '-'}"></div>
                                     </td>
-                                    <td class="fw-bold text-success" th:text="${cmd.total} + ' FCFA'"></td>
-                                    <td>
-                                        <span class="badge rounded-pill"
-                                            th:classappend="${cmd.statut == 'EN_ATTENTE' ? 'bg-warning text-dark' : cmd.statut == 'EN_COURS' ? 'bg-primary' : 'bg-success'}"
+                                    <td class="py-5 px-8 text-sm font-black text-slate-900 dark:text-white"
+                                        th:text="${cmd.total != null ? #numbers.formatDecimal(cmd.total, 0, 'COMMA', 0, 'POINT') + ' FCFA' : '0 FCFA'}">
+                                    </td>
+                                    <td class="py-5 px-8 text-center">
+                                        <span
+                                            class="inline-flex items-center px-4 py-1.5 rounded-full text-[9px] font-black tracking-widest uppercase border"
+                                            th:classappend="${cmd.statut == 'EN_ATTENTE' ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' : cmd.statut == 'EN_COURS' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' : 'bg-green-500/10 text-green-500 border-green-500/20'}"
                                             th:text="${cmd.statut}">
                                         </span>
                                     </td>
@@ -120,13 +213,9 @@
                         </table>
                     </div>
                 </section>
-
             </div>
         </section>
     </div>
-
-
-
 </body>
 
 </html>

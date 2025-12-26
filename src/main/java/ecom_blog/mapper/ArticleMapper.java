@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Component
 public class ArticleMapper {
 
@@ -29,13 +28,13 @@ public class ArticleMapper {
         Article article = new Article();
         article.setTitre(dto.getTitre());
         article.setContenu(dto.getContenu());
+        article.setSlug(dto.getSlug());
 
         Categorie categorie = categorieService.findById(dto.getCategory());
         article.setCategory(categorie);
 
         return article;
     }
-
 
     public void updateEntity(UpdateArticleDto dto, Article article) {
         if (dto == null || article == null) {
@@ -44,6 +43,7 @@ public class ArticleMapper {
 
         article.setTitre(dto.getTitre());
         article.setContenu(dto.getContenu());
+        article.setSlug(dto.getSlug());
 
         Categorie categorie = categorieService.findById(dto.getCategory());
         article.setCategory(categorie);
@@ -59,8 +59,9 @@ public class ArticleMapper {
         dto.setTitre(article.getTitre());
         dto.setContenu(article.getContenu());
         dto.setImageUrl(article.getImageUrl());
-        dto.setCreated_at(article.getCreated_at());
-        dto.setUpdated_at(article.getUpdated_at());
+        dto.setSlug(article.getSlug());
+        dto.setCreatedAt(article.getCreated_at());
+        dto.setUpdatedAt(article.getUpdated_at());
 
         // Catégorie simplifiée (pas l'objet complet)
         if (article.getCategory() != null) {

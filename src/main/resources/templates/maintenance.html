@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mode Maintenance - UNEVIE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body class="bg-[#0f0f0f] text-white min-h-screen flex items-center justify-center p-6 overflow-hidden">
+    <!-- Background Accents -->
+    <div class="fixed top-0 left-0 w-full h-full -z-10">
+        <div class="absolute top-[10%] left-[10%] w-[30%] h-[30%] bg-red-600/10 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-[10%] right-[10%] w-[30%] h-[30%] bg-red-900/10 rounded-full blur-[120px]"></div>
+    </div>
+
+    <div class="max-w-2xl w-full text-center space-y-8 animate-fadeIn relative">
+        <!-- Icon -->
+        <div class="relative inline-block">
+            <div
+                class="w-32 h-32 bg-red-600/10 rounded-[2.5rem] flex items-center justify-center text-5xl text-red-600 border border-red-600/20 shadow-2xl shadow-red-600/10 animate-float">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+            </div>
+            <div
+                class="absolute -bottom-2 -right-2 w-10 h-10 bg-yellow-500 rounded-2xl flex items-center justify-center text-black font-bold border-4 border-[#0f0f0f]">
+                <i class="fa-solid fa-bolt text-sm"></i>
+            </div>
+        </div>
+
+        <!-- Text -->
+        <div class="space-y-4">
+            <h1 class="text-4xl md:text-6xl font-black tracking-tighter uppercase italic">
+                Mode <span class="text-red-600">Maintenance</span>
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl font-medium max-w-lg mx-auto leading-relaxed">
+                Nous améliorons votre expérience. Le site sera de retour très bientôt avec de nouvelles fonctionnalités.
+            </p>
+        </div>
+
+        <!-- Glass Card Details -->
+        <div class="glass-card p-8 rounded-[2.5rem] space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <h4 class="text-red-600 font-black text-sm uppercase tracking-widest mb-1">Status</h4>
+                    <p class="text-white font-bold">Mise à jour</p>
+                </div>
+                <div>
+                    <h4 class="text-red-600 font-black text-sm uppercase tracking-widest mb-1">Temps</h4>
+                    <p class="text-white font-bold">~ 2 heures</p>
+                </div>
+                <div>
+                    <h4 class="text-red-600 font-black text-sm uppercase tracking-widest mb-1">Admin</h4>
+                    <a href="/admin/login"
+                        class="text-white hover:text-red-500 transition-colors font-bold underline underline-offset-4">Connexion</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Socials -->
+        <div class="flex items-center justify-center gap-6 pt-4">
+            <a href="#"
+                class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center hover:bg-red-600/20 hover:text-red-500 transition-all">
+                <i class="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="#"
+                class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center hover:bg-red-600/20 hover:text-red-500 transition-all">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="#"
+                class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center hover:bg-red-600/20 hover:text-red-500 transition-all">
+                <i class="fa-brands fa-twitter"></i>
+            </a>
+        </div>
+
+        <p class="text-[10px] text-gray-600 font-black uppercase tracking-[0.3em]">
+            &copy; 2025 UNEVIE. Tous droits réservés.
+        </p>
+    </div>
+</body>
+
+</html>

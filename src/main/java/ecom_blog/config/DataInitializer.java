@@ -3,6 +3,8 @@ package ecom_blog.config;
 import ecom_blog.model.Role;
 import ecom_blog.model.User;
 import ecom_blog.repository.UserRepository;
+import ecom_blog.model.Prestataire;
+import ecom_blog.repository.PrestataireRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +20,9 @@ public class DataInitializer implements CommandLineRunner {
     private static final Logger log = LoggerFactory.getLogger(DataInitializer.class);
 
     private final UserRepository userRepository;
+    private final PrestataireRepository prestataireRepository;
     private final PasswordEncoder passwordEncoder;
+    private final org.springframework.jdbc.core.JdbcTemplate jdbcTemplate;
 
     @Override
     @Transactional
@@ -28,6 +32,15 @@ public class DataInitializer implements CommandLineRunner {
         log.info("=====================================");
 
         try {
+            // FIX: Supprimer la contrainte de vérification obsolète sur les rôles
+            try {
+                log.info("Tentative de suppression de la contrainte users_role_check...");
+                jdbcTemplate.execute("ALTER TABLE users DROP CONSTRAINT IF EXISTS users_role_check");
+                log.info("Contrainte users_role_check supprimée (ou inexistante).");
+            } catch (Exception e) {
+                log.warn("Erreur lors de la suppression de la contrainte (non critique): {}", e.getMessage());
+            }
+
             log.info("UserRepository injecté: {}", userRepository != null);
             log.info("PasswordEncoder injecté: {}", passwordEncoder != null);
 
@@ -62,7 +75,35 @@ public class DataInitializer implements CommandLineRunner {
 
                 log.info("Sauvegarde de l'admin...");
                 User savedAdmin = userRepository.save(admin);
+            }
 
+            // --- CRÉATION UTILISATEUR PRESTATAIRE DE TEST ---
+            String providerEmail = "provider@test.com";
+            User existingProviderUser = userRepository.findByEmail(providerEmail);
+
+            if (existingProviderUser == null) {
+                log.info("Création du compte PRESTATAIRE de test...");
+
+                User providerUser = new User();
+                providerUser.setNom("Prestataire Test");
+                providerUser.setEmail(providerEmail);
+                providerUser.setPassword(passwordEncoder.encode("provider123"));
+                providerUser.setRole(Role.ROLE_PRESTATAIRE);
+                providerUser.setTelephone("770000000");
+
+                userRepository.save(providerUser);
+
+                // Créer l'entité Prestataire liée
+                Prestataire prestataire = new Prestataire();
+                prestataire.setNom("Prestataire Express");
+                prestataire.setTelephone("770000000");
+                prestataire.setTypePrestataire(ecom_blog.model.enums.TypePrestataire.LIVREUR);
+                prestataire.setUser(providerUser);
+                prestataire.setDisponible(true);
+                prestataire.setEnService(false);
+
+                prestataireRepository.save(prestataire);
+                log.info("Compte prestataire créé et lié !");
             }
 
             userCount = userRepository.count();

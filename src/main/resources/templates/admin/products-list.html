@@ -2,87 +2,133 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <div th:replace="~{fragments/head :: head (title='Admin - Liste des Produits')}"></div>
-    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+    <div th:replace="~{fragments/admin-head :: head(title='Admin - Liste des Produits')}"></div>
 </head>
 
 <body>
     <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
-        <section>
-            <div class="container-fluid">
+        <section class="animate-fadeIn">
+            <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
                 <!-- Entête -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h1 class="h3 fw-bold text-gray-800">
-                        <i class="fa-solid fa-box text-primary me-2"></i>
-                        Gestion des Produits
-                    </h1>
-                    <a th:href="@{/admin/product/add}" class="btn btn-primary rounded-pill px-4">
-                        <i class="fa-solid fa-plus me-2"></i> Nouveau Produit
+                <div
+                    class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 bg-white dark:bg-white/5 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-white/5 backdrop-blur-xl">
+                    <div>
+                        <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                            <i class="fa-solid fa-box text-primary mr-3"></i>
+                            Gestion des Produits
+                        </h1>
+                        <p class="text-slate-500 dark:text-gray-400 mt-1">Consultez et gérez l'ensemble des produits et
+                            services disponibles.</p>
+                    </div>
+                    <a th:href="@{/admin/product/add}"
+                        class="bg-primary hover:bg-red-800 text-white font-bold py-3 px-6 rounded-xl transition-all transform hover:scale-105 shadow-md flex items-center group">
+                        <i class="fa-solid fa-plus mr-2 group-hover:rotate-90 transition-transform duration-300"></i>
+                        Nouveau Produit
                     </a>
                 </div>
 
                 <!-- Carte Tableau -->
-                <div class="glass-card shadow-sm border-0">
-                    <div class="table-responsive">
-                        <table class="table align-middle table-hover mb-0">
-                            <thead class="bg-light">
+                <div
+                    class="bg-white dark:bg-white/5 rounded-2xl shadow-sm border border-slate-200 dark:border-white/5 overflow-hidden animate-slideUp">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-slate-100 dark:bg-white/5">
                                 <tr>
-                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Image</th>
-                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Nom</th>
-                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Catégorie</th>
-                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Prix</th>
-                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Statut</th>
-                                    <th class="py-3 text-secondary text-uppercase small fw-bold text-center">Actions
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
+                                        Image
                                     </th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
+                                        Nom
+                                    </th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
+                                        Catégorie</th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
+                                        Prix
+                                    </th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
+                                        Statut</th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
+                                        Création</th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
+                                        Modification</th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider text-center">
+                                        Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="divide-y divide-slate-200 dark:divide-white/5">
                                 <tr th:if="${#lists.isEmpty(produits)}">
-                                    <td colspan="6" class="text-center py-5 text-muted">
-                                        <i class="fa-solid fa-box-open fa-3x mb-3 d-block"></i>
-                                        Aucun produit trouvé
+                                    <td colspan="6" class="text-center py-20 text-slate-500 dark:text-gray-500">
+                                        <div class="flex flex-col items-center">
+                                            <i class="fa-solid fa-box-open text-6xl mb-4 opacity-20"></i>
+                                            <p class="text-xl font-medium">Aucun produit trouvé</p>
+                                        </div>
                                     </td>
                                 </tr>
-                                <tr th:each="p : ${produits}">
-                                    <td style="width: 80px;">
-                                        <div class="rounded-3 overflow-hidden"
-                                            style="width: 50px; height: 50px; background: #f1f5f9;">
+                                <tr th:each="p : ${produits}" class="hover:bg-slate-500/5 transition-colors group">
+                                    <td class="py-4 px-6">
+                                        <div
+                                            class="rounded-xl overflow-hidden h-14 w-14 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 shadow-sm group-hover:shadow-md transition-all">
                                             <img th:if="${p.imageUrl}" th:src="@{/uploads/{img}(img=${p.imageUrl})}"
-                                                class="w-100 h-100 object-fit-cover" alt="Produit">
+                                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                                                alt="Produit">
                                             <div th:unless="${p.imageUrl}"
-                                                class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
-                                                <i class="fa-solid fa-image"></i>
+                                                class="w-full h-full flex items-center justify-center text-slate-300 dark:text-gray-600 bg-slate-50 dark:bg-white/5">
+                                                <i class="fa-solid fa-image text-xl"></i>
                                             </div>
                                         </div>
                                     </td>
-                                    <td>
-                                        <div class="fw-semibold text-dark" th:text="${p.nom}">Nom du produit</div>
+                                    <td class="py-4 px-6">
+                                        <div class="font-bold text-slate-900 dark:text-white text-lg group-hover:text-primary transition-colors"
+                                            th:text="${p.nom}">Nom du produit</div>
                                     </td>
-                                    <td>
-                                        <span class="badge bg-light text-dark border"
+                                    <td class="py-4 px-6">
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-gray-300 border border-slate-200 dark:border-white/10"
                                             th:text="${p.categorie}">Catégorie</span>
                                     </td>
-                                    <td class="fw-bold text-primary" th:text="${p.prix} + ' FCFA'">0 FCFA</td>
-                                    <td>
+                                    <td class="py-4 px-6 font-extrabold text-primary text-lg"
+                                        th:text="${p.prix} + ' FCFA'">0 FCFA</td>
+                                    <td class="py-4 px-6">
                                         <span th:if="${p.disponible}"
-                                            class="badge bg-success-subtle text-success rounded-pill px-3">
+                                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 border border-green-200">
+                                            <span
+                                                class="w-1.5 h-1.5 rounded-full bg-green-500 mr-2 animate-pulse"></span>
                                             En Stock
                                         </span>
                                         <span th:unless="${p.disponible}"
-                                            class="badge bg-danger-subtle text-danger rounded-pill px-3">
+                                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700 border border-red-200">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-red-500 mr-2"></span>
                                             Épuisé
                                         </span>
                                     </td>
-                                    <td class="text-center">
-                                        <a th:href="@{'/admin/product/edit/' + ${p.id}}"
-                                            class="btn btn-sm btn-outline-primary rounded-circle" title="Modifier">
-                                            <i class="fa-solid fa-pen"></i>
-                                        </a>
-                                        <a th:href="@{/admin/product/delete/{id}(id=${p.id})}"
-                                            class="btn btn-sm btn-outline-danger rounded-circle ms-1" title="Supprimer"
-                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </a>
+                                    <td class="py-4 px-6 text-xs text-slate-500 font-medium"
+                                        th:text="${#temporals.format(p.created_at, 'dd/MM/yyyy HH:mm')}">
+                                    </td>
+                                    <td class="py-4 px-6 text-xs text-slate-500 font-medium"
+                                        th:text="${#temporals.format(p.updated_at, 'dd/MM/yyyy HH:mm')}">
+                                    </td>
+                                    <td class="py-4 px-6 text-center">
+                                        <div class="flex items-center justify-center gap-2">
+                                            <a th:href="@{'/admin/product/edit/' + ${p.id}}"
+                                                class="p-2 rounded-lg text-slate-400 dark:text-gray-500 hover:bg-primary/10 hover:text-primary transition-all border border-transparent hover:border-primary/20 shadow-sm"
+                                                title="Modifier">
+                                                <i class="fa-solid fa-pen"></i>
+                                            </a>
+                                            <a th:href="@{/admin/product/delete/{id}(id=${p.id})}"
+                                                class="p-2 rounded-lg text-slate-400 dark:text-gray-500 hover:bg-red-500/10 hover:text-red-600 transition-all border border-transparent hover:border-red-500/20 shadow-sm"
+                                                title="Supprimer"
+                                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>

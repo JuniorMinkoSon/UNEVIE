@@ -1,219 +1,330 @@
 <!DOCTYPE html>
-<html lang="fr"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Nos Services | UNEVIE</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        africanOrange: '#F59E0B',
-                        africanGreen: '#15803D',
-                        africanDark: '#0F172A'
-                    }
-                }
-            }
-        }
-    </script>
+<head
+    th:replace="~{fragments/head :: head (title=#{services.hero.title_part1} + ' ' + #{services.hero.title_part2} + ' — UNEVIE')}">
 </head>
 
-<body class="bg-slate-50 text-slate-800">
+<body
+    class="bg-white dark:bg-africanDark text-slate-900 dark:text-white font-sans selection:bg-primary selection:text-white overflow-x-hidden transition-colors duration-500">
 
-<!-- ================= HEADER ================= -->
-<div th:replace="~{fragments/header :: header}"></div>
+    <!-- HEADER -->
+    <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- ================= HERO IMMERSIF ================= -->
-<section class="relative py-28 text-white overflow-hidden">
-
-    <img src="/images/Whresidencesassinie.jpeg"
-         class="absolute inset-0 w-full h-full object-cover">
-
-    <div class="absolute inset-0 bg-gradient-to-r from-africanGreen/90 to-africanOrange/80"></div>
-
-    <div class="relative max-w-7xl mx-auto px-6 text-center">
-        <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
-            Des services conçus pour <br>
-            <span class="underline">simplifier votre quotidien</span>
-        </h1>
-
-        <p class="max-w-3xl mx-auto text-white/90 text-lg">
-            Location de véhicules, résidences, traiteurs et services premium,
-            accessibles partout en Côte d’Ivoire.
-        </p>
-
-        <div class="mt-10 flex justify-center gap-4 flex-wrap">
-            <a th:href="@{/projets}"
-               class="bg-white text-africanDark font-semibold px-8 py-4 rounded-xl hover:bg-slate-100 transition">
-                Explorer les offres
-            </a>
-
-            <a th:href="@{/contact}"
-               class="border border-white text-white px-8 py-4 rounded-xl hover:bg-white hover:text-africanDark transition">
-                Devenir partenaire
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- ================= INTRO ================= -->
-<section class="max-w-7xl mx-auto px-6 py-24 text-center">
-    <span class="text-africanOrange font-semibold uppercase text-sm">
-        Notre promesse
-    </span>
-    <h2 class="text-3xl font-extrabold mt-2 mb-6">
-        UNEVIE, une seule plateforme, plusieurs solutions
-    </h2>
-    <p class="text-slate-600 max-w-3xl mx-auto">
-        UNEVIE centralise les meilleurs services locaux pour vous faire gagner
-        du temps, réduire les coûts et garantir une expérience fiable et sécurisée.
-    </p>
-</section>
-
-<!-- ================= SERVICES VISUELS ================= -->
-<section class="max-w-7xl mx-auto px-6 pb-24">
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-
-        <!-- Véhicules -->
-        <div class="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
-            <div class="relative h-56">
-                <img src="/images/voiture.jpeg" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-africanDark/40"></div>
-            </div>
-            <div class="p-8">
-                <i class="fas fa-car text-africanGreen text-4xl mb-4"></i>
-                <h3 class="text-xl font-bold mb-3">Location de véhicules</h3>
-                <p class="text-slate-600 mb-4">
-                    Véhicules avec ou sans chauffeur, disponibles selon votre
-                    zone et vos besoins.
-                </p>
-                <ul class="text-sm text-slate-600 space-y-2">
-                    <li>✔ Véhicules vérifiés</li>
-                    <li>✔ Tarifs clairs</li>
-                    <li>✔ Réservation rapide</li>
-                </ul>
+    <!-- HERO SECTION -->
+    <section
+        class="relative pt-44 pb-32 overflow-hidden border-b border-slate-200 dark:border-white/5 transition-colors duration-500">
+        <!-- Background Image with Dark Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="/images/Whresidencesassinie.jpeg"
+                class="w-full h-full object-cover grayscale opacity-10 dark:opacity-20 scale-105">
+            <div
+                class="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-white dark:from-africanDark dark:via-africanDark/80 dark:to-africanDark">
             </div>
         </div>
 
-        <!-- Résidences -->
-        <div class="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
-            <div class="relative h-56">
-                <img src="/images/residence1.jpeg" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-africanDark/40"></div>
-            </div>
-            <div class="p-8">
-                <i class="fas fa-house-user text-africanGreen text-4xl mb-4"></i>
-                <h3 class="text-xl font-bold mb-3">Réservation de résidences</h3>
-                <p class="text-slate-600 mb-4">
-                    Résidences meublées et logements temporaires prêts à l’usage.
-                </p>
-                <ul class="text-sm text-slate-600 space-y-2">
-                    <li>✔ Photos réelles</li>
-                    <li>✔ Confort garanti</li>
-                    <li>✔ Paiement sécurisé</li>
-                </ul>
-            </div>
+        <!-- Decor -->
+        <div
+            class="absolute top-0 left-0 w-[600px] h-[600px] bg-primary/5 dark:bg-primary/10 rounded-full blur-[120px] -z-10">
         </div>
 
-        <!-- Services premium -->
-        <div class="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
-            <div class="relative h-56">
-                <img src="/images/traiteurs.jpeg" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-africanDark/40"></div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center animate-fadeIn">
+            <div
+                class="inline-flex items-center gap-3 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-6 py-2 rounded-full mb-8">
+                <i class="fa-solid fa-cube text-primary text-xs"></i>
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-gray-400"
+                    th:text="#{services.hero.tag}">Catalogue de
+                    solutions</span>
             </div>
-            <div class="p-8">
-                <i class="fas fa-concierge-bell text-africanGreen text-4xl mb-4"></i>
-                <h3 class="text-xl font-bold mb-3">Services premium</h3>
-                <p class="text-slate-600 mb-4">
-                    Traiteurs, événements et prestations personnalisées.
-                </p>
-                <ul class="text-sm text-slate-600 space-y-2">
-                    <li>✔ Prestataires sélectionnés</li>
-                    <li>✔ Qualité contrôlée</li>
-                    <li>✔ Service sur mesure</li>
-                </ul>
+            <h1
+                class="text-5xl md:text-8xl font-black tracking-tighter mb-8 italic uppercase leading-tight text-slate-900 dark:text-white">
+                <span th:text="#{services.hero.title_part1}">Ingénierie de</span> <br><span class="text-primary italic"
+                    th:text="#{services.hero.title_part2}">Services</span>
+            </h1>
+            <p class="max-w-3xl mx-auto text-slate-600 dark:text-gray-400 text-lg md:text-xl font-medium leading-relaxed mb-12"
+                th:text="#{services.hero.description}">
+                Une architecture de solutions modulaires pour vos besoins en mobilité, habitat et logistique
+                événementielle.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-6">
+                <a th:href="@{/projets}"
+                    class="bg-primary hover:bg-red-800 text-white px-12 py-6 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all active:scale-95 shadow-2xl shadow-primary/40"
+                    th:text="#{services.hero.cta_main}">
+                    Lancer une Requête
+                </a>
+                <a th:href="@{/contact}"
+                    class="bg-slate-100 dark:bg-white/5 hover:bg-primary hover:text-white dark:hover:bg-white/10 dark:text-white border border-slate-200 dark:border-white/10 px-12 py-6 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all active:scale-95"
+                    th:text="#{services.hero.cta_sub}">
+                    Partenariat Stratégique
+                </a>
             </div>
         </div>
+    </section>
 
-    </div>
-</section>
+    <!-- INTRO CORE -->
+    <section class="max-w-7xl mx-auto px-6 py-32 text-center">
+        <div class="animate-slideUp">
+            <span class="text-primary font-black uppercase tracking-widest text-[10px] mb-6 block"
+                th:text="#{services.intro.tag}">Notre Promesse</span>
+            <h2
+                class="text-4xl md:text-5xl font-black tracking-tighter italic uppercase mb-8 text-slate-900 dark:text-white">
+                <span th:text="#{services.intro.title_part1}">Convergence</span> <span class="text-primary"
+                    th:text="#{services.intro.title_part2}">Digitale</span>
+            </h2>
+            <p class="text-slate-600 dark:text-gray-400 max-w-3xl mx-auto text-lg font-medium leading-relaxed"
+                th:text="#{services.intro.description}">
+                UNEVIE fusionne les meilleurs services de proximité dans une interface unique pour optimiser vos
+                ressources et sécuriser chaque interaction opérationnelle.
+            </p>
+        </div>
+    </section>
 
-<!-- ================= COMMENT ÇA MARCHE ================= -->
-<section class="bg-white py-24">
-    <div class="max-w-7xl mx-auto px-6">
+    <!-- SERVICES GRID -->
+    <section class="max-w-7xl mx-auto px-6 pb-32">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
 
-        <h2 class="text-3xl font-extrabold text-center mb-16">
-            Comment ça <span class="text-africanOrange">fonctionne</span> ?
-        </h2>
-
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 text-center">
-
-            <div class="bg-slate-50 p-8 rounded-2xl shadow">
-                <i class="fas fa-location-dot text-africanOrange text-4xl mb-4"></i>
-                <h4 class="font-bold mb-2">Localisation</h4>
-                <p class="text-sm text-slate-600">
-                    Indiquez votre zone.
-                </p>
+            <!-- Véhicules -->
+            <div
+                class="group bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[3.5rem] overflow-hidden hover:bg-white dark:hover:bg-white/[0.08] hover:border-primary/30 transition-all duration-500 animate-slideUp shadow-xl dark:shadow-none">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="/images/voiture.jpeg"
+                        class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent dark:from-africanDark dark:via-africanDark/20 dark:to-transparent">
+                    </div>
+                    <div class="absolute bottom-6 left-8">
+                        <div
+                            class="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white text-xl shadow-xl">
+                            <i class="fas fa-car-side"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-10">
+                    <h3 class="text-2xl font-black mb-4 tracking-tight uppercase group-hover:text-primary transition-colors text-slate-900 dark:text-white"
+                        th:text="#{services.item.mobility.title}">
+                        Mobilité Fluide</h3>
+                    <p class="text-slate-500 dark:text-gray-400 text-sm font-medium leading-relaxed mb-6"
+                        th:text="#{services.item.mobility.desc}">
+                        Locations de véhicules haut de gamme avec ou sans chauffeur, synchronisées par géolocalisation.
+                    </p>
+                    <ul class="space-y-3">
+                        <li
+                            class="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-gray-500 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-check text-primary"></i> <span
+                                th:text="#{services.item.mobility.feat1}">Flotte Auditée</span>
+                        </li>
+                        <li
+                            class="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-gray-500 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-check text-primary"></i> <span
+                                th:text="#{services.item.mobility.feat2}">Tarification Algo</span>
+                        </li>
+                        <li
+                            class="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-gray-500 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-check text-primary"></i> <span
+                                th:text="#{services.item.mobility.feat3}">Validation Instantanée</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="bg-slate-50 p-8 rounded-2xl shadow">
-                <i class="fas fa-filter text-africanOrange text-4xl mb-4"></i>
-                <h4 class="font-bold mb-2">Choix</h4>
-                <p class="text-sm text-slate-600">
-                    Comparez les offres.
-                </p>
+            <!-- Résidences -->
+            <div class="group bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[3.5rem] overflow-hidden hover:bg-white dark:hover:bg-white/[0.08] hover:border-primary/30 transition-all duration-500 animate-slideUp shadow-xl dark:shadow-none"
+                style="animation-delay: 100ms;">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="/images/residence1.jpeg"
+                        class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent dark:from-africanDark dark:via-africanDark/20 dark:to-transparent">
+                    </div>
+                    <div class="absolute bottom-6 left-8">
+                        <div
+                            class="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white text-xl shadow-xl">
+                            <i class="fas fa-house-chimney-window"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-10">
+                    <h3 class="text-2xl font-black mb-4 tracking-tight uppercase group-hover:text-primary transition-colors text-slate-900 dark:text-white"
+                        th:text="#{services.item.residence.title}">
+                        Habitat Premium</h3>
+                    <p class="text-slate-500 dark:text-gray-400 text-sm font-medium leading-relaxed mb-6"
+                        th:text="#{services.item.residence.desc}">
+                        Sélection de résidences meublées et espaces de vie temporaires alliant esthétique et sécurité.
+                    </p>
+                    <ul class="space-y-3">
+                        <li
+                            class="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-gray-500 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-check text-primary"></i> <span
+                                th:text="#{services.item.residence.feat1}">Imagerie Certifiée</span>
+                        </li>
+                        <li
+                            class="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-gray-500 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-check text-primary"></i> <span
+                                th:text="#{services.item.residence.feat2}">Conciergerie 24/7</span>
+                        </li>
+                        <li
+                            class="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-gray-500 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-check text-primary"></i> <span
+                                th:text="#{services.item.residence.feat3}">Assurance Intégrée</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="bg-slate-50 p-8 rounded-2xl shadow">
-                <i class="fas fa-credit-card text-africanOrange text-4xl mb-4"></i>
-                <h4 class="font-bold mb-2">Paiement</h4>
-                <p class="text-sm text-slate-600">
-                    En ligne ou en espèces.
-                </p>
-            </div>
-
-            <div class="bg-slate-50 p-8 rounded-2xl shadow">
-                <i class="fas fa-check-circle text-africanOrange text-4xl mb-4"></i>
-                <h4 class="font-bold mb-2">Confirmation</h4>
-                <p class="text-sm text-slate-600">
-                    Profitez du service.
-                </p>
+            <!-- Services premium -->
+            <div class="group bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[3.5rem] overflow-hidden hover:bg-white dark:hover:bg-white/[0.08] hover:border-primary/30 transition-all duration-500 animate-slideUp shadow-xl dark:shadow-none"
+                style="animation-delay: 200ms;">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="/images/traiteurs.jpeg"
+                        class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent dark:from-africanDark dark:via-africanDark/20 dark:to-transparent">
+                    </div>
+                    <div class="absolute bottom-6 left-8">
+                        <div
+                            class="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white text-xl shadow-xl">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-10">
+                    <h3 class="text-2xl font-black mb-4 tracking-tight uppercase group-hover:text-primary transition-colors text-slate-900 dark:text-white"
+                        th:text="#{services.item.events.title}">
+                        Cellule Événementielle</h3>
+                    <p class="text-slate-500 dark:text-gray-400 text-sm font-medium leading-relaxed mb-6"
+                        th:text="#{services.item.events.desc}">
+                        Réseau de traiteurs et prestataires d'élite pour vos réceptions privées et professionnelles.
+                    </p>
+                    <ul class="space-y-3">
+                        <li
+                            class="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-gray-500 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-check text-primary"></i> <span
+                                th:text="#{services.item.events.feat1}">Gastronomie Fine</span>
+                        </li>
+                        <li
+                            class="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-gray-500 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-check text-primary"></i> <span
+                                th:text="#{services.item.events.feat2}">Logistique Dédiée</span>
+                        </li>
+                        <li
+                            class="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-gray-500 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-check text-primary"></i> <span
+                                th:text="#{services.item.events.feat3}">Pilotage sur Mesure</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- ================= CTA FINAL ================= -->
-<section class="bg-gradient-to-r from-africanGreen to-africanOrange text-white py-24 text-center">
-    <h2 class="text-3xl font-extrabold mb-4">
-        Prêt à réserver avec UNEVIE ?
-    </h2>
-    <p class="text-white/90 mb-8">
-        Une expérience simple, locale et sécurisée
-    </p>
+    <!-- WORKFLOW -->
+    <section
+        class="bg-slate-50 dark:bg-white/[0.02] border-y border-slate-200 dark:border-white/5 py-32 transition-colors duration-500">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2
+                class="text-4xl md:text-5xl font-black text-center mb-24 tracking-tighter uppercase italic text-slate-900 dark:text-white">
+                <span th:text="#{services.workflow.title_part1}">Protocole</span> <span class="text-primary italic"
+                    th:text="#{services.workflow.title_part2}">Opérationnel</span>
+            </h2>
 
-    <a th:href="@{/projets}"
-       class="bg-white text-africanDark font-semibold px-10 py-4 rounded-xl
-              hover:bg-slate-100 transition">
-        Voir les offres disponibles
-    </a>
-</section>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
-<!-- ================= FOOTER ================= -->
-<div th:replace="~{fragments/footer :: footer}"></div>
+                <div
+                    class="group p-8 rounded-[2.5rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-primary/50 transition-all shadow-lg dark:shadow-none">
+                    <div
+                        class="text-5xl font-black text-primary/10 dark:text-primary/20 mb-6 group-hover:text-primary transition-colors">
+                        01
+                    </div>
+                    <h4 class="text-xl font-black uppercase mb-4 text-slate-900 dark:text-white"
+                        th:text="#{services.workflow.step1_title}">Balise</h4>
+                    <p class="text-sm text-slate-400 dark:text-gray-500 font-bold leading-relaxed"
+                        th:text="#{services.workflow.step1_desc}">Activez votre géolocalisation pour un
+                        scanning précis des offres.</p>
+                </div>
+
+                <div
+                    class="group p-8 rounded-[2.5rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-primary/50 transition-all shadow-lg dark:shadow-none">
+                    <div
+                        class="text-5xl font-black text-primary/10 dark:text-primary/20 mb-6 group-hover:text-primary transition-colors">
+                        02
+                    </div>
+                    <h4 class="text-xl font-black uppercase mb-4 text-slate-900 dark:text-white"
+                        th:text="#{services.workflow.step2_title}">Filtrage
+                    </h4>
+                    <p class="text-sm text-slate-400 dark:text-gray-500 font-bold leading-relaxed"
+                        th:text="#{services.workflow.step2_desc}">Affinez votre recherche selon vos
+                        critères de standing et budget.</p>
+                </div>
+
+                <div
+                    class="group p-8 rounded-[2.5rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-primary/50 transition-all shadow-lg dark:shadow-none">
+                    <div
+                        class="text-5xl font-black text-primary/10 dark:text-primary/20 mb-6 group-hover:text-primary transition-colors">
+                        03
+                    </div>
+                    <h4 class="text-xl font-black uppercase mb-4 text-slate-900 dark:text-white"
+                        th:text="#{services.workflow.step3_title}">Transaction
+                    </h4>
+                    <p class="text-sm text-slate-400 dark:text-gray-500 font-bold leading-relaxed"
+                        th:text="#{services.workflow.step3_desc}">Sécurisez votre réservation via nos
+                        passerelles bancaires encryptées.</p>
+                </div>
+
+                <div
+                    class="group p-8 rounded-[2.5rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-primary/50 transition-all shadow-lg dark:shadow-none">
+                    <div
+                        class="text-5xl font-black text-primary/10 dark:text-primary/20 mb-6 group-hover:text-primary transition-colors">
+                        04
+                    </div>
+                    <h4 class="text-xl font-black uppercase mb-4 text-slate-900 dark:text-white"
+                        th:text="#{services.workflow.step4_title}">Extraction
+                    </h4>
+                    <p class="text-sm text-slate-400 dark:text-gray-500 font-bold leading-relaxed"
+                        th:text="#{services.workflow.step4_desc}">Bénéficiez de votre prestation avec un
+                        suivi live haute précision.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div
+                class="bg-gradient-to-r from-primary to-red-900 border border-primary/20 rounded-[4rem] p-12 md:p-24 text-center relative overflow-hidden group shadow-2xl shadow-primary/20">
+                <!-- Decor -->
+                <div class="absolute inset-0 opacity-10 grayscale pointer-events-none">
+                    <img src="/images/Whresidencesassinie.jpeg" class="w-full h-full object-cover">
+                </div>
+
+                <div class="relative z-10">
+                    <h2
+                        class="text-4xl md:text-7xl font-black tracking-tighter italic uppercase mb-8 leading-tight text-white">
+                        <span th:text="#{services.cta.title_part1}">Passez à la</span> <span
+                            class="text-africanDark italic" th:text="#{services.cta.title_part2}">Vitesse
+                            Supérieure</span>
+                    </h2>
+                    <p class="text-white/80 text-lg md:text-xl font-medium mb-12 max-w-2xl mx-auto"
+                        th:text="#{services.cta.description}">
+                        Optimisez chaque instant de votre vie active avec UNEVIE.
+                    </p>
+                    <a th:href="@{/projets}"
+                        class="inline-block bg-white text-africanDark font-black px-12 py-6 rounded-2xl hover:bg-africanDark hover:text-white transition-all text-sm uppercase tracking-widest active:scale-95 shadow-2xl"
+                        th:text="#{services.cta.button}">
+                        Débloquer l'Accès
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
+
 </html>

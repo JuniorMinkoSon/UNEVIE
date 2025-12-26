@@ -19,10 +19,14 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
-    public AuthController(UserService userService, PasswordEncoder passwordEncoder, UserMapper userMapper) {
+    private final ecom_blog.repository.PrestataireRepository prestataireRepository;
+
+    public AuthController(UserService userService, PasswordEncoder passwordEncoder, UserMapper userMapper,
+            ecom_blog.repository.PrestataireRepository prestataireRepository) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
+        this.prestataireRepository = prestataireRepository;
     }
 
     // ✅ Page de connexion
@@ -42,6 +46,7 @@ public class AuthController {
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("user") RegisterUserDto dto, BindingResult bindingResult,
             Model model) {
+        System.out.println("DEBUG REGISTER: " + dto.toString()); // DEBUG LOG
         try {
             if (bindingResult.hasErrors()) {
                 model.addAttribute("error", bindingResult.getAllErrors().get(0).getDefaultMessage());
@@ -60,17 +65,39 @@ public class AuthController {
 
             User user = userMapper.toEntity(dto);
 
-            // 🔑 Définit le rôle par défaut
-            user.setRole(Role.ROLE_USER);
+            // 🔑 GESTION DES RÔLES ET CRÉATION PRESTATAIRE
+            if ("PRESTATAIRE".equals(dto.getAccountType())) {
+                user.setRole(Role.ROLE_PRESTATAIRE);
+                // Sauvegarder d'abord l'utilisateur pour avoir l'ID
+                User savedUser = userService.saveUser(user);
 
-            // 🔒 Encode le mot de passe avant sauvegarde
-            // user.setPassword(passwordEncoder.encode(user.getPassword()));
+                // Créer l'entité Prestataire liée
+                ecom_blog.model.Prestataire prestataire = new ecom_blog.model.Prestataire();
+                prestataire.setUser(savedUser);
+                prestataire.setNom(dto.getNom()); // On utilise le même nom par défaut
+                prestataire.setTelephone(dto.getTelephone()); // ✅ CORRECTIF : Ajout du téléphone obligatoire
 
-            // 📞 Enregistre l’utilisateur (y compris téléphone)
-            userService.saveUser(user);
+                try {
+                    if (dto.getTypePrestataire() != null) {
+                        prestataire.setTypePrestataire(
+                                ecom_blog.model.enums.TypePrestataire.valueOf(dto.getTypePrestataire()));
+                    } else {
+                        prestataire.setTypePrestataire(ecom_blog.model.enums.TypePrestataire.AUTRE);
+                    }
+                } catch (Exception e) {
+                    prestataire.setTypePrestataire(ecom_blog.model.enums.TypePrestataire.AUTRE);
+                }
 
-            // ✅ Redirection vers login avec message de succès
-            return "redirect:/login?success";
+                prestataire.setDisponible(true); // Disponible par défaut
+                prestataireRepository.save(prestataire);
+
+                return "redirect:/login?success=PRESTATAIRE"; // Indicateur visuel pour debug
+
+            } else {
+                user.setRole(Role.ROLE_USER);
+                userService.saveUser(user);
+                return "redirect:/login?success=CLIENT";
+            }
 
         } catch (Exception e) {
             model.addAttribute("error", "Erreur lors de l’inscription : " + e.getMessage());

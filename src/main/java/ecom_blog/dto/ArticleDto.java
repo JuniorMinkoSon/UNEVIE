@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,10 +17,11 @@ public class ArticleDto {
     private String titre;
     private String contenu;
     private String imageUrl;
+    private String slug;
 
     private Long categoryId;
     private String categoryName;
 
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

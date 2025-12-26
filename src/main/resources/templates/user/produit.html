@@ -1,82 +1,124 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Nos Produits</title>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
 
-    <!-- ✅ Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+<head th:replace="~{fragments/head :: head (title=#{produit.title ?: 'Nos Solutions'} + ' — UNEVIE')}"></head>
 
-<body class="bg-light">
+<body
+    class="bg-white dark:bg-africanDark text-slate-900 dark:text-white font-sans selection:bg-primary selection:text-white overflow-x-hidden transition-colors duration-500">
 
-<div th:replace="~{fragments/header :: header}"></div>
+    <!-- HEADER -->
+    <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- ✅ Zone d’alerte (vide au départ) -->
-<div id="alert-container" class="container mt-4" style="max-width: 700px;"></div>
+    <!-- ALERT CONTAINER -->
+    <div id="alert-container" class="max-w-4xl mx-auto mt-12 px-6"></div>
 
-<section class="container py-5">
-    <h2 class="text-center mb-4">Nos Produits Disponibles</h2>
+    <!-- PRODUCT LIST -->
+    <section class="max-w-7xl mx-auto px-6 py-24 transition-colors duration-500">
+        <div class="text-center mb-16 animate-fadeIn">
+            <span class="text-primary font-black uppercase tracking-widest text-[10px] mb-4 block"
+                th:text="#{produit.subtitle ?: 'Catalogue de Solutions'}">Catalogue de
+                Solutions</span>
+            <h2
+                class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter text-slate-900 dark:text-white">
+                <span th:text="#{produit.title.part1 ?: 'Nos Offres'}">Nos Offres</span> <span class="text-primary"
+                    th:text="#{produit.title.part2 ?: 'Disponibles'}">Disponibles</span>
+            </h2>
+        </div>
 
-    <div class="row g-4">
-        <div class="col-md-4" th:each="p : ${produits}">
-            <div class="card h-100 shadow-sm">
-                <img th:src="@{'/uploads/' + ${p.imageUrl}}" class="card-img-top" alt="Produit">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${p.nom}">Nom du produit</h5>
-                    <p class="card-text"><strong>Catégorie :</strong> <span th:text="${p.categorie}"></span></p>
-                    <p><strong>Prix :</strong> <span th:text="${p.prix} + ' FCFA'"></span></p>
-                    <p th:text="${p.description}"></p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+            <div th:each="p : ${produits}"
+                class="group flex flex-col bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[3.5rem] overflow-hidden hover:bg-slate-100 dark:hover:bg-white/[0.08] hover:border-primary/30 transition-all duration-500 animate-fadeIn shadow-lg dark:shadow-none">
+
+                <!-- Image -->
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img th:src="@{'/uploads/' + ${p.imageUrl}}"
+                        class="h-full w-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition duration-[1.5s]">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-slate-900/60 dark:from-africanDark/90 via-transparent to-transparent">
+                    </div>
                 </div>
-                <div class="card-footer bg-white text-center">
-                    <form th:action="@{'/produits/commander/' + ${p.id}}" method="post">
-                        <a th:href="@{'/commande/' + ${p.id}}"
-                           class="block text-center bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 rounded-xl transition">
-                            Commander
-                        </a>
 
-                    </form>
+                <!-- Content -->
+                <div class="p-10 flex-grow flex flex-col">
+                    <div class="flex justify-between items-start gap-6 mb-6">
+                        <h3 class="text-2xl font-black min-h-[3rem] leading-[1.1] uppercase italic tracking-tight text-slate-900 dark:text-white group-hover:text-primary transition-colors"
+                            th:text="${p.nom}"></h3>
+                        <div
+                            class="w-12 h-12 bg-white dark:bg-white/5 rounded-2xl flex items-center justify-center text-primary text-lg shrink-0 border border-slate-200 dark:border-white/10 shadow-sm dark:shadow-none">
+                            <i class="fa-solid fa-cube"></i>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <span
+                            class="text-[9px] font-black text-primary uppercase tracking-widest px-3 py-1 bg-primary/10 rounded-full border border-primary/20"
+                            th:text="${p.categorie}"></span>
+                    </div>
+
+                    <p class="text-slate-500 dark:text-gray-400 text-sm font-medium leading-relaxed line-clamp-2 mb-8"
+                        th:text="${p.description}"></p>
+
+                    <!-- Price & Action -->
+                    <div class="mt-auto space-y-8 pt-6 border-t border-slate-200 dark:border-white/5">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p
+                                    class="text-[9px] font-black text-slate-400 dark:text-gray-500 uppercase tracking-widest mb-1">
+                                    Unité
+                                    Monétaire</p>
+                                <p class="text-2xl font-black text-slate-900 dark:text-white italic"
+                                    th:text="${p.prix} + ' FCFA'"></p>
+                            </div>
+                        </div>
+
+                        <a th:href="@{'/commande/' + ${p.id}}"
+                            class="flex items-center justify-center gap-3 w-full bg-primary hover:bg-red-800 text-white py-6 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all transform active:scale-95 shadow-2xl shadow-primary/20">
+                            <span th:text="#{produit.btn.order ?: 'Initialiser la Commande'}">Initialiser la
+                                Commande</span>
+                            <i
+                                class="fa-solid fa-chevron-right text-[8px] group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<div th:replace="~{fragments/footer :: footer}"></div>
+    <!-- FOOTER -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
-<!-- ✅ Bootstrap JS + Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JS ALERTS Logic -->
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const alertContainer = document.getElementById('alert-container');
 
-<!-- ✅ Script JavaScript logique de message -->
-<script>
-    const params = new URLSearchParams(window.location.search);
-    const alertContainer = document.getElementById('alert-container');
+        if (params.get("success") === "commande") {
+            const alert = document.createElement('div');
+            alert.className = "bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white px-8 py-6 rounded-[2.5rem] flex items-center gap-6 shadow-2xl backdrop-blur-md animate-fadeIn";
+            alert.innerHTML = `
+                <div class="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-white text-xl shrink-0 shadow-xl shadow-primary/40">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <div>
+                    <p class="text-lg font-black italic uppercase tracking-tight">Requête Enregistrée</p>
+                    <p class="text-slate-500 dark:text-gray-400 text-sm font-medium">Félicitations ! Votre commande a été transmise avec succès. Notre équipe vous contactera sous peu.</p>
+                </div>
+            `;
+            alertContainer.appendChild(alert);
 
-    if (params.get("success") === "commande") {
-        const alert = document.createElement('div');
-        alert.className = "alert alert-success alert-dismissible fade show shadow";
-        alert.role = "alert";
-        alert.innerHTML = `
-            <strong>✅ Commande réussie !</strong>
-            Votre commande a bien été effectuée. Un responsable vous contactera sous peu.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        `;
-        alertContainer.appendChild(alert);
+            if (window.history.replaceState) {
+                const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                window.history.replaceState({}, document.title, cleanUrl);
+            }
 
-        // 🔄 Supprime le paramètre d'URL après affichage
-        if (window.history.replaceState) {
-            const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-            window.history.replaceState({}, document.title, cleanUrl);
+            setTimeout(() => {
+                alert.style.opacity = '0';
+                alert.style.transition = 'opacity 0.5s ease-out';
+                setTimeout(() => alert.remove(), 500);
+            }, 5000);
         }
-
-        // ⏱️ Disparition automatique après 5 secondes
-        setTimeout(() => {
-            const alertInstance = bootstrap.Alert.getOrCreateInstance(alert);
-            alertInstance.close();
-        }, 5000);
-    }
-</script>
+    </script>
 
 </body>
+
 </html>

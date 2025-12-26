@@ -2,80 +2,110 @@
     <!-- Font Awesome (Safe Load) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <footer class="bg-gray-900 text-gray-300 mt-20" style="background-color: #111827; color: #d1d5db;">
-        <div class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-4 gap-10">
+    <footer class="bg-africanDark text-white pt-24 pb-12 overflow-hidden relative border-t border-white/5">
 
-            <!-- Logo & Description -->
-            <div>
-                <h3 class="text-white font-bold text-2xl mb-4 tracking-wide" style="color: #ffffff;">UNEVIE</h3>
-                <p class="text-sm leading-relaxed text-gray-400" style="color: #9ca3af;">
-                    Plateforme digitale connectant éleveurs, fournisseurs,
-                    services, résidences et particuliers pour simplifier votre quotidien.
-                </p>
+        <!-- Decor (Subtle) -->
+        <div
+            class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
+
+                <!-- Brand Section -->
+                <div class="space-y-8">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white font-black italic text-lg shadow-lg shadow-primary/20">
+                            U
+                        </div>
+                        <h2 class="text-2xl font-black tracking-tighter uppercase italic">
+                            <span th:text="#{app.logo.text}">UNE</span><span class="text-primary"
+                                th:text="#{app.logo.accent}">VIE</span>
+                        </h2>
+                    </div>
+                    <p class="text-gray-400 font-medium leading-relaxed text-sm max-w-xs" th:text="#{footer.tagline}">
+                        Une solution pensée pour l'Afrique. Connectons prestataires, propriétaires et clients sur un
+                        même espace fiable.
+                    </p>
+                    <div class="flex gap-6 text-gray-500">
+                        <a href="#" class="hover:text-primary transition-colors"><i
+                                class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-primary transition-colors"><i
+                                class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="hover:text-primary transition-colors"><i
+                                class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- Services Column -->
+                <div class="space-y-6">
+                    <h3 class="text-sm font-black uppercase tracking-widest text-white"
+                        th:text="#{footer.services_title}">Services</h3>
+                    <ul class="space-y-4 text-gray-400 text-sm font-medium">
+                        <li><a th:href="@{/projets(categorie='vehicules')}" class="hover:text-primary transition-colors"
+                                th:text="#{footer.service.cars}">Location de Véhicules</a></li>
+                        <li><a th:href="@{/projets(categorie='residences')}"
+                                class="hover:text-primary transition-colors"
+                                th:text="#{footer.service.residences}">Réservation de Résidences</a></li>
+                        <li><a th:href="@{/projets(categorie='traiteurs')}" class="hover:text-primary transition-colors"
+                                th:text="#{footer.service.events}">Services Événementiels</a></li>
+                        <li><a th:href="@{/projets(categorie='poulets')}" class="hover:text-primary transition-colors"
+                                th:text="#{footer.service.food}">Services Alimentaires</a></li>
+                    </ul>
+                </div>
+
+                <!-- Useful Links Column -->
+                <div class="space-y-6">
+                    <h3 class="text-sm font-black uppercase tracking-widest text-white" th:text="#{footer.links_title}">
+                        Liens Utiles</h3>
+                    <ul class="space-y-4 text-gray-400 text-sm font-medium">
+                        <li><a th:href="@{/register}" class="hover:text-primary transition-colors"
+                                th:text="#{footer.link.be_provider}">Devenir
+                                Prestataire</a></li>
+                        <li><a th:href="@{/propos}" class="hover:text-primary transition-colors"
+                                th:text="#{public.nav.about}">À Propos</a></li>
+                        <li><a th:href="@{/contact}" class="hover:text-primary transition-colors"
+                                th:text="#{public.nav.support}">Contact</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors"
+                                th:text="#{footer.link.faq}">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Column -->
+                <div class="space-y-6">
+                    <h3 class="text-sm font-black uppercase tracking-widest text-white"
+                        th:text="#{footer.contact_title}">Contact</h3>
+                    <ul class="space-y-4 text-gray-400 text-sm font-medium">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-location-dot text-primary"></i>
+                            <span th:text="#{footer.contact.location}">Abidjan, Côte d'Ivoire</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-primary"></i>
+                            <span>+225 07 00 00 00 00</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-primary"></i>
+                            <span>contact@unevie.ci</span>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
 
-            <!-- Services -->
-            <div>
-                <h4 class="text-white font-semibold text-lg mb-4" style="color: #ffffff;">Services</h4>
-                <ul class="space-y-2 text-sm text-gray-400" style="color: #9ca3af;">
-                    <li class="hover:text-yellow-500 transition cursor-pointer">Vente de poulets</li>
-                    <li class="hover:text-yellow-500 transition cursor-pointer">Réservation de résidences</li>
-                    <li class="hover:text-yellow-500 transition cursor-pointer">Location de véhicules</li>
-                    <li class="hover:text-yellow-500 transition cursor-pointer">Traiteur haut de gamme</li>
-                </ul>
-            </div>
-
-            <!-- Contact -->
-            <div>
-                <h4 class="text-white font-semibold text-lg mb-4" style="color: #ffffff;">Contact</h4>
-                <ul class="space-y-3 text-sm text-gray-400" style="color: #9ca3af;">
-                    <li class="flex items-start gap-3"
-                        style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.75rem;">
-                        <i class="fas fa-map-marker-alt"
-                            style="color: #eab308; margin-top: 0.25rem; min-width: 20px; text-align: center;"></i>
-                        <span>Abidjan – Côte d’Ivoire</span>
-                    </li>
-                    <li class="flex items-center gap-3"
-                        style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
-                        <i class="fas fa-phone" style="color: #eab308; min-width: 20px; text-align: center;"></i>
-                        <span>+225 07 68 18 93 40</span>
-                    </li>
-                    <li class="flex items-center gap-3"
-                        style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
-                        <i class="fas fa-envelope" style="color: #eab308; min-width: 20px; text-align: center;"></i>
-                        <span>contact@unevie.app</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Suivez-nous -->
-            <div>
-                <h4 class="text-white font-semibold text-lg mb-4" style="color: #ffffff;">Suivez-nous</h4>
-                <div class="flex gap-4">
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-blue-600 transition"
-                        style="background-color: #1f2937; color: #ffffff;">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-pink-600 transition"
-                        style="background-color: #1f2937; color: #ffffff;">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-blue-700 transition"
-                        style="background-color: #1f2937; color: #ffffff;">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
+            <!-- Copyright Bar -->
+            <div class="border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-gray-500 text-xs font-bold uppercase tracking-widest" th:text="#{footer.copyright}">
+                    © 2024 <span class="text-white">UNEVIE</span>. Tous droits réservés.
+                </div>
+                <div class="flex gap-8 text-gray-500 text-xs font-bold uppercase tracking-widest">
+                    <a href="#" class="hover:text-white transition-colors" th:text="#{footer.legal}">Mentions
+                        Légales</a>
+                    <a href="#" class="hover:text-white transition-colors" th:text="#{footer.privacy}">Politique de
+                        Confidentialité</a>
                 </div>
             </div>
         </div>
-
-        <!-- Copyright -->
-        <div class="border-t border-gray-800 py-6 text-center text-sm text-gray-500"
-            style="border-top-color: #1f2937; color: #6b7280;">
-            © 2025 <span class="text-white font-semibold" style="color: #ffffff;">UNEVIE</span> — Tous droits réservés.
-        </div>
     </footer>
-
 </div>

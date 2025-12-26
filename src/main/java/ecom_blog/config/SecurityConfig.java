@@ -38,7 +38,7 @@ public class SecurityConfig {
     // 🛡️ Sécurité Spring
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
-                                                   CustomUserDetailsService userDetailsService) throws Exception {
+            CustomUserDetailsService userDetailsService) throws Exception {
 
         http
                 .csrf(csrf -> csrf.disable())
@@ -46,14 +46,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/index", "/index.html", "/register",
                                 "/blog/**", "/projets", "/services", "/objectifs", "/propos",
-                                "/produits/**", "/contact",
+                                "/produits/**", "/contact", "/maintenance",
                                 "/css/**", "/js/**", "/images/**", "/uploads/**", "/videos/**")
                         .permitAll()
                         .requestMatchers("/login", "/admin/login").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/prestataire/**").hasRole("PRESTATAIRE")
                         .requestMatchers("/user/**").hasRole("USER")
-                        .anyRequest().authenticated()
-                )
+                        .anyRequest().authenticated())
                 .formLogin(login -> login
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
@@ -61,13 +61,11 @@ public class SecurityConfig {
                         .passwordParameter("password")
                         .successHandler(successHandler)
                         .failureUrl("/login?error")
-                        .permitAll()
-                )
+                        .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
-                        .permitAll()
-                );
+                        .permitAll());
 
         return http.build();
     }
@@ -81,6 +79,7 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+
     @Bean
     public DaoAuthenticationProvider authenticationProvider(CustomUserDetailsService userDetailsService) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();

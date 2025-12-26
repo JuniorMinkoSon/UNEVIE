@@ -83,4 +83,16 @@ public class HomeController {
         return "user/objectifs";
     }
 
+    // 📖 Article Detail View (WordPress style)
+    @GetMapping({ "/blog/article/{idOrSlug}" })
+    public String articleDetail(@PathVariable String idOrSlug, Model model) {
+        try {
+            Long id = Long.parseLong(idOrSlug);
+            model.addAttribute("article", articleService.findById(id));
+        } catch (NumberFormatException e) {
+            model.addAttribute("article", articleService.findBySlug(idOrSlug));
+        }
+        return "user/article-detail";
+    }
+
 }

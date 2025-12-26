@@ -21,7 +21,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // Only encode if it's not already encoded (BCrypt hashes start with $2a$ or
+        // $2y$ or $2b$)
+        if (user.getPassword() != null && !user.getPassword().startsWith("$2a$")
+                && !user.getPassword().startsWith("$2y$") && !user.getPassword().startsWith("$2b$")) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         if (user.getRole() == null) {
             user.setRole(Role.ROLE_USER);
         }

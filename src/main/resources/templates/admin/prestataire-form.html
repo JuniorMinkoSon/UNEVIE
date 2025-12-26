@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/admin-head :: head(title='Formulaire Prestataire — Administration')}"></div>
+</head>
+
+<body>
+    <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
+        <section class="animate-fadeIn">
+            <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+
+                <!-- Breadcrumb / Retour -->
+                <div class="mb-8 animate-slideUp">
+                    <a th:href="@{/admin/prestataires}"
+                        class="group inline-flex items-center text-slate-500 dark:text-gray-500 hover:text-primary transition-colors font-bold uppercase text-[10px] tracking-widest">
+                        <i class="fa-solid fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
+                        Retour à la liste
+                    </a>
+                </div>
+
+                <div
+                    class="bg-white dark:bg-white/5 rounded-3xl shadow-xl border border-slate-200 dark:border-white/5 overflow-hidden animate-slideUp backdrop-blur-xl">
+                    <div class="bg-primary p-8 text-white relative overflow-hidden">
+                        <!-- Decorative element -->
+                        <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-white/10 rounded-full blur-3xl">
+                        </div>
+
+                        <h2
+                            class="text-3xl font-black italic uppercase tracking-tighter flex items-center relative z-10">
+                            <i th:class="${prestataire.id == null ? 'fa-solid fa-plus' : 'fa-solid fa-pen'}"
+                                class="mr-4"></i>
+                            <span th:if="${prestataire.id == null}">Ajouter un prestataire</span>
+                            <span th:unless="${prestataire.id == null}">Modifier le prestataire</span>
+                        </h2>
+                        <p class="text-white/80 mt-2 font-bold uppercase text-[10px] tracking-widest relative z-10">
+                            Renseignez les informations du partenaire prestataire ci-dessous.
+                        </p>
+                    </div>
+
+                    <form th:action="@{/admin/prestataires/sauvegarder}" th:object="${prestataire}" method="post"
+                        class="p-8 space-y-8">
+                        <input type="hidden" th:field="*{id}" />
+
+                        <!-- Nom -->
+                        <div class="space-y-2">
+                            <label
+                                class="block text-[10px] font-black text-slate-500 dark:text-gray-500 uppercase tracking-widest">Nom
+                                complet <span class="text-primary">*</span></label>
+                            <input type="text" th:field="*{nom}"
+                                class="w-full px-4 py-4 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-bold focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                                placeholder="Ex: Abdou Diallo" required />
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Téléphone -->
+                            <div class="space-y-2">
+                                <label
+                                    class="block text-[10px] font-black text-slate-500 dark:text-gray-500 uppercase tracking-widest">Téléphone
+                                    <span class="text-primary">*</span></label>
+                                <input type="tel" th:field="*{telephone}"
+                                    class="w-full px-4 py-4 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-bold focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                                    placeholder="Ex: 771234567" required />
+                            </div>
+
+                            <!-- Type de prestataire -->
+                            <div class="space-y-2">
+                                <label
+                                    class="block text-[10px] font-black text-slate-500 dark:text-gray-500 uppercase tracking-widest">Type
+                                    de prestataire <span class="text-primary">*</span></label>
+                                <select th:field="*{typePrestataire}"
+                                    class="w-full px-4 py-4 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-bold focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none cursor-pointer appearance-none"
+                                    required>
+                                    <option value="">-- Sélectionnez --</option>
+                                    <option th:each="type : ${types}" th:value="${type}" th:text="${type}"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Véhicule & Immatriculation -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label
+                                    class="block text-[10px] font-black text-slate-500 dark:text-gray-500 uppercase tracking-widest">Véhicule
+                                    <span
+                                        class="text-xs text-slate-400 dark:text-gray-600 font-normal italic lowercase">(optionnel)</span></label>
+                                <input type="text" th:field="*{vehicule}"
+                                    class="w-full px-4 py-4 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-bold focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                                    placeholder="Ex: Toyota Corolla 2020" />
+                            </div>
+                            <div class="space-y-2">
+                                <label
+                                    class="block text-[10px] font-black text-slate-500 dark:text-gray-500 uppercase tracking-widest">Immatriculation
+                                    <span
+                                        class="text-xs text-slate-400 dark:text-gray-600 font-normal italic lowercase">(optionnel)</span></label>
+                                <input type="text" th:field="*{immatriculation}"
+                                    class="w-full px-4 py-4 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-bold focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                                    placeholder="Ex: DK-1234-AB" />
+                            </div>
+                        </div>
+
+                        <!-- Position GPS Section -->
+                        <div
+                            class="p-6 bg-slate-100 dark:bg-white/5 rounded-3xl border border-slate-200 dark:border-white/10 space-y-6">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                <label
+                                    class="text-[10px] font-black text-slate-500 dark:text-gray-500 uppercase tracking-widest flex items-center">
+                                    <i class="fa-solid fa-location-dot text-primary mr-2"></i>
+                                    Coordonnées GPS
+                                </label>
+                                <button type="button" id="btnGetLocation"
+                                    class="inline-flex items-center px-6 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full transition-all shadow-lg active:scale-95 group">
+                                    <i
+                                        class="fa-solid fa-location-crosshairs mr-2 group-hover:rotate-90 transition-transform"></i>
+                                    Position actuelle
+                                </button>
+                            </div>
+
+                            <!-- GPS Status Messages (Tailwind classes will be added via JS in a real app, here we use helper classes) -->
+                            <div id="gpsStatus"
+                                class="hidden p-4 rounded-xl text-xs font-bold flex items-center gap-3 animate-fadeIn">
+                                <i class="fa-solid fa-spinner fa-spin text-lg"></i>
+                                <span id="gpsStatusText"></span>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div class="space-y-1">
+                                    <input type="number" step="0.0001" th:field="*{latitude}" id="inputLatitude"
+                                        class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                        placeholder="Latitude (ex: 14.7167)" />
+                                </div>
+                                <div class="space-y-1">
+                                    <input type="number" step="0.0001" th:field="*{longitude}" id="inputLongitude"
+                                        class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                        placeholder="Longitude (ex: -17.4677)" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Disponibilité -->
+                        <div class="space-y-4">
+                            <label class="relative inline-flex items-center cursor-pointer group">
+                                <input type="checkbox" th:field="*{disponible}" class="sr-only peer" id="disponible">
+                                <div
+                                    class="w-14 h-7 bg-slate-200 dark:bg-white/10 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-7 peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary transition-colors">
+                                </div>
+                                <span
+                                    class="ml-4 text-[10px] font-black text-slate-500 dark:text-gray-500 uppercase tracking-widest group-hover:text-primary transition-colors">Disponible
+                                    pour de nouvelles commandes</span>
+                            </label>
+                        </div>
+
+                        <!-- Boutons -->
+                        <div class="pt-6 flex flex-col sm:flex-row gap-4">
+                            <button type="submit"
+                                class="flex-1 bg-primary hover:bg-red-800 text-white font-extrabold py-4 rounded-2xl shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center">
+                                <i class="fa-solid fa-save mr-3"></i> Enregistrer
+                            </button>
+                            <a th:href="@{/admin/prestataires}"
+                                class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-extrabold py-4 rounded-2xl transition-all flex items-center justify-center">
+                                Annuler
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Aide Card -->
+                <div class="mt-8 bg-blue-500/5 p-6 rounded-3xl border border-blue-500/10 flex gap-4 animate-slideUp">
+                    <div
+                        class="shrink-0 w-12 h-12 bg-white dark:bg-white/5 rounded-2xl shadow-sm flex items-center justify-center text-blue-500">
+                        <i class="fa-solid fa-lightbulb text-xl"></i>
+                    </div>
+                    <div>
+                        <h6
+                            class="font-black text-blue-900 dark:text-blue-400 mb-1 uppercase text-[10px] tracking-widest">
+                            💡 Conseil Pro</h6>
+                        <p class="text-xs text-blue-700 dark:text-blue-300/70 font-bold leading-relaxed">
+                            Pour obtenir les coordonnées GPS précises d'un lieu tiers, utilisez <a
+                                href="https://www.google.com/maps" target="_blank"
+                                class="font-black underline hover:text-blue-900 dark:hover:text-white transition-colors">Google
+                                Maps</a>.
+                            Faites un clic droit sur la carte pour copier les valeurs de latitude et longitude.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.getElementById('btnGetLocation').addEventListener('click', function () {
+                    const statusDiv = document.getElementById('gpsStatus');
+                    const statusText = document.getElementById('gpsStatusText');
+                    const latInput = document.getElementById('inputLatitude');
+                    const lngInput = document.getElementById('inputLongitude');
+                    const btn = this;
+
+                    const showStatus = (msg, type) => {
+                        statusDiv.classList.remove('hidden', 'bg-blue-50', 'text-blue-700', 'bg-red-50', 'text-red-700', 'bg-green-50', 'text-green-700');
+                        statusDiv.classList.add('flex');
+                        if (type === 'loading') statusDiv.classList.add('bg-blue-50', 'text-blue-700');
+                        else if (type === 'error') statusDiv.classList.add('bg-red-50', 'text-red-700');
+                        else if (type === 'success') statusDiv.classList.add('bg-green-50', 'text-green-700');
+                        statusText.innerText = msg;
+                    };
+
+                    if (!navigator.geolocation) {
+                        showStatus("Géolocalisation non supportée par votre navigateur.", 'error');
+                        return;
+                    }
+
+                    showStatus("Récupération de votre position...", 'loading');
+                    btn.disabled = true;
+
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            latInput.value = position.coords.latitude.toFixed(6);
+                            lngInput.value = position.coords.longitude.toFixed(6);
+                            showStatus(`Position récupérée ! (Précision: ${Math.round(position.coords.accuracy)}m)`, 'success');
+                            btn.disabled = false;
+                            setTimeout(() => statusDiv.classList.add('hidden'), 5000);
+                        },
+                        (error) => {
+                            let msg = "Erreur de géolocalisation.";
+                            if (error.code === 1) msg = "Accès à la position refusé.";
+                            showStatus(msg, 'error');
+                            btn.disabled = false;
+                        },
+                        { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
+                    );
+                });
+            </script>
+        </section>
+    </div>
+</body>
+
+</html>

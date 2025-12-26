@@ -39,8 +39,12 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private CategorieService categorieService;
+
+    @Autowired
+    private ecom_blog.service.SettingService settingService;
 
     @Autowired
     private ProduitMapper produitMapper;
@@ -145,6 +149,17 @@ public class AdminController {
         return "redirect:/admin/dashboard?success=article";
     }
 
+    @PostMapping("/article/upload-image")
+    @ResponseBody
+    public Map<String, String> uploadArticleImage(@RequestParam("file") MultipartFile file) {
+        try {
+            String fileName = articleService.uploadImage(file);
+            return Map.of("url", "/uploads/" + fileName);
+        } catch (Exception e) {
+            return Map.of("error", e.getMessage());
+        }
+    }
+
     @GetMapping("/article/list")
     public String listArticles(Model model) {
         model.addAttribute("articles", articleService.getAll());
@@ -210,5 +225,42 @@ public class AdminController {
     public String deleteCategory(@PathVariable Long id) {
         categorieService.delete(id);
         return "redirect:/admin/categories?deleted";
+    }
+
+    @GetMapping("/profile")
+    public String profile(Model model, java.security.Principal principal) {
+        if (principal != null) {
+            model.addAttribute("user", userService.findByEmail(principal.getName()));
+        }
+        return "admin/profile";
+    }
+
+    @PostMapping("/profile/update")
+    public String updateProfile(@ModelAttribute("user") ecom_blog.model.User updatedUser,
+            java.security.Principal principal) {
+        if (principal != null) {
+            ecom_blog.model.User currentUser = userService.findByEmail(principal.getName());
+            currentUser.setNom(updatedUser.getNom());
+            currentUser.setTelephone(updatedUser.getTelephone());
+            // Email is usually not changeable without verification, but we'll allow it if
+            // needed or just keep it.
+            // Password change would ideally be a separate flow.
+            userService.saveUser(currentUser);
+            return "redirect:/admin/profile?success";
+        }
+        return "redirect:/admin/login";
+    }
+
+    @GetMapping("/settings")
+    public String settings(Model model) {
+        model.addAttribute("maintenanceMode", settingService.isMaintenanceMode());
+        return "admin/settings";
+    }
+
+    @PostMapping("/settings/update")
+    @ResponseBody
+    public String updateSetting(@RequestParam String key, @RequestParam String value) {
+        settingService.setSetting(key, value);
+        return "success";
     }
 }

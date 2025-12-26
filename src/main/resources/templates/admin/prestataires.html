@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/admin-head :: head(title='Gestion des Prestataires — Administration')}"></div>
+</head>
+
+<body>
+    <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
+        <section class="animate-fadeIn">
+            <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+
+                <!-- Entête -->
+                <div
+                    class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 bg-white dark:bg-white/5 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-white/5 backdrop-blur-xl">
+                    <div>
+                        <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                            <i class="fa-solid fa-users text-primary mr-3"></i>
+                            Gestion des Prestataires
+                        </h1>
+                        <p class="text-slate-500 dark:text-gray-400 mt-1">Gérez vos chauffeurs, livreurs et techniciens
+                            partenaires.</p>
+                    </div>
+                    <a th:href="@{/admin/prestataires/ajouter}"
+                        class="bg-primary hover:bg-red-800 text-white font-bold py-3 px-6 rounded-xl transition-all transform hover:scale-105 shadow-md flex items-center group">
+                        <i class="fa-solid fa-plus mr-2 group-hover:rotate-90 transition-transform duration-300"></i>
+                        Nouveau Prestataire
+                    </a>
+                </div>
+
+                <!-- Filtres par type -->
+                <div class="mb-8 flex flex-wrap gap-2 animate-slideUp">
+                    <a th:href="@{/admin/prestataires}"
+                        class="px-4 py-2 rounded-xl text-sm font-bold transition-all border"
+                        th:classappend="${typeSelectionne == null ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20' : 'bg-white dark:bg-white/5 text-slate-600 dark:text-gray-400 border-slate-200 dark:border-white/10 hover:border-primary hover:text-primary'}">
+                        Tous
+                    </a>
+                    <a th:each="type : ${types}" th:href="@{/admin/prestataires(type=${type})}"
+                        class="px-4 py-2 rounded-xl text-sm font-bold transition-all border uppercase"
+                        th:classappend="${typeSelectionne == type.name() ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20' : 'bg-white dark:bg-white/5 text-slate-600 dark:text-gray-400 border-slate-200 dark:border-white/10 hover:border-primary hover:text-primary'}"
+                        th:text="${type}">
+                    </a>
+                </div>
+
+                <!-- Messages Flash -->
+                <div th:if="${success}"
+                    class="mb-8 p-4 rounded-2xl bg-green-50 border border-green-100 text-green-700 flex items-center gap-3 animate-fadeIn">
+                    <i class="fa-solid fa-check-circle text-lg"></i>
+                    <span th:text="${success}" class="font-medium"></span>
+                </div>
+
+                <!-- Carte Tableau -->
+                <div
+                    class="bg-white dark:bg-white/5 rounded-2xl shadow-sm border border-slate-200 dark:border-white/5 overflow-hidden animate-slideUp">
+
+                    <!-- Empty State -->
+                    <div th:if="${#lists.isEmpty(prestataires)}"
+                        class="text-center py-20 text-slate-500 dark:text-gray-500">
+                        <div class="max-w-xs mx-auto">
+                            <i class="fa-solid fa-users text-7xl mb-6 opacity-20"></i>
+                            <p class="text-xl font-bold mb-6">Aucun prestataire trouvé.</p>
+                            <a th:href="@{/admin/prestataires/ajouter}"
+                                class="inline-flex items-center text-primary font-bold hover:underline transition-colors">
+                                <i class="fa-solid fa-plus mr-2"></i> Ajouter le premier prestataire
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Tableau -->
+                    <div th:if="${!#lists.isEmpty(prestataires)}" class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-slate-100 dark:bg-white/5">
+                                <tr>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
+                                        ID
+                                    </th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
+                                        Nom
+                                    </th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
+                                        Type
+                                    </th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
+                                        Contact</th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
+                                        Véhicule</th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
+                                        Position</th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
+                                        Statut</th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
+                                        Création</th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider">
+                                        Modification</th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider text-right">
+                                        Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 dark:divide-white/5">
+                                <tr th:each="p : ${prestataires}" class="hover:bg-slate-500/5 transition-colors group">
+                                    <td class="py-4 px-6 text-xs font-mono font-bold text-primary"
+                                        th:text="'#' + ${p.id}"></td>
+                                    <td class="py-4 px-6">
+                                        <div class="font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors uppercase tracking-tight"
+                                            th:text="${p.nom}"></div>
+                                    </td>
+                                    <td class="py-4 px-6">
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black bg-blue-500/10 text-blue-500 border border-blue-500/20 uppercase tracking-widest"
+                                            th:text="${p.typePrestataire}"></span>
+                                    </td>
+                                    <td class="py-4 px-6">
+                                        <a th:href="'tel:' + ${p.telephone}"
+                                            class="text-sm font-medium text-primary hover:underline flex items-center gap-2">
+                                            <i class="fa-solid fa-phone text-xs opacity-50"></i>
+                                            <span th:text="${p.telephone}"></span>
+                                        </a>
+                                    </td>
+                                    <td class="py-4 px-6">
+                                        <span th:text="${p.vehicule != null ? p.vehicule : '—'}"
+                                            class="text-xs text-slate-500 dark:text-gray-500 font-bold italic"></span>
+                                    </td>
+                                    <td class="py-4 px-6">
+                                        <span th:if="${p.latitude != null}"
+                                            class="flex items-center gap-1.5 text-[10px] font-bold text-slate-500 dark:text-gray-500">
+                                            <i class="fa-solid fa-location-dot text-primary"></i>
+                                            <span th:text="${#numbers.formatDecimal(p.latitude, 1, 4)}"></span>,
+                                            <span th:text="${#numbers.formatDecimal(p.longitude, 1, 4)}"></span>
+                                        </span>
+                                        <span th:unless="${p.latitude != null}"
+                                            class="text-[10px] text-slate-400 dark:text-gray-600 font-bold italic uppercase tracking-widest">Non
+                                            définie</span>
+                                    </td>
+                                    <td class="py-4 px-6">
+                                        <div class="flex flex-wrap gap-1.5">
+                                            <span th:if="${p.disponible}"
+                                                class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-black bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase tracking-widest">
+                                                <i class="fa-solid fa-check mr-1"></i>DISPO
+                                            </span>
+                                            <span th:unless="${p.disponible}"
+                                                class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-black bg-slate-500/10 text-slate-500 border border-slate-500/20 uppercase tracking-widest">
+                                                <i class="fa-solid fa-times mr-1"></i>INDISPO
+                                            </span>
+                                            <span th:if="${p.enService}"
+                                                class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-black bg-amber-500/10 text-amber-500 border border-amber-500/20 uppercase tracking-widest">
+                                                <i class="fa-solid fa-truck-fast mr-1"></i>SERVICE
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6 text-xs text-slate-500 font-medium"
+                                        th:text="${#temporals.format(p.created_at, 'dd/MM/yyyy HH:mm')}">
+                                    </td>
+                                    <td class="py-4 px-6 text-xs text-slate-500 font-medium"
+                                        th:text="${#temporals.format(p.updated_at, 'dd/MM/yyyy HH:mm')}">
+                                    </td>
+                                    <td class="py-4 px-6 text-right">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <a th:href="@{/admin/prestataires/modifier/{id}(id=${p.id})}"
+                                                class="p-2 rounded-lg text-slate-400 dark:text-gray-500 hover:bg-primary/10 hover:text-primary transition-all border border-transparent hover:border-primary/20 shadow-sm"
+                                                title="Modifier">
+                                                <i class="fa-solid fa-pen text-sm"></i>
+                                            </a>
+                                            <form
+                                                th:action="@{/admin/prestataires/toggle-disponibilite/{id}(id=${p.id})}"
+                                                method="post" class="inline">
+                                                <button type="submit"
+                                                    class="p-2 rounded-lg text-slate-400 dark:text-gray-500 hover:bg-blue-500/10 hover:text-blue-500 transition-all border border-transparent hover:border-blue-500/20 shadow-sm"
+                                                    th:title="${p.disponible ? 'Marquer indisponible' : 'Marquer disponible'}">
+                                                    <i th:class="${p.disponible ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'}"
+                                                        class="text-sm"></i>
+                                                </button>
+                                            </form>
+                                            <button
+                                                class="p-2 rounded-lg text-slate-400 dark:text-gray-500 hover:bg-red-500/10 hover:text-red-600 transition-all border border-transparent hover:border-red-500/20 shadow-sm"
+                                                th:onclick="'if(confirm(\'Supprimer ce prestataire ?\')) document.getElementById(\'delete-' + ${p.id} + '\').submit();'"
+                                                title="Supprimer">
+                                                <i class="fa-solid fa-trash text-sm"></i>
+                                            </button>
+                                            <form th:id="'delete-' + ${p.id}"
+                                                th:action="@{/admin/prestataires/supprimer/{id}(id=${p.id})}"
+                                                method="post" class="hidden"></form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>

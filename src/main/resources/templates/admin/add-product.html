@@ -2,55 +2,116 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <div th:replace="~{fragments/head :: head (title='Admin - Ajouter produit')}"></div>
-    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+    <div th:replace="~{fragments/admin-head :: head(title='Admin - Ajouter produit')}"></div>
 </head>
 
 
 <body>
     <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
-        <section>
-            <div class="container-fluid">
-                <div class="glass-card">
-                    <h1>
-                        <i class="fa-solid fa-cube"></i>
-                        Ajouter un Produit
-                    </h1>
+        <section class="animate-fadeIn">
+            <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+
+                <!-- Breadcrumb -->
+                <div class="mb-8 animate-slideUp">
+                    <a th:href="@{/admin/products}"
+                        class="group inline-flex items-center text-gray-500 hover:text-primary transition-colors font-medium">
+                        <i class="fa-solid fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
+                        Retour aux produits
+                    </a>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden animate-slideUp">
+                    <div class="bg-primary p-8 text-white">
+                        <h2 class="text-3xl font-extrabold flex items-center">
+                            <i class="fa-solid fa-cube mr-4"></i>
+                            Ajouter un Produit
+                        </h2>
+                        <p class="text-white/80 mt-2">Remplissez les informations ci-dessous pour créer un nouveau
+                            produit ou service.</p>
+                    </div>
 
                     <form th:action="@{/admin/product/save}" th:object="${produit}" method="post"
-                        enctype="multipart/form-data">
-                        <input class="form-input" th:field="*{nom}" placeholder="Nom du produit" required>
+                        enctype="multipart/form-data" class="p-8 space-y-8">
 
-                        <div class="form-row">
-                            <select class="form-input" th:field="*{categorie}" required>
-                                <option value="" disabled selected>Choisir une catégorie</option>
-                                <option value="Voitures">🚗 Voitures</option>
-                                <option value="Poulets">🍗 Poulets</option>
-                                <option value="Résidences">🏠 Résidences</option>
-                                <option value="Traiteur">🍽️ Traiteur</option>
-                            </select>
-
-                            <input class="form-input" th:field="*{prix}" type="number" placeholder="Prix (FCFA)" min="0"
-                                step="0.01" required>
+                        <!-- Nom -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-gray-700">Nom du produit</label>
+                            <input type="text"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                                th:field="*{nom}" placeholder="Ex: Toyota Prado 2023" required>
                         </div>
 
-                        <textarea class="form-input" th:field="*{description}"
-                            placeholder="Description du produit..."></textarea>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Catégorie -->
+                            <div class="space-y-2">
+                                <label class="block text-sm font-bold text-gray-700">Catégorie</label>
+                                <select
+                                    class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none cursor-pointer appearance-none"
+                                    th:field="*{categorie}" required>
+                                    <option value="" disabled selected>Choisir une catégorie</option>
+                                    <option value="Voitures">🚗 Voitures</option>
+                                    <option value="Poulets">🍗 Poulets</option>
+                                    <option value="residences">🏠 Résidences</option>
+                                    <option value="Traiteur">🍽️ Traiteur</option>
+                                </select>
+                            </div>
 
-                        <input type="file" name="image" accept="image/*" required>
+                            <!-- Prix -->
+                            <div class="space-y-2">
+                                <label class="block text-sm font-bold text-gray-700">Prix (FCFA)</label>
+                                <div class="relative flex items-center">
+                                    <input type="number"
+                                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                                        th:field="*{prix}" placeholder="0" min="0" step="0.01" required>
+                                    <span
+                                        class="absolute right-4 text-gray-400 font-bold pointer-events-none">FCFA</span>
+                                </div>
+                            </div>
+                        </div>
 
-                        <button class="btn" type="submit">
-                            <i class="fa-solid fa-save"></i>
-                            Enregistrer le produit
-                        </button>
+                        <!-- Description -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-gray-700">Description</label>
+                            <textarea
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                                th:field="*{description}" rows="4"
+                                placeholder="Description détaillée du produit..."></textarea>
+                        </div>
+
+                        <!-- Image -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-gray-700">Image du produit</label>
+                            <div
+                                class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-2xl hover:border-primary transition-colors bg-gray-50 group">
+                                <div class="space-y-1 text-center">
+                                    <i
+                                        class="fa-solid fa-cloud-arrow-up text-4xl text-gray-400 group-hover:text-primary transition-colors mb-2"></i>
+                                    <div class="flex text-sm text-gray-600">
+                                        <label for="image-upload"
+                                            class="relative cursor-pointer bg-white rounded-md font-medium text-primary hover:text-red-700 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary px-2">
+                                            <span>Télécharger un fichier</span>
+                                            <input id="image-upload" name="image" type="file" class="sr-only"
+                                                accept="image/*" required>
+                                        </label>
+                                        <p class="pl-1">ou glisser-déposer</p>
+                                    </div>
+                                    <p class="text-xs text-gray-500">Formats acceptés : JPG, PNG, WEBP (max 10MB)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-6 flex flex-col md:flex-row gap-4">
+                            <button type="submit"
+                                class="flex-1 bg-primary hover:bg-red-800 text-white font-extrabold py-4 rounded-2xl shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center">
+                                <i class="fa-solid fa-save mr-3"></i>
+                                Enregistrer le Produit
+                            </button>
+                            <a th:href="@{/admin/products}"
+                                class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-extrabold py-4 rounded-2xl transition-all flex items-center justify-center">
+                                Annuler
+                            </a>
+                        </div>
                     </form>
-
-                    <div class="text-center mt-4">
-                        <a class="btn btn-outline" th:href="@{/admin/products}">
-                            <i class="fa-solid fa-arrow-left"></i>
-                            Retour à la liste
-                        </a>
-                    </div>
                 </div>
             </div>
         </section>

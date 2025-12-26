@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/admin-head :: head(title='Paramètres')}"></div>
+</head>
+
+<body class="bg-slate-50 dark:bg-africanDark transition-colors duration-300">
+    <!-- ✅ ADMIN LAYOUT -->
+    <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
+        <section class="animate-fadeIn p-4 lg:p-8">
+            <!-- Header Section -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Paramètres Système</h1>
+                <p class="text-slate-500 dark:text-gray-400 mt-1">Configurez les options globales de votre plateforme
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Appearance Settings -->
+                <div
+                    class="bg-white dark:bg-africanDark rounded-[2rem] p-8 border border-slate-200 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-3">
+                        <i class="fa-solid fa-palette text-primary"></i>
+                        Apparence & Interface
+                    </h3>
+
+                    <div class="space-y-6">
+                        <div
+                            class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-white/5">
+                            <div>
+                                <p class="text-sm font-bold text-slate-900 dark:text-white">Thème Dynamique</p>
+                                <p class="text-[10px] text-slate-500">Basculer entre le mode clair et sombre</p>
+                            </div>
+                            <button id="themeToggleSettings"
+                                class="h-10 w-20 rounded-xl bg-slate-200 dark:bg-primary/20 flex items-center px-1 transition-all">
+                                <div
+                                    class="h-8 w-8 bg-white dark:bg-primary rounded-lg shadow-sm flex items-center justify-center transform transition-all dark:translate-x-10">
+                                    <i class="fa-solid fa-sun text-amber-500 dark:hidden"></i>
+                                    <i class="fa-solid fa-moon text-white hidden dark:block"></i>
+                                </div>
+                            </button>
+                        </div>
+
+                        <div
+                            class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-white/5">
+                            <div>
+                                <p class="text-sm font-bold text-slate-900 dark:text-white">Animations d'interface</p>
+                                <p class="text-[10px] text-slate-500">Activer les transitions fluides</p>
+                            </div>
+                            <input type="checkbox" checked
+                                class="w-12 h-6 bg-primary rounded-full appearance-none checked:bg-primary relative before:absolute before:h-4 before:w-4 before:bg-white before:rounded-full before:top-1 before:left-1 checked:before:left-7 transition-all cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications & Security -->
+                <div
+                    class="bg-white dark:bg-africanDark rounded-[2rem] p-8 border border-slate-200 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-3">
+                        <i class="fa-solid fa-shield-halved text-primary"></i>
+                        Sécurité & Alertes
+                    </h3>
+
+                    <div class="space-y-6">
+                        <div
+                            class="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-white/5">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="text-sm font-bold text-slate-900 dark:text-white">Alertes de connexion</p>
+                                <input type="checkbox" checked
+                                    class="w-10 h-5 bg-emerald-500 rounded-full appearance-none relative before:absolute before:h-3 before:w-3 before:bg-white before:rounded-full before:top-1 before:left-1 checked:before:left-6 transition-all">
+                            </div>
+                            <p class="text-[10px] text-slate-500">Recevoir un email à chaque nouvelle connexion admin
+                            </p>
+                        </div>
+
+                        <div
+                            class="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-white/5">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="text-sm font-bold text-slate-900 dark:text-white">Maintenance</p>
+                                <input type="checkbox" id="maintenanceToggle" th:checked="${maintenanceMode}"
+                                    class="w-10 h-5 bg-slate-200 dark:bg-slate-700 checked:bg-primary rounded-full appearance-none relative before:absolute before:h-3 before:w-3 before:bg-white before:rounded-full before:top-1 before:left-1 checked:before:left-6 transition-all cursor-pointer">
+                            </div>
+                            <p class="text-[10px] text-slate-500">Activer le mode maintenance pour les utilisateurs
+                                publics</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Future Settings Placeholder -->
+                <div
+                    class="lg:col-span-2 bg-gradient-to-br from-primary/10 to-transparent rounded-[2.5rem] p-12 border border-primary/5 text-center">
+                    <div
+                        class="w-20 h-20 bg-white dark:bg-africanDark rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+                        <i class="fa-solid fa-clock-rotate-left text-3xl text-primary"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Plus d'options bientôt</h4>
+                    <p class="text-slate-500 dark:text-gray-400 max-w-md mx-auto">Nous travaillons sur l'ajout de
+                        configurations avancées pour la gestion des stocks et la personnalisation des emails.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('themeToggleSettings');
+            const maintenanceToggle = document.getElementById('maintenanceToggle');
+            const html = document.documentElement;
+
+            if (btn) {
+                btn.addEventListener('click', () => {
+                    html.classList.toggle('dark');
+                    localStorage.setItem('admin-theme', html.classList.contains('dark') ? 'dark' : 'light');
+                });
+            }
+
+            if (maintenanceToggle) {
+                maintenanceToggle.addEventListener('change', async (e) => {
+                    const isChecked = e.target.checked;
+                    const formData = new FormData();
+                    formData.append('key', 'maintenance_mode');
+                    formData.append('value', isChecked.toString());
+
+                    try {
+                        const response = await fetch('/admin/settings/update', {
+                            method: 'POST',
+                            body: formData
+                        });
+
+                        if (response.ok) {
+                            // Show success toast or small notification if needed
+                            console.log('Maintenance mode updated:', isChecked);
+                        } else {
+                            // Revert toggle if error
+                            e.target.checked = !isChecked;
+                            alert('Erreur lors de la mise à jour du mode maintenance.');
+                        }
+                    } catch (error) {
+                        e.target.checked = !isChecked;
+                        console.error('Error updating settings:', error);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

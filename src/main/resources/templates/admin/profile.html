@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/admin-head :: head(title='Mon Profil')}"></div>
+</head>
+
+<body class="bg-slate-50 dark:bg-africanDark transition-colors duration-300">
+    <!-- ✅ ADMIN LAYOUT -->
+    <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
+        <section class="animate-fadeIn p-4 lg:p-8">
+            <!-- Header Section -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Mon Profil</h1>
+                <p class="text-slate-500 dark:text-gray-400 mt-1">Gérez vos informations personnelles et paramètres de
+                    compte</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column: Profile Card -->
+                <div class="lg:col-span-1 space-y-8">
+                    <div
+                        class="bg-white dark:bg-africanDark rounded-[2rem] p-8 border border-slate-200 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none relative overflow-hidden group">
+                        <!-- Accent Gradient -->
+                        <div
+                            class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full -mr-16 -mt-16 blur-3xl group-hover:bg-primary/20 transition-all duration-700">
+                        </div>
+
+                        <div class="relative flex flex-col items-center text-center">
+                            <div
+                                class="w-24 h-24 rounded-3xl bg-primary/10 flex items-center justify-center mb-6 border border-primary/20 shadow-lg shadow-primary/10 transition-transform group-hover:scale-110 duration-500">
+                                <i class="fa-solid fa-user-shield text-4xl text-primary"></i>
+                            </div>
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1" th:text="${user.nom}">
+                                Admin Name</h2>
+                            <span
+                                class="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-6"
+                                th:text="${user.role}">Administrateur</span>
+
+                            <div class="w-full space-y-4 pt-6 border-t border-slate-100 dark:border-white/5">
+                                <div class="flex items-center gap-3 text-sm text-slate-600 dark:text-gray-400">
+                                    <div
+                                        class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-white/5 flex items-center justify-center text-primary">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </div>
+                                    <span class="font-medium" th:text="${user.email}">admin@unevie.com</span>
+                                </div>
+                                <div class="flex items-center gap-3 text-sm text-slate-600 dark:text-gray-400">
+                                    <div
+                                        class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-white/5 flex items-center justify-center text-primary">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </div>
+                                    <span class="font-medium" th:text="${user.telephone ?: 'Non renseigné'}">+221 -- ---
+                                        -- --</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Appearance Status Card -->
+                    <div
+                        class="bg-slate-900 dark:bg-primary/5 rounded-[2rem] p-8 border border-slate-800 dark:border-primary/20 shadow-2xl relative overflow-hidden group">
+                        <div class="relative flex items-center justify-between">
+                            <div>
+                                <h3 class="text-white font-bold mb-1">Mode Sombre</h3>
+                                <p class="text-slate-400 text-xs text-balance">Personnalisez votre expérience visuelle
+                                    d'administration.</p>
+                            </div>
+                            <button id="themeToggleProfile"
+                                class="w-14 h-7 rounded-full bg-slate-700 relative transition-all duration-300 shadow-inner">
+                                <div
+                                    class="absolute top-1 left-1 w-5 h-5 bg-white rounded-full transition-all duration-500 transform translate-x-0 dark:translate-x-7 flex items-center justify-center shadow-lg">
+                                    <i class="fa-solid fa-sun text-[10px] text-amber-500 dark:hidden"></i>
+                                    <i class="fa-solid fa-moon text-[10px] text-primary hidden dark:block"></i>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Edit Form -->
+                <div class="lg:col-span-2">
+                    <div
+                        class="bg-white dark:bg-africanDark rounded-[2rem] p-8 border border-slate-200 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3">
+                            <i class="fa-solid fa-pen-to-square text-primary"></i>
+                            Informations Personnelles
+                        </h3>
+
+                        <form th:action="@{/admin/profile/update}" method="post" th:object="${user}" class="space-y-8">
+                            <input type="hidden" th:field="*{id}" />
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <!-- Nom -->
+                                <div class="space-y-3">
+                                    <label
+                                        class="text-xs font-black text-slate-500 dark:text-gray-500 uppercase tracking-[0.15em] ml-1">Nom
+                                        complet</label>
+                                    <div class="relative group">
+                                        <span
+                                            class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors duration-300">
+                                            <i class="fa-solid fa-user"></i>
+                                        </span>
+                                        <input type="text" th:field="*{nom}" required
+                                            class="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 rounded-2xl py-4.5 pl-14 pr-6 text-slate-900 dark:text-white focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder-slate-400 font-medium">
+                                    </div>
+                                </div>
+
+                                <!-- Téléphone -->
+                                <div class="space-y-3">
+                                    <label
+                                        class="text-xs font-black text-slate-500 dark:text-gray-500 uppercase tracking-[0.15em] ml-1">Téléphone</label>
+                                    <div class="relative group">
+                                        <span
+                                            class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors duration-300">
+                                            <i class="fa-solid fa-phone"></i>
+                                        </span>
+                                        <input type="text" th:field="*{telephone}"
+                                            class="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 rounded-2xl py-4.5 pl-14 pr-6 text-slate-900 dark:text-white focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder-slate-400 font-medium">
+                                    </div>
+                                </div>
+
+                                <!-- Email (Read-Only) -->
+                                <div class="space-y-3">
+                                    <label
+                                        class="text-xs font-black text-slate-500 dark:text-gray-500 uppercase tracking-[0.15em] ml-1">Email
+                                        (Identifiant)</label>
+                                    <div class="relative">
+                                        <span
+                                            class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-700">
+                                            <i class="fa-solid fa-envelope"></i>
+                                        </span>
+                                        <input type="email" th:value="${user.email}" readonly disabled
+                                            class="w-full bg-slate-100 dark:bg-slate-800/40 border border-slate-200 dark:border-white/5 rounded-2xl py-4.5 pl-14 pr-6 text-slate-400 dark:text-slate-600 cursor-not-allowed font-medium">
+                                    </div>
+                                    <p
+                                        class="text-[10px] text-slate-400 font-bold italic mt-2 ml-1 flex items-center gap-1">
+                                        <i class="fa-solid fa-circle-info"></i>
+                                        L'adresse email est verrouillée pour la sécurité du compte.
+                                    </p>
+                                </div>
+
+                                <!-- Role (Read-Only) -->
+                                <div class="space-y-3">
+                                    <label
+                                        class="text-xs font-black text-slate-500 dark:text-gray-500 uppercase tracking-[0.15em] ml-1">Rôle
+                                        Système</label>
+                                    <div class="relative">
+                                        <span
+                                            class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-700">
+                                            <i class="fa-solid fa-shield-halved"></i>
+                                        </span>
+                                        <input type="text" th:value="${user.role}" readonly disabled
+                                            class="w-full bg-slate-100 dark:bg-slate-800/40 border border-slate-200 dark:border-white/5 rounded-2xl py-4.5 pl-14 pr-6 text-slate-400 dark:text-slate-600 cursor-not-allowed font-medium">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="pt-8 border-t border-slate-100 dark:border-white/5 flex flex-col sm:flex-row justify-end items-center gap-6">
+                                <div th:if="${param.success}"
+                                    class="text-emerald-500 text-sm font-black animate-bounce flex items-center gap-2">
+                                    <div
+                                        class="w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center">
+                                        <i class="fa-solid fa-check text-[10px]"></i>
+                                    </div>
+                                    Profil mis à jour !
+                                </div>
+                                <button type="submit"
+                                    class="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white font-black py-4.5 px-12 rounded-2xl shadow-xl shadow-primary/20 transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-3">
+                                    Mettre à jour le profil
+                                    <i class="fa-solid fa-arrow-right-long"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Script Inline pour le Toggle -->
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('themeToggleProfile');
+            const html = document.documentElement;
+
+            if (btn) {
+                btn.addEventListener('click', () => {
+                    html.classList.toggle('dark');
+                    const isDark = html.classList.contains('dark');
+                    localStorage.setItem('admin-theme', isDark ? 'dark' : 'light');
+
+                    // Optionnel : Synchroniser avec le bouton du layout si besoin
+                    const layoutBtn = document.getElementById('themeToggle');
+                    if (layoutBtn) {
+                        // Le layout gère déjà ça via son propre script, 
+                        // mais on force la persistence ici.
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

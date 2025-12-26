@@ -22,4 +22,24 @@ document.addEventListener('DOMContentLoaded', () => {
             menuBtn.classList.toggle('active');
         });
     }
+
+    // --- Intersection Observer for Scroll Animations ---
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-zoom');
+
+    const revealCallback = (entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                // Optionnel: arrêter d'observer une fois animé
+                // observer.unobserve(entry.target);
+            }
+        });
+    };
+
+    const revealObserver = new IntersectionObserver(revealCallback, {
+        threshold: 0.1, // Déclencher quand 10% de l'élément est visible
+        rootMargin: '0px 0px -50px 0px' // Déclencher légèrement avant l'entrée complète
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
 });

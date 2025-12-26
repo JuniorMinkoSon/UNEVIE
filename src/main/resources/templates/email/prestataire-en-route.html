@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #FF9800;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .content {
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #FF9800;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .alert {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #FF9800;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚗 Votre prestataire arrive !</h1>
+        </div>
+        <div class="content">
+            <p>Bonjour,</p>
+
+            <div class="alert">
+                <p><strong>⏰ Le prestataire est en route vers vous !</strong></p>
+            </div>
+
+            <p><strong><span th:text="${prestataire.nom}">Nom</span></strong> a pris en charge votre commande et se
+                dirige actuellement vers votre adresse de livraison.</p>
+
+            <p><strong>Adresse de livraison :</strong> <span th:text="${commande.adresse}">Adresse</span></p>
+
+            <p>Suivez sa position en temps réel sur la carte :</p>
+
+            <p style="text-align: center;">
+                <a th:href="${lienSuivi}" class="button">📍 Suivre en temps réel</a>
+            </p>
+
+            <p>Pour toute question, vous pouvez contacter le prestataire au : <strong><span
+                        th:text="${prestataire.telephone}">Téléphone</span></strong></p>
+        </div>
+        <div class="footer">
+            <p>© 2025 UNEVIE - Tous droits réservés</p>
+        </div>
+    </div>
+</body>
+
+</html>

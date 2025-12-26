@@ -11,10 +11,13 @@ import lombok.Setter;
 @Setter
 public class Article extends BaseEntity {
     private String titre;
-    @Column(length = 5000)
+    @Column(columnDefinition = "TEXT")
     private String contenu;
 
     private String imageUrl;
+    @Column(unique = true)
+    private String slug;
+
     @JsonBackReference
     @ManyToOne
     private Categorie category;

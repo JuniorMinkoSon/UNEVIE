@@ -17,6 +17,8 @@ public class CreateArticleDto {
     @NotNull(message = "La catégorie est obligatoire")
     private Long category;
 
-    @Size(max = 5000, message = "Le contenu ne doit pas dépasser 5000 caractères")
+    @Size(max = 50000, message = "Le contenu ne doit pas dépasser 50000 caractères")
     private String contenu;
+
+    private String slug;
 }

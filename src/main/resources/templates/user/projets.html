@@ -1,167 +1,221 @@
 <!DOCTYPE html>
-<html lang="fr"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Nos Produits | UNEVIE</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        africanOrange: '#F59E0B',
-                        africanGreen: '#15803D',
-                        africanDark: '#0F172A'
-                    }
-                }
-            }
-        }
-    </script>
+<head
+    th:replace="~{fragments/head :: head (title=#{projects.hero.title_part1} + ' ' + #{projects.hero.title_part2} + ' — UNEVIE')}">
 </head>
 
-<body class="bg-slate-50 text-slate-800">
+<body
+    class="bg-white dark:bg-africanDark text-slate-900 dark:text-white font-sans selection:bg-primary selection:text-white overflow-x-hidden transition-colors duration-500">
 
-<!-- HEADER -->
-<div th:replace="~{fragments/header :: header}"></div>
+    <!-- HEADER -->
+    <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- ================= HERO ================= -->
-<section class="relative py-24 text-white overflow-hidden">
-
-    <img src="/images/voiture.jpeg"
-         class="absolute inset-0 w-full h-full object-cover">
-
-    <div class="absolute inset-0 bg-gradient-to-r from-africanGreen/90 to-africanOrange/80"></div>
-
-    <div class="relative max-w-7xl mx-auto px-6 text-center">
-        <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
-            Nos Produits & Services
-        </h1>
-        <p class="max-w-2xl mx-auto text-white/90 text-lg">
-            Découvrez les meilleures offres disponibles près de chez vous
-        </p>
-    </div>
-</section>
-
-<!-- ================= MESSAGE SUCCÈS ================= -->
-<div th:if="${param.success == 'commande'}"
-     class="max-w-4xl mx-auto mt-8 bg-green-100 text-green-800 px-6 py-4 rounded-xl shadow">
-    ✅ Votre commande a été enregistrée avec succès.
-</div>
-
-<!-- ================= CATÉGORIES ================= -->
-<section class="max-w-7xl mx-auto my-14 px-6">
-
-    <div class="flex flex-wrap justify-center gap-4">
-
-        <a href="/projets"
-           class="categorie-btn px-6 py-2 rounded-full border border-slate-300 bg-white hover:bg-slate-100 transition">
-            Tous
-        </a>
-
-        <a href="/projets?categorie=voitures"
-           class="categorie-btn px-6 py-2 rounded-full bg-africanGreen/10 text-africanGreen hover:bg-africanGreen/20 transition">
-            🚗 Véhicules
-        </a>
-
-        <a href="/projets?categorie=poulets"
-           class="categorie-btn px-6 py-2 rounded-full bg-africanOrange/10 text-africanOrange hover:bg-africanOrange/20 transition">
-            🍗 Poulets
-        </a>
-
-        <a href="/projets?categorie=residences"
-           class="categorie-btn px-6 py-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition">
-            🏠 Résidences
-        </a>
-
-        <a href="/projets?categorie=traiteurs"
-           class="categorie-btn px-6 py-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition">
-            🍽️ Traiteurs
-        </a>
-
-    </div>
-</section>
-
-<!-- ================= PRODUITS ================= -->
-<section class="max-w-7xl mx-auto px-6 pb-24">
-
-    <div th:if="${#lists.isEmpty(produits)}"
-         class="text-center text-slate-500 mt-20 text-lg">
-        Aucun produit disponible pour cette catégorie.
-    </div>
-
-    <div th:if="${!#lists.isEmpty(produits)}"
-         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-
-        <div th:each="p : ${produits}"
-             class="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition">
-
-            <!-- IMAGE -->
-            <div class="relative overflow-hidden">
-                <img th:src="@{'/uploads/' + ${p.imageUrl}}"
-                     class="h-64 w-full object-cover group-hover:scale-110 transition duration-500">
-
-                <span th:if="${p.disponible}"
-                      class="absolute top-4 left-4 bg-green-500 text-white text-xs px-3 py-1 rounded-full shadow">
-                    Disponible
-                </span>
+    <!-- HERO SECTION -->
+    <section
+        class="relative pt-44 pb-32 overflow-hidden border-b border-slate-200 dark:border-white/5 transition-colors duration-500">
+        <!-- Background Image with Dark Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="/images/Whresidencesassinie.jpeg"
+                class="w-full h-full object-cover grayscale opacity-10 dark:opacity-20 scale-105">
+            <div
+                class="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-white dark:from-africanDark dark:via-africanDark/80 dark:to-africanDark">
             </div>
+        </div>
 
-            <!-- CONTENU -->
-            <div class="p-6 space-y-3">
-                <h3 class="text-xl font-bold" th:text="${p.nom}"></h3>
-                <p class="text-sm text-slate-600" th:text="${p.description}"></p>
-
-                <div class="flex items-center justify-between">
-                    <p class="text-xl font-extrabold text-africanOrange"
-                       th:text="${p.prix} + ' FCFA'"></p>
-                </div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10 animate-fadeIn">
+            <div
+                class="inline-flex items-center gap-3 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-6 py-2 rounded-full mb-8">
+                <i class="fa-solid fa-layer-group text-primary text-xs"></i>
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-gray-400"
+                    th:text="#{projects.hero.tag}">Catalogue
+                    d'Excellence</span>
             </div>
+            <h1
+                class="text-5xl md:text-8xl font-black tracking-tighter mb-8 italic uppercase leading-tight text-slate-900 dark:text-white">
+                <span th:text="#{projects.hero.title_part1}">Explorez nos</span> <br><span class="text-primary italic"
+                    th:text="#{projects.hero.title_part2}">Offres Premium</span>
+            </h1>
+            <p class="max-w-xl text-slate-600 dark:text-gray-400 text-lg md:text-xl font-medium leading-relaxed"
+                th:text="#{projects.hero.description}">
+                Une sélection rigoureuse de solutions locales orchestrées pour votre confort.
+            </p>
+        </div>
+    </section>
 
-            <!-- ACTION -->
-            <div class="p-6 pt-0">
-                <a th:if="${p.disponible}"
-                   th:href="@{'/produits/commander/' + ${p.id}}"
-                   class="block w-full text-center bg-africanGreen hover:bg-africanOrange
-                          text-white py-3 rounded-xl font-semibold transition">
-                    Commander
-                </a>
-
-                <button th:if="${!p.disponible}" disabled
-                        class="w-full bg-slate-300 py-3 rounded-xl cursor-not-allowed">
-                    Indisponible
-                </button>
+    <!-- MESSAGE SUCCÈS -->
+    <div th:if="${param.success == 'commande'}" class="max-w-4xl mx-auto mt-12 px-6 animate-fadeIn">
+        <div
+            class="bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white px-8 py-6 rounded-[2.5rem] flex items-center gap-6 shadow-2xl backdrop-blur-md">
+            <div
+                class="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-white text-xl shrink-0 shadow-xl shadow-primary/40">
+                <i class="fa-solid fa-check"></i>
             </div>
-
+            <div>
+                <p class="text-lg font-black italic uppercase tracking-tight text-slate-900 dark:text-white"
+                    th:text="#{projects.success.title}">
+                    Requête Enregistrée</p>
+                <p class="text-slate-500 dark:text-gray-400 text-sm font-medium" th:text="#{projects.success.desc}">
+                    Félicitations ! Notre
+                    cellule opérationnelle vous
+                    contactera sous peu.</p>
+            </div>
         </div>
     </div>
-</section>
 
-<!-- FOOTER -->
-<div th:replace="~{fragments/footer :: footer}"></div>
+    <!-- CATÉGORIES -->
+    <section class="max-w-7xl mx-auto my-20 px-6">
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="/projets"
+                class="categorie-btn px-8 py-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 font-black text-[10px] uppercase tracking-widest text-slate-500 dark:text-gray-400 hover:text-white hover:bg-primary transition-all shadow-xl"
+                th:text="#{projects.filter.all}">
+                Toutes les Solutions
+            </a>
 
-<!-- ================= JS CATÉGORIE ACTIVE ================= -->
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const params = new URLSearchParams(window.location.search);
-        const activeCategorie = params.get("categorie");
+            <a href="/projets?categorie=voitures"
+                class="categorie-btn px-8 py-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 font-black text-[10px] uppercase tracking-widest text-slate-500 dark:text-gray-400 hover:text-white hover:bg-primary transition-all shadow-xl flex items-center gap-3">
+                <i class="fa-solid fa-car text-primary group-hover:text-white transition-colors"></i> <span
+                    th:text="#{projects.filter.cars}">Véhicules</span>
+            </a>
 
-        document.querySelectorAll(".categorie-btn").forEach(btn => {
-            if (
-                (!activeCategorie && btn.textContent.trim() === "Tous") ||
-                (activeCategorie && btn.href.includes("categorie=" + activeCategorie))
-            ) {
-                btn.classList.add("ring", "ring-2", "ring-africanOrange");
-            }
+            <a href="/projets?categorie=poulets"
+                class="categorie-btn px-8 py-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 font-black text-[10px] uppercase tracking-widest text-slate-500 dark:text-gray-400 hover:text-white hover:bg-primary transition-all shadow-xl flex items-center gap-3">
+                <i class="fa-solid fa-drumstick-bite text-primary group-hover:text-white transition-colors"></i> <span
+                    th:text="#{projects.filter.poulets}">Poulets</span>
+            </a>
+
+            <a href="/projets?categorie=residences"
+                class="categorie-btn px-8 py-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 font-black text-[10px] uppercase tracking-widest text-slate-500 dark:text-gray-400 hover:text-white hover:bg-primary transition-all shadow-xl flex items-center gap-3">
+                <i class="fa-solid fa-house text-primary group-hover:text-white transition-colors"></i> <span
+                    th:text="#{projects.filter.residences}">Résidences</span>
+            </a>
+
+            <a href="/projets?categorie=traiteurs"
+                class="categorie-btn px-8 py-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 font-black text-[10px] uppercase tracking-widest text-slate-500 dark:text-gray-400 hover:text-white hover:bg-primary transition-all shadow-xl flex items-center gap-3">
+                <i class="fa-solid fa-utensils text-primary group-hover:text-white transition-colors"></i> <span
+                    th:text="#{projects.filter.traiteurs}">Traiteurs</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- PRODUITS / SOLUTIONS -->
+    <section class="max-w-7xl mx-auto px-6 pb-44">
+
+        <!-- Empty State -->
+        <div th:if="${#lists.isEmpty(produits)}"
+            class="text-center py-32 bg-slate-50 dark:bg-white/5 rounded-[4rem] border border-slate-200 dark:border-white/10 shadow-2xl animate-fadeIn relative overflow-hidden group">
+            <div
+                class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent">
+            </div>
+            <div
+                class="w-24 h-24 bg-white dark:bg-africanDark rounded-3xl flex items-center justify-center mx-auto mb-8 text-slate-300 dark:text-gray-700 text-4xl border border-slate-200 dark:border-white/10 transition-transform group-hover:scale-110">
+                <i class="fa-solid fa-box-open"></i>
+            </div>
+            <h3 class="text-3xl font-black text-slate-900 dark:text-white mb-4 uppercase italic tracking-tighter leading-none"
+                th:text="#{projects.empty.title}">Bientôt
+                Disponible</h3>
+            <p class="text-slate-400 dark:text-gray-500 font-bold uppercase tracking-widest text-[10px]"
+                th:text="#{projects.empty.desc}">
+                Notre cellule d'achat finalise de
+                nouvelles offres.</p>
+        </div>
+
+        <!-- Grid -->
+        <div th:if="${!#lists.isEmpty(produits)}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+
+            <div th:each="p : ${produits}"
+                class="group flex flex-col bg-slate-50 dark:bg-white/5 rounded-[3.5rem] border border-slate-200 dark:border-white/10 overflow-hidden hover:bg-white dark:hover:bg-white/[0.08] hover:border-primary/30 transition-all duration-500 animate-fadeIn shadow-xl dark:shadow-none">
+
+                <!-- IMAGE AREA -->
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img th:src="@{'/uploads/' + ${p.imageUrl}}"
+                        class="h-full w-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition duration-[1.5s]">
+
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-transparent dark:from-africanDark/90 dark:via-africanDark/20 dark:to-transparent">
+                    </div>
+
+                    <div class="absolute top-6 left-8 flex gap-2">
+                        <span th:if="${p.disponible}"
+                            class="bg-white/10 dark:bg-white/10 backdrop-blur-xl border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-full flex items-center gap-2 shadow-lg dark:shadow-none">
+                            <span
+                                class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]"></span>
+                            <span th:text="#{projects.status.available}">Opérationnel</span>
+                        </span>
+                        <span th:unless="${p.disponible}"
+                            class="bg-red-500/20 backdrop-blur-xl border border-red-500/30 text-red-500 text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-full">
+                            <span th:text="#{projects.status.unavailable}">Indisponible</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- CONTENT AREA -->
+                <div class="p-10 flex-grow flex flex-col">
+                    <div class="flex justify-between items-start gap-6 mb-6">
+                        <h3 class="text-2xl font-black leading-[1.1] uppercase italic tracking-tight group-hover:text-primary transition-colors text-slate-900 dark:text-white"
+                            th:text="${p.nom}"></h3>
+                        <div
+                            class="w-12 h-12 bg-white dark:bg-white/5 rounded-2xl flex items-center justify-center text-primary text-lg shrink-0 border border-slate-200 dark:border-white/10 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-md dark:shadow-none">
+                            <i class="fa-solid fa-cube"></i>
+                        </div>
+                    </div>
+
+                    <p class="text-slate-500 dark:text-gray-400 text-sm font-medium leading-relaxed line-clamp-2 mb-8"
+                        th:text="${p.description}"></p>
+
+                    <!-- Price & Action -->
+                    <div class="mt-auto space-y-8">
+                        <div
+                            class="flex items-center justify-between pb-6 border-b border-slate-200 dark:border-white/5">
+                            <div>
+                                <p class="text-[9px] font-black text-slate-400 dark:text-gray-500 uppercase tracking-widest mb-2"
+                                    th:text="#{projects.card.price_tag}">Unité
+                                    Monétaire</p>
+                                <p class="text-3xl font-black text-slate-900 dark:text-white italic"
+                                    th:text="${#numbers.formatDecimal(p.prix, 0, 'COMMA', 0, 'POINT')} + ' FCFA'"></p>
+                            </div>
+                        </div>
+
+                        <a th:if="${p.disponible}" th:href="@{'/produits/commander/' + ${p.id}}"
+                            class="flex items-center justify-center gap-3 w-full bg-primary hover:bg-red-800 text-white py-6 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all transform active:scale-95 shadow-2xl shadow-primary/20">
+                            <span th:text="#{projects.card.order}">Initialiser la Commande</span>
+                            <i
+                                class="fa-solid fa-chevron-right text-[8px] group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+
+                        <button th:if="${!p.disponible}" disabled
+                            class="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-400 dark:text-gray-600 py-6 rounded-2xl font-black uppercase tracking-widest text-[10px] cursor-not-allowed">
+                            <span th:text="#{projects.card.unavailable}">Indisponible Temporairement</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- JS CATÉGORIE ACTIVE -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const activeCategorie = params.get("categorie");
+
+            document.querySelectorAll(".categorie-btn").forEach(btn => {
+                const btnLink = btn.getAttribute("href");
+                if (
+                    (!activeCategorie && btnLink === "/projets") ||
+                    (activeCategorie && btnLink.includes("categorie=" + activeCategorie))
+                ) {
+                    btn.classList.add("border-primary/50", "text-white", "bg-primary", "shadow-primary/20");
+                    btn.classList.remove("bg-slate-50", "dark:bg-white/5", "text-slate-500", "dark:text-gray-400");
+                }
+            });
         });
-    });
-</script>
+    </script>
 
 </body>
+
 </html>

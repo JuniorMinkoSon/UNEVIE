@@ -2,106 +2,232 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <!-- Admin Layout Fragment with Sidebar & Navbar -->
-<div th:fragment="layout(content)">
+<div th:fragment="layout(content)"
+    class="flex h-screen bg-slate-50 dark:bg-africanDark overflow-hidden font-sans text-slate-900 dark:text-white transition-colors duration-500">
+
+    <!-- Sidebar Backdrop (Mobile) -->
+    <div id="sidebarBackdrop"
+        class="fixed inset-0 bg-slate-900/60 z-30 hidden lg:hidden transition-opacity opacity-0 backdrop-blur-sm">
+    </div>
 
     <!-- Sidebar -->
-    <aside class="admin-sidebar" id="adminSidebar">
-        <div class="sidebar-content">
-            <!-- Logo -->
-            <div class="sidebar-logo">
-                <div class="logo"><img th:src="@{/images/logo-baraka.png}" alt="Baraka Synergies Group"
-                        style="height:60px; width:100%">
+    <aside id="adminSidebar"
+        class="admin-sidebar fixed inset-y-0 left-0 z-50 w-72 bg-white/70 dark:bg-africanDark/80 border-r border-slate-200 dark:border-white/5 backdrop-blur-2xl text-slate-900 dark:text-white transform -translate-x-full transition-all duration-500 lg:translate-x-0 lg:static lg:inset-auto shrink-0 flex flex-col">
+        <!-- Logo -->
+        <div class="h-20 flex items-center justify-center border-b border-slate-200/50 dark:border-white/5 px-6">
+            <h1 class="text-2xl font-black tracking-[ -0.05em] text-slate-900 dark:text-white italic uppercase">
+                <span th:text="#{app.logo.text}">UNE</span><span class="text-primary"
+                    th:text="#{app.logo.accent}">VIE</span>
+            </h1>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="flex-1 overflow-y-auto py-8 space-y-2 px-4 scrollbar-hide">
+            <p class="px-4 mb-4 text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]"
+                th:text="#{menu.title}">Menu Principal</p>
+
+            <a th:href="@{/admin/dashboard}"
+                class="nav-item flex items-center px-4 py-3.5 text-slate-500 dark:text-gray-400 rounded-2xl hover:bg-primary/5 dark:hover:bg-primary/10 hover:text-primary dark:hover:text-white transition-all duration-300 group">
+                <div
+                    class="h-10 w-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-white/5 group-hover:bg-primary/20 transition-colors mr-3">
+                    <i class="fa-solid fa-chart-line text-lg group-hover:text-primary transition-colors"></i>
                 </div>
-                <br />
+                <span class="font-bold text-sm tracking-wide" th:text="#{menu.dashboard}">Dashboard</span>
+            </a>
 
-            </div>
+            <a th:href="@{/admin/article/list}"
+                class="nav-item flex items-center px-4 py-3.5 text-gray-400 rounded-2xl hover:bg-primary/10 hover:text-white transition-all duration-300 group">
+                <div
+                    class="h-10 w-10 flex items-center justify-center rounded-xl bg-white/5 group-hover:bg-primary/20 transition-colors mr-3">
+                    <i class="fa-solid fa-newspaper text-lg group-hover:text-primary transition-colors"></i>
+                </div>
+                <span class="font-bold text-sm tracking-wide" th:text="#{menu.articles}">Articles</span>
+            </a>
 
-            <!-- Navigation Menu -->
-            <nav class="sidebar-nav">
-                <a th:href="@{/admin/dashboard}" class="nav-item" data-page="dashboard">
-                    <i class="fa-solid fa-chart-line"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a th:href="@{/admin/article/list}" class="nav-item" data-page="articles">
-                    <i class="fa-solid fa-newspaper"></i>
-                    <span>Articles</span>
-                </a>
-                <a th:href="@{/admin/products}" class="nav-item" data-page="products">
-                    <i class="fa-solid fa-box"></i>
-                    <span>Produits</span>
-                </a>
-                <a th:href="@{/admin/commandes}" class="nav-item" data-page="commandes">
-                    <i class="fa-solid fa-shopping-cart"></i>
-                    <span>Commandes</span>
-                </a>
-                <a th:href="@{/admin/categories}" class="nav-item" data-page="categories">
-                    <i class="fa-solid fa-tags"></i>
-                    <span>Catégories</span>
-                </a>
-            </nav>
+            <a th:href="@{/admin/products}"
+                class="nav-item flex items-center px-4 py-3.5 text-gray-400 rounded-2xl hover:bg-primary/10 hover:text-white transition-all duration-300 group">
+                <div
+                    class="h-10 w-10 flex items-center justify-center rounded-xl bg-white/5 group-hover:bg-primary/20 transition-colors mr-3">
+                    <i class="fa-solid fa-box text-lg group-hover:text-primary transition-colors"></i>
+                </div>
+                <span class="font-bold text-sm tracking-wide" th:text="#{menu.products}">Produits</span>
+            </a>
 
-            <!-- User Profile Section -->
-            <div class="sidebar-user">
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit" class="btn">
-                        <i class="fa-solid fa-sign-out-alt"></i>
-                        <span>Déconnexion</span>
-                    </button>
-                </form>
+            <a th:href="@{/admin/commandes}"
+                class="nav-item flex items-center px-4 py-3.5 text-gray-400 rounded-2xl hover:bg-primary/10 hover:text-white transition-all duration-300 group">
+                <div
+                    class="h-10 w-10 flex items-center justify-center rounded-xl bg-white/5 group-hover:bg-primary/20 transition-colors mr-3">
+                    <i class="fa-solid fa-shopping-cart text-lg group-hover:text-primary transition-colors"></i>
+                </div>
+                <span class="font-bold text-sm tracking-wide" th:text="#{menu.orders}">Commandes</span>
+            </a>
+
+            <a th:href="@{/admin/categories}"
+                class="nav-item flex items-center px-4 py-3.5 text-gray-400 rounded-2xl hover:bg-primary/10 hover:text-white transition-all duration-300 group">
+                <div
+                    class="h-10 w-10 flex items-center justify-center rounded-xl bg-white/5 group-hover:bg-primary/20 transition-colors mr-3">
+                    <i class="fa-solid fa-tags text-lg group-hover:text-primary transition-colors"></i>
+                </div>
+                <span class="font-bold text-sm tracking-wide" th:text="#{menu.categories}">Catégories</span>
+            </a>
+
+            <a th:href="@{/admin/prestataires}"
+                class="nav-item flex items-center px-4 py-3.5 text-gray-400 rounded-2xl hover:bg-primary/10 hover:text-white transition-all duration-300 group">
+                <div
+                    class="h-10 w-10 flex items-center justify-center rounded-xl bg-white/5 group-hover:bg-primary/20 transition-colors mr-3">
+                    <i class="fa-solid fa-users text-lg group-hover:text-primary transition-colors"></i>
+                </div>
+                <span class="font-bold text-sm tracking-wide" th:text="#{menu.providers}">Prestataires</span>
+            </a>
+        </nav>
+
+        <!-- Sidebar User (Mobile) -->
+        <div class="p-6 border-t border-white/5 lg:hidden">
+            <div class="flex items-center p-3 bg-white/5 rounded-2xl">
+                <div class="h-10 w-10 bg-primary/20 text-primary rounded-xl flex items-center justify-center">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm font-black text-white" sec:authentication="name">Admin</p>
+                    <p class="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Administrateur</p>
+                </div>
             </div>
         </div>
     </aside>
 
     <!-- Main Content Wrapper -->
-    <div class="admin-main-wrapper">
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+
+        <!-- Background Accents -->
+        <div
+            class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -z-10 pointer-events-none transition-opacity duration-1000">
+        </div>
 
         <!-- Top Navbar -->
-        <header class="admin-navbar">
-            <div class="navbar-left">
-                <button class="sidebar-toggle" id="sidebarToggle">
-                    <i class="fa-solid fa-bars"></i>
+        <header
+            class="h-20 bg-white/60 dark:bg-africanDark/60 border-b border-slate-200/50 dark:border-white/5 backdrop-blur-2xl flex items-center justify-between px-6 lg:px-10 z-40 text-slate-900 dark:text-white transition-all duration-500">
+            <!-- Left: Toggle & Breadcrumb -->
+            <div class="flex items-center gap-6">
+                <button id="sidebarToggle"
+                    class="h-10 w-10 flex items-center justify-center bg-white/5 rounded-xl text-gray-400 hover:text-white hover:bg-primary/20 transition-all focus:outline-none">
+                    <i class="fa-solid fa-bars-staggered text-lg"></i>
                 </button>
-
-                <div class="search-bar">
-                    <i class="fa-solid fa-search"></i>
-                    <input type="text" placeholder="Rechercher...">
+                <div class="hidden md:block text-slate-900 dark:text-white">
+                    <h2 class="text-xs font-black text-slate-500 dark:text-gray-500 uppercase tracking-[0.2em] mb-0.5"
+                        th:text="#{nav.space_management}">Espace Gestion</h2>
+                    <p class="text-lg font-black italic uppercase tracking-tight" th:text="#{nav.control_panel}">Panneau
+                        de Contrôle</p>
                 </div>
             </div>
 
-            <div class="navbar-right">
+            <!-- Right: Search & i18n & User -->
+            <div class="flex items-center gap-6">
                 <!-- Search Bar -->
-
-
-                <!-- Notifications -->
-                <div class="navbar-icon" id="notificationBtn">
-                    <i class="fa-solid fa-bell"></i>
-                    <span class="badge">3</span>
+                <div
+                    class="hidden lg:flex items-center bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl px-5 py-2.5 focus-within:border-primary/50 focus-within:bg-white dark:focus-within:bg-white/10 transition-all w-64 group shadow-sm dark:shadow-none">
+                    <i
+                        class="fa-solid fa-magnifying-glass text-slate-400 dark:text-gray-500 group-focus-within:text-primary text-sm"></i>
+                    <input type="text" th:placeholder="#{nav.search.placeholder}"
+                        class="bg-transparent border-none focus:ring-0 text-sm ml-3 w-full text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 font-medium">
                 </div>
 
-                <!-- User Dropdown -->
-                <div class="user-dropdown">
-                    <button class="user-btn" id="userDropdownBtn">
-                        <div class="user-avatar-sm">
-                            <i class="fa-solid fa-user-circle"></i>
+                <!-- Theme Toggle -->
+                <button id="themeToggle"
+                    class="h-11 w-11 flex items-center justify-center bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl text-slate-500 dark:text-gray-400 hover:text-primary transition-all group focus:outline-none">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block"></i>
+                </button>
+
+                <!-- Language Selector -->
+                <div class="relative lang-dropdown">
+                    <button id="langDropdownBtn"
+                        class="h-11 w-11 flex items-center justify-center bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl text-slate-500 dark:text-gray-400 hover:text-primary transition-all group focus:outline-none">
+                        <span id="currentFlag" class="text-lg"
+                            th:text="${#locale.language == 'en' ? '🇺🇸' : (#locale.language == 'zh' ? '🇨🇳' : '🇫🇷')}">🇫🇷</span>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div id="langDropdownMenu"
+                        class="absolute right-0 mt-4 w-48 bg-white dark:bg-africanDark/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-slate-200 dark:border-white/10 py-3 hidden opacity-0 scale-95 transition-all duration-300 transform origin-top-right z-50">
+                        <button onclick="changeLanguage('fr')"
+                            class="w-full flex items-center px-5 py-3 text-sm text-slate-500 dark:text-gray-400 hover:bg-primary/10 hover:text-primary transition-colors mx-2 rounded-2xl group text-left">
+                            <span class="mr-3">🇫🇷</span> <span class="font-bold">Français</span>
+                        </button>
+                        <button onclick="changeLanguage('en')"
+                            class="w-full flex items-center px-5 py-3 text-sm text-slate-500 dark:text-gray-400 hover:bg-primary/10 hover:text-primary transition-colors mx-2 rounded-2xl group text-left">
+                            <span class="mr-3">🇺🇸</span> <span class="font-bold">English</span>
+                        </button>
+                        <button onclick="changeLanguage('zh')"
+                            class="w-full flex items-center px-5 py-3 text-sm text-slate-500 dark:text-gray-400 hover:bg-primary/10 hover:text-primary transition-colors mx-2 rounded-2xl group text-left">
+                            <span class="mr-3">🇨🇳</span> <span class="font-bold">中文 (Chinese)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notifications -->
+                <button id="notificationBtn"
+                    class="relative h-11 w-11 flex items-center justify-center bg-slate-100 dark:bg-white/5 rounded-2xl text-slate-500 dark:text-gray-400 hover:text-primary transition-all group">
+                    <i class="fa-solid fa-bell text-lg"></i>
+                    <span
+                        class="absolute top-2 right-2 h-4 w-4 bg-primary text-white text-[9px] font-black flex items-center justify-center rounded-full border-2 border-white dark:border-africanDark">3</span>
+                </button>
+
+                <!-- User Dropdown & Profile -->
+                <div class="relative user-dropdown">
+                    <button id="userDropdownBtn"
+                        class="flex items-center gap-3 focus:outline-none group p-1.5 pr-4 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl hover:bg-slate-200 dark:hover:bg-white/10 transition-all">
+                        <div
+                            class="h-9 w-9 bg-primary/20 text-primary rounded-xl flex items-center justify-center border border-primary/20 transition-all group-hover:scale-95">
+                            <i class="fa-solid fa-user-gear"></i>
                         </div>
-                        <span sec:authentication="name">Admin</span>
-                        <i class="fa-solid fa-chevron-down"></i>
+                        <div class="hidden md:block text-left">
+                            <p class="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider"
+                                sec:authentication="name">
+                                Admin</p>
+                            <p class="text-[9px] font-bold text-slate-500 dark:text-gray-500 uppercase tracking-widest">
+                                Admin</p>
+                        </div>
+                        <i
+                            class="fa-solid fa-chevron-down text-[10px] text-slate-500 dark:text-gray-500 group-hover:text-primary transition-colors ml-1"></i>
                     </button>
 
-                    <div class="admin-dropdown-menu" id="userDropdownMenu">
-                        <a th:href="@{/admin/profile}" class="admin-dropdown-item">
-                            <i class="fa-solid fa-user"></i>
-                            <span>Mon Profil</span>
+                    <!-- Dropdown Menu -->
+                    <div id="userDropdownMenu"
+                        class="absolute right-0 mt-4 w-60 bg-white dark:bg-africanDark/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-slate-200 dark:border-white/10 py-3 hidden opacity-0 scale-95 transition-all duration-300 transform origin-top-right z-50">
+                        <div class="px-5 py-4 border-b border-slate-200 dark:border-white/5 mb-2">
+                            <p class="text-xs font-black text-slate-900 dark:text-white uppercase tracking-[0.1em]"
+                                sec:authentication="name">Utilisateur</p>
+                            <p class="text-[10px] font-bold text-slate-500 dark:text-gray-500 truncate mt-1">
+                                session.active@unevie.com</p>
+                        </div>
+
+                        <a th:href="@{/admin/profile}"
+                            class="flex items-center px-5 py-3 text-sm text-slate-500 dark:text-gray-400 hover:bg-primary/10 hover:text-primary transition-colors mx-2 rounded-2xl group">
+                            <div
+                                class="h-8 w-8 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-white/5 group-hover:bg-primary/20 mr-3">
+                                <i class="fa-solid fa-id-card-clip text-xs"></i>
+                            </div>
+                            <span class="font-bold" th:text="#{nav.profile}">Mon Profil</span>
                         </a>
-                        <a th:href="@{/admin/settings}" class="admin-dropdown-item">
-                            <i class="fa-solid fa-cog"></i>
-                            <span>Paramètres</span>
+                        <a th:href="@{/admin/settings}"
+                            class="flex items-center px-5 py-3 text-sm text-slate-500 dark:text-gray-400 hover:bg-primary/10 hover:text-primary transition-colors mx-2 rounded-2xl group">
+                            <div
+                                class="h-8 w-8 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-white/5 group-hover:bg-primary/20 mr-3">
+                                <i class="fa-solid fa-sliders text-xs"></i>
+                            </div>
+                            <span class="font-bold" th:text="#{nav.settings}">Paramètres</span>
                         </a>
-                        <div class="dropdown-divider"></div>
-                        <form th:action="@{/logout}" method="post" style="margin: 0;">
-                            <button type="submit" class="admin-dropdown-item logout-btn">
-                                <i class="fa-solid fa-sign-out-alt"></i>
-                                <span>Déconnexion</span>
+
+                        <div class="border-t border-slate-200 dark:border-white/5 my-2 mx-5"></div>
+
+                        <form th:action="@{/logout}" method="post" class="m-0 px-2">
+                            <button type="submit"
+                                class="w-full flex items-center px-3 py-3 text-sm text-red-500 hover:bg-red-500/10 transition-colors rounded-2xl group">
+                                <div
+                                    class="h-8 w-8 flex items-center justify-center rounded-lg bg-red-500/10 group-hover:bg-red-500/20 mr-3">
+                                    <i class="fa-solid fa-power-off text-xs"></i>
+                                </div>
+                                <span class="font-black uppercase tracking-widest text-[10px]"
+                                    th:text="#{nav.logout}">Déconnexion</span>
                             </button>
                         </form>
                     </div>
@@ -110,21 +236,16 @@
         </header>
 
         <!-- Main Content Area -->
-        <main class="admin-content">
-            <div th:replace="${content}"></div>
+        <main class="flex-1 overflow-y-auto p-8 lg:p-12 bg-slate-50 dark:bg-africanDark transition-colors">
+            <div class="max-w-7xl mx-auto">
+                <div th:replace="${content}"></div>
+            </div>
         </main>
     </div>
 
-    <!-- Mobile Sidebar Backdrop -->
-    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
-
-    <!-- Bootstrap JS Bundle (includes Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
-
-    <!-- Admin Dashboard JavaScript -->
+    <!-- Admin Dashboard JavaScript (Consolidated) -->
     <script th:src="@{/js/admin-dashboard.js}"></script>
+</div>
 </div>
 
 </html>

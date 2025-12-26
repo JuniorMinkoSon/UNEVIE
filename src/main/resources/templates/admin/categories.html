@@ -2,61 +2,98 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <div th:replace="~{fragments/head :: head (title='Admin - Gestion des Catégories')}"></div>
-    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+    <div th:replace="~{fragments/admin-head :: head(title='Admin - Gestion des Catégories')}"></div>
 </head>
 
 <body>
     <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
-        <section>
-            <div class="container-fluid">
+        <section class="animate-fadeIn">
+            <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
                 <!-- Header -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h1 class="h3 fw-bold text-gray-800">
-                        <i class="fa-solid fa-tags text-primary me-2"></i>
-                        Gestion des Catégories
-                    </h1>
-                    <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal"
-                        data-bs-target="#addCategoryModal">
-                        <i class="fa-solid fa-plus me-2"></i> Nouvelle Catégorie
+                <div
+                    class="flex justify-between items-center mb-8 bg-white dark:bg-white/5 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-white/5 backdrop-blur-xl">
+                    <div>
+                        <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                            <i class="fa-solid fa-tags text-primary mr-3"></i>
+                            Gestion des Catégories
+                        </h1>
+                        <p class="text-slate-500 dark:text-gray-400 mt-1">Gerez les catégories de produits et services
+                            de la plateforme.</p>
+                    </div>
+                    <button type="button"
+                        class="bg-primary hover:bg-red-800 text-white font-bold py-3 px-6 rounded-xl transition-all transform hover:scale-105 shadow-md flex items-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                        onclick="document.getElementById('addCategoryModal').classList.remove('hidden'); document.getElementById('modalBackdrop').classList.remove('hidden')">
+                        <i class="fa-solid fa-plus mr-2"></i> Nouvelle Catégorie
                     </button>
                 </div>
 
                 <!-- 📋 Liste des catégories -->
-                <div class="glass-card shadow-sm border-0">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="fw-bold m-0 text-primary">Liste existante</h5>
-                        <span class="badge bg-primary rounded-pill" th:text="${#lists.size(categories)} + ' items'">0
-                            items</span>
+                <div
+                    class="bg-white dark:bg-white/5 rounded-2xl shadow-sm border border-slate-200 dark:border-white/5 overflow-hidden animate-slideUp">
+                    <div
+                        class="px-6 py-4 border-b border-slate-200 dark:border-white/5 flex justify-between items-center bg-slate-50/50 dark:bg-white/5">
+                        <h5 class="text-lg font-bold text-slate-900 dark:text-white flex items-center">
+                            <i class="fa-solid fa-list-ul mr-2 text-primary"></i>
+                            Liste existante
+                        </h5>
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-primary/10 text-primary"
+                            th:text="${#lists.size(categories)} + ' items'">
+                            0 items
+                        </span>
                     </div>
 
-                    <div class="table-responsive">
-                        <table class="table align-middle table-hover mb-0">
-                            <thead class="bg-light">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-slate-100 dark:bg-white/5">
                                 <tr>
-                                    <th class="py-3 text-secondary text-uppercase small fw-bold">ID</th>
-                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Libellé</th>
-                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Description</th>
-                                    <th class="py-3 text-secondary text-uppercase small fw-bold text-end">Actions</th>
+                                    <th class="py-4 px-6 text-xs font-bold text-gray-500 uppercase tracking-wider">ID
+                                    </th>
+                                    <th class="py-4 px-6 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Libellé</th>
+                                    <th class="py-4 px-6 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Description</th>
+                                    <th class="py-4 px-6 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Création</th>
+                                    <th class="py-4 px-6 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        Modification</th>
+                                    <th
+                                        class="py-4 px-6 text-xs font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider text-right">
+                                        Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="divide-y divide-slate-200 dark:divide-white/5">
                                 <tr th:if="${#lists.isEmpty(categories)}">
-                                    <td colspan="4" class="text-center py-5 text-muted">
-                                        <i class="fa-solid fa-tags fa-3x mb-3 d-block opacity-50"></i>
-                                        Aucune catégorie pour le moment.
+                                    <td colspan="4" class="text-center py-20 text-slate-500 dark:text-gray-500">
+                                        <div class="flex flex-col items-center border-none">
+                                            <i class="fa-solid fa-tags text-6xl mb-4 opacity-20"></i>
+                                            <p class="text-xl font-medium">Aucune catégorie pour le moment.</p>
+                                        </div>
                                     </td>
                                 </tr>
-                                <tr th:each="cat : ${categories}">
-                                    <td class="text-muted fw-bold" th:text="'#' + ${cat.id}">#1</td>
-                                    <td>
-                                        <span class="fw-bold text-dark" th:text="${cat.libelle}">Nom</span>
+                                <tr th:each="cat : ${categories}" class="hover:bg-slate-500/5 transition-colors group">
+                                    <td class="py-4 px-6 text-sm font-mono text-slate-400 dark:text-gray-500"
+                                        th:text="'#' + ${cat.id}">#1
                                     </td>
-                                    <td class="text-muted small" th:text="${cat.description}">Desc</td>
-                                    <td class="text-end">
+                                    <td class="py-4 px-6">
+                                        <span
+                                            class="font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors text-lg"
+                                            th:text="${cat.libelle}">Nom</span>
+                                    </td>
+                                    <td class="py-4 px-6">
+                                        <p class="text-slate-500 dark:text-gray-400 text-sm max-w-md truncate"
+                                            th:text="${cat.description} ?: 'Aucune description'">Desc</p>
+                                    </td>
+                                    <td class="py-4 px-6 text-xs text-slate-500 font-medium"
+                                        th:text="${#temporals.format(cat.created_at, 'dd/MM/yyyy HH:mm')}">
+                                    </td>
+                                    <td class="py-4 px-6 text-xs text-slate-500 font-medium"
+                                        th:text="${#temporals.format(cat.updated_at, 'dd/MM/yyyy HH:mm')}">
+                                    </td>
+                                    <td class="py-4 px-6 text-right">
                                         <a th:href="@{'/admin/categories/delete/' + ${cat.id}}"
-                                            class="btn btn-sm btn-outline-danger rounded-circle"
-                                            onclick="return confirm('Confirmer la suppression ?')">
+                                            class="inline-flex items-center justify-center p-2 rounded-lg text-slate-400 dark:text-gray-500 hover:bg-red-500/10 hover:text-red-600 transition-all border border-transparent hover:border-red-500/20 shadow-sm"
+                                            onclick="return confirm('Confirmer la suppression ?')" title="Supprimer">
                                             <i class="fa-solid fa-trash"></i>
                                         </a>
                                     </td>
@@ -66,41 +103,54 @@
                     </div>
                 </div>
 
-                <!-- 🛠 MODAL AJOUT CATÉGORIE -->
-                <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px; overflow: hidden;">
-                            <div class="modal-header bg-primary text-white border-0">
-                                <h5 class="modal-title fw-bold" id="addCategoryModalLabel">
-                                    <i class="fa-solid fa-folder-plus me-2"></i> Ajouter une catégorie
-                                </h5>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <form th:action="@{/admin/categories/save}" th:object="${categorie}" method="post">
-                                <div class="modal-body p-4">
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold text-dark">Libellé de la catégorie</label>
-                                        <input type="text" class="form-control form-control-lg bg-light border-0"
-                                            th:field="*{libelle}" placeholder="Ex: Électronique, Mode..." required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label fw-bold text-dark">Description (optionnel)</label>
-                                        <textarea class="form-control bg-light border-0" rows="4"
-                                            th:field="*{description}"
-                                            placeholder="Une courte description..."></textarea>
-                                    </div>
-                                </div>
-                                <div class="modal-footer border-0 bg-light p-3">
-                                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4"
-                                        data-bs-dismiss="modal">Annuler</button>
-                                    <button type="submit" class="btn btn-primary rounded-pill px-5 fw-bold">
-                                        Enregistrer
-                                    </button>
-                                </div>
-                            </form>
+                <!-- 🛠 MODAL AJOUT CATÉGORIE (Custom Tailwind Modal) -->
+                <div id="modalBackdrop"
+                    class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] hidden transition-opacity duration-300">
+                </div>
+                <div id="addCategoryModal"
+                    class="fixed inset-0 z-[70] hidden flex items-center justify-center p-4 animate-fadeIn">
+                    <div
+                        class="bg-white dark:bg-africanDark rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden transform transition-all border border-slate-200 dark:border-white/5">
+                        <div class="bg-primary p-6 text-white flex justify-between items-center">
+                            <h5 class="text-xl font-bold flex items-center">
+                                <i class="fa-solid fa-folder-plus mr-3"></i> Ajouter une catégorie
+                            </h5>
+                            <button type="button" class="text-white/80 hover:text-white transition-colors"
+                                onclick="document.getElementById('addCategoryModal').classList.add('hidden'); document.getElementById('modalBackdrop').classList.add('hidden')">
+                                <i class="fa-solid fa-xmark text-2xl"></i>
+                            </button>
                         </div>
+                        <form th:action="@{/admin/categories/save}" th:object="${categorie}" method="post"
+                            class="p-8 space-y-6">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 dark:text-gray-300 mb-2">Libellé de
+                                    la
+                                    catégorie</label>
+                                <input type="text"
+                                    class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600"
+                                    th:field="*{libelle}" placeholder="Ex: Électronique, Mode..." required>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm font-bold text-slate-700 dark:text-gray-300 mb-2">Description
+                                    (optionnel)</label>
+                                <textarea
+                                    class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600"
+                                    rows="4" th:field="*{description}"
+                                    placeholder="Une courte description..."></textarea>
+                            </div>
+                            <div class="flex gap-4 pt-4">
+                                <button type="button"
+                                    class="flex-1 bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-slate-700 dark:text-gray-300 font-bold py-3 rounded-xl transition-all"
+                                    onclick="document.getElementById('addCategoryModal').classList.add('hidden'); document.getElementById('modalBackdrop').classList.add('hidden')">
+                                    Annuler
+                                </button>
+                                <button type="submit"
+                                    class="flex-1 bg-primary hover:bg-red-800 text-white font-bold py-3 rounded-xl shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.98]">
+                                    Enregistrer
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 

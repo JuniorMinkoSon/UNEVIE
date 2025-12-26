@@ -1,215 +1,261 @@
 <!DOCTYPE html>
-<html lang="fr"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <meta charset="UTF-8">
-    <title>À propos | UNEVIE</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        africanOrange: '#F59E0B',
-                        africanGreen: '#15803D',
-                        africanDark: '#0F172A'
-                    }
-                }
-            }
-        }
-    </script>
+<head
+    th:replace="~{fragments/head :: head (title=#{about.hero.title_part1} + ' ' + #{about.hero.title_part2} + ' — UNEVIE')}">
 </head>
 
-<body class="bg-slate-50 text-slate-800">
+<body
+    class="bg-white dark:bg-africanDark text-slate-900 dark:text-white font-sans selection:bg-primary selection:text-white overflow-x-hidden transition-colors duration-500">
 
-<!-- ================= HEADER ================= -->
-<div th:replace="~{fragments/header :: header}"></div>
+    <!-- HEADER -->
+    <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- ================= HERO IMMERSIF ================= -->
-<section class="relative py-28 text-white overflow-hidden">
-
-    <img src="/images/voiture.jpeg"
-         class="absolute inset-0 w-full h-full object-cover">
-
-    <div class="absolute inset-0 bg-gradient-to-r from-africanGreen/90 to-africanOrange/80"></div>
-
-    <div class="relative max-w-7xl mx-auto px-6 text-center">
-        <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
-            À propos de <span class="underline">UNEVIE</span>
-        </h1>
-        <p class="max-w-3xl mx-auto text-white/90 text-lg">
-            La plateforme ivoirienne qui simplifie la réservation de services,
-            de véhicules et de résidences, partout en Côte d’Ivoire.
-        </p>
-    </div>
-</section>
-
-<!-- ================= PRÉSENTATION ================= -->
-<section class="max-w-7xl mx-auto px-6 py-24">
-    <div class="grid md:grid-cols-2 gap-16 items-center">
-
-        <div>
-            <span class="text-africanOrange font-semibold uppercase text-sm">
-                Qui sommes-nous
-            </span>
-
-            <h2 class="text-3xl font-extrabold mt-2 mb-6">
-                UNEVIE, une solution pensée pour l’Afrique
-            </h2>
-
-            <p class="text-slate-600 mb-5 leading-relaxed">
-                <strong>UNEVIE</strong> est une plateforme numérique ivoirienne
-                conçue pour connecter <strong>prestataires</strong>,
-                <strong>propriétaires</strong> et <strong>clients</strong>
-                sur un même espace fiable et intuitif.
-            </p>
-
-            <p class="text-slate-600 mb-5 leading-relaxed">
-                Nous facilitons la <strong>location de véhicules</strong>,
-                la <strong>réservation de résidences</strong> et l’accès à des
-                <strong>services événementiels et alimentaires</strong>,
-                en tenant compte de votre localisation.
-            </p>
-
-            <p class="text-slate-600 leading-relaxed">
-                Basée à <strong>Abidjan</strong>, UNEVIE répond aux réalités locales
-                avec une technologie moderne, simple et sécurisée.
-            </p>
+    <!-- HERO SECTION -->
+    <section
+        class="relative pt-44 pb-32 overflow-hidden border-b border-slate-200 dark:border-white/5 transition-colors duration-500">
+        <!-- Background Image with Dark Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="/images/voiture.jpeg"
+                class="w-full h-full object-cover grayscale opacity-10 dark:opacity-20 scale-110">
+            <div
+                class="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-white dark:from-africanDark dark:via-africanDark/80 dark:to-africanDark">
+            </div>
         </div>
 
-        <div class="rounded-3xl overflow-hidden shadow-2xl">
-            <img src="/images/vision.jpg"
-                 alt="Vision UNEVIE"
-                 class="w-full h-96 object-cover">
+        <!-- Decor -->
+        <div
+            class="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 dark:bg-primary/10 rounded-full blur-[120px] -z-10">
         </div>
 
-    </div>
-</section>
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center animate-fadeIn">
+            <div
+                class="inline-flex items-center gap-3 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-6 py-2 rounded-full mb-8">
+                <i class="fa-solid fa-earth-africa text-primary text-xs"></i>
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-gray-400"
+                    th:text="#{about.hero.tag}">Genèse d'une vision</span>
+            </div>
+            <h1
+                class="text-5xl md:text-8xl font-black tracking-tighter mb-8 italic uppercase text-slate-900 dark:text-white">
+                <span th:text="#{about.hero.title_part1}">L'âme de</span> <span class="text-primary italic"
+                    th:text="#{about.hero.title_part2}">UNEVIE</span>
+            </h1>
+            <p class="max-w-3xl mx-auto text-slate-600 dark:text-gray-400 text-lg md:text-xl font-medium leading-relaxed"
+                th:text="#{about.hero.description}">
+                Plus qu'une plateforme, une réponse technologique aux défis de mobility et d'habitat en Côte d'Ivoire.
+            </p>
+        </div>
+    </section>
 
-<!-- ================= MISSION ================= -->
-<section class="bg-white py-24">
-    <div class="max-w-7xl mx-auto px-6 text-center">
-
-        <span class="text-africanGreen font-semibold uppercase text-sm">
-            Notre mission
-        </span>
-
-        <h2 class="text-3xl font-extrabold mt-2 mb-6">
-            Simplifier le quotidien grâce au digital
-        </h2>
-
-        <p class="text-slate-600 max-w-3xl mx-auto mb-16">
-            Offrir un accès rapide, sécurisé et transparent aux services
-            essentiels de mobilité, d’hébergement et de réservation.
-        </p>
-
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
-
-            <div class="bg-slate-50 rounded-3xl shadow-lg p-8 hover:shadow-xl transition">
-                <i class="fas fa-map-marker-alt text-africanGreen text-4xl mb-5"></i>
-                <h3 class="font-bold text-lg mb-2">Géolocalisation intelligente</h3>
-                <p class="text-sm text-slate-600">
-                    Des offres adaptées à votre position, en temps réel.
-                </p>
+    <!-- PRESENTATION -->
+    <section class="max-w-7xl mx-auto px-6 py-32">
+        <div class="grid lg:grid-cols-2 gap-24 items-center">
+            <div class="animate-slideUp">
+                <span class="text-primary font-black uppercase tracking-widest text-[10px] mb-6 block"
+                    th:text="#{about.identity.tag}">Notre
+                    Identité</span>
+                <h2
+                    class="text-4xl md:text-5xl font-black tracking-tighter italic uppercase mb-10 leading-tight text-slate-900 dark:text-white">
+                    <span th:text="#{about.identity.title_part1}">Une solution</span> <br><span class="text-primary"
+                        th:text="#{about.identity.title_part2}">Souveraine & Moderne</span>
+                </h2>
+                <div class="space-y-6 text-slate-600 dark:text-gray-400 text-lg font-medium leading-relaxed">
+                    <p th:text="#{about.identity.p1}"></p>
+                    <p th:text="#{about.identity.p2}"></p>
+                    <p th:text="#{about.identity.p3}"></p>
+                </div>
             </div>
 
-            <div class="bg-slate-50 rounded-3xl shadow-lg p-8 hover:shadow-xl transition">
-                <i class="fas fa-shield-alt text-africanGreen text-4xl mb-5"></i>
-                <h3 class="font-bold text-lg mb-2">Sécurité & confiance</h3>
-                <p class="text-sm text-slate-600">
-                    Prestataires vérifiés et paiements sécurisés.
-                </p>
+            <div class="relative group animate-fadeIn" style="animation-delay: 300ms;">
+                <div
+                    class="absolute -inset-4 bg-primary/10 dark:bg-primary/20 rounded-[4rem] blur-2xl group-hover:bg-primary/30 transition-all duration-700">
+                </div>
+                <div
+                    class="relative rounded-[3.5rem] overflow-hidden border border-slate-200 dark:border-white/10 shadow-2xl">
+                    <img src="/images/vision.jpg" alt="Vision UNEVIE"
+                        class="w-full h-[32rem] object-cover group-hover:scale-105 transition-transform duration-1000 grayscale group-hover:grayscale-0">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-transparent dark:from-africanDark dark:via-transparent dark:to-transparent">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MISSION & PILLIERS -->
+    <section
+        class="bg-slate-50 dark:bg-white/[0.02] border-y border-slate-200 dark:border-white/5 py-32 transition-colors duration-500">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-24 animate-fadeIn">
+                <span class="text-primary font-black uppercase tracking-widest text-[10px] mb-4 block"
+                    th:text="#{about.mission.tag}">Notre
+                    Mission</span>
+                <h2
+                    class="text-4xl md:text-6xl font-black tracking-tighter italic uppercase text-slate-900 dark:text-white">
+                    <span th:text="#{about.mission.title_part1}">Propulser le</span> <span class="text-primary"
+                        th:text="#{about.mission.title_part2}">Quotidien</span>
+                </h2>
             </div>
 
-            <div class="bg-slate-50 rounded-3xl shadow-lg p-8 hover:shadow-xl transition">
-                <i class="fas fa-bolt text-africanGreen text-4xl mb-5"></i>
-                <h3 class="font-bold text-lg mb-2">Rapidité & simplicité</h3>
-                <p class="text-sm text-slate-600">
-                    Une expérience fluide, accessible à tous.
-                </p>
+            <div class="grid md:grid-cols-3 gap-10">
+                <!-- Card 1 -->
+                <div
+                    class="group bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-10 rounded-[3rem] hover:bg-slate-50 dark:hover:bg-white/[0.08] hover:border-primary/30 transition-all duration-500 animate-slideUp shadow-xl dark:shadow-none">
+                    <div
+                        class="w-16 h-16 bg-slate-100 dark:bg-white/5 rounded-2xl flex items-center justify-center text-primary text-2xl mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-md dark:shadow-none">
+                        <i class="fas fa-map-location-dot"></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-4 tracking-tight uppercase text-slate-900 dark:text-white"
+                        th:text="#{about.mission.p1_title}">
+                        Intelligence Spatiale</h3>
+                    <p class="text-slate-500 dark:text-gray-400 font-medium leading-relaxed"
+                        th:text="#{about.mission.p1_desc}">Algorithmes
+                        de proximité pour des offres
+                        ultra-locales et pertinentes en temps réel.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="group bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-10 rounded-[3rem] hover:bg-slate-50 dark:hover:bg-white/[0.08] hover:border-primary/30 transition-all duration-500 animate-slideUp shadow-xl dark:shadow-none"
+                    style="animation-delay: 100ms;">
+                    <div
+                        class="w-16 h-16 bg-slate-100 dark:bg-white/5 rounded-2xl flex items-center justify-center text-primary text-2xl mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-md dark:shadow-none">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-4 tracking-tight uppercase text-slate-900 dark:text-white"
+                        th:text="#{about.mission.p2_title}">
+                        Confiance Certifiée</h3>
+                    <p class="text-slate-500 dark:text-gray-400 font-medium leading-relaxed"
+                        th:text="#{about.mission.p2_desc}">Vérification
+                        rigoureuse des prestataires et
+                        sécurisation des flux financiers.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="group bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-10 rounded-[3rem] hover:bg-slate-50 dark:hover:bg-white/[0.08] hover:border-primary/30 transition-all duration-500 animate-slideUp shadow-xl dark:shadow-none"
+                    style="animation-delay: 200ms;">
+                    <div
+                        class="w-16 h-16 bg-slate-100 dark:bg-white/5 rounded-2xl flex items-center justify-center text-primary text-2xl mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-md dark:shadow-none">
+                        <i class="fas fa-bolt-lightning"></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-4 tracking-tight uppercase text-slate-900 dark:text-white"
+                        th:text="#{about.mission.p3_title}">
+                        Zéro Friction</h3>
+                    <p class="text-slate-500 dark:text-gray-400 font-medium leading-relaxed"
+                        th:text="#{about.mission.p3_desc}">Interface
+                        intuitive pensée pour la rapidité
+                        d'exécution et la simplicité mobile.</p>
+                </div>
             </div>
-
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- ================= VALEURS ================= -->
-<section class="max-w-7xl mx-auto px-6 py-24">
-
-    <div class="text-center mb-16">
-        <span class="text-africanOrange font-semibold uppercase text-sm">
-            Nos valeurs
-        </span>
-        <h2 class="text-3xl font-extrabold mt-2">
-            Ce qui guide UNEVIE
-        </h2>
-    </div>
-
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
-
-        <div class="bg-white rounded-2xl shadow p-6 text-center hover:shadow-lg transition">
-            <i class="fas fa-handshake text-africanOrange text-3xl mb-3"></i>
-            <h3 class="font-bold mb-2">Confiance</h3>
-            <p class="text-sm text-slate-600">
-                Transparence et respect.
-            </p>
+    <!-- VALEURS -->
+    <section class="max-w-7xl mx-auto px-6 py-32">
+        <div class="flex flex-col md:flex-row items-end justify-between mb-20 animate-fadeIn">
+            <div>
+                <span class="text-primary font-black uppercase tracking-widest text-[10px] mb-4 block"
+                    th:text="#{about.values.tag}">Notre ADN</span>
+                <h2
+                    class="text-4xl md:text-5xl font-black tracking-tighter italic uppercase text-slate-900 dark:text-white">
+                    <span th:text="#{about.values.title_part1}">Les</span> <span class="text-primary"
+                        th:text="#{about.values.title_part2}">Valeurs</span> du Groupe
+                </h2>
+            </div>
         </div>
 
-        <div class="bg-white rounded-2xl shadow p-6 text-center hover:shadow-lg transition">
-            <i class="fas fa-lightbulb text-africanOrange text-3xl mb-3"></i>
-            <h3 class="font-bold mb-2">Innovation</h3>
-            <p class="text-sm text-slate-600">
-                Technologie adaptée au contexte africain.
-            </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div
+                class="p-8 border-l-2 border-slate-200 dark:border-white/10 hover:border-primary transition-colors duration-500">
+                <i class="fas fa-handshake text-primary text-xl mb-6"></i>
+                <h3 class="text-xl font-black uppercase mb-4 tracking-tight text-slate-900 dark:text-white"
+                    th:text="#{about.values.v1_title}">
+                    Transparence</h3>
+                <p class="text-sm text-slate-500 dark:text-gray-500 font-bold leading-relaxed"
+                    th:text="#{about.values.v1_desc}">Une
+                    communication claire et des processus
+                    sans zone d'ombre.</p>
+            </div>
+            <div
+                class="p-8 border-l-2 border-slate-200 dark:border-white/10 hover:border-primary transition-colors duration-500">
+                <i class="fas fa-lightbulb text-primary text-xl mb-6"></i>
+                <h3 class="text-xl font-black uppercase mb-4 tracking-tight text-slate-900 dark:text-white"
+                    th:text="#{about.values.v2_title}">
+                    Invention</h3>
+                <p class="text-sm text-slate-500 dark:text-gray-500 font-bold leading-relaxed"
+                    th:text="#{about.values.v2_desc}">Réimaginer
+                    les services pour le continent
+                    africain.</p>
+            </div>
+            <div
+                class="p-8 border-l-2 border-slate-200 dark:border-white/10 hover:border-primary transition-colors duration-500">
+                <i class="fas fa-users-viewfinder text-primary text-xl mb-6"></i>
+                <h3 class="text-xl font-black uppercase mb-4 tracking-tight text-slate-900 dark:text-white"
+                    th:text="#{about.values.v3_title}">
+                    Inclusion</h3>
+                <p class="text-sm text-slate-500 dark:text-gray-500 font-bold leading-relaxed"
+                    th:text="#{about.values.v3_desc}">Rendre le
+                    premium accessible à chaque
+                    citoyen.</p>
+            </div>
+            <div
+                class="p-8 border-l-2 border-slate-200 dark:border-white/10 hover:border-primary transition-colors duration-500">
+                <i class="fas fa-medal text-primary text-xl mb-6"></i>
+                <h3 class="text-xl font-black uppercase mb-4 tracking-tight text-slate-900 dark:text-white"
+                    th:text="#{about.values.v4_title}">Impact
+                </h3>
+                <p class="text-sm text-slate-500 dark:text-gray-500 font-bold leading-relaxed"
+                    th:text="#{about.values.v4_desc}">Générer de
+                    la valeur réelle pour l'économie
+                    locale.</p>
+            </div>
         </div>
+    </section>
 
-        <div class="bg-white rounded-2xl shadow p-6 text-center hover:shadow-lg transition">
-            <i class="fas fa-users text-africanOrange text-3xl mb-3"></i>
-            <h3 class="font-bold mb-2">Accessibilité</h3>
-            <p class="text-sm text-slate-600">
-                Des services pour tous.
-            </p>
+    <!-- CTA FINAL -->
+    <section class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div
+                class="bg-gradient-to-br from-slate-100 to-white dark:from-primary/30 dark:to-red-900/10 border border-slate-200 dark:border-primary/20 rounded-[4rem] p-12 md:p-24 text-center relative overflow-hidden group shadow-2xl dark:shadow-none">
+                <!-- Decor -->
+                <div
+                    class="absolute -top-24 -left-24 w-64 h-64 bg-primary/5 dark:bg-primary/20 rounded-full blur-[100px] animate-pulse">
+                </div>
+                <div
+                    class="absolute -bottom-24 -right-24 w-64 h-64 bg-red-900/5 dark:bg-red-900/20 rounded-full blur-[100px] animate-pulse">
+                </div>
+
+                <div class="relative z-10">
+                    <h2
+                        class="text-4xl md:text-7xl font-black tracking-tighter italic uppercase mb-8 leading-tight text-slate-900 dark:text-white">
+                        <span th:text="#{about.cta.title_part1}">Façonnons</span> <br><span class="text-primary italic"
+                            th:text="#{about.cta.title_part2}">L'avenir Ensemble</span>
+                    </h2>
+                    <p class="text-slate-600 dark:text-gray-400 text-lg md:text-xl font-medium mb-12 max-w-2xl mx-auto"
+                        th:text="#{about.cta.description}">
+                        Rejoignez des milliers d'utilisateurs qui font confiance à UNEVIE pour leurs besoins
+                        stratégiques.
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-6">
+                        <a th:href="@{/projets}"
+                            class="bg-primary hover:bg-red-800 text-white px-12 py-6 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all active:scale-95 shadow-2xl shadow-primary/40"
+                            th:text="#{about.cta.btn_main}">
+                            Explorer la Plateforme
+                        </a>
+                        <a th:href="@{/contact}"
+                            class="bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-slate-900 dark:text-white border border-slate-200 dark:border-white/10 px-12 py-6 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all active:scale-95"
+                            th:text="#{about.cta.btn_sub}">
+                            Ouvrir un Dossier
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="bg-white rounded-2xl shadow p-6 text-center hover:shadow-lg transition">
-            <i class="fas fa-star text-africanOrange text-3xl mb-3"></i>
-            <h3 class="font-bold mb-2">Excellence</h3>
-            <p class="text-sm text-slate-600">
-                Qualité et expérience premium.
-            </p>
-        </div>
-
-    </div>
-</section>
-
-<!-- ================= CTA FINAL ================= -->
-<section class="bg-gradient-to-r from-africanGreen to-africanOrange text-white py-24 text-center">
-    <h2 class="text-3xl font-extrabold mb-4">
-        UNEVIE, bien plus qu’une plateforme
-    </h2>
-    <p class="text-white/90 mb-8">
-        Une solution locale, fiable et moderne pour vos besoins quotidiens
-    </p>
-
-    <a th:href="@{/projets}"
-       class="bg-white text-africanDark font-semibold px-10 py-4 rounded-xl
-              hover:bg-slate-100 transition">
-        Découvrir les offres
-    </a>
-</section>
-
-<!-- ================= FOOTER ================= -->
-<div th:replace="~{fragments/footer :: footer}"></div>
+    <!-- FOOTER -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
+
 </html>

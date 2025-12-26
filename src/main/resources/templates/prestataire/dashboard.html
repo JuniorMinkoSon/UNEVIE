@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Prestataire — UNEVIE</title>
+    <!-- Utilisation du même fragment head admin pour les styles -->
+    <div th:replace="~{fragments/admin-head :: head(title='Espace Prestataire')}"></div>
+    <style>
+        .provider-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 10px 30px rgba(13, 110, 253, 0.2);
+        }
+
+        .status-card {
+            transition: all 0.3s ease;
+        }
+
+        .status-card.active {
+            border-left: 5px solid #198754;
+            background-color: #f8fff9;
+        }
+
+        .status-card.inactive {
+            border-left: 5px solid #dc3545;
+            background-color: #fff8f8;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <!-- Header Prestataire -->
+    <header class="provider-header text-center">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center"
+                        style="width: 50px; height: 50px; font-size: 1.5rem;">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div class="text-start">
+                        <h4 class="m-0 fw-bold" th:text="${prestataire.nom}">Nom du Prestataire</h4>
+                        <span class="badge bg-white text-primary rounded-pill mt-1"
+                            th:text="${prestataire.typePrestataire}">TYPE</span>
+                    </div>
+                </div>
+                <form th:action="@{/logout}" method="post">
+                    <button class="btn btn-light btn-sm rounded-pill px-3 fw-bold text-danger">
+                        <i class="fa-solid fa-sign-out-alt me-2"></i>Déconnexion
+                    </button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <div class="container pb-5">
+
+        <!-- Messages Flash -->
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show mb-4 rounded-4 shadow-sm">
+            <i class="fa-solid fa-check-circle me-2"></i>
+            <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Carte Statut (Disponibilité) -->
+            <div class="col-md-6">
+                <div class="glass-card h-100 p-4 animate-fade-in"
+                    th:classappend="${prestataire.disponible ? 'status-card active' : 'status-card inactive'}">
+
+                    <!-- Welcome Section -->
+                    <div class="row mb-5 fade-in">
+                        <div class="col-lg-8">
+                            <h1 class="display-5 fw-bold mb-2">Bonjour, <span class="text-accent"
+                                    th:text="${prestataire.user.nom}"></span></h1>
+                            <p class="lead text-white-50">Prêt à prendre la route aujourd'hui ?</p>
+                        </div>
+                        <!-- Toggle Switch -->
+                        <div class="col-lg-4 d-flex align-items-center justify-content-lg-end mt-3 mt-lg-0">
+                            <form th:action="@{/prestataire/status}" method="post" class="w-100 text-end">
+                                <div class="custom-toggle" onclick="this.closest('form').submit()">
+                                    <input type="checkbox" th:checked="${prestataire.disponible}">
+                                    <span class="slider"></span>
+                                    <span class="labels" data-on="DISPO" data-off="PAUSE"></span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+
+                        <!-- 📦 SECTION MARKETPLACE (Offres) -->
+                        <div class="col-12" th:if="${!#lists.isEmpty(offres)}">
+                            <div class="glass-card mb-4">
+                                <div class="card-header-glass">
+                                    <h5 class="mb-0"><i
+                                            class="fa-solid fa-map-location-dot me-2 text-accent"></i>Nouvelles Missions
+                                    </h5>
+                                    <span class="badge bg-accent text-dark rounded-pill"
+                                        th:text="${#lists.size(offres) + ' dispo'}"></span>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table class="table table-dark table-hover mb-0 align-middle"
+                                            style="background: transparent;">
+                                            <tbody>
+                                                <tr th:each="offre : ${offres}">
+                                                    <td class="ps-4">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="icon-sq bg-white-10 text-accent me-3">
+                                                                <i class="fa-solid fa-box"></i>
+                                                            </div>
+                                                            <div>
+                                                                <div class="fw-bold text-white"
+                                                                    th:text="${offre.produit != null ? offre.produit.nom : 'Course directe'}">
+                                                                </div>
+                                                                <small class="text-white-50"
+                                                                    th:text="${offre.localisation != null ? offre.localisation : 'Abidjan'}"></small>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center text-white-50">
+                                                            <i class="fa-solid fa-clock me-2"></i>
+                                                            <span
+                                                                th:text="${#temporals.format(offre.dateCommande, 'HH:mm')}"></span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-end pe-4">
+                                                        <span class="price-tag me-3"
+                                                            th:text="${offre.total} + ' FCFA'"></span>
+                                                        <form th:action="@{/prestataire/accept/{id}(id=${offre.id})}"
+                                                            method="post" class="d-inline">
+                                                            <button type="submit"
+                                                                class="btn btn-accent rounded-pill px-4 shadow-accent">
+                                                                Accepter
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 🚫 Empty State for Offers -->
+                        <div class="col-12 fade-in" th:if="${#lists.isEmpty(offres) and #lists.isEmpty(mesMissions)}">
+                            <div class="empty-state glass-card text-center py-5">
+                                <div class="radar-scan mb-4">
+                                    <i class="fa-solid fa-satellite-dish fa-3x text-white-50"></i>
+                                </div>
+                                <h4 class="text-white fw-bold">En recherche de missions...</h4>
+                                <p class="text-white-50">Restez en ligne, les offres apparaîtront ici automatiquement.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 🚚 ACTIVE MISSION -->
+                        <div class="col-12 scale-in" th:if="${!#lists.isEmpty(mesMissions)}">
+                            <div class="mission-card-active glass-card p-0 overflow-hidden">
+                                <div class="active-banner text-center py-2 fw-bold text-dark">
+                                    <i class="fa-solid fa-bolt me-2"></i>MISSION EN COURS
+                                </div>
+                                <div class="p-4">
+                                    <div th:each="mission : ${mesMissions}" class="row align-items-center">
+                                        <div class="col-md-6 mb-4 mb-md-0">
+                                            <div class="d-flex align-items-center mb-4">
+                                                <div class="client-avatar me-3">
+                                                    <i class="fa-solid fa-user"></i>
+                                                </div>
+                                                <div>
+                                                    <h3 class="mb-0 fw-bold text-white"
+                                                        th:text="${mission.user != null ? mission.user.nom : mission.nomClient}">
+                                                    </h3>
+                                                    <div class="text-accent fw-bold fs-5"
+                                                        th:text="${mission.total} + ' FCFA'"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="timeline ps-3 border-start border-white-20 ms-2">
+                                                <div class="timeline-item mb-4 position-relative ps-4">
+                                                    <i class="fa-solid fa-circle position-absolute start-0 translate-middle-x bg-accent text-dark rounded-circle p-1 fs-6"
+                                                        style="top: 0px;"></i>
+                                                    <small
+                                                        class="text-white-50 d-block text-uppercase ls-1">Client</small>
+                                                    <span class="text-white fw-medium"
+                                                        th:text="${mission.user != null ? mission.user.telephone : mission.telephone}"></span>
+                                                    <a th:href="'tel:' + ${mission.user != null ? mission.user.telephone : mission.telephone}"
+                                                        class="btn btn-sm btn-outline-light rounded-pill ms-2"><i
+                                                            class="fa-solid fa-phone"></i></a>
+                                                </div>
+                                                <div class="timeline-item position-relative ps-4">
+                                                    <i class="fa-solid fa-location-dot position-absolute start-0 translate-middle-x fs-5 text-danger"
+                                                        style="top: 0px;"></i>
+                                                    <small
+                                                        class="text-white-50 d-block text-uppercase ls-1">Destination</small>
+                                                    <span class="text-white fw-medium"
+                                                        th:text="${mission.adresse != null ? mission.adresse : 'Adresse à confirmer'}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 text-center text-md-end">
+                                            <div class="d-grid gap-3 d-md-block">
+                                                <!-- Actions -->
+                                                <form th:action="@{/prestataire/complete/{id}(id=${mission.id})}"
+                                                    method="post" class="mb-2">
+                                                    <button type="submit"
+                                                        class="btn btn-success btn-lg w-100 rounded-3 py-3 fw-bold shadow-success">
+                                                        <i class="fa-regular fa-circle-check me-2"></i>CONFIRMER LA
+                                                        LIVRAISON
+                                                    </button>
+                                                </form>
+
+                                                <form th:action="@{/prestataire/cancel/{id}(id=${mission.id})}"
+                                                    method="post" onsubmit="return confirm('Êtes-vous sûr ?');">
+                                                    <button type="submit"
+                                                        class="btn btn-link text-danger text-decoration-none opacity-75 hover-opacity-100">
+                                                        <i class="fa-solid fa-ban me-1"></i>Annuler la course
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            statusDiv.classList.remove('d-none', 'alert-success', 'alert-danger');
+            statusDiv.classList.add('alert-info');
+            statusText.innerText = "Récupération de votre position...";
+            btn.disabled = true;
+
+            navigator.geolocation.getCurrentPosition(
+            function (position) {
+            latInput.value = position.coords.latitude;
+            lngInput.value = position.coords.longitude;
+
+            statusDiv.classList.remove('alert-info');
+            statusDiv.classList.add('alert-success');
+            statusText.innerText = "Position récupérée ! Envoi en cours...";
+
+            form.submit();
+            },
+            function (error) {
+            statusDiv.classList.remove('alert-info');
+            statusDiv.classList.add('alert-danger');
+            statusText.innerText = "Erreur de géolocalisation.";
+            btn.disabled = false;
+            },
+            { enableHighAccuracy: true }
+            );
+            });
+            </script>
+
+</body>
+
+</html>

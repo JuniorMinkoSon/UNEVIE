@@ -11,8 +11,15 @@ public class RedirectController {
     @GetMapping("/redirect")
     public String redirectAfterLogin(Authentication auth) {
         var roles = AuthorityUtils.authorityListToSet(auth.getAuthorities());
-        if (roles.contains("ROLE_ADMIN")) return "redirect:/admin/dashboard";
-        if (roles.contains("ROLE_USER")) return "redirect:/";
+        if (roles.contains("ROLE_ADMIN"))
+            return "redirect:/admin/dashboard";
+        if (roles.contains("ROLE_USER"))
+            return "redirect:/";
         return "redirect:/login?error";
+    }
+
+    @GetMapping("/maintenance")
+    public String maintenance() {
+        return "maintenance";
     }
 }

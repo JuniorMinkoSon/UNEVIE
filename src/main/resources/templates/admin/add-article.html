@@ -2,57 +2,294 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <div th:replace="~{fragments/head :: head (title='Admin - Ajouter article')}"></div>
-    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+    <div th:replace="~{fragments/admin-head :: head(title='Admin - Ajouter article')}"></div>
 </head>
 
 
 <body>
     <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
-        <section>
-            <div class="container-fluid">
-                <div class="glass-card">
-                    <h1>
-                        <i class="fa-solid fa-pen-nib"></i>
-                        Ajouter un Article
-                    </h1>
+        <section class="animate-fadeIn">
+            <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+
+                <!-- Breadcrumb / Retour -->
+                <div class="mb-8 animate-slideUp">
+                    <a th:href="@{/admin/article/list}"
+                        class="group inline-flex items-center text-gray-500 hover:text-primary transition-colors font-medium">
+                        <i class="fa-solid fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
+                        Retour à la liste
+                    </a>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden animate-slideUp">
+                    <div class="bg-primary p-8 text-white">
+                        <h2 class="text-3xl font-extrabold flex items-center">
+                            <i class="fa-solid fa-pen-nib mr-4"></i>
+                            Ajouter un Article
+                        </h2>
+                        <p class="text-white/80 mt-2">Partagez du contenu informatif ou des actualités avec votre
+                            communauté.</p>
+                    </div>
 
                     <form th:action="@{/admin/article/save}" th:object="${article}" method="post"
-                        enctype="multipart/form-data">
-                        <input class="form-input" th:field="*{titre}" placeholder="Titre de l'article" required>
+                        enctype="multipart/form-data" class="p-8 space-y-8">
 
-                        <label>Catégorie</label>
+                        <!-- Titre -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-gray-700">Titre de l'article <span
+                                    class="text-primary">*</span></label>
+                            <input type="text" th:field="*{titre}"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-lg font-bold"
+                                placeholder="Entrez un titre accrocheur" required />
+                        </div>
 
-                        <select class="form-input" th:field="*{category}" required>
+                        <!-- Catégorie -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-gray-700">Catégorie <span
+                                    class="text-primary">*</span></label>
+                            <div class="relative">
+                                <select th:field="*{category}"
+                                    class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none cursor-pointer appearance-none"
+                                    required>
+                                    <option value="">-- Choisir une catégorie --</option>
+                                    <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.libelle}">
+                                    </option>
+                                </select>
+                                <div
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </div>
+                            </div>
+                        </div>
 
-                            <option value="">-- Choisir une catégorie --</option>
+                        <!-- Contenu Builder -->
+                        <div class="space-y-4">
+                            <label class="block text-sm font-bold text-gray-700 flex justify-between items-center">
+                                <span>Contenu de l'article <span class="text-primary">*</span></span>
+                                <div class="flex gap-2">
+                                    <button type="button" onclick="addBlock('text')"
+                                        class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-black uppercase tracking-widest transition-all">
+                                        <i class="fa-solid fa-font mr-1"></i> + Texte
+                                    </button>
+                                    <button type="button" onclick="addBlock('image')"
+                                        class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-black uppercase tracking-widest transition-all">
+                                        <i class="fa-solid fa-image mr-1"></i> + Image
+                                    </button>
+                                </div>
+                            </label>
 
-                            <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.libelle}">
-                            </option>
+                            <!-- Hidden field for real content -->
+                            <textarea th:field="*{contenu}" id="finalContent" class="hidden"></textarea>
 
-                        </select>
+                            <!-- Builder Container -->
+                            <div id="blockContainer"
+                                class="space-y-4 min-h-[200px] p-6 bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl transition-all">
+                                <!-- Blocks will be injected here -->
+                            </div>
+                        </div>
 
+                        <!-- Main Image Upload (Cover) -->
+                        <div class="space-y-4">
+                            <label class="block text-sm font-bold text-gray-700">Image de couverture <span
+                                    class="text-primary">*</span></label>
+                            <div
+                                class="group relative bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl p-8 transition-all hover:border-primary/50 hover:bg-primary/5 text-center cursor-pointer">
+                                <input type="file" name="image" accept="image/*" required
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                    id="imageInput">
+                                <div class="space-y-3">
+                                    <div
+                                        class="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto text-gray-400 group-hover:text-primary transition-colors">
+                                        <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
+                                    </div>
+                                    <div class="text-sm">
+                                        <p class="font-bold text-gray-700">Cliquez pour téléverser</p>
+                                        <p class="text-gray-400 mt-1">PNG, JPG ou WEBP (Max 5Mo)</p>
+                                    </div>
+                                    <div id="previewContainer" class="hidden pt-4">
+                                        <img id="imagePreview" src="#"
+                                            class="mx-auto h-32 rounded-lg shadow-md object-cover">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-
-                        <textarea class="form-input" th:field="*{contenu}"
-                            placeholder="Contenu de l'article..."></textarea>
-
-                        <input type="file" name="image" accept="image/*" required>
-
-                        <button class="btn" type="submit">
-                            <i class="fa-solid fa-paper-plane"></i>
-                            Publier l'article
-                        </button>
+                        <!-- Boutons -->
+                        <div class="pt-6 flex flex-col sm:flex-row gap-4">
+                            <button type="submit" onclick="serializeContent()"
+                                class="flex-1 bg-primary hover:bg-red-800 text-white font-extrabold py-4 rounded-2xl shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center">
+                                <i class="fa-solid fa-paper-plane mr-3"></i> Publier l'article
+                            </button>
+                            <a th:href="@{/admin/article/list}"
+                                class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-extrabold py-4 rounded-2xl transition-all flex items-center justify-center">
+                                Annuler
+                            </a>
+                        </div>
                     </form>
-
-                    <div class="text-center mt-4">
-                        <a class="btn btn-outline" th:href="@{/admin/dashboard}">
-                            <i class="fa-solid fa-arrow-left"></i>
-                            Retour au tableau de bord
-                        </a>
-                    </div>
                 </div>
             </div>
+
+            <!-- Block Templates -->
+            <template id="textBlockTemplate">
+                <div class="block-item bg-white p-4 rounded-2xl shadow-sm border border-slate-200 group relative">
+                    <div
+                        class="absolute -left-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-move drag-handle bg-slate-200 p-2 rounded-lg text-slate-500">
+                        <i class="fa-solid fa-grip-vertical"></i>
+                    </div>
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Bloc Texte</span>
+                        <button type="button" onclick="this.closest('.block-item').remove()"
+                            class="text-slate-300 hover:text-red-500 transition-colors">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                    <textarea
+                        class="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary outline-none transition-all resize-none min-h-[120px]"
+                        placeholder="Écrivez votre contenu ici..."></textarea>
+                </div>
+            </template>
+
+            <template id="imageBlockTemplate">
+                <div class="block-item bg-white p-4 rounded-2xl shadow-sm border border-slate-200 group relative">
+                    <div
+                        class="absolute -left-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-move drag-handle bg-slate-200 p-2 rounded-lg text-slate-500">
+                        <i class="fa-solid fa-grip-vertical"></i>
+                    </div>
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Bloc Image</span>
+                        <button type="button" onclick="this.closest('.block-item').remove()"
+                            class="text-slate-300 hover:text-red-500 transition-colors">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                    <div
+                        class="relative bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl p-6 text-center image-upload-zone hover:border-primary/50 transition-all">
+                        <input type="file" accept="image/*"
+                            class="absolute inset-0 opacity-0 cursor-pointer z-10 block-image-input">
+                        <div class="upload-placeholder">
+                            <i class="fa-solid fa-cloud-arrow-up text-2xl text-slate-300 mb-2"></i>
+                            <p class="text-xs font-bold text-slate-500">Cliquez pour ajouter une image</p>
+                        </div>
+                        <div class="preview hidden">
+                            <img src="" class="max-h-64 mx-auto rounded-lg shadow-lg">
+                            <input type="hidden" class="block-image-url">
+                        </div>
+                        <div
+                            class="loader hidden absolute inset-0 bg-white/80 backdrop-blur-sm rounded-xl flex items-center justify-center z-20">
+                            <i class="fa-solid fa-circle-notch fa-spin text-primary text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- SCRIPTS -->
+            <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+            <script>
+                const blockContainer = document.getElementById('blockContainer');
+
+                // Initialize Sortable
+                new Sortable(blockContainer, {
+                    animation: 150,
+                    handle: '.drag-handle',
+                    ghostClass: 'opacity-50'
+                });
+
+                function addBlock(type) {
+                    const template = document.getElementById(type + 'BlockTemplate');
+                    const clone = template.content.cloneNode(true);
+
+                    if (type === 'image') {
+                        const input = clone.querySelector('.block-image-input');
+                        input.addEventListener('change', handleImageUpload);
+                    }
+
+                    blockContainer.appendChild(clone);
+                }
+
+                async function handleImageUpload(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    const block = e.target.closest('.block-item');
+                    const placeholder = block.querySelector('.upload-placeholder');
+                    const preview = block.querySelector('.preview');
+                    const loader = block.querySelector('.loader');
+                    const img = preview.querySelector('img');
+                    const urlInput = preview.querySelector('.block-image-url');
+
+                    // Show loader
+                    loader.classList.remove('hidden');
+
+                    const formData = new FormData();
+                    formData.append('file', file);
+
+                    // CSRF Protection
+                    const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
+                    const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
+                    const headers = {};
+                    if (csrfToken && csrfHeader) {
+                        headers[csrfHeader] = csrfToken;
+                    }
+
+                    try {
+                        const response = await fetch('/admin/article/upload-image', {
+                            method: 'POST',
+                            headers: headers,
+                            body: formData
+                        });
+                        const data = await response.json();
+
+                        if (data.url) {
+                            img.src = data.url;
+                            urlInput.value = data.url;
+                            placeholder.classList.add('hidden');
+                            preview.classList.remove('hidden');
+                        } else {
+                            alert('Erreur: ' + data.error);
+                        }
+                    } catch (err) {
+                        alert('Erreur lors du téléchargement');
+                    } finally {
+                        loader.classList.add('hidden');
+                    }
+                }
+
+                function serializeContent() {
+                    const blocks = blockContainer.querySelectorAll('.block-item');
+                    let html = '';
+
+                    blocks.forEach(block => {
+                        const text = block.querySelector('textarea')?.value;
+                        const imgUrl = block.querySelector('.block-image-url')?.value;
+
+                        if (text) {
+                            html += `<div class="article-text-block my-6 text-slate-700 leading-relaxed font-medium">${text.replace(/\\n/g, '<br>')}</div>`;
+                        } else if (imgUrl) {
+                            html += `<div class="article-image-block my-10"><img src="${imgUrl}" class="w-full rounded-3xl shadow-2xl object-cover hover:scale-[1.01] transition-transform duration-700"></div>`;
+                        }
+                    });
+
+                    document.getElementById('finalContent').value = html;
+                }
+
+                // Initial block
+                window.onload = () => {
+                    if (blockContainer.children.length === 0) addBlock('text');
+                };
+
+                // Cover Preview
+                document.getElementById('imageInput').addEventListener('change', function (e) {
+                    const reader = new FileReader();
+                    const container = document.getElementById('previewContainer');
+                    const img = document.getElementById('imagePreview');
+
+                    reader.onload = function (e) {
+                        img.src = e.target.result;
+                        container.classList.remove('hidden');
+                    }
+
+                    if (this.files[0]) reader.readAsDataURL(this.files[0]);
+                });
+            </script>
         </section>
     </div>
 </body>
