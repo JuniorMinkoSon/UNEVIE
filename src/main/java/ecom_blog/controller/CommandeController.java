@@ -16,8 +16,7 @@ public class CommandeController {
     private final ProduitService produitService;
     private final CommandeService commandeService;
 
-    public CommandeController(ProduitService produitService,
-                              CommandeService commandeService) {
+    public CommandeController(ProduitService produitService, CommandeService commandeService) {
         this.produitService = produitService;
         this.commandeService = commandeService;
     }
@@ -25,9 +24,7 @@ public class CommandeController {
     // 📄 AFFICHER LE FORMULAIRE DE COMMANDE
     @GetMapping("/commande/{id}")
     public String afficherFormulaire(@PathVariable Long id, Model model) {
-
         Produit produit = produitService.getById(id);
-
         model.addAttribute("produit", produit);
         return "user/commande-form";
     }

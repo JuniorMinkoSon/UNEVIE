@@ -1,20 +1,17 @@
 package ecom_blog.config;
 
+import ecom_blog.security.CustomLoginSuccessHandler;
+import ecom_blog.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
-
-import ecom_blog.security.CustomLoginSuccessHandler;
-import ecom_blog.service.CustomUserDetailsService;
-
 @Configuration
 public class SecurityConfig {
 
@@ -24,7 +21,6 @@ public class SecurityConfig {
         this.successHandler = successHandler;
     }
 
-    // 🔓 Autoriser les doubles slash (nécessaire pour Render)
     @Bean
     public HttpFirewall allowDoubleSlashFirewall() {
         StrictHttpFirewall firewall = new StrictHttpFirewall();
@@ -35,22 +31,25 @@ public class SecurityConfig {
         return firewall;
     }
 
-    // 🛡️ Sécurité Spring
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http,
-                                                   CustomUserDetailsService userDetailsService) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            CustomUserDetailsService userDetailsService
+    ) throws Exception {
 
         http
                 .csrf(csrf -> csrf.disable())
                 .userDetailsService(userDetailsService)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/index", "/index.html", "/register",
-                                "/blog/**", "/projets", "/services", "/objectifs", "/propos",
-                                "/produits/**", "/contact",
-                                "/css/**", "/js/**", "/images/**", "/uploads/**", "/videos/**")
-                        .permitAll()
-                        .requestMatchers("/login", "/admin/login").permitAll()
+                        .requestMatchers(
+                                "/", "/index", "/index.html",
+                                "/register", "/login", "/error",
+                                "/blog/**", "/projets", "/services", "/objectifs",
+                                "/propos", "/produits/**", "/contact",
+                                "/css/**", "/js/**", "/images/**", "/uploads/**"
+                        ).permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/livreur/**").hasRole("LIVREUR")
                         .requestMatchers("/user/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
@@ -61,31 +60,19 @@ public class SecurityConfig {
                         .passwordParameter("password")
                         .successHandler(successHandler)
                         .failureUrl("/login?error")
-                        .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
-                        .permitAll()
                 );
 
         return http.build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration config
+    ) throws Exception {
         return config.getAuthenticationManager();
-    }
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider(CustomUserDetailsService userDetailsService) {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder()); //
-        return authProvider;
     }
 }

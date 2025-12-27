@@ -14,17 +14,27 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public User saveUser(User user) {
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if (user.getRole() == null) {
-            user.setRole(Role.ROLE_USER);
+        user.setActif(true);
+
+        // ⚙️ Paramètres spécifiques LIVREUR
+        if (user.getRole() == Role.ROLE_LIVREUR) {
+            user.setDisponible(true);
+            user.setCongestionScore(0.0);
+            user.setConsommationEstimee(0.0);
         }
+
         return userRepository.save(user);
     }
 
@@ -33,13 +43,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email);
     }
 
+    // ✅ MÉTHODE MANQUANTE (CORRECTION)
     @Override
-    public List<User> getAllUsers() { // ✅ ajout de cette méthode
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     @Override
-    public long count() { // ✅ ajout de cette méthode
+    public long count() {
         return userRepository.count();
     }
 }

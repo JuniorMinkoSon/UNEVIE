@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Détails commande</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+<div class="max-w-3xl mx-auto p-8">
+
+    <div class="bg-white rounded-xl shadow p-6">
+
+        <h2 class="text-2xl font-bold mb-6">Détails de la commande</h2>
+
+        <div th:if="${commande != null}" class="space-y-3">
+
+            <p><strong>ID :</strong> <span th:text="${commande.id}"></span></p>
+
+            <p>
+                <strong>Client :</strong>
+                <span th:text="${commande.user != null ? commande.user.username : 'Non défini'}"></span>
+            </p>
+
+            <p>
+                <strong>Statut :</strong>
+                <span class="px-2 py-1 bg-yellow-200 rounded"
+                      th:text="${commande.statut}">
+                </span>
+            </p>
+
+            <p>
+                <strong>Adresse :</strong>
+                <span th:text="${commande.adresseLivraison}"></span>
+            </p>
+
+            <p>
+                <strong>Mode de paiement :</strong>
+                <span th:text="${commande.modePaiement}"></span>
+            </p>
+
+            <!-- ACTIONS -->
+            <div class="flex gap-4 mt-6">
+
+                <form th:action="@{/livreur/commande/accepter/{id}(id=${commande.id})}"
+                      method="post">
+                    <button
+                            class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded">
+                        Accepter
+                    </button>
+                </form>
+
+                <form th:action="@{/livreur/commande/refuser/{id}(id=${commande.id})}"
+                      method="post">
+                    <button
+                            class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded">
+                        Refuser
+                    </button>
+                </form>
+
+                <a href="/livreur/dashboard"
+                   class="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded">
+                    Retour
+                </a>
+            </div>
+
+        </div>
+
+        <div th:if="${commande == null}">
+            <p class="text-red-600">Aucune commande trouvée.</p>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

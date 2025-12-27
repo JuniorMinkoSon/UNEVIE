@@ -1,62 +1,93 @@
 package ecom_blog.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "commandes")
-@Getter
-@Setter
-public class Commande extends BaseEntity {
+public class Commande {
 
-    @Column(nullable = false)
-    private LocalDateTime dateCommande = LocalDateTime.now();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(nullable = false)
-    private Double total;
+    /* ================== RELATIONS ================== */
 
-    @Column(nullable = false)
-    private String statut = "EN_ATTENTE";
-
-    @Column(nullable = false)
-    private String modePaiement;
-
-    // 🧑 Infos client (commande sans compte possible)
-    @Column(nullable = false)
-    private String nomClient;
-
-    @Column(nullable = false)
-    private String telephone;
-
-    @Column(nullable = false)
-    private String adresse;
-
-    // 🔗 Utilisateur connecté (optionnel)
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private User user;
 
-    // 🚗 Champs spécifiques Voiture
-    private Boolean avecChauffeur;
-    private String lieuPriseEnCharge; // Localisation spécifique voiture
+    @ManyToOne
+    private User livreur;
 
-    // 🏠 Champs spécifiques Résidence
-    private Integer nombreJours;
+    @ManyToOne
+    private Produit produit;
 
-    // 🍗 Champs spécifiques Poulet
-    private Integer quantite;
+    /* ================== DONNÉES COMMANDE ================== */
 
-    // 📍 Localisation générale (utilisé si lieuPrise EnCharge non spé)
-    private String localisation;
+    private int quantite;
+    private int nombreJours;
+    private Double total;
 
-    // 📱 Opérateur Mobile Money
+    private String statut;
+    private String modePaiement;
     private String operateur;
 
-    // 🔗 Produit commandé
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "produit_id", nullable = true)
-    private Produit produit;
+    private String adresse;
+    private String localisation;
+
+    private LocalDateTime dateCommande;
+
+    /* ================== LIVRAISON ================== */
+
+    private double distanceEstimee;
+    private long dureeEstimee;
+    private long debutLivraison;
+
+    /* ================== GETTERS / SETTERS ================== */
+
+    public Long getId() { return id; }
+
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
+
+    public User getLivreur() { return livreur; }
+    public void setLivreur(User livreur) { this.livreur = livreur; }
+
+    public Produit getProduit() { return produit; }
+    public void setProduit(Produit produit) { this.produit = produit; }
+
+    public int getQuantite() { return quantite; }
+    public void setQuantite(int quantite) { this.quantite = quantite; }
+
+    public int getNombreJours() { return nombreJours; }
+    public void setNombreJours(int nombreJours) { this.nombreJours = nombreJours; }
+
+    public Double getTotal() { return total; }
+    public void setTotal(Double total) { this.total = total; }
+
+    public String getStatut() { return statut; }
+    public void setStatut(String statut) { this.statut = statut; }
+
+    public String getModePaiement() { return modePaiement; }
+    public void setModePaiement(String modePaiement) { this.modePaiement = modePaiement; }
+
+    public String getOperateur() { return operateur; }
+    public void setOperateur(String operateur) { this.operateur = operateur; }
+
+    public String getAdresse() { return adresse; }
+    public void setAdresse(String adresse) { this.adresse = adresse; }
+
+    public String getLocalisation() { return localisation; }
+    public void setLocalisation(String localisation) { this.localisation = localisation; }
+
+    public LocalDateTime getDateCommande() { return dateCommande; }
+    public void setDateCommande(LocalDateTime dateCommande) { this.dateCommande = dateCommande; }
+
+    public double getDistanceEstimee() { return distanceEstimee; }
+    public void setDistanceEstimee(double distanceEstimee) { this.distanceEstimee = distanceEstimee; }
+
+    public long getDureeEstimee() { return dureeEstimee; }
+    public void setDureeEstimee(long dureeEstimee) { this.dureeEstimee = dureeEstimee; }
+
+    public long getDebutLivraison() { return debutLivraison; }
+    public void setDebutLivraison(long debutLivraison) { this.debutLivraison = debutLivraison; }
 }

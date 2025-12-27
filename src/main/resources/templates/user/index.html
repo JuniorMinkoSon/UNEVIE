@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html lang="fr"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:lang="${#locale.language}">
 
 <head>
     <meta charset="UTF-8">
-    <title>UNEVIE | Plateforme de services</title>
+    <title th:text="#{home.page.title}"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
@@ -28,178 +26,120 @@
 
 <body class="bg-slate-50 text-slate-800">
 
-<!-- HEADER -->
 <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- ================= HERO FULL IMAGE ================= -->
+<!-- HERO -->
 <section class="relative min-h-[90vh] flex items-center">
 
-    <!-- Image de fond -->
     <img src="/images/Whresidencesassinie.jpeg"
          class="absolute inset-0 w-full h-full object-cover">
 
-    <!-- Overlay -->
     <div class="absolute inset-0 bg-gradient-to-r from-africanGreen/90 via-africanGreen/70 to-africanOrange/70"></div>
 
-    <!-- Contenu -->
     <div class="relative z-10 max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
 
         <div class="text-white">
-            <span class="inline-block mb-4 px-4 py-1 rounded-full bg-white/20 text-sm">
-                Plateforme africaine de services
-            </span>
 
-            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
-                Une seule plateforme.<br>
-                <span class="text-africanOrange">Tous vos besoins.</span>
+            <span class="inline-block mb-4 px-4 py-1 rounded-full bg-white/20 text-sm"
+                  th:text="#{home.badge}"></span>
+
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6">
+                <span th:text="#{home.title.main}"></span><br>
+                <span class="text-africanOrange" th:text="#{home.title.highlight}"></span>
             </h1>
 
-            <p class="text-white/90 text-lg mb-10 max-w-xl">
-                Location de véhicules, résidences, traiteurs et produits locaux,
-                accessibles selon votre localisation, en toute confiance.
-            </p>
+            <p class="text-white/90 text-lg mb-10 max-w-xl"
+               th:text="#{home.subtitle}"></p>
 
-            <div class="flex gap-4 flex-wrap">
+            <div class="flex gap-4">
                 <a th:href="@{/projets}"
-                   class="bg-white text-africanDark font-semibold px-8 py-4 rounded-xl shadow-lg hover:scale-105 transition">
-                    Explorer les offres
-                </a>
+                   class="bg-white text-africanDark px-8 py-4 rounded-xl shadow-lg"
+                   th:text="#{home.cta.explore}"></a>
 
                 <a th:href="@{/contact}"
-                   class="border border-white text-white px-8 py-4 rounded-xl hover:bg-white hover:text-africanDark transition">
-                    Contactez-nous
-                </a>
+                   class="border border-white px-8 py-4 rounded-xl"
+                   th:text="#{home.cta.contact}"></a>
             </div>
         </div>
 
-        <!-- Carte flottante -->
         <div class="hidden md:block">
             <div class="bg-white/20 backdrop-blur-xl rounded-3xl p-6 shadow-2xl">
                 <img src="/images/voiture.jpeg"
                      class="rounded-2xl object-cover w-full h-80">
-                <p class="text-white text-sm mt-4">
-                    🚗 Véhicules disponibles partout en Côte d’Ivoire
-                </p>
+                <p class="text-white text-sm mt-4"
+                   th:text="#{home.vehicle.note}"></p>
             </div>
         </div>
 
     </div>
 </section>
 
-<!-- ================= SERVICES ================= -->
+<!-- SERVICES -->
 <section class="max-w-7xl mx-auto px-6 py-24">
 
     <div class="text-center mb-16">
         <h2 class="text-4xl font-extrabold mb-4">
-            Nos <span class="text-africanOrange">services</span>
+            <span th:text="#{services.title.main}"></span>
+            <span class="text-africanOrange" th:text="#{services.title.highlight}"></span>
         </h2>
-        <p class="text-slate-600 max-w-2xl mx-auto">
-            UNEVIE connecte utilisateurs et prestataires fiables à travers toute l’Afrique.
-        </p>
+
+        <p class="text-slate-600 max-w-2xl mx-auto"
+           th:text="#{services.subtitle}"></p>
     </div>
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
-        <!-- CARD -->
-        <div class="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition">
-            <img src="/images/voiture.jpeg"
-                 class="h-72 w-full object-cover group-hover:scale-110 transition duration-500">
-            <div class="absolute inset-0 bg-black/40"></div>
+        <div class="group relative rounded-3xl overflow-hidden shadow-lg">
+            <img src="/images/voiture.jpeg" class="h-72 w-full object-cover">
             <div class="absolute bottom-0 p-6 text-white">
-                <h3 class="text-xl font-bold">🚗 Véhicules</h3>
-                <p class="text-sm text-white/80">Avec ou sans chauffeur</p>
+                <h3 th:text="#{services.vehicle.title}"></h3>
+                <p th:text="#{services.vehicle.desc}"></p>
             </div>
         </div>
 
-        <div class="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition">
-            <img src="/images/residence1.jpeg"
-                 class="h-72 w-full object-cover group-hover:scale-110 transition duration-500">
-            <div class="absolute inset-0 bg-black/40"></div>
+        <div class="group relative rounded-3xl overflow-hidden shadow-lg">
+            <img src="/images/residence1.jpeg" class="h-72 w-full object-cover">
             <div class="absolute bottom-0 p-6 text-white">
-                <h3 class="text-xl font-bold">🏠 Résidences</h3>
-                <p class="text-sm text-white/80">Séjours courts ou longs</p>
+                <h3 th:text="#{services.residence.title}"></h3>
+                <p th:text="#{services.residence.desc}"></p>
             </div>
         </div>
 
-        <div class="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition">
-            <img src="/images/poulets.jpeg"
-                 class="h-72 w-full object-cover group-hover:scale-110 transition duration-500">
-            <div class="absolute inset-0 bg-black/40"></div>
+        <div class="group relative rounded-3xl overflow-hidden shadow-lg">
+            <img src="/images/poulets.jpeg" class="h-72 w-full object-cover">
             <div class="absolute bottom-0 p-6 text-white">
-                <h3 class="text-xl font-bold">🍗 Produits locaux</h3>
-                <p class="text-sm text-white/80">Frais et disponibles</p>
+                <h3 th:text="#{services.products.title}"></h3>
+                <p th:text="#{services.products.desc}"></p>
             </div>
         </div>
 
-        <div class="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition">
-            <img src="/images/traiteurs.jpeg"
-                 class="h-72 w-full object-cover group-hover:scale-110 transition duration-500">
-            <div class="absolute inset-0 bg-black/40"></div>
+        <div class="group relative rounded-3xl overflow-hidden shadow-lg">
+            <img src="/images/traiteurs.jpeg" class="h-72 w-full object-cover">
             <div class="absolute bottom-0 p-6 text-white">
-                <h3 class="text-xl font-bold">🍽️ Traiteurs</h3>
-                <p class="text-sm text-white/80">Événements & cérémonies</p>
+                <h3 th:text="#{services.catering.title}"></h3>
+                <p th:text="#{services.catering.desc}"></p>
             </div>
         </div>
 
     </div>
 </section>
 
-<!-- ================= PAIEMENT ================= -->
-<section class="bg-gradient-to-r from-africanGreen to-africanOrange py-24 text-white">
-    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-
-        <div>
-            <h2 class="text-4xl font-extrabold mb-6">
-                Paiements flexibles
-            </h2>
-
-            <ul class="space-y-4 text-lg">
-                <li>💳 Carte bancaire sécurisée</li>
-                <li>📱 Mobile Money</li>
-                <li>💵 Paiement en espèces</li>
-            </ul>
-        </div>
-
-        <div class="bg-white/20 backdrop-blur-xl rounded-3xl p-6 shadow-2xl">
-            <img src="/images/Whresidencesassinie.jpeg"
-                 class="rounded-2xl object-cover w-full h-80">
-        </div>
-
-    </div>
-</section>
-
-<!-- ================= AVANTAGES ================= -->
+<!-- AVANTAGES -->
 <section class="max-w-7xl mx-auto px-6 py-24 text-center">
 
-    <h2 class="text-4xl font-extrabold mb-14">
-        Pourquoi <span class="text-africanOrange">UNEVIE</span> ?
-    </h2>
+    <h2 class="text-4xl font-extrabold mb-14"
+        th:text="#{advantages.title}"></h2>
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
-
-        <div class="bg-white rounded-2xl p-8 shadow hover:shadow-xl transition">
-            🚀 Commande rapide
-        </div>
-        <div class="bg-white rounded-2xl p-8 shadow hover:shadow-xl transition">
-            📍 Services géolocalisés
-        </div>
-        <div class="bg-white rounded-2xl p-8 shadow hover:shadow-xl transition">
-            🤝 Prestataires vérifiés
-        </div>
-        <div class="bg-white rounded-2xl p-8 shadow hover:shadow-xl transition">
-            🔐 Sécurité totale
-        </div>
-        <div class="bg-white rounded-2xl p-8 shadow hover:shadow-xl transition">
-            📦 Suivi en temps réel
-        </div>
-        <div class="bg-white rounded-2xl p-8 shadow hover:shadow-xl transition">
-            💰 Prix transparents
-        </div>
-
+        <div th:text="#{advantages.fast}"></div>
+        <div th:text="#{advantages.geo}"></div>
+        <div th:text="#{advantages.trusted}"></div>
+        <div th:text="#{advantages.secure}"></div>
+        <div th:text="#{advantages.tracking}"></div>
+        <div th:text="#{advantages.price}"></div>
     </div>
 </section>
 
-<!-- FOOTER -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>

@@ -1,48 +1,103 @@
-<div th:fragment="header" xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<header class="bg-white/90 backdrop-blur shadow sticky top-0 z-50"
+        xmlns:th="http://www.thymeleaf.org"
+        th:fragment="header">
 
-    <header class="bg-white shadow sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="flex justify-between items-center h-16">
 
-            <!-- Logo -->
-            <a th:href="@{/}" class="flex items-center gap-2 text-xl font-extrabold">
-                UNE<span class="text-primary">VIE</span>
+            <!-- LOGO -->
+            <a th:href="@{/}" class="flex items-center gap-2">
+                <img src="/images/logo.svg" class="h-9 w-auto" alt="UNEVIE">
+                <span class="font-extrabold text-xl text-africanGreen tracking-wide">
+                    UNEVIE
+                </span>
             </a>
 
-            <!-- Menu -->
-            <nav class="hidden md:flex gap-8 font-medium">
-                <a th:href="@{/projets}" class="hover:text-primary">Réalisations</a>
-                <a th:href="@{/}" class="hover:text-primary">Accueil</a>
-                <a th:href="@{/propos}" class="hover:text-primary">À propos</a>
-                <a th:href="@{/services}" class="hover:text-primary">Services</a>
-                <a th:href="@{/objectifs}" class="hover:text-primary">Objectifs</a>
+            <!-- DESKTOP NAV -->
+            <nav class="hidden md:flex items-center gap-8 text-gray-700 font-medium">
 
+                <a th:href="@{/}" class="hover:text-africanGreen">Accueil</a>
+                <a th:href="@{/projets}" class="hover:text-africanGreen">Offres</a>
+                <a th:href="@{/services}" class="hover:text-africanGreen">Services</a>
+                <a th:href="@{/objectifs}" class="hover:text-africanGreen">Vision</a>
+                <a th:href="@{/propos}" class="hover:text-africanGreen">À propos</a>
+                <a th:href="@{/contact}" class="hover:text-africanGreen">Contact</a>
+
+                <a th:href="@{/mes-commandes}"
+                   class="ml-4 bg-africanGreen text-white px-5 py-2 rounded-xl shadow hover:bg-green-700 transition">
+                    Mes commandes
+                </a>
+
+                <!-- LANG RADIO -->
+                <form class="flex items-center gap-3 ml-6 text-sm font-semibold">
+                    <label class="flex items-center gap-1 cursor-pointer">
+                        <input type="radio" name="lang" checked
+                               th:onclick="|window.location='/?lang=fr'|">
+                        FR
+                    </label>
+                    <label class="flex items-center gap-1 cursor-pointer">
+                        <input type="radio" name="lang"
+                               th:onclick="|window.location='/?lang=en'|">
+                        EN
+                    </label>
+                </form>
             </nav>
 
-            <!-- Actions -->
-            <div class="flex items-center gap-4">
-                <a th:href="@{/contact}" class="hidden md:block text-gray-600 hover:text-primary">
-                    Nous contacter
-                </a>
+            <!-- MENU BUTTON (MOBILE / TABLET) -->
+            <button id="menuBtn"
+                    class="md:hidden p-2 rounded hover:bg-gray-100"
+                    aria-label="Menu">
+                <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
 
-                <a sec:authorize="isAnonymous()" th:href="@{/login}" class="px-4 py-2 border border-primary text-primary rounded-lg
-                      hover:bg-primary hover:text-white transition">
-                    Connexion
-                </a>
-
-                <div sec:authorize="isAuthenticated()" class="flex items-center gap-6">
-                    <a th:href="@{/mes-commandes}"
-                        class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition">
-                        Mes Commandes
-                    </a>
-                    <div class="flex items-center gap-3">
-                        <span sec:authentication="name" class="text-sm text-gray-600"></span>
-                        <form th:action="@{/logout}" method="post">
-                            <button class="text-red-500 text-sm hover:text-red-700 transition">Déconnexion</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
         </div>
-    </header>
-</div>
+    </div>
+
+    <!-- MOBILE / TABLET DROPDOWN -->
+    <div id="mobileMenu"
+         class="md:hidden hidden bg-white border-t shadow">
+
+        <nav class="flex flex-col px-6 py-6 gap-5 text-gray-700 font-medium">
+
+            <a th:href="@{/}">Accueil</a>
+            <a th:href="@{/projets}">Offres</a>
+            <a th:href="@{/services}">Services</a>
+            <a th:href="@{/objectifs}">Vision</a>
+            <a th:href="@{/propos}">À propos</a>
+            <a th:href="@{/contact}">Contact</a>
+
+            <a th:href="@{/mes-commandes}"
+               class="mt-4 text-center bg-africanGreen text-white py-3 rounded-xl">
+                Mes commandes
+            </a>
+
+            <!-- LANG RADIO MOBILE -->
+            <form class="flex justify-center gap-6 mt-6 text-sm font-semibold">
+                <label class="flex items-center gap-1">
+                    <input type="radio" name="langMobile" checked
+                           th:onclick="|window.location='/?lang=fr'|">
+                    FR
+                </label>
+                <label class="flex items-center gap-1">
+                    <input type="radio" name="langMobile"
+                           th:onclick="|window.location='/?lang=en'|">
+                    EN
+                </label>
+            </form>
+
+        </nav>
+    </div>
+
+    <!-- SCRIPT -->
+    <script>
+        const btn = document.getElementById("menuBtn");
+        const menu = document.getElementById("mobileMenu");
+        btn.addEventListener("click", () => {
+            menu.classList.toggle("hidden");
+        });
+    </script>
+
+</header>

@@ -1,13 +1,10 @@
 package ecom_blog.service;
 
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-
 import ecom_blog.model.User;
 import ecom_blog.repository.UserRepository;
 import ecom_blog.security.CustomUserDetails;
+import org.springframework.security.core.userdetails.*;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -19,14 +16,15 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // ✅ Recherche par email
+    public UserDetails loadUserByUsername(String email)
+            throws UsernameNotFoundException {
+
         User user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException("Aucun utilisateur trouvé avec l'email : " + email);
+
+        if (user == null || !user.isActif()) {
+            throw new UsernameNotFoundException("Utilisateur invalide");
         }
 
-        // ✅ Retourne ton objet CustomUserDetails
         return new CustomUserDetails(user);
     }
 }

@@ -19,23 +19,19 @@ public class CommandeService {
         this.commandeRepository = commandeRepository;
     }
 
-    // 📦 Toutes les commandes
     public List<Commande> getAll() {
         return commandeRepository.findAll();
     }
 
-    // 🔎 Récupération sûre par ID (OBLIGATOIRE)
     public Commande getById(Long id) {
         return commandeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Commande introuvable"));
     }
 
-    // 💾 Sauvegarde
     public void save(Commande commande) {
         commandeRepository.save(commande);
     }
 
-    // 📊 Statistiques
     public long count() {
         return commandeRepository.count();
     }
@@ -44,31 +40,36 @@ public class CommandeService {
         return commandeRepository.countByStatut(statut);
     }
 
-    // 🕒 Dernières commandes
     public List<Commande> findLast5() {
         return commandeRepository.findTop5ByOrderByDateCommandeDesc();
     }
 
-    // 👤 Commandes d'un utilisateur
     public List<Commande> getByUser(User user) {
         return commandeRepository.findByUserOrderByDateCommandeDesc(user);
     }
 
+    // 📊 Statistiques mensuelles
     public Map<String, Long> getMonthlyOrders() {
         int currentYear = LocalDateTime.now().getYear();
         List<Object[]> results = commandeRepository.countOrdersByMonth(currentYear);
 
         Map<String, Long> stats = new LinkedHashMap<>();
-        String[] months = { "Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc" };
 
-        // Initialize with 0 for all months
-        for (String month : months) {
-            stats.put(month, 0L);
+        String[] months = {
+                "Jan", "Fév", "Mar", "Avr", "Mai", "Juin",
+                "Juil", "Août", "Sep", "Oct", "Nov", "Déc"
+        };
+
+        // initialisation
+        for (String m : months) {
+            stats.put(m, 0L);
         }
 
+        // remplissage depuis la requête
         for (Object[] row : results) {
             int monthIndex = ((Number) row[0]).intValue() - 1;
             long count = ((Number) row[1]).longValue();
+
             if (monthIndex >= 0 && monthIndex < 12) {
                 stats.put(months[monthIndex], count);
             }

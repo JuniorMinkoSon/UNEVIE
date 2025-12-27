@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Livreur</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+<div class="flex">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-gray-900 text-white min-h-screen p-5">
+        <h2 class="text-xl font-bold mb-6">Espace Livreur</h2>
+
+        <nav class="space-y-3">
+            <a href="/livreur/dashboard"
+               class="block px-3 py-2 rounded bg-gray-700 hover:bg-gray-600">
+                Commandes disponibles
+            </a>
+
+            <a href="/logout"
+               class="block px-3 py-2 rounded bg-red-600 hover:bg-red-700">
+                Déconnexion
+            </a>
+        </nav>
+    </aside>
+
+    <!-- CONTENU -->
+    <main class="flex-1 p-8">
+
+        <h1 class="text-2xl font-bold mb-6">Commandes disponibles</h1>
+
+        <div class="overflow-x-auto bg-white rounded shadow">
+            <table class="w-full border-collapse">
+                <thead class="bg-gray-200">
+                <tr>
+                    <th class="p-3 text-left">ID</th>
+                    <th class="p-3 text-left">Client</th>
+                    <th class="p-3 text-left">Statut</th>
+                    <th class="p-3 text-left">Action</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="c : ${commandes}" class="border-t">
+                    <td class="p-3" th:text="${c.id}"></td>
+
+                    <td class="p-3"
+                        th:text="${c.user != null ? c.user.username : 'Client'}">
+                    </td>
+
+                    <td class="p-3">
+                        <span class="px-2 py-1 rounded text-sm bg-yellow-200 text-yellow-900"
+                              th:text="${c.statut}">
+                        </span>
+                    </td>
+
+                    <td class="p-3">
+                        <a th:href="@{/livreur/course/{id}(id=${c.id})}"
+                           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+                            Voir
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

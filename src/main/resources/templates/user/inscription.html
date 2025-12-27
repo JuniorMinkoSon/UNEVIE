@@ -64,28 +64,26 @@
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
     <form th:action="@{/register}" method="post" th:object="${user}">
-        <div class="mb-3">
-            <label for="nom" class="form-label">Nom complet</label>
-            <input type="text" id="nom" th:field="*{nom}" class="form-control" placeholder="Votre nom complet" required>
-        </div>
 
-        <div class="mb-3">
-            <label for="email" class="form-label">Adresse Email</label>
-            <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="ex: contact@mail.com" required>
-        </div>
+        <input type="text" th:field="*{nom}" class="form-control" placeholder="Nom complet" required>
 
-        <div class="mb-3">
-            <label for="password" class="form-label">Mot de passe</label>
-            <input type="password" id="password" th:field="*{password}" class="form-control" placeholder="********" required>
-        </div>
-        <div class="mb-3">
-            <label for="telephone" class="form-label">Numéro de téléphone</label>
-            <input type="text" id="telephone" th:field="*{telephone}" class="form-control" placeholder="ex : +225 07 00 00 00 00" required>
-        </div>
+        <input type="email" th:field="*{email}" class="form-control" placeholder="Email" required>
 
+        <input type="password" th:field="*{password}" class="form-control" placeholder="Mot de passe" required>
 
-        <button type="submit" class="btn btn-register mt-3">S'inscrire</button>
+        <input type="text" th:field="*{telephone}" class="form-control" placeholder="Téléphone" required>
+
+        <!-- 🔽 TYPE UTILISATEUR -->
+        <select name="type" class="form-control mt-3" required>
+            <option value="USER">Client</option>
+            <option value="LIVREUR">Fournisseur / Livreur</option>
+        </select>
+
+        <button type="submit" class="btn btn-register mt-4">
+            S’inscrire
+        </button>
     </form>
+
 
     <p class="text-center mt-3">Déjà inscrit ?
         <a th:href="@{/login}" class="text-decoration-none" style="color:#004080;">Se connecter</a>
