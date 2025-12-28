@@ -10,4 +10,9 @@ public interface ProduitRepository extends JpaRepository<Produit, Long> {
 
     // 🔥 FILTRAGE PAR CATÉGORIE (STRING)
     List<Produit> findByCategorieIgnoreCaseAndDisponibleTrue(String categorie);
+
+    // 🏢 FILTRAGE PAR ENTREPRISE
+    List<Produit> findByEntreprise_Id(Long entrepriseId);
+
+    List<Produit> findByEntreprise_IdAndDisponibleTrue(Long entrepriseId);
 }

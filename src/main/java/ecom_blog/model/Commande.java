@@ -79,4 +79,23 @@ public class Commande extends BaseEntity {
     // Horodatage
     private LocalDateTime datePriseEnCharge; // Date d'assignation du prestataire
     private LocalDateTime dateLivraison; // Date de livraison effective
+
+    // 🚗 NOUVEAUX CHAMPS POUR FONCTIONNALITÉS AVANCÉES
+
+    // Document de permis (pour locations de véhicules)
+    @OneToOne(mappedBy = "commande", cascade = CascadeType.ALL)
+    private DocumentPermis documentPermis;
+
+    // Équipe Fiesta (pour commandes groupées événementielles)
+    @ManyToOne
+    @JoinColumn(name = "equipe_fiesta_id")
+    private EquipeFiesta equipeFiesta;
+
+    // Créneau réservé
+    @OneToOne(mappedBy = "commande")
+    private CreneauDisponibilite creneauReserve;
+
+    // Dates de location (pour produits à durée définie)
+    private LocalDateTime dateDebutLocation;
+    private LocalDateTime dateFinLocation;
 }

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/head :: head (title='Détails Entreprise — UNEVIE')}"></head>
+
+<body
+    class="bg-white dark:bg-africanDark text-slate-900 dark:text-white font-sans overflow-x-hidden transition-colors duration-500">
+
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <!-- SECTION ENTREPRISE -->
+    <section class="pt-32 pb-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <!-- Info Entreprise -->
+            <div id="entrepriseInfo" class="mb-16">
+                <div class="text-center py-20">
+                    <i class="fas fa-spinner fa-spin text-4xl text-primary mb-4"></i>
+                    <p class="text-slate-500 dark:text-gray-400 font-medium">Chargement...</p>
+                </div>
+            </div>
+
+            <!-- Services de l'entreprise -->
+            <div class="mb-12">
+                <h2
+                    class="text-3xl md:text-4xl font-black tracking-tighter uppercase mb-8 text-slate-900 dark:text-white">
+                    Services <span class="text-primary">Disponibles</span>
+                </h2>
+                <div id="servicesGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Les services seront chargés ici -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script th:inline="javascript">
+        const entrepriseId = /*[[${entrepriseId}]]*/ 0;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadEntrepriseDetails();
+            loadServices();
+        });
+
+        function loadServices() {
+            const grid = document.getElementById('servicesGrid');
+            grid.innerHTML = `
+                <div class="col-span-full text-center py-10">
+                    <i class="fas fa-spinner fa-spin text-3xl text-primary mb-3"></i>
+                    <p class="text-slate-500 dark:text-gray-400 font-medium">Chargement des services...</p>
+                </div>
+            `;
+
+            fetch(`/api/entreprises/${entrepriseId}/produits`)
+                .then(response => response.json())
+                .then(produits => {
+                    if (produits.length === 0) {
+                        grid.innerHTML = `
+                            <div class="col-span-full text-center py-10">
+                                <i class="fas fa-box-open text-4xl text-slate-300 dark:text-gray-600 mb-3"></i>
+                                <p class="text-slate-500 dark:text-gray-400 font-medium">
+                                    Aucun service disponible pour le moment
+                                </p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    grid.innerHTML = produits.map(p => createServiceCard(p)).join('');
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    grid.innerHTML = `
+                        <div class="col-span-full text-center py-10">
+                            <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-3"></i>
+                            <p class="text-slate-500 dark:text-gray-400 font-medium">
+                                Erreur de chargement des services
+                            </p>
+                        </div>
+                    `;
+                });
+        }
+
+        function createServiceCard(produit) {
+            const requiresPermis = produit.requiresPermis ?
+                '<span class="inline-flex items-center gap-1 bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 px-2 py-1 rounded-lg text-xs font-bold"><i class="fas fa-id-card"></i> Permis requis</span>' :
+                '';
+
+            return `
+                <div class="bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden hover:border-primary/30 transition-all group">
+                    <div class="relative h-40 bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
+                        ${produit.imageUrl ?
+                    `<img src="${produit.imageUrl}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">` :
+                    `<i class="fas fa-box text-5xl text-primary/30"></i>`
+                }
+                    </div>
+                    
+                    <div class="p-5">
+                        <h3 class="text-lg font-black mb-2 tracking-tight uppercase group-hover:text-primary transition-colors text-slate-900 dark:text-white">
+                            ${produit.nom}
+                        </h3>
+                        
+                        <div class="flex items-center gap-2 mb-3 flex-wrap">
+                            <span class="inline-block bg-slate-200 dark:bg-white/10 text-slate-600 dark:text-gray-400 px-3 py-1 rounded-lg text-xs font-bold uppercase">
+                                ${produit.categorie}
+                            </span>
+                            ${requiresPermis}
+                        </div>
+                        
+                        <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed mb-4 line-clamp-2">
+                            ${produit.description || 'Description non disponible'}
+                        </p>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-white/10">
+                            <div>
+                                <div class="text-xs font-bold text-slate-400 dark:text-gray-500 uppercase">Prix/jour</div>
+                                <div class="text-2xl font-black text-primary">${formatPrice(produit.prix)}</div>
+                            </div>
+                            <a href="/produit/${produit.id}" 
+                                class="bg-primary hover:bg-red-800 text-white px-4 py-2 rounded-xl font-bold uppercase text-xs transition-all active:scale-95">
+                                Voir
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function formatPrice(prix) {
+            if (!prix) return 'Sur devis';
+            return new Intl.NumberFormat('fr-FR', {
+                style: 'currency',
+                currency: 'XOF',
+                minimumFractionDigits: 0
+            }).format(prix);
+        }
+
+        function loadEntrepriseDetails() {
+            fetch(`/api/entreprises/${entrepriseId}`)
+                .then(response => response.json())
+                .then(entreprise => {
+                    displayEntrepriseInfo(entreprise);
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    document.getElementById('entrepriseInfo').innerHTML = `
+                        <div class="text-center py-20">
+                            <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i>
+                            <p class="text-slate-500 dark:text-gray-400 font-medium">
+                                Erreur de chargement
+                            </p>
+                        </div>
+                    `;
+                });
+        }
+
+        function displayEntrepriseInfo(entreprise) {
+            const categorieIcons = {
+                'VEHICULE': 'fa-car',
+                'RESIDENCE': 'fa-home',
+                'EVENEMENT': 'fa-calendar-alt',
+                'TRAITEUR': 'fa-utensils',
+                'AUTRE': 'fa-briefcase'
+            };
+
+            const icon = categorieIcons[entreprise.categorie] || 'fa-briefcase';
+            const contratBadge = entreprise.contratActif ?
+                '<span class="inline-flex items-center gap-2 bg-green-500/10 text-green-600 dark:text-green-400 px-4 py-2 rounded-full text-sm font-black uppercase"><i class="fas fa-check-circle"></i>Partenaire EasyService</span>' :
+                '';
+
+            document.getElementById('entrepriseInfo').innerHTML = `
+                <div class="bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[3rem] overflow-hidden">
+                    <div class="relative h-64 bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                        ${entreprise.logo ?
+                    `<img src="${entreprise.logo}" class="w-full h-full object-cover">` :
+                    `<i class="fas ${icon} text-8xl text-primary/30"></i>`
+                }
+                    </div>
+                    
+                    <div class="p-10">
+                        <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
+                            <div>
+                                <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase mb-4 text-slate-900 dark:text-white">
+                                    ${entreprise.nom}
+                                </h1>
+                                ${contratBadge}
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="w-16 h-16 bg-white dark:bg-africanDark rounded-2xl flex items-center justify-center text-primary text-2xl shadow-xl border border-slate-200 dark:border-white/10">
+                                    <i class="fas ${icon}"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="text-slate-600 dark:text-gray-400 text-lg leading-relaxed mb-8">
+                            ${entreprise.description || 'Description non disponible'}
+                        </p>
+
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="bg-white dark:bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <i class="fas fa-map-marker-alt text-primary text-xl"></i>
+                                    <span class="font-black uppercase text-xs tracking-wide text-slate-500 dark:text-gray-500">Localisation</span>
+                                </div>
+                                <p class="text-slate-900 dark:text-white font-bold">${entreprise.quartierNom || 'Non spécifié'}</p>
+                                <p class="text-sm text-slate-500 dark:text-gray-500">${entreprise.adresse || ''}</p>
+                            </div>
+
+                            <div class="bg-white dark:bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <i class="fas fa-phone text-primary text-xl"></i>
+                                    <span class="font-black uppercase text-xs tracking-wide text-slate-500 dark:text-gray-500">Contact</span>
+                                </div>
+                                <p class="text-slate-900 dark:text-white font-bold">${entreprise.telephone}</p>
+                                ${entreprise.email ? `<p class="text-sm text-slate-500 dark:text-gray-500">${entreprise.email}</p>` : ''}
+                            </div>
+
+                            <div class="bg-white dark:bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <i class="fas fa-box text-primary text-xl"></i>
+                                    <span class="font-black uppercase text-xs tracking-wide text-slate-500 dark:text-gray-500">Services</span>
+                                </div>
+                                <p class="text-slate-900 dark:text-white font-bold text-2xl">${entreprise.nombreProduits || 0}</p>
+                                <p class="text-sm text-slate-500 dark:text-gray-500">Services disponibles</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+
+</body>
+
+</html>
