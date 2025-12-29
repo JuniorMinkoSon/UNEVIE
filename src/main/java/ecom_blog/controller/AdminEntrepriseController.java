@@ -41,3 +41,13 @@ public class AdminEntrepriseController {
         return ResponseEntity.noContent().build();
     }
 }
+
+@org.springframework.stereotype.Controller
+@RequestMapping("/admin")
+class AdminViewController {
+
+    @GetMapping("/tracking-map")
+    public String trackingMap() {
+        return "admin/tracking-map";
+    }
+}

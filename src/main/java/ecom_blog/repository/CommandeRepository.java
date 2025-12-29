@@ -34,6 +34,9 @@ public interface CommandeRepository extends JpaRepository<Commande, Long> {
     // pour simplifier
     List<Commande> findByPrestataireAndStatutNot(Prestataire prestataire, String statutExclu);
 
+    // Trouver l'historique des missions d'un prestataire par statut (ex: LIVREE)
+    List<Commande> findByPrestataireAndStatut(Prestataire prestataire, String statut);
+
     @Query(value = "SELECT EXTRACT(MONTH FROM c.date_commande) as month, COUNT(*) as count " +
             "FROM commandes c " +
             "WHERE EXTRACT(YEAR FROM c.date_commande) = :year " +

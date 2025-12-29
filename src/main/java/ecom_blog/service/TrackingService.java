@@ -56,26 +56,16 @@ public class TrackingService {
     }
 
     /**
-     * Assigne un prestataire disponible à une commande
+     * Assigne un prestataire spécifique à une commande
      */
     @Transactional
-    public Commande assignerPrestataire(Long commandeId) {
+    public Commande assignerPrestataire(Long commandeId, Long prestataireId) {
         Commande commande = commandeRepository.findById(commandeId)
                 .orElseThrow(() -> new RuntimeException("Commande introuvable"));
 
-        // Déterminer le type de prestataire requis
-        TypePrestataire typeRequis = determinerTypePrestataire(commande);
+        Prestataire prestataire = prestataireRepository.findById(prestataireId)
+                .orElseThrow(() -> new RuntimeException("Prestataire introuvable"));
 
-        // Rechercher un prestataire disponible du bon type
-        List<Prestataire> prestatairesDisponibles = prestataireRepository
-                .findByDisponibleTrueAndTypePrestataire(typeRequis);
-
-        if (prestatairesDisponibles.isEmpty()) {
-            throw new RuntimeException("Aucun prestataire disponible de type " + typeRequis);
-        }
-
-        // Assigner le premier prestataire disponible
-        Prestataire prestataire = prestatairesDisponibles.get(0);
         prestataire.setDisponible(false);
         prestataire.setEnService(true);
         prestataireRepository.save(prestataire);
@@ -85,6 +75,16 @@ public class TrackingService {
         commande.setStatutDetaille(StatutCommande.PRESTATAIRE_ASSIGNE);
         commande.setStatut("PRESTATAIRE_ASSIGNE");
         commande.setDatePriseEnCharge(LocalDateTime.now());
+
+        // SÉCURITÉ : Si la destination est vide, on utilise la position du
+        // produit/entreprise par défaut
+        if (commande.getLatitudeDestination() == null &&
+                commande.getProduit() != null &&
+                commande.getProduit().getQuartier() != null) {
+            commande.setLatitudeDestination(commande.getProduit().getQuartier().getLatitude());
+            commande.setLongitudeDestination(commande.getProduit().getQuartier().getLongitude());
+        }
+
         commandeRepository.save(commande);
 
         // Envoyer notification email
@@ -94,6 +94,25 @@ public class TrackingService {
         diffuserMiseAJour(commandeId);
 
         return commande;
+    }
+
+    /**
+     * Assigne un prestataire disponible (le premier trouvé) à une commande
+     */
+    @Transactional
+    public Commande assignerPrestataire(Long commandeId) {
+        Commande commande = commandeRepository.findById(commandeId)
+                .orElseThrow(() -> new RuntimeException("Commande introuvable"));
+
+        TypePrestataire typeRequis = determinerTypePrestataire(commande);
+        List<Prestataire> prestatairesDisponibles = prestataireRepository
+                .findByDisponibleTrueAndTypePrestataire(typeRequis);
+
+        if (prestatairesDisponibles.isEmpty()) {
+            throw new RuntimeException("Aucun prestataire disponible de type " + typeRequis);
+        }
+
+        return assignerPrestataire(commandeId, prestatairesDisponibles.get(0).getId());
     }
 
     /**

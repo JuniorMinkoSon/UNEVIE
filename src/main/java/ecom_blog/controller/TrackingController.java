@@ -1,109 +1,84 @@
 package ecom_blog.controller;
 
-import ecom_blog.model.Commande;
-import ecom_blog.model.enums.StatutCommande;
-import ecom_blog.service.TrackingService;
+import ecom_blog.dto.VehiculePositionDto;
+import ecom_blog.model.VehiculePosition;
+import ecom_blog.model.enums.StatutVehicule;
+import ecom_blog.service.VehiculeTrackingService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
+/**
+ * Controller pour gérer le suivi des véhicules (REST)
+ */
 @RestController
 @RequestMapping("/api/tracking")
+@RequiredArgsConstructor
 public class TrackingController {
 
-    private final TrackingService trackingService;
+    private final VehiculeTrackingService trackingService;
 
-    public TrackingController(TrackingService trackingService) {
-        this.trackingService = trackingService;
+    /**
+     * Récupère la dernière position de tous les véhicules actifs
+     */
+    @GetMapping("/active")
+    public ResponseEntity<List<VehiculePositionDto>> getActiveVehicles() {
+        List<VehiculePosition> positions = trackingService.getAllLatestPositions();
+        return ResponseEntity.ok(positions.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList()));
     }
 
     /**
-     * Récupère les informations de suivi d'une commande
+     * Récupère l'historique d'un véhicule
      */
-    @GetMapping("/{commandeId}")
-    public ResponseEntity<Map<String, Object>> getTrackingInfo(@PathVariable Long commandeId) {
-        try {
-            Map<String, Object> info = trackingService.getTrackingInfo(commandeId);
-            return ResponseEntity.ok(info);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
+    @GetMapping("/history/{vehiculeId}")
+    public ResponseEntity<List<VehiculePositionDto>> getHistory(
+            @PathVariable Long vehiculeId,
+            @RequestParam(required = false) Integer hours) {
+
+        LocalDateTime debut = LocalDateTime.now().minusHours(hours != null ? hours : 24);
+        LocalDateTime fin = LocalDateTime.now();
+
+        List<VehiculePosition> history = trackingService.getPositionHistory(vehiculeId, debut, fin);
+        return ResponseEntity.ok(history.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList()));
     }
 
     /**
-     * Assigne un prestataire à une commande
+     * Endpoint pour simuler/mettre à jour une position (appelé par l'app chauffeur
+     * ou simulateur)
      */
-    @PostMapping("/{commandeId}/assigner-prestataire")
-    public ResponseEntity<?> assignerPrestataire(@PathVariable Long commandeId) {
-        try {
-            Commande commande = trackingService.assignerPrestataire(commandeId);
-            return ResponseEntity.ok(Map.of(
-                    "success", true,
-                    "message", "Prestataire assigné avec succès",
-                    "commande", commande));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of(
-                    "success", false,
-                    "error", e.getMessage()));
-        }
+    @PostMapping("/update")
+    public ResponseEntity<VehiculePositionDto> updatePosition(@RequestBody VehiculePositionDto dto) {
+        VehiculePosition updated = trackingService.updatePosition(
+                dto.getVehiculeId(),
+                dto.getLatitude(),
+                dto.getLongitude(),
+                StatutVehicule.valueOf(dto.getStatut()),
+                dto.getVitesse(),
+                dto.getDirection());
+        return ResponseEntity.ok(convertToDto(updated));
     }
 
-    /**
-     * Met à jour la position d'un prestataire
-     */
-    @PutMapping("/prestataire/{prestataireId}/position")
-    public ResponseEntity<?> updatePosition(
-            @PathVariable Long prestataireId,
-            @RequestParam Double latitude,
-            @RequestParam Double longitude) {
-        try {
-            trackingService.updatePositionPrestataire(prestataireId, latitude, longitude);
-            return ResponseEntity.ok(Map.of(
-                    "success", true,
-                    "message", "Position mise à jour"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of(
-                    "success", false,
-                    "error", e.getMessage()));
-        }
-    }
-
-    /**
-     * Change le statut d'une commande
-     */
-    @PutMapping("/{commandeId}/statut")
-    public ResponseEntity<?> changerStatut(
-            @PathVariable Long commandeId,
-            @RequestParam String statut) {
-        try {
-            StatutCommande nouveauStatut = StatutCommande.valueOf(statut);
-            Commande commande = trackingService.changerStatut(commandeId, nouveauStatut);
-            return ResponseEntity.ok(Map.of(
-                    "success", true,
-                    "message", "Statut mis à jour",
-                    "commande", commande));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of(
-                    "success", false,
-                    "error", e.getMessage()));
-        }
-    }
-
-    /**
-     * Démarre la simulation de déplacement (pour tests)
-     */
-    @PostMapping("/{commandeId}/simuler-deplacement")
-    public ResponseEntity<?> simulerDeplacement(@PathVariable Long commandeId) {
-        try {
-            trackingService.simulerDeplacementPrestataire(commandeId);
-            return ResponseEntity.ok(Map.of(
-                    "success", true,
-                    "message", "Simulation démarrée"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of(
-                    "success", false,
-                    "error", e.getMessage()));
-        }
+    // Convertisseur simple Entity -> DTO
+    private VehiculePositionDto convertToDto(VehiculePosition entity) {
+        VehiculePositionDto dto = new VehiculePositionDto();
+        dto.setId(entity.getId());
+        dto.setVehiculeId(entity.getVehiculeId());
+        dto.setCommandeId(entity.getCommandeId());
+        dto.setLatitude(entity.getLatitude());
+        dto.setLongitude(entity.getLongitude());
+        dto.setTimestamp(entity.getTimestamp());
+        dto.setStatut(entity.getStatut().name());
+        dto.setVitesse(entity.getVitesse());
+        dto.setDirection(entity.getDirection());
+        dto.setAdresseApproximative(entity.getAdresseApproximative());
+        return dto;
     }
 }

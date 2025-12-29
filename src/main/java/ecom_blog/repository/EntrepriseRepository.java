@@ -27,4 +27,6 @@ public interface EntrepriseRepository extends JpaRepository<Entreprise, Long> {
 
     // Recherche par nom
     List<Entreprise> findByNomContainingIgnoreCase(String nom);
+
+    java.util.Optional<Entreprise> findByNom(String nom);
 }

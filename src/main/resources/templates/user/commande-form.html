@@ -53,7 +53,7 @@
         <div
             class="bg-slate-50 dark:bg-white/5 backdrop-blur-2xl border border-slate-200 dark:border-white/10 rounded-[3rem] shadow-2xl dark:shadow-none p-8 md:p-12">
 
-            <form th:action="@{/checkout/save}" method="post" id="checkout-form">
+            <form th:action="@{/produits/valider-commande}" method="post" id="checkout-form">
 
                 <!-- Hidden fields for geoloc & product -->
                 <input type="hidden" name="latitude" id="hidden-lat">
@@ -73,7 +73,7 @@
                                 th:text="#{checkout.form.name.label}">Nom Complet</label>
                             <input type="text" name="nomClient" id="input-nom" required
                                 th:placeholder="#{checkout.form.name.placeholder}"
-                                th:value="${#authentication.principal != 'anonymousUser' ? #authentication.principal.nom : ''}"
+                                th:value="${user != null ? user.nom : ''}"
                                 class="w-full px-6 py-5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-slate-300 dark:placeholder-gray-700 text-slate-900 dark:text-white text-sm shadow-sm dark:shadow-none">
                         </div>
 
@@ -84,7 +84,7 @@
                                 th:text="#{checkout.form.phone.label}">Téléphone</label>
                             <input type="tel" name="telephone" id="input-tel" required
                                 th:placeholder="#{checkout.form.phone.placeholder}"
-                                th:value="${#authentication.principal != 'anonymousUser' ? #authentication.principal.telephone : ''}"
+                                th:value="${user != null ? user.telephone : ''}"
                                 class="w-full px-6 py-5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-slate-300 dark:placeholder-gray-700 text-slate-900 dark:text-white text-sm shadow-sm dark:shadow-none">
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                         <label
                             class="block text-[10px] font-black text-slate-500 dark:text-gray-500 uppercase tracking-widest ml-1"
                             th:text="#{checkout.form.payment.label}">Mode de Règlement</label>
-                        <select name="typePaiement" id="payment-select"
+                        <select name="modePaiement" id="payment-select"
                             class="w-full px-6 py-5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-slate-900 dark:text-white text-sm appearance-none cursor-pointer shadow-sm dark:shadow-none">
                             <option value="TELEPHONE" class="bg-white dark:bg-africanDark"
                                 th:text="#{checkout.form.payment.mobile}">

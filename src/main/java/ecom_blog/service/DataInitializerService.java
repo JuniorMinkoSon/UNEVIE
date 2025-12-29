@@ -32,14 +32,10 @@ public class DataInitializerService implements CommandLineRunner {
         @Override
         public void run(String... args) throws Exception {
                 // Vérifier si des données existent déjà
-                // NOTE: Décommentez ces lignes pour éviter de recréer les données à chaque
-                // démarrage
-                /*
-                 * if (quartierRepository.count() > 0) {
-                 * log.info("Les données de démonstration existent déjà");
-                 * return;
-                 * }
-                 */
+                if (quartierRepository.count() > 0) {
+                        log.info("Les données de démonstration existent déjà. Skip initialisation.");
+                        return;
+                }
 
                 log.info(" Initialisation des données de démonstration UNEVIE...");
 
@@ -53,7 +49,7 @@ public class DataInitializerService implements CommandLineRunner {
                 log.info(" Quartiers créés");
 
                 // Créer des entreprises de véhicules
-                createEntreprise(
+                Entreprise babiLoc = createEntreprise(
                                 "Babi Location",
                                 "Location de véhicules haut de gamme avec chauffeur disponible. Flotte moderne et bien entretenue.",
                                 CategorieEntreprise.VEHICULE,
@@ -63,7 +59,15 @@ public class DataInitializerService implements CommandLineRunner {
                                 LocalDate.of(2024, 1, 1),
                                 LocalDate.of(2026, 12, 31));
 
-                createEntreprise(
+                // Services pour Babi Location
+                createProduit("Toyota Land Cruiser V8", "SUV de luxe avec chauffeur", 150000.0, "VEHICULE", true,
+                                babiLoc, cocody);
+                createProduit("Hyundai Santa Fe", "SUV confort pour vos déplacements urbains", 60000.0, "VEHICULE",
+                                true, babiLoc, cocody);
+                createProduit("Berline Classe Affaire", "Mercedes Classe C pour vos rendez-vous", 100000.0, "VEHICULE",
+                                true, babiLoc, cocody);
+
+                Entreprise sponguyLoc = createEntreprise(
                                 "Sponguy Location",
                                 "Spécialiste de la location de véhicules pour tous vos déplacements. Service 24/7.",
                                 CategorieEntreprise.VEHICULE,
@@ -73,8 +77,13 @@ public class DataInitializerService implements CommandLineRunner {
                                 LocalDate.of(2024, 3, 1),
                                 LocalDate.of(2026, 2, 28));
 
+                createProduit("Suzuki Espresso", "Petite citadine économique", 25000.0, "VEHICULE", true, sponguyLoc,
+                                yopougon);
+                createProduit("Pick-up 4x4", "Idéal pour les chantiers et déplacements hors Abidjan", 70000.0,
+                                "VEHICULE", true, sponguyLoc, yopougon);
+
                 // Créer des entreprises de résidences
-                createEntreprise(
+                Entreprise resPremium = createEntreprise(
                                 "Résidences Premium CI",
                                 "Locations de résidences meublées standing pour séjours courts et longs. Confort garanti.",
                                 CategorieEntreprise.RESIDENCE,
@@ -84,7 +93,12 @@ public class DataInitializerService implements CommandLineRunner {
                                 LocalDate.of(2024, 2, 1),
                                 LocalDate.of(2025, 1, 31));
 
-                createEntreprise(
+                createProduit("Studio Haut Standing", "Studio meublé au Plateau, vue lagune", 45000.0, "RESIDENCE",
+                                false, resPremium, plateau);
+                createProduit("Appartement 3 Pièces", "Grand appartement familial sécurisé", 85000.0, "RESIDENCE",
+                                false, resPremium, plateau);
+
+                Entreprise assinieResort = createEntreprise(
                                 "Assinie Beach Resort",
                                 "Villas et appartements en bord de mer à Assinie. Cadre idyllique pour vos vacances.",
                                 CategorieEntreprise.RESIDENCE,
@@ -94,8 +108,13 @@ public class DataInitializerService implements CommandLineRunner {
                                 LocalDate.of(2024, 6, 1),
                                 LocalDate.of(2026, 5, 31));
 
+                createProduit("Villa Bord de Mer", "Villa 4 pièces avec piscine privée", 250000.0, "RESIDENCE", false,
+                                assinieResort, cocody);
+                createProduit("Bungalow Plage", "Petit bungalow romantique pieds dans l'eau", 120000.0, "RESIDENCE",
+                                false, assinieResort, cocody);
+
                 // Créer des traiteurs
-                createEntreprise(
+                Entreprise delicesAfrique = createEntreprise(
                                 "Délices d'Afrique",
                                 "Traiteur spécialisé dans la cuisine africaine et internationale. Pour tous vos événements.",
                                 CategorieEntreprise.TRAITEUR,
@@ -105,7 +124,12 @@ public class DataInitializerService implements CommandLineRunner {
                                 LocalDate.of(2023, 10, 1),
                                 LocalDate.of(2025, 9, 30));
 
-                createEntreprise(
+                createProduit("Buffet Africain Royal", "Assortiment complet de mets ivoiriens (pour 50 pers)", 300000.0,
+                                "TRAITEUR", false, delicesAfrique, marcory);
+                createProduit("Cocktail Dînatoire", "Petits fours et mignardises salées/sucrées (par pers)", 15000.0,
+                                "TRAITEUR", false, delicesAfrique, marcory);
+
+                Entreprise royalCatering = createEntreprise(
                                 "Royal Catering Services",
                                 "Service traiteur haut de gamme pour mariages, séminaires et événements corporate.",
                                 CategorieEntreprise.TRAITEUR,
@@ -115,8 +139,11 @@ public class DataInitializerService implements CommandLineRunner {
                                 LocalDate.of(2024, 1, 15),
                                 LocalDate.of(2026, 1, 14));
 
+                createProduit("Menu Mariage Prestige", "Repas servi à table, 3 services + boissons", 25000.0,
+                                "TRAITEUR", false, royalCatering, treichville);
+
                 // Créer une entreprise événementielle
-                createEntreprise(
+                Entreprise eventMakers = createEntreprise(
                                 "EventMakers Pro",
                                 "Organisation complète d'événements : mariages, anniversaires, séminaires. Équipe professionnelle.",
                                 CategorieEntreprise.EVENEMENT,
@@ -126,7 +153,12 @@ public class DataInitializerService implements CommandLineRunner {
                                 LocalDate.of(2024, 4, 1),
                                 LocalDate.of(2027, 3, 31));
 
-                log.info("Entreprises créées");
+                createProduit("Pack Décoration Mariage", "Décoration complète salle + tables + fleurs", 1500000.0,
+                                "EVENEMENT", false, eventMakers, cocody);
+                createProduit("Sonorisation & Lumières", "Kit complet sono DJ et éclairage d'ambiance", 350000.0,
+                                "EVENEMENT", false, eventMakers, cocody);
+
+                log.info("Entreprises et Services (Produits) créés");
 
                 // Créer des catégories de blog
                 Categorie techCategory = createCategorie("Technologie",
@@ -167,6 +199,10 @@ public class DataInitializerService implements CommandLineRunner {
         }
 
         private Quartier createQuartier(String nom, String commune, Double lat, Double lng, Double rayon) {
+                Quartier existing = quartierRepository.findByNom(nom);
+                if (existing != null)
+                        return existing;
+
                 Quartier quartier = new Quartier();
                 quartier.setNom(nom);
                 quartier.setCommune(commune);
@@ -179,35 +215,64 @@ public class DataInitializerService implements CommandLineRunner {
         private Entreprise createEntreprise(String nom, String description, CategorieEntreprise categorie,
                         Quartier quartier, String telephone, String email,
                         LocalDate dateDebut, LocalDate dateFin) {
-                Entreprise entreprise = new Entreprise();
-                entreprise.setNom(nom);
-                entreprise.setDescription(description);
-                entreprise.setCategorie(categorie);
-                entreprise.setQuartier(quartier);
-                entreprise.setTelephone(telephone);
-                entreprise.setEmail(email);
-                entreprise.setContratActif(true);
-                entreprise.setDateDebutContrat(dateDebut);
-                entreprise.setDateFinContrat(dateFin);
-                entreprise.setCommissionPourcentage(10.0);
-                entreprise.setLatitude(quartier.getLatitude());
-                entreprise.setLongitude(quartier.getLongitude());
-                return entrepriseRepository.save(entreprise);
+                return entrepriseRepository.findByNom(nom).orElseGet(() -> {
+                        Entreprise entreprise = new Entreprise();
+                        entreprise.setNom(nom);
+                        entreprise.setDescription(description);
+                        entreprise.setCategorie(categorie);
+                        entreprise.setQuartier(quartier);
+                        entreprise.setTelephone(telephone);
+                        entreprise.setEmail(email);
+                        entreprise.setContratActif(true);
+                        entreprise.setDateDebutContrat(dateDebut);
+                        entreprise.setDateFinContrat(dateFin);
+                        entreprise.setCommissionPourcentage(10.0);
+                        entreprise.setLatitude(quartier.getLatitude());
+                        entreprise.setLongitude(quartier.getLongitude());
+                        return entrepriseRepository.save(entreprise);
+                });
         }
 
         private Categorie createCategorie(String libelle, String description) {
-                Categorie categorie = new Categorie();
-                categorie.setLibelle(libelle);
-                categorie.setDescription(description);
-                return categorieRepository.save(categorie);
+                return categorieRepository.findByLibelle(libelle).orElseGet(() -> {
+                        Categorie categorie = new Categorie();
+                        categorie.setLibelle(libelle);
+                        categorie.setDescription(description);
+                        return categorieRepository.save(categorie);
+                });
         }
 
         private Article createArticle(String titre, String slug, String contenu, Categorie categorie) {
-                Article article = new Article();
-                article.setTitre(titre);
-                article.setSlug(slug);
-                article.setContenu(contenu);
-                article.setCategory(categorie);
-                return articleRepository.save(article);
+                return articleRepository.findBySlug(slug).orElseGet(() -> {
+                        Article article = new Article();
+                        article.setTitre(titre);
+                        article.setSlug(slug);
+                        article.setContenu(contenu);
+                        article.setCategory(categorie);
+                        return articleRepository.save(article);
+                });
+        }
+
+        private Produit createProduit(String nom, String description, Double prix, String categorie,
+                        boolean requiresPermis,
+                        Entreprise entreprise, Quartier quartier) {
+                // Check if product already exists for this entreprise (simplified check by
+                // name)
+                return produitRepository.findAll().stream()
+                                .filter(p -> p.getNom().equals(nom)
+                                                && p.getEntreprise().getId().equals(entreprise.getId()))
+                                .findFirst()
+                                .orElseGet(() -> {
+                                        Produit produit = new Produit();
+                                        produit.setNom(nom);
+                                        produit.setDescription(description);
+                                        produit.setPrix(prix);
+                                        produit.setCategorie(categorie);
+                                        produit.setRequiresPermis(requiresPermis);
+                                        produit.setEntreprise(entreprise);
+                                        produit.setQuartier(quartier);
+                                        produit.setDisponible(true);
+                                        return produitRepository.save(produit);
+                                });
         }
 }

@@ -56,7 +56,24 @@ public class UserProduitController {
 
         model.addAttribute("produits", produits);
         model.addAttribute("articles", articleService.getAll());
+        model.addAttribute("articles", articleService.getAll());
         return "user/projets";
+    }
+
+    /**
+     * Page détail d'un produit
+     */
+    @GetMapping("/produit/{id}")
+    public String getProduitDetails(@PathVariable Long id, Model model) {
+        Produit produit = produitService.getById(id);
+        if (produit == null) {
+            return "redirect:/projets?error=notfound";
+        }
+        model.addAttribute("produit", produit);
+        // Si le produit est lié à une entreprise, on peut aussi l'ajouter si besoin
+        // explicitement,
+        // mais produit.getEntreprise() le fait déjà
+        return "user/product-details";
     }
 
     /**
@@ -72,6 +89,8 @@ public class UserProduitController {
             return "redirect:/projets?error=notfound";
         }
 
+        User user = userService.findByEmail(principal.getName());
+        model.addAttribute("user", user);
         model.addAttribute("produit", produit);
         model.addAttribute("commande", new Commande());
         return "user/commande-form";
@@ -89,48 +108,54 @@ public class UserProduitController {
         if (produit == null)
             return "redirect:/projets";
 
-        // Associer le produit
-        commande.setProduit(produit);
+        try {
+            // Associer le produit
+            commande.setProduit(produit);
 
-        // Utilisateur (optionnel si non connecté)
-        if (principal != null) {
-            User user = userService.findByEmail(principal.getName());
-            commande.setUser(user);
-        }
-
-        // Calcul du total
-        double total = produit.getPrix();
-        if (commande.getQuantite() != null && commande.getQuantite() > 1) {
-            total = total * commande.getQuantite();
-        }
-        if (commande.getNombreJours() != null && commande.getNombreJours() > 1) {
-            total = total * commande.getNombreJours();
-        }
-        commande.setTotal(total);
-
-        // Date et Statut
-        commande.setDateCommande(LocalDateTime.now());
-        commande.setStatut("EN_ATTENTE");
-
-        // Si l'adresse est vide mais localisation remplie, on copie
-        if ((commande.getAdresse() == null || commande.getAdresse().isBlank())
-                && commande.getLocalisation() != null) {
-            commande.setAdresse(commande.getLocalisation());
-        }
-
-        commandeService.save(commande);
-
-        // Si paiement par Wave, redirection vers leur portail
-        if ("TELEPHONE".equals(commande.getModePaiement()) && "Wave".equals(commande.getOperateur())) {
-            String checkoutUrl = waveService.createCheckoutSession(commande.getTotal(), commande.getId());
-            if (checkoutUrl != null) {
-                return "redirect:" + checkoutUrl;
-            } else {
-                return "redirect:/projets?error=wave_api_error";
+            // Utilisateur (optionnel si non connecté)
+            if (principal != null) {
+                User user = userService.findByEmail(principal.getName());
+                commande.setUser(user);
             }
-        }
 
-        return "redirect:/projets?success=commande";
+            // Calcul du total
+            double total = produit.getPrix();
+            if (commande.getQuantite() != null && commande.getQuantite() > 1) {
+                total = total * commande.getQuantite();
+            }
+            if (commande.getNombreJours() != null && commande.getNombreJours() > 1) {
+                total = total * commande.getNombreJours();
+            }
+            commande.setTotal(total);
+
+            // Date et Statut
+            commande.setDateCommande(LocalDateTime.now());
+            commande.setStatut("EN_ATTENTE");
+
+            // Si l'adresse est vide mais localisation remplie, on copie
+            if ((commande.getAdresse() == null || commande.getAdresse().isBlank())
+                    && commande.getLocalisation() != null) {
+                commande.setAdresse(commande.getLocalisation());
+            }
+
+            commandeService.save(commande);
+
+            // Si paiement par Wave, redirection vers leur portail
+            if ("TELEPHONE".equals(commande.getModePaiement()) && "Wave".equals(commande.getOperateur())) {
+                String checkoutUrl = waveService.createCheckoutSession(commande.getTotal(), commande.getId());
+                if (checkoutUrl != null) {
+                    return "redirect:" + checkoutUrl;
+                } else {
+                    return "redirect:/projets?error=wave_api_error";
+                }
+            }
+
+            return "redirect:/projets?success=commande";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/projets?error=" + e.getMessage();
+        }
     }
 
     /**

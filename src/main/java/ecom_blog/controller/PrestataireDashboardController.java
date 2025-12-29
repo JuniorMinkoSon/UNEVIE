@@ -23,13 +23,16 @@ public class PrestataireDashboardController {
     private final PrestataireRepository prestataireRepository;
     private final UserService userService;
     private final ecom_blog.repository.CommandeRepository commandeRepository;
+    private final ecom_blog.service.TrackingService trackingService;
 
     public PrestataireDashboardController(PrestataireRepository prestataireRepository,
             UserService userService,
-            ecom_blog.repository.CommandeRepository commandeRepository) {
+            ecom_blog.repository.CommandeRepository commandeRepository,
+            ecom_blog.service.TrackingService trackingService) {
         this.prestataireRepository = prestataireRepository;
         this.userService = userService;
         this.commandeRepository = commandeRepository;
+        this.trackingService = trackingService;
     }
 
     @GetMapping("/dashboard")
@@ -56,9 +59,26 @@ public class PrestataireDashboardController {
         java.util.List<ecom_blog.model.Commande> mesMissions = commandeRepository
                 .findByPrestataireAndStatutNot(prestataire, "LIVREE");
 
+        // 3. Charger l'historique (Missions livrées)
+        java.util.List<ecom_blog.model.Commande> historique = commandeRepository.findByPrestataireAndStatut(prestataire,
+                "LIVREE");
+
+        // 4. Calculer les gains du jour (avec sécurité sur la date)
+        double gainsDuJour = historique.stream()
+                .filter(c -> c.getDateCommande() != null &&
+                        c.getDateCommande().toLocalDate().isEqual(java.time.LocalDate.now()))
+                .mapToDouble(ecom_blog.model.Commande::getTotal)
+                .sum();
+
+        // 5. KPIs
+        int coursesTerminees = historique.size();
+
         model.addAttribute("prestataire", prestataire);
         model.addAttribute("offres", offres);
         model.addAttribute("mesMissions", mesMissions);
+        model.addAttribute("historique", historique);
+        model.addAttribute("gainsDuJour", gainsDuJour);
+        model.addAttribute("coursesTerminees", coursesTerminees);
 
         return "prestataire/dashboard";
     }
@@ -75,9 +95,8 @@ public class PrestataireDashboardController {
         ecom_blog.model.Commande commande = commandeRepository.findById(id).orElse(null);
 
         if (commande != null && commande.getPrestataire() == null) {
-            commande.setPrestataire(prestataire);
-            commande.setStatutDetaille(ecom_blog.model.enums.StatutCommande.PRESTATAIRE_ASSIGNE);
-            commandeRepository.save(commande);
+            // Utiliser le TrackingService pour l'assignation du prestataire connecté
+            trackingService.assignerPrestataire(id, prestataire.getId());
             redirectAttributes.addFlashAttribute("success", "Vous avez accepté la mission !");
         } else {
             redirectAttributes.addFlashAttribute("error", "Cette mission n'est plus disponible.");
@@ -98,9 +117,22 @@ public class PrestataireDashboardController {
 
         if (commande != null && commande.getPrestataire() != null
                 && commande.getPrestataire().getId().equals(prestataire.getId())) {
+            // Utiliser le TrackingService ou logique manuelle. Ici, on garde la logique
+            // manuelle pour l'instant
+            // mais idéalement tout devrait passer par le service.
+            // On va utiliser le service pour le changement de statut si possible, mais le
+            // service n'a pas explicitement "annulerMission" qui remet à null.
+            // On fait donc manuellement mais proprement.
             commande.setPrestataire(null); // Libérer la commande
+            commande.setStatut("EN_ATTENTE"); // Remettre le statut textuel
             commande.setStatutDetaille(ecom_blog.model.enums.StatutCommande.CREEE); // Remettre en attente
             commandeRepository.save(commande);
+
+            // On notifie la dispo
+            prestataire.setDisponible(true);
+            prestataire.setEnService(false);
+            prestataireRepository.save(prestataire);
+
             redirectAttributes.addFlashAttribute("success",
                     "Mission annulée. Elle est de nouveau disponible pour les autres.");
         } else {
@@ -114,17 +146,12 @@ public class PrestataireDashboardController {
     public String completeMission(@org.springframework.web.bind.annotation.PathVariable Long id,
             Principal principal,
             RedirectAttributes redirectAttributes) {
-        User user = userService.findByEmail(principal.getName());
-        Prestataire prestataire = prestataireRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("Prestataire introuvable"));
-
-        ecom_blog.model.Commande commande = commandeRepository.findById(id).orElse(null);
-
-        if (commande != null && commande.getPrestataire().getId().equals(prestataire.getId())) {
-            commande.setStatut("LIVREE");
-            commande.setStatutDetaille(ecom_blog.model.enums.StatutCommande.LIVREE);
-            commandeRepository.save(commande);
+        // Via service
+        try {
+            trackingService.changerStatut(id, ecom_blog.model.enums.StatutCommande.LIVREE);
             redirectAttributes.addFlashAttribute("success", "Félicitations ! Mission terminée.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Erreur : " + e.getMessage());
         }
         return "redirect:/prestataire/dashboard";
     }
@@ -143,17 +170,21 @@ public class PrestataireDashboardController {
     }
 
     @PostMapping("/location")
-    public String updateLocation(@RequestParam Double latitude, @RequestParam Double longitude,
-            Principal principal, RedirectAttributes redirectAttributes) {
-        User user = userService.findByEmail(principal.getName());
-        Prestataire prestataire = prestataireRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("Prestataire introuvable"));
+    @org.springframework.web.bind.annotation.ResponseBody
+    public org.springframework.http.ResponseEntity<?> updateLocation(@RequestParam Double latitude,
+            @RequestParam Double longitude,
+            Principal principal) {
+        try {
+            User user = userService.findByEmail(principal.getName());
+            Prestataire prestataire = prestataireRepository.findByUser(user)
+                    .orElseThrow(() -> new RuntimeException("Prestataire introuvable"));
 
-        prestataire.setLatitude(latitude);
-        prestataire.setLongitude(longitude);
-        prestataireRepository.save(prestataire);
+            // Mise à jour via le service qui diffuse via WebSocket
+            trackingService.updatePositionPrestataire(prestataire.getId(), latitude, longitude);
 
-        redirectAttributes.addFlashAttribute("success", "Votre position a été mise à jour avec succès.");
-        return "redirect:/prestataire/dashboard";
+            return org.springframework.http.ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

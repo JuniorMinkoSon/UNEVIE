@@ -6,23 +6,29 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+/**
+ * Configuration WebSocket pour le suivi en temps réel des véhicules
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        // Préfixe pour les destinations diffusées par le serveur
-        config.enableSimpleBroker("/topic");
-        // Préfixe pour les destinations des messages des clients
+        // Activer un simple broker de messages pour diffuser aux clients
+        // /topic pour les diffusions publiques (positions véhicules)
+        // /queue pour les messages privés (notifications chauffeur)
+        config.enableSimpleBroker("/topic", "/queue");
+
+        // Préfixe pour les messages venant des clients vers le serveur
         config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // Point de connexion WebSocket
+        // Point de connexion WebSocket avec fallback SockJS
         registry.addEndpoint("/ws-tracking")
-                .setAllowedOriginPatterns("*")
+                .setAllowedOriginPatterns("*") // En prod, restreindre aux origines de confiance
                 .withSockJS();
     }
 }

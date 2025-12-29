@@ -2,270 +2,464 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espace Prestataire — UNEVIE</title>
-    <!-- Utilisation du même fragment head admin pour les styles -->
-    <div th:replace="~{fragments/admin-head :: head(title='Espace Prestataire')}"></div>
+    <div th:replace="~{fragments/admin-head :: head(title='Espace Livreur')}"></div>
+    <!-- Leaflet CSS (Local) -->
+    <link rel="stylesheet" th:href="@{/lib/leaflet/leaflet.css}" />
     <style>
-        .provider-header {
-            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
-            color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-            border-radius: 0 0 30px 30px;
-            box-shadow: 0 10px 30px rgba(13, 110, 253, 0.2);
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .status-card {
-            transition: all 0.3s ease;
+        .map-container {
+            height: 300px;
+            width: 100%;
+            border-radius: 1rem;
+            z-index: 1;
         }
 
-        .status-card.active {
-            border-left: 5px solid #198754;
-            background-color: #f8fff9;
-        }
-
-        .status-card.inactive {
-            border-left: 5px solid #dc3545;
-            background-color: #fff8f8;
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #4ade80, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
 
-<body class="bg-light">
+<body class="bg-slate-900 text-white font-sans min-h-screen pb-20 selection:bg-red-500 selection:text-white">
 
-    <!-- Header Prestataire -->
-    <header class="provider-header text-center">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center"
-                        style="width: 50px; height: 50px; font-size: 1.5rem;">
-                        <i class="fa-solid fa-user-tie"></i>
+    <!-- Navbar Mobile-like -->
+    <nav
+        class="fixed top-0 w-full z-50 glass-panel border-b border-white/10 px-4 py-3 flex justify-between items-center shadow-lg shadow-black/20">
+        <div class="flex items-center gap-3">
+            <div
+                class="w-10 h-10 rounded-full bg-gradient-to-tr from-red-600 to-orange-500 flex items-center justify-center font-bold text-lg shadow-md ring-2 ring-white/10">
+                <i class="fa-solid fa-helmet-safety"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg leading-tight tracking-wide" th:text="${prestataire.nom}">Livreur</h1>
+                <div class="flex items-center gap-2 text-xs font-mono text-gray-400">
+                    <span class="w-2 h-2 rounded-full"
+                        th:classappend="${prestataire.disponible} ? 'bg-green-500 animate-pulse' : 'bg-red-500'"></span>
+                    <span th:text="${prestataire.disponible} ? 'EN LIGNE' : 'HORS LIGNE'">HORS LIGNE</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Toggle Form -->
+        <form id="statusForm" th:action="@{/prestataire/status}" method="post">
+            <input type="hidden" name="latitude" id="latInput">
+            <input type="hidden" name="longitude" id="lngInput">
+            <button id="statusToggle" type="button"
+                class="relative inline-flex h-8 w-14 items-center rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-slate-900"
+                th:classappend="${prestataire.disponible} ? 'bg-gradient-to-r from-green-500 to-emerald-600' : 'bg-slate-700'">
+                <span class="sr-only">Statut</span>
+                <span
+                    class="inline-block h-6 w-6 transform rounded-full bg-white transition duration-200 ease-in-out shadow-md"
+                    th:classappend="${prestataire.disponible} ? 'translate-x-7' : 'translate-x-1'"></span>
+            </button>
+            <div id="statusText" class="absolute top-14 right-4 text-[10px] font-mono tracking-wider text-gray-400">
+            </div>
+        </form>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 pt-24 space-y-6 max-w-lg">
+
+        <!-- Welcome Message (Only if Offline) -->
+        <div th:if="${!prestataire.disponible}" class="text-center py-6 animate-fadeIn">
+            <h2 class="text-2xl font-light mb-2">Bonjour, <span class="font-bold text-red-500"
+                    th:text="${prestataire.user.nom}">Adama</span></h2>
+            <p class="text-gray-400">Passez en ligne pour recevoir des courses</p>
+        </div>
+
+        <!-- KPIs Grid -->
+        <div class="grid grid-cols-2 gap-4">
+            <!-- Earnings -->
+            <div
+                class="glass-panel rounded-2xl p-5 relative overflow-hidden group hover:bg-white/10 transition duration-300">
+                <div
+                    class="absolute -top-2 -right-2 p-4 bg-green-500/10 rounded-bl-3xl rounded-tr-xl group-hover:bg-green-500/20 transition">
+                    <i class="fa-solid fa-wallet text-green-500 text-xl"></i>
+                </div>
+                <p class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Gains du jour</p>
+                <h2 class="text-2xl font-bold font-mono tracking-tighter">
+                    <span class="text-gradient" th:text="${gainsDuJour}">0</span> <span
+                        class="text-sm text-gray-500">F</span>
+                </h2>
+            </div>
+
+            <!-- Missions Count -->
+            <div
+                class="glass-panel rounded-2xl p-5 relative overflow-hidden group hover:bg-white/10 transition duration-300">
+                <div
+                    class="absolute -top-2 -right-2 p-4 bg-blue-500/10 rounded-bl-3xl rounded-tr-xl group-hover:bg-blue-500/20 transition">
+                    <i class="fa-solid fa-flag-checkered text-blue-500 text-xl"></i>
+                </div>
+                <p class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Courses</p>
+                <h2 class="text-2xl font-bold font-mono tracking-tighter text-white" th:text="${coursesTerminees}">0
+                </h2>
+            </div>
+        </div>
+
+        <!-- Active Mission Section -->
+        <div th:if="${!#lists.isEmpty(mesMissions)}"
+            class="glass-panel rounded-3xl p-1 bg-gradient-to-b from-green-500/50 to-transparent border border-green-500/30 animate-slideUp shadow-[0_0_30px_rgba(34,197,94,0.15)]">
+            <div class="bg-slate-900/90 backdrop-blur-xl p-5 rounded-[1.3rem]">
+                <!-- Header -->
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <span
+                            class="inline-flex items-center gap-2 bg-green-500/10 text-green-400 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-widest border border-green-500/20 animate-pulse">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> En cours
+                        </span>
+                        <h3 class="font-bold text-xl mt-2 text-white"
+                            th:text="${mesMissions[0].produit != null ? mesMissions[0].produit.nom : 'Course Directe'}">
+                            Livraison</h3>
                     </div>
-                    <div class="text-start">
-                        <h4 class="m-0 fw-bold" th:text="${prestataire.nom}">Nom du Prestataire</h4>
-                        <span class="badge bg-white text-primary rounded-pill mt-1"
-                            th:text="${prestataire.typePrestataire}">TYPE</span>
+                    <div class="text-right">
+                        <span class="block font-mono font-bold text-2xl text-green-400 tracking-tighter"
+                            th:text="${mesMissions[0].total} + ' F'">5000 F</span>
+                        <span class="text-[10px] text-gray-500 uppercase tracking-wide">Montant à encaisser</span>
                     </div>
                 </div>
-                <form th:action="@{/logout}" method="post">
-                    <button class="btn btn-light btn-sm rounded-pill px-3 fw-bold text-danger">
-                        <i class="fa-solid fa-sign-out-alt me-2"></i>Déconnexion
+
+                <!-- Timeline Info -->
+                <div class="space-y-6 relative pl-2">
+                    <!-- Vertical Line -->
+                    <div
+                        class="absolute left-[19px] top-3 bottom-8 w-0.5 bg-gradient-to-b from-slate-600 to-transparent">
+                    </div>
+
+                    <!-- Client -->
+                    <div class="flex gap-4 relative">
+                        <div
+                            class="z-10 w-10 h-10 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center text-gray-300 shadow-lg">
+                            <i class="fa-regular fa-user"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold mb-0.5">Client</p>
+                            <h4 class="font-bold text-base"
+                                th:text="${mesMissions[0].user != null ? mesMissions[0].user.nom : mesMissions[0].nomClient}">
+                                Client</h4>
+                            <a th:href="'tel:' + ${mesMissions[0].user != null ? mesMissions[0].user.telephone : mesMissions[0].telephone}"
+                                class="inline-flex items-center gap-1 text-blue-400 text-sm font-medium hover:text-blue-300 mt-1">
+                                <i class="fa-solid fa-phone text-xs"></i>
+                                <span
+                                    th:text="${mesMissions[0].user != null ? mesMissions[0].user.telephone : mesMissions[0].telephone}"></span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Destination -->
+                    <div class="flex gap-4 relative">
+                        <div
+                            class="z-10 w-10 h-10 rounded-full bg-red-900/20 border-2 border-red-500/50 flex items-center justify-center text-red-500 shadow-lg shadow-red-500/10">
+                            <i class="fa-solid fa-location-dot animate-bounce-custom"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold mb-0.5">Destination
+                            </p>
+                            <p class="font-medium text-gray-200 leading-snug" th:text="${mesMissions[0].adresse}">Zone
+                                4, Rue Pierre</p>
+                            <p class="text-xs text-gray-500 mt-1">~ 15 min</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Map -->
+                <div class="mt-6 mb-4">
+                    <div id="map" class="map-container shadow-inner border border-white/10"></div>
+                </div>
+
+                <!-- Hidden Mission Data -->
+                <div id="mission-config"
+                    th:data-lat-dest="${mesMissions[0].latitudeDestination != null ? mesMissions[0].latitudeDestination : ''}"
+                    th:data-lng-dest="${mesMissions[0].longitudeDestination != null ? mesMissions[0].longitudeDestination : ''}"
+                    th:data-active="true" style="display:none;">
+                </div>
+
+                <!-- Actions -->
+                <div class="grid grid-cols-[1fr,2fr] gap-3 mt-8">
+                    <a th:href="'https://www.google.com/maps/dir/?api=1&destination=' + ${mesMissions[0].adresse}"
+                        target="_blank"
+                        class="flex flex-col items-center justify-center bg-slate-800 hover:bg-slate-700 text-gray-300 py-3 rounded-2xl font-medium transition duration-200 border border-white/5 active:scale-95">
+                        <i class="fa-solid fa-diamond-turn-right text-xl mb-1"></i>
+                        <span class="text-[10px] uppercase font-bold tracking-wider">GPS</span>
+                    </a>
+
+                    <form th:action="@{/prestataire/complete/{id}(id=${mesMissions[0].id})}" method="post"
+                        class="w-full">
+                        <button type="submit"
+                            class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white rounded-2xl font-bold shadow-lg shadow-green-900/30 transition duration-200 active:scale-95">
+                            <span class="flex items-center gap-2 text-lg">
+                                <i class="fa-solid fa-video text-white/50"></i> Livré
+                            </span>
+                            <span class="text-[10px] text-green-100 font-normal">Confirmer la livraison</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Cancel -->
+                <form th:action="@{/prestataire/cancel/{id}(id=${mesMissions[0].id})}" method="post"
+                    class="text-center mt-4">
+                    <button type="submit" onclick="return confirm('Annuler la mission ?')"
+                        class="text-xs text-red-400 hover:text-red-300 transition">
+                        <i class="fa-solid fa-ban mr-1"></i> Annuler la course
                     </button>
                 </form>
             </div>
         </div>
-    </header>
 
-    <div class="container pb-5">
+        <!-- Available Missions List -->
+        <div th:if="${#lists.isEmpty(mesMissions)}">
+            <div class="flex items-center justify-between mb-4 px-2">
+                <h3 class="text-lg font-bold text-gray-200">Nouvelles offres</h3>
+                <span th:if="${!#lists.isEmpty(offres)}"
+                    class="bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md shadow-red-900/30"
+                    th:text="${#lists.size(offres)}">0</span>
+            </div>
 
-        <!-- Messages Flash -->
-        <div th:if="${success}" class="alert alert-success alert-dismissible fade show mb-4 rounded-4 shadow-sm">
-            <i class="fa-solid fa-check-circle me-2"></i>
-            <span th:text="${success}"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-
-        <div class="row g-4">
-
-            <!-- Carte Statut (Disponibilité) -->
-            <div class="col-md-6">
-                <div class="glass-card h-100 p-4 animate-fade-in"
-                    th:classappend="${prestataire.disponible ? 'status-card active' : 'status-card inactive'}">
-
-                    <!-- Welcome Section -->
-                    <div class="row mb-5 fade-in">
-                        <div class="col-lg-8">
-                            <h1 class="display-5 fw-bold mb-2">Bonjour, <span class="text-accent"
-                                    th:text="${prestataire.user.nom}"></span></h1>
-                            <p class="lead text-white-50">Prêt à prendre la route aujourd'hui ?</p>
-                        </div>
-                        <!-- Toggle Switch -->
-                        <div class="col-lg-4 d-flex align-items-center justify-content-lg-end mt-3 mt-lg-0">
-                            <form th:action="@{/prestataire/status}" method="post" class="w-100 text-end">
-                                <div class="custom-toggle" onclick="this.closest('form').submit()">
-                                    <input type="checkbox" th:checked="${prestataire.disponible}">
-                                    <span class="slider"></span>
-                                    <span class="labels" data-on="DISPO" data-off="PAUSE"></span>
-                                </div>
-                            </form>
-                        </div>
+            <!-- Empty State -->
+            <div th:if="${#lists.isEmpty(offres)}"
+                class="text-center py-12 opacity-40 glass-panel rounded-2xl border-dashed border-2 border-white/20">
+                <div class="relative w-20 h-20 mx-auto mb-4">
+                    <div class="absolute inset-0 bg-blue-500 rounded-full opacity-20 animate-ping"></div>
+                    <div
+                        class="relative bg-slate-800 rounded-full w-full h-full flex items-center justify-center text-blue-400">
+                        <i class="fa-solid fa-satellite-dish text-3xl"></i>
                     </div>
+                </div>
+                <p class="font-medium text-gray-300">Recherche de missions...</p>
+                <p class="text-xs text-gray-500 mt-1">Restez en ligne proche des zones actives</p>
+            </div>
 
-                    <div class="row g-4">
-
-                        <!-- 📦 SECTION MARKETPLACE (Offres) -->
-                        <div class="col-12" th:if="${!#lists.isEmpty(offres)}">
-                            <div class="glass-card mb-4">
-                                <div class="card-header-glass">
-                                    <h5 class="mb-0"><i
-                                            class="fa-solid fa-map-location-dot me-2 text-accent"></i>Nouvelles Missions
-                                    </h5>
-                                    <span class="badge bg-accent text-dark rounded-pill"
-                                        th:text="${#lists.size(offres) + ' dispo'}"></span>
-                                </div>
-                                <div class="card-body p-0">
-                                    <div class="table-responsive">
-                                        <table class="table table-dark table-hover mb-0 align-middle"
-                                            style="background: transparent;">
-                                            <tbody>
-                                                <tr th:each="offre : ${offres}">
-                                                    <td class="ps-4">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="icon-sq bg-white-10 text-accent me-3">
-                                                                <i class="fa-solid fa-box"></i>
-                                                            </div>
-                                                            <div>
-                                                                <div class="fw-bold text-white"
-                                                                    th:text="${offre.produit != null ? offre.produit.nom : 'Course directe'}">
-                                                                </div>
-                                                                <small class="text-white-50"
-                                                                    th:text="${offre.localisation != null ? offre.localisation : 'Abidjan'}"></small>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center text-white-50">
-                                                            <i class="fa-solid fa-clock me-2"></i>
-                                                            <span
-                                                                th:text="${#temporals.format(offre.dateCommande, 'HH:mm')}"></span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-end pe-4">
-                                                        <span class="price-tag me-3"
-                                                            th:text="${offre.total} + ' FCFA'"></span>
-                                                        <form th:action="@{/prestataire/accept/{id}(id=${offre.id})}"
-                                                            method="post" class="d-inline">
-                                                            <button type="submit"
-                                                                class="btn btn-accent rounded-pill px-4 shadow-accent">
-                                                                Accepter
-                                                            </button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+            <!-- Offers List -->
+            <div class="space-y-3">
+                <div th:each="offre : ${offres}"
+                    class="glass-panel p-4 rounded-xl flex justify-between items-center hover:bg-white/5 transition border-l-4 border-blue-500 group relative overflow-hidden">
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-blue-400 bg-blue-500/10 p-1.5 rounded-lg"><i
+                                    class="fa-solid fa-box"></i></span>
+                            <span class="font-bold text-gray-100"
+                                th:text="${offre.produit != null ? offre.produit.nom : 'Course'}">Colis</span>
                         </div>
-
-                        <!-- 🚫 Empty State for Offers -->
-                        <div class="col-12 fade-in" th:if="${#lists.isEmpty(offres) and #lists.isEmpty(mesMissions)}">
-                            <div class="empty-state glass-card text-center py-5">
-                                <div class="radar-scan mb-4">
-                                    <i class="fa-solid fa-satellite-dish fa-3x text-white-50"></i>
-                                </div>
-                                <h4 class="text-white fw-bold">En recherche de missions...</h4>
-                                <p class="text-white-50">Restez en ligne, les offres apparaîtront ici automatiquement.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- 🚚 ACTIVE MISSION -->
-                        <div class="col-12 scale-in" th:if="${!#lists.isEmpty(mesMissions)}">
-                            <div class="mission-card-active glass-card p-0 overflow-hidden">
-                                <div class="active-banner text-center py-2 fw-bold text-dark">
-                                    <i class="fa-solid fa-bolt me-2"></i>MISSION EN COURS
-                                </div>
-                                <div class="p-4">
-                                    <div th:each="mission : ${mesMissions}" class="row align-items-center">
-                                        <div class="col-md-6 mb-4 mb-md-0">
-                                            <div class="d-flex align-items-center mb-4">
-                                                <div class="client-avatar me-3">
-                                                    <i class="fa-solid fa-user"></i>
-                                                </div>
-                                                <div>
-                                                    <h3 class="mb-0 fw-bold text-white"
-                                                        th:text="${mission.user != null ? mission.user.nom : mission.nomClient}">
-                                                    </h3>
-                                                    <div class="text-accent fw-bold fs-5"
-                                                        th:text="${mission.total} + ' FCFA'"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="timeline ps-3 border-start border-white-20 ms-2">
-                                                <div class="timeline-item mb-4 position-relative ps-4">
-                                                    <i class="fa-solid fa-circle position-absolute start-0 translate-middle-x bg-accent text-dark rounded-circle p-1 fs-6"
-                                                        style="top: 0px;"></i>
-                                                    <small
-                                                        class="text-white-50 d-block text-uppercase ls-1">Client</small>
-                                                    <span class="text-white fw-medium"
-                                                        th:text="${mission.user != null ? mission.user.telephone : mission.telephone}"></span>
-                                                    <a th:href="'tel:' + ${mission.user != null ? mission.user.telephone : mission.telephone}"
-                                                        class="btn btn-sm btn-outline-light rounded-pill ms-2"><i
-                                                            class="fa-solid fa-phone"></i></a>
-                                                </div>
-                                                <div class="timeline-item position-relative ps-4">
-                                                    <i class="fa-solid fa-location-dot position-absolute start-0 translate-middle-x fs-5 text-danger"
-                                                        style="top: 0px;"></i>
-                                                    <small
-                                                        class="text-white-50 d-block text-uppercase ls-1">Destination</small>
-                                                    <span class="text-white fw-medium"
-                                                        th:text="${mission.adresse != null ? mission.adresse : 'Adresse à confirmer'}"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 text-center text-md-end">
-                                            <div class="d-grid gap-3 d-md-block">
-                                                <!-- Actions -->
-                                                <form th:action="@{/prestataire/complete/{id}(id=${mission.id})}"
-                                                    method="post" class="mb-2">
-                                                    <button type="submit"
-                                                        class="btn btn-success btn-lg w-100 rounded-3 py-3 fw-bold shadow-success">
-                                                        <i class="fa-regular fa-circle-check me-2"></i>CONFIRMER LA
-                                                        LIVRAISON
-                                                    </button>
-                                                </form>
-
-                                                <form th:action="@{/prestataire/cancel/{id}(id=${mission.id})}"
-                                                    method="post" onsubmit="return confirm('Êtes-vous sûr ?');">
-                                                    <button type="submit"
-                                                        class="btn btn-link text-danger text-decoration-none opacity-75 hover-opacity-100">
-                                                        <i class="fa-solid fa-ban me-1"></i>Annuler la course
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        <p class="text-gray-400 text-xs flex items-center gap-1">
+                            <i class="fa-solid fa-map-pin text-gray-500"></i>
+                            <span th:text="${offre.localisation ?: 'Abidjan'}">Abidjan</span>
+                        </p>
+                    </div>
+                    <div class="text-right relative z-10">
+                        <p class="font-mono font-bold text-lg text-green-400 mb-2 tracking-tighter"
+                            th:text="${offre.total} + ' F'">2000 F</p>
+                        <form th:action="@{/prestataire/accept/{id}(id=${offre.id})}" method="post">
+                            <button
+                                class="bg-white text-slate-900 text-[10px] font-black px-4 py-2 rounded-full hover:bg-gray-200 transition shadow-lg shadow-white/10 uppercase tracking-widest">
+                                Accepter
+                            </button>
+                        </form>
+                    </div>
+                    <!-- Hover Effect -->
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition duration-300">
                     </div>
                 </div>
             </div>
+        </div>
 
-            statusDiv.classList.remove('d-none', 'alert-success', 'alert-danger');
-            statusDiv.classList.add('alert-info');
-            statusText.innerText = "Récupération de votre position...";
-            btn.disabled = true;
+        <!-- History Partial -->
+        <div class="pt-8 border-t border-white/5">
+            <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4 px-2">Dernières courses</h3>
+            <div th:if="${#lists.isEmpty(historique)}" class="text-center text-xs text-gray-600 italic py-4">Aucun
+                historique</div>
+            <div class="space-y-2">
+                <div th:each="hist : ${historique}"
+                    class="flex justify-between items-center text-sm p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/5 transition">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-8 h-8 rounded-full bg-green-900/20 text-green-500 flex items-center justify-center font-bold text-xs">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-300"
+                                th:text="${hist.produit != null ? hist.produit.nom : 'Course'}">Course</p>
+                            <p class="text-gray-600 text-[10px]"
+                                th:text="${#temporals.format(hist.dateCommande, 'dd/MM • HH:mm')}">12/12 14:00</p>
+                        </div>
+                    </div>
+                    <span class="font-mono font-bold text-gray-400 text-xs" th:text="'+ ' + ${hist.total} + ' F'">1500
+                        F</span>
+                </div>
+            </div>
 
-            navigator.geolocation.getCurrentPosition(
-            function (position) {
-            latInput.value = position.coords.latitude;
-            lngInput.value = position.coords.longitude;
+            <div class="mt-8 text-center">
+                <form th:action="@{/logout}" method="post">
+                    <button
+                        class="text-xs text-red-500 hover:text-red-400 transition font-medium flex items-center justify-center gap-2 w-full py-4 rounded-xl hover:bg-red-500/5">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter
+                    </button>
+                </form>
+                <p class="text-[10px] text-gray-700 mt-4">UNEVIE Livreur v1.2</p>
+            </div>
+        </div>
 
-            statusDiv.classList.remove('alert-info');
-            statusDiv.classList.add('alert-success');
-            statusText.innerText = "Position récupérée ! Envoi en cours...";
+    </main>
 
-            form.submit();
-            },
-            function (error) {
-            statusDiv.classList.remove('alert-info');
-            statusDiv.classList.add('alert-danger');
-            statusText.innerText = "Erreur de géolocalisation.";
-            btn.disabled = false;
-            },
-            { enableHighAccuracy: true }
-            );
-            });
-            </script>
+    <!-- Scripts -->
+    <script th:src="@{/lib/leaflet/leaflet.js}"></script>
+    <script th:inline="none">
+        document.addEventListener('DOMContentLoaded', function () {
+            const statusToggle = document.getElementById('statusToggle');
+            const statusForm = document.getElementById('statusForm');
+            const statusText = document.getElementById('statusText');
+            const latInput = document.getElementById('latInput');
+            const lngInput = document.getElementById('lngInput');
 
+            // --- GESTION DU TOGGLE STATUT (Click Manual) ---
+            if (statusToggle) {
+                statusToggle.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    statusText.innerText = "Loc. en cours...";
+                    statusText.className = "absolute top-14 right-4 text-[10px] font-mono tracking-wider text-yellow-500 animate-pulse";
+
+                    if ("geolocation" in navigator) {
+                        navigator.geolocation.getCurrentPosition(
+                            function (position) {
+                                latInput.value = position.coords.latitude;
+                                lngInput.value = position.coords.longitude;
+                                statusText.innerText = "OK";
+                                statusText.className = "absolute top-14 right-4 text-[10px] font-mono tracking-wider text-green-500";
+                                statusForm.submit();
+                            },
+                            function (error) {
+                                console.error("Erreur géo:", error);
+                                statusText.innerText = "GPS Err";
+                                statusText.className = "absolute top-14 right-4 text-[10px] font-mono tracking-wider text-red-500";
+                                statusForm.submit();
+                            },
+                            { enableHighAccuracy: true, timeout: 8000 }
+                        );
+                    } else {
+                        statusForm.submit();
+                    }
+                });
+            }
+
+            // --- NAVIGATION MAP LOGIC ---
+            const missionConfig = document.getElementById('mission-config');
+            let map = null;
+            let providerMarker = null;
+            let destinationMarker = null;
+            let routeLine = null;
+
+            function initMap(lat, lng) {
+                if (map) return;
+
+                const isDarkMode = true; // Dashboard is dark by default
+                const tileLayerUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+
+                map = L.map('map', { zoomControl: false }).setView([lat, lng], 15);
+                L.tileLayer(tileLayerUrl, {
+                    attribution: '&copy; OpenStreetMap &copy; CARTO'
+                }).addTo(map);
+
+                const providerIcon = L.divIcon({
+                    html: '<div class="w-8 h-8 bg-green-500 border-2 border-white rounded-full flex items-center justify-center text-white shadow-lg"><i class="fa-solid fa-car text-xs"></i></div>',
+                    className: 'custom-div-icon',
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 16]
+                });
+
+                const destIcon = L.divIcon({
+                    html: '<div class="w-8 h-8 bg-red-500 border-2 border-white rounded-full flex items-center justify-center text-white shadow-lg"><i class="fa-solid fa-location-dot text-xs"></i></div>',
+                    className: 'custom-div-icon',
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 16]
+                });
+
+                providerMarker = L.marker([lat, lng], { icon: providerIcon }).addTo(map);
+
+                const destData = missionConfig ? missionConfig.dataset : null;
+                if (destData && destData.latDest && destData.lngDest) {
+                    const dLat = parseFloat(destData.latDest);
+                    const dLng = parseFloat(destData.lngDest);
+
+                    if (!isNaN(dLat) && !isNaN(dLng)) {
+                        destinationMarker = L.marker([dLat, dLng], { icon: destIcon }).addTo(map);
+
+                        routeLine = L.polyline([[lat, lng], [dLat, dLng]], {
+                            color: '#4ade80',
+                            weight: 3,
+                            opacity: 0.6,
+                            dashArray: '10, 10'
+                        }).addTo(map);
+
+                        const bounds = L.latLngBounds([[lat, lng], [dLat, dLng]]);
+                        map.fitBounds(bounds, { padding: [50, 50] });
+                    }
+                }
+            }
+
+            function updateMap(lat, lng) {
+                if (!map) {
+                    initMap(lat, lng);
+                    return;
+                }
+                if (providerMarker) providerMarker.setLatLng([lat, lng]);
+                if (routeLine && destinationMarker) {
+                    routeLine.setLatLngs([[lat, lng], destinationMarker.getLatLng()]);
+                }
+                // Optional: Recenter if outside view
+                if (!map.getBounds().contains([lat, lng])) {
+                    map.panTo([lat, lng]);
+                }
+            }
+
+            // --- TRACKING AUTOMATIQUE (Background Update) ---
+            const isActive = statusToggle && statusToggle.classList.contains('bg-gradient-to-r');
+
+            if (isActive || missionConfig) {
+                console.log("Tracking activé...");
+
+                setInterval(function () {
+                    if ("geolocation" in navigator) {
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            const lat = position.coords.latitude;
+                            const lng = position.coords.longitude;
+
+                            updateMap(lat, lng);
+
+                            // Envoyer en AJAX
+                            const formData = new FormData();
+                            formData.append('latitude', lat);
+                            formData.append('longitude', lng);
+
+                            fetch('/prestataire/location', {
+                                method: 'POST',
+                                body: formData
+                            })
+                                .then(response => {
+                                    if (response.ok && statusText) {
+                                        statusText.innerText = "● Live";
+                                        statusText.className = "absolute top-14 right-4 text-[10px] font-mono tracking-wider text-green-500 animate-pulse";
+                                    }
+                                })
+                                .catch(err => console.error("Erreur update position", err));
+
+                        }, null, { enableHighAccuracy: true });
+                    }
+                }, 10000);
+
+                // Initial map load
+                if ("geolocation" in navigator) {
+                    navigator.geolocation.getCurrentPosition(pos => updateMap(pos.coords.latitude, pos.coords.longitude));
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

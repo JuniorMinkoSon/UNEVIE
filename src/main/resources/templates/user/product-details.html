@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head (title=${produit.nom} + ' — Details')}"></head>
+
+<body
+    class="bg-white dark:bg-africanDark text-slate-900 dark:text-white font-sans selection:bg-primary selection:text-white overflow-x-hidden transition-colors duration-500">
+
+    <!-- HEADER -->
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <!-- MAIN CONTENT -->
+    <section class="max-w-6xl mx-auto px-6 py-32 md:py-44">
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+
+            <!-- Product Image -->
+            <div class="relative group animate-fadeIn">
+                <div
+                    class="aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10">
+                    <img th:if="${produit.imageUrl}" th:src="@{'/uploads/' + ${produit.imageUrl}}"
+                        class="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700">
+                    <div th:unless="${produit.imageUrl}"
+                        class="w-full h-full flex items-center justify-center bg-slate-100 dark:bg-white/5">
+                        <i class="fa-solid fa-cube text-6xl text-gray-300 dark:text-white/20"></i>
+                    </div>
+                </div>
+
+                <!-- Floating Category Badge -->
+                <div
+                    class="absolute -top-6 -right-6 md:-right-10 bg-white dark:bg-africanDark border border-slate-200 dark:border-white/10 p-2 rounded-3xl shadow-xl">
+                    <div class="bg-primary/10 px-6 py-4 rounded-2xl border border-primary/20 backdrop-blur-md">
+                        <span class="text-xs font-black text-primary uppercase tracking-widest block text-center"
+                            th:text="${produit.categorie}">CATÉGORIE</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="space-y-10 animate-slideUp">
+
+                <!-- Title & Meta -->
+                <div>
+                    <a href="/projets"
+                        class="inline-flex items-center gap-2 text-[10px] font-bold text-slate-400 dark:text-gray-500 uppercase tracking-widest hover:text-primary transition-colors mb-6">
+                        <i class="fa-solid fa-arrow-left"></i> Retour au catalogue
+                    </a>
+
+                    <h1 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter leading-[0.9] text-slate-900 dark:text-white mb-6"
+                        th:text="${produit.nom}">
+                        Produit Nom
+                    </h1>
+
+                    <div class="flex flex-wrap gap-4 items-center">
+                        <span th:if="${produit.disponible}"
+                            class="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 text-green-600 dark:text-green-400 rounded-full text-[10px] font-black uppercase tracking-widest border border-green-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span> Disponible
+                        </span>
+                        <span th:unless="${produit.disponible}"
+                            class="inline-flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-600 dark:text-red-400 rounded-full text-[10px] font-black uppercase tracking-widest border border-red-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Indisponible
+                        </span>
+
+                        <span th:if="${produit.entreprise != null}"
+                            class="text-slate-400 dark:text-gray-500 text-sm font-medium">
+                            <i class="fa-solid fa-building text-primary mr-1"></i>
+                            <a th:href="@{'/entreprise/' + ${produit.entreprise.id}}"
+                                class="hover:text-white transition-colors underline decoration-slate-600 underline-offset-4"
+                                th:text="${produit.entreprise.nom}">Partenaire</a>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="py-8 border-y border-slate-200 dark:border-white/5">
+                    <p class="text-[10px] font-black text-slate-400 dark:text-gray-500 uppercase tracking-widest mb-2">
+                        Tarif Journalier</p>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-5xl md:text-6xl font-black text-primary tracking-tighter"
+                            th:text="${#numbers.formatDecimal(produit.prix, 0, 'WHITESPACE', 0, 'POINT')}">150
+                            000</span>
+                        <span class="text-xl font-bold text-slate-400 dark:text-gray-500">FCFA</span>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div>
+                    <h3 class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest mb-4">
+                        Description</h3>
+                    <p class="text-lg text-slate-600 dark:text-gray-400 font-medium leading-relaxed"
+                        th:text="${produit.description}">
+                        Description détaillée du produit...
+                    </p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-4 pt-4">
+                    <a th:href="@{'/produits/commander/' + ${produit.id}}" th:if="${produit.disponible}"
+                        class="flex-1 bg-primary hover:bg-red-800 text-white py-5 rounded-2xl font-black uppercase tracking-widest text-xs transition-all active:scale-95 shadow-2xl shadow-primary/20 text-center flex items-center justify-center gap-3 group">
+                        <span>Réserver maintenant</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+
+                    <button th:unless="${produit.disponible}" disabled
+                        class="flex-1 bg-slate-200 dark:bg-white/5 text-slate-400 dark:text-gray-600 py-5 rounded-2xl font-black uppercase tracking-widest text-xs cursor-not-allowed text-center">
+                        Non Disponible
+                    </button>
+
+                    <a th:if="${produit.entreprise != null}" th:href="@{'/entreprise/' + ${produit.entreprise.id}}"
+                        class="px-6 py-5 bg-white dark:bg-white/5 text-slate-900 dark:text-white border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/10 rounded-2xl font-black uppercase tracking-widest text-xs transition-all active:scale-95 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-store"></i> <span class="hidden sm:inline">Voir la boutique</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+
+</html>

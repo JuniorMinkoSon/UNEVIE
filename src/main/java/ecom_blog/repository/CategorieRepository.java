@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CategorieRepository extends JpaRepository<Categorie, Integer> {
+    java.util.Optional<Categorie> findByLibelle(String libelle);
 }
