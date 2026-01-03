@@ -1,28 +1,32 @@
 <!DOCTYPE html>
-<html lang="fr"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
     <title>Vision & Objectifs | UNEVIE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Tailwind -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        africanOrange: '#F59E0B',
-                        africanGreen: '#15803D',
-                        africanDark: '#0F172A'
+                        premium: {
+                            orange: '#f97316',
+                            dark: '#1a1a1a',
+                            light: '#fdfcfb',
+                            accent: '#fbbf24'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
                     }
                 }
             }
@@ -30,202 +34,222 @@
     </script>
 </head>
 
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-premium-light text-premium-dark font-sans">
 
-<!-- ================= HEADER ================= -->
-<div th:replace="~{fragments/header :: header}"></div>
+    <!-- ================= HEADER ================= -->
+    <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- ================= HERO IMMERSIF ================= -->
-<section class="relative py-32 overflow-hidden text-white">
+    <!-- ================= HERO IMMERSIF ================= -->
+    <section class="relative py-32 overflow-hidden text-white">
+        <div class="absolute inset-0">
+            <img src="/images/vision.jpg" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-premium-dark/80 backdrop-blur-sm"></div>
+            <div class="absolute inset-0 opacity-10 mix-blend-overlay"
+                style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');"></div>
+        </div>
 
-    <img src="/images/vision.jpg"
-         class="absolute inset-0 w-full h-full object-cover">
+        <div class="relative z-10 max-w-7xl mx-auto px-6 text-center space-y-8">
+            <div
+                class="inline-block px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white text-xs font-bold uppercase tracking-widest leading-none">
+                Vision & Ambition</div>
+            <h1 class="text-5xl md:text-6xl font-extrabold leading-tight">
+                Construire la plateforme qui <br>
+                <span class="text-premium-orange">simplifie la vie en Afrique</span>
+            </h1>
+            <p class="max-w-3xl mx-auto text-white/70 text-lg md:text-xl leading-relaxed">
+                UNEVIE connecte les besoins du quotidien à des services fiables, accessibles et sécurisés, pensés pour
+                les réalités locales.
+            </p>
+        </div>
+    </section>
 
-    <div class="absolute inset-0 bg-gradient-to-r from-africanDark/90 via-africanGreen/80 to-africanOrange/70"></div>
-
-    <div class="relative max-w-7xl mx-auto px-6 text-center">
-        <span class="uppercase tracking-widest text-sm text-white/80">
-            Vision & ambition
-        </span>
-
-        <h1 class="text-4xl md:text-5xl font-extrabold mt-4 mb-6 leading-tight">
-            Construire la plateforme <br>
-            qui <span class="underline">simplifie la vie en Afrique</span>
-        </h1>
-
-        <p class="max-w-3xl mx-auto text-white/90 text-lg">
-            UNEVIE connecte les besoins du quotidien à des services fiables,
-            accessibles et sécurisés, pensés pour les réalités locales.
+    <!-- ================= NOTRE RAISON D’ÊTRE ================= -->
+    <section class="max-w-7xl mx-auto px-6 py-32 text-center space-y-8">
+        <div class="space-y-4">
+            <span class="text-premium-orange font-bold uppercase tracking-widest text-xs">Pourquoi UNEVIE existe</span>
+            <h2 class="text-4xl font-extrabold text-premium-dark leading-tight">Une vision claire, un impact réel</h2>
+        </div>
+        <p class="text-premium-dark/50 max-w-4xl mx-auto text-xl leading-relaxed">
+            En Afrique, accéder à un véhicule, une résidence ou un service fiable reste complexe. UNEVIE est née pour
+            structurer ces usages, sécuriser les échanges et créer de la confiance entre clients et prestataires.
         </p>
-    </div>
-</section>
+    </section>
 
-<!-- ================= NOTRE RAISON D’ÊTRE ================= -->
-<section class="max-w-7xl mx-auto px-6 py-28 text-center">
-    <span class="text-africanOrange font-semibold uppercase text-sm">
-        Pourquoi UNEVIE existe
-    </span>
+    <!-- ================= OBJECTIFS STRATÉGIQUES ================= -->
+    <section class="bg-premium-dark py-32 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 mix-blend-soft-light"
+            style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');"></div>
 
-    <h2 class="text-3xl font-extrabold mt-3 mb-6">
-        Une vision claire, un impact réel
-    </h2>
-
-    <p class="text-slate-600 max-w-4xl mx-auto text-lg">
-        En Afrique, accéder à un véhicule, une résidence ou un service fiable
-        reste complexe. UNEVIE est née pour structurer ces usages,
-        sécuriser les échanges et créer de la confiance entre
-        clients et prestataires.
-    </p>
-</section>
-
-<!-- ================= OBJECTIFS STRATÉGIQUES ================= -->
-<section class="max-w-7xl mx-auto px-6 pb-28">
-    <h2 class="text-3xl font-extrabold text-center mb-16">
-        Nos objectifs stratégiques
-    </h2>
-
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-
-        <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl transition">
-            <i class="fas fa-shield-halved text-africanGreen text-4xl mb-5"></i>
-            <h3 class="text-xl font-bold mb-3">Sécuriser chaque réservation</h3>
-            <p class="text-slate-600">
-                Des annonces vérifiées, des informations claires
-                et des paiements maîtrisés pour une confiance totale.
-            </p>
-        </div>
-
-        <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl transition">
-            <i class="fas fa-route text-africanGreen text-4xl mb-5"></i>
-            <h3 class="text-xl font-bold mb-3">Simplifier le parcours utilisateur</h3>
-            <p class="text-slate-600">
-                Localisation, filtrage, commande et suivi :
-                UNEVIE élimine toute complexité inutile.
-            </p>
-        </div>
-
-        <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl transition">
-            <i class="fas fa-handshake text-africanGreen text-4xl mb-5"></i>
-            <h3 class="text-xl font-bold mb-3">Valoriser les prestataires locaux</h3>
-            <p class="text-slate-600">
-                Offrir visibilité, crédibilité et croissance
-                aux acteurs économiques locaux.
-            </p>
-        </div>
-
-        <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl transition">
-            <i class="fas fa-chart-line text-africanGreen text-4xl mb-5"></i>
-            <h3 class="text-xl font-bold mb-3">Créer de la valeur économique</h3>
-            <p class="text-slate-600">
-                Faciliter les transactions et structurer
-                un écosystème rentable et durable.
-            </p>
-        </div>
-
-        <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl transition">
-            <i class="fas fa-mobile-screen text-africanGreen text-4xl mb-5"></i>
-            <h3 class="text-xl font-bold mb-3">Digitaliser les usages quotidiens</h3>
-            <p class="text-slate-600">
-                Rendre accessibles des services essentiels
-                depuis un simple smartphone.
-            </p>
-        </div>
-
-        <div class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl transition">
-            <i class="fas fa-leaf text-africanGreen text-4xl mb-5"></i>
-            <h3 class="text-xl font-bold mb-3">Construire durablement</h3>
-            <p class="text-slate-600">
-                Privilégier la qualité, la responsabilité
-                et une croissance à long terme.
-            </p>
-        </div>
-
-    </div>
-</section>
-
-<!-- ================= VALEUR CONCRÈTE ================= -->
-<section class="bg-white py-28">
-    <div class="max-w-7xl mx-auto px-6">
-        <h2 class="text-3xl font-extrabold text-center mb-16">
-            Ce que UNEVIE change concrètement
-        </h2>
-
-        <div class="grid md:grid-cols-2 gap-10">
-
-            <div class="bg-slate-50 rounded-2xl p-8 shadow">
-                <h3 class="text-xl font-bold mb-3">📍 Géolocalisation intelligente</h3>
-                <p class="text-slate-600">
-                    Vous voyez uniquement les offres réellement
-                    disponibles autour de vous.
-                </p>
+        <div class="max-w-7xl mx-auto px-6 relative z-10 space-y-20">
+            <div class="text-center space-y-4">
+                <h2 class="text-4xl font-extrabold text-white">Nos objectifs stratégiques</h2>
+                <div class="w-24 h-1 bg-premium-orange mx-auto rounded-full"></div>
             </div>
 
-            <div class="bg-slate-50 rounded-2xl p-8 shadow">
-                <h3 class="text-xl font-bold mb-3">🧭 Filtrage clair par besoin</h3>
-                <p class="text-slate-600">
-                    Voitures, résidences, produits, services :
-                    chaque besoin a sa catégorie.
-                </p>
-            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div
+                    class="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[3rem] space-y-6 hover:bg-white/10 transition-all duration-500 group">
+                    <div
+                        class="w-16 h-16 bg-premium-orange/20 rounded-2xl flex items-center justify-center text-premium-orange group-hover:rotate-12 transition-transform">
+                        <i class="fas fa-shield-halved text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Sécurité totale</h3>
+                    <p class="text-white/40 leading-relaxed text-sm">Des annonces vérifiées, des informations claires et
+                        des paiements maîtrisés pour une confiance absolue.</p>
+                </div>
 
-            <div class="bg-slate-50 rounded-2xl p-8 shadow">
-                <h3 class="text-xl font-bold mb-3">🛒 Commande sans friction</h3>
-                <p class="text-slate-600">
-                    Un formulaire simple, une validation rapide,
-                    zéro perte de temps.
-                </p>
-            </div>
+                <div
+                    class="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[3rem] space-y-6 hover:bg-white/10 transition-all duration-500 group">
+                    <div
+                        class="w-16 h-16 bg-premium-orange/20 rounded-2xl flex items-center justify-center text-premium-orange group-hover:rotate-12 transition-transform">
+                        <i class="fas fa-route text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Expérience fluide</h3>
+                    <p class="text-white/40 leading-relaxed text-sm">Localisation, filtrage, commande et suivi : UNEVIE
+                        élimine toute complexité inutile pour l'utilisateur.</p>
+                </div>
 
-            <div class="bg-slate-50 rounded-2xl p-8 shadow">
-                <h3 class="text-xl font-bold mb-3">💳 Paiements flexibles</h3>
-                <p class="text-slate-600">
-                    En ligne ou en espèces, selon les réalités locales.
-                </p>
-            </div>
+                <div
+                    class="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[3rem] space-y-6 hover:bg-white/10 transition-all duration-500 group">
+                    <div
+                        class="w-16 h-16 bg-premium-orange/20 rounded-2xl flex items-center justify-center text-premium-orange group-hover:rotate-12 transition-transform">
+                        <i class="fas fa-handshake text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Valeur locale</h3>
+                    <p class="text-white/40 leading-relaxed text-sm">Offrir visibilité, crédibilité et outils de
+                        croissance aux acteurs économiques locaux et prestataires.</p>
+                </div>
 
+                <div
+                    class="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[3rem] space-y-6 hover:bg-white/10 transition-all duration-500 group">
+                    <div
+                        class="w-16 h-16 bg-premium-orange/20 rounded-2xl flex items-center justify-center text-premium-orange group-hover:rotate-12 transition-transform">
+                        <i class="fas fa-chart-line text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Impact durable</h3>
+                    <p class="text-white/40 leading-relaxed text-sm">Faciliter les transactions et structurer un
+                        écosystème rentable et pérenne pour l'économie régionale.</p>
+                </div>
+
+                <div
+                    class="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[3rem] space-y-6 hover:bg-white/10 transition-all duration-500 group">
+                    <div
+                        class="w-16 h-16 bg-premium-orange/20 rounded-2xl flex items-center justify-center text-premium-orange group-hover:rotate-12 transition-transform">
+                        <i class="fas fa-mobile-screen text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Digitalisation</h3>
+                    <p class="text-white/40 leading-relaxed text-sm">Rendre accessibles des services essentiels depuis
+                        un simple smartphone, partout en Afrique.</p>
+                </div>
+
+                <div
+                    class="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[3rem] space-y-6 hover:bg-white/10 transition-all duration-500 group">
+                    <div
+                        class="w-16 h-16 bg-premium-orange/20 rounded-2xl flex items-center justify-center text-premium-orange group-hover:rotate-12 transition-transform">
+                        <i class="fas fa-leaf text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Qualité Premium</h3>
+                    <p class="text-white/40 leading-relaxed text-sm">Privilégier l'excellence, la responsabilité sociale
+                        et une croissance à long terme pour la marque.</p>
+                </div>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- ================= VISION LONG TERME ================= -->
-<section class="max-w-7xl mx-auto px-6 py-28 text-center">
-    <h2 class="text-3xl font-extrabold mb-6">
-        Une ambition panafricaine
-    </h2>
-    <p class="max-w-4xl mx-auto text-slate-600 text-lg">
-        Devenir la plateforme de référence en Afrique
-        pour la réservation de services locaux,
-        en commençant par la Côte d’Ivoire.
-        UNEVIE structure, sécurise et modernise
-        l’économie des services.
-    </p>
-</section>
+    <!-- ================= VALEUR CONCRÈTE ================= -->
+    <section class="max-w-7xl mx-auto px-6 py-32 space-y-20">
+        <div class="text-center space-y-4">
+            <h2 class="text-4xl font-extrabold text-premium-dark leading-tight">Ce que UNEVIE change concrètement</h2>
+            <p class="text-premium-dark/40">Des solutions pragmatiques pour des besoins réels.</p>
+        </div>
 
-<!-- ================= CTA ================= -->
-<section class="bg-gradient-to-r from-africanGreen to-africanOrange text-white py-24 text-center">
-    <h2 class="text-3xl font-extrabold mb-4">
-        Rejoignez l’écosystème UNEVIE
-    </h2>
-    <p class="text-white/90 mb-10">
-        Utilisateurs, prestataires, partenaires :
-        construisons ensemble le futur des services en Afrique.
-    </p>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div
+                class="bg-white p-10 rounded-[2.5rem] border border-premium-dark/5 shadow-sm hover:shadow-2xl transition-all duration-500 flex gap-8 items-start">
+                <div class="text- premium-orange text-3xl pt-2 shrink-0">📍</div>
+                <div class="space-y-3">
+                    <h3 class="text-xl font-extrabold tracking-tight">Géolocalisation intelligente</h3>
+                    <p class="text-premium-dark/50 leading-relaxed">Vous voyez uniquement les offres réellement
+                        disponibles autour de vous, éliminant les mauvaises surprises.</p>
+                </div>
+            </div>
 
-    <div class="flex justify-center gap-4 flex-wrap">
-        <a th:href="@{/projets}"
-           class="bg-white text-africanDark font-semibold px-10 py-4 rounded-xl hover:bg-slate-100 transition">
-            Explorer les offres
-        </a>
+            <div
+                class="bg-white p-10 rounded-[2.5rem] border border-premium-dark/5 shadow-sm hover:shadow-2xl transition-all duration-500 flex gap-8 items-start">
+                <div class="text- premium-orange text-3xl pt-2 shrink-0">🧭</div>
+                <div class="space-y-3">
+                    <h3 class="text-xl font-extrabold tracking-tight">Filtrage clair par besoin</h3>
+                    <p class="text-premium-dark/50 leading-relaxed">Voitures, résidences, événementiel : chaque besoin a
+                        sa catégorie spécifique pour une recherche optimisée.</p>
+                </div>
+            </div>
 
-        <a th:href="@{/contact}"
-           class="border border-white px-10 py-4 rounded-xl hover:bg-white hover:text-africanDark transition">
-            Devenir partenaire
-        </a>
-    </div>
-</section>
+            <div
+                class="bg-white p-10 rounded-[2.5rem] border border-premium-dark/5 shadow-sm hover:shadow-2xl transition-all duration-500 flex gap-8 items-start">
+                <div class="text- premium-orange text-3xl pt-2 shrink-0">🛒</div>
+                <div class="space-y-3">
+                    <h3 class="text-xl font-extrabold tracking-tight">Commande sans friction</h3>
+                    <p class="text-premium-dark/50 leading-relaxed">Un formulaire simple, une validation ultra-rapide
+                        par le prestataire, zéro perte de temps pour le client.</p>
+                </div>
+            </div>
 
-<!-- ================= FOOTER ================= -->
-<div th:replace="~{fragments/footer :: footer}"></div>
+            <div
+                class="bg-white p-10 rounded-[2.5rem] border border-premium-dark/5 shadow-sm hover:shadow-2xl transition-all duration-500 flex gap-8 items-start">
+                <div class="text- premium-orange text-3xl pt-2 shrink-0">💳</div>
+                <div class="space-y-3">
+                    <h3 class="text-xl font-extrabold tracking-tight">Paiements flexibles</h3>
+                    <p class="text-premium-dark/50 leading-relaxed">En ligne ou en espèces, selon vos préférences et les
+                        réalités locales de connectivité.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= VISION LONG TERME ================= -->
+    <section class="max-w-7xl mx-auto px-6 py-32 text-center space-y-10 relative overflow-hidden">
+        <div
+            class="absolute -top-24 -right-24 w-96 h-96 bg-premium-orange/5 rounded-full blur-[100px] pointer-events-none">
+        </div>
+        <div
+            class="absolute -bottom-24 -left-24 w-96 h-96 bg-premium-accent/5 rounded-full blur-[100px] pointer-events-none">
+        </div>
+
+        <h2 class="text-4xl md:text-5xl font-extrabold text-premium-dark relative z-10">Une ambition panafricaine</h2>
+        <p class="max-w-4xl mx-auto text-premium-dark/50 text-xl leading-relaxed relative z-10">
+            Devenir la plateforme de référence en Afrique pour la réservation de services locaux, en commençant par la
+            Côte d’Ivoire. UNEVIE structure, sécurise et modernise l’économie des services pour bâtir un futur plus
+            simple et plus connecté.
+        </p>
+    </section>
+
+    <!-- ================= CTA ================= -->
+    <section class="max-w-7xl mx-auto px-6 pb-32">
+        <div
+            class="bg-gradient-to-br from-premium-orange to-premium-accent rounded-[3.5rem] p-12 md:p-24 text-center text-white space-y-10 shadow-2xl shadow-premium-orange/30 overflow-hidden relative group">
+            <div class="absolute inset-0 opacity-10 mix-blend-overlay"
+                style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');"></div>
+
+            <div class="relative z-10 space-y-6">
+                <h2 class="text-4xl md:text-5xl font-extrabold leading-tight">Rejoignez l’écosystème UNEVIE</h2>
+                <p class="text-white/80 text-xl max-w-3xl mx-auto">Utilisateurs, prestataires ou partenaires :
+                    construisons ensemble le futur des services en Afrique.</p>
+            </div>
+
+            <div class="relative z-10 pt-4 flex flex-wrap justify-center gap-6">
+                <a th:href="@{/projets}"
+                    class="bg-white text-premium-orange font-bold px-12 py-5 rounded-2xl hover:bg-premium-dark hover:text-white transition-all text-lg shadow-xl active:scale-95">Explorer
+                    les offres</a>
+                <a th:href="@{/contact}"
+                    class="bg-premium-dark/20 backdrop-blur-xl border border-white/20 text-white font-bold px-12 py-5 rounded-2xl hover:bg-white hover:text-premium-dark transition-all text-lg active:scale-95">Devenir
+                    partenaire</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
+
 </html>

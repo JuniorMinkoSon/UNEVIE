@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <div th:replace="~{fragments/user-layout :: layout(content=~{::section})}">
+        <section class="space-y-12">
+            <!-- Header/Greeting -->
+            <div class="space-y-2">
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Bonjour, <span sec:authentication="name"
+                        class="text-premium-orange">Cher Utilisateur</span> !</h1>
+                <p class="text-premium-dark/40 font-medium">Ravi de vous revoir. Voici un aperçu de votre activité sur
+                    UNEVIE.</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Stat 1 -->
+                <div
+                    class="p-8 bg-white rounded-[2.5rem] shadow-sm border border-premium-dark/5 space-y-4 hover:shadow-xl transition-all group">
+                    <div
+                        class="w-12 h-12 bg-premium-orange/10 text-premium-orange rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-widest">En cours</p>
+                        <p class="text-2xl font-extrabold"
+                            th:text="${commandes != null ? #lists.size(commandes.?[statut == 'En attente' || statut == 'En cours']) : 0}">
+                            0</p>
+                    </div>
+                </div>
+                <!-- Stat 2 -->
+                <div
+                    class="p-8 bg-white rounded-[2.5rem] shadow-sm border border-premium-dark/5 space-y-4 hover:shadow-xl transition-all group">
+                    <div
+                        class="w-12 h-12 bg-green-500/10 text-green-500 rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-widest">Terminées</p>
+                        <p class="text-2xl font-extrabold"
+                            th:text="${commandes != null ? #lists.size(commandes.?[statut == 'Livré' || statut == 'Confirmé']) : 0}">
+                            0</p>
+                    </div>
+                </div>
+                <!-- Stat 3 -->
+                <div
+                    class="p-8 bg-white rounded-[2.5rem] shadow-sm border border-premium-dark/5 space-y-4 hover:shadow-xl transition-all group">
+                    <div
+                        class="w-12 h-12 bg-premium-accent/10 text-premium-accent rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-widest">Points Fidélité
+                        </p>
+                        <p class="text-2xl font-extrabold">450 pts</p>
+                    </div>
+                </div>
+                <!-- Stat 4 -->
+                <div
+                    class="p-8 bg-white rounded-[2.5rem] shadow-sm border border-premium-dark/5 space-y-4 hover:shadow-xl transition-all group">
+                    <div
+                        class="w-12 h-12 bg-premium-dark/5 text-premium-dark rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-widest">Portefeuille</p>
+                        <p class="text-2xl font-extrabold">12 500 F</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="grid lg:grid-cols-3 gap-12">
+                <!-- Recent Orders Table-Style -->
+                <div class="lg:col-span-2 space-y-8">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xl font-extrabold flex items-center gap-3">
+                            <span class="w-2 h-8 bg-premium-orange rounded-full"></span>
+                            Commandes Récentes
+                        </h2>
+                        <a th:href="@{/produits/mes-commandes}"
+                            class="text-sm font-bold text-premium-orange hover:bg-premium-orange/10 px-4 py-2 rounded-xl transition-all uppercase tracking-widest">Tout
+                            voir</a>
+                    </div>
+
+                    <div class="bg-white rounded-[2.5rem] border border-premium-dark/5 shadow-sm overflow-hidden">
+                        <div th:if="${!#lists.isEmpty(commandes)}" class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead
+                                    class="bg-premium-dark/5 border-b border-premium-dark/5 text-[10px] font-bold uppercase tracking-widest text-premium-dark/30">
+                                    <tr>
+                                        <th class="px-8 py-6">Service / Produit</th>
+                                        <th class="px-8 py-6 text-center">Date</th>
+                                        <th class="px-8 py-6 text-center">Montant</th>
+                                        <th class="px-8 py-6 text-right">Statut</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-premium-dark/5">
+                                    <tr th:each="c, i : ${commandes}" th:if="${i.index < 5}"
+                                        class="hover:bg-premium-light/50 transition-colors group">
+                                        <td class="px-8 py-6">
+                                            <div class="flex items-center gap-4">
+                                                <div
+                                                    class="w-10 h-10 bg-premium-dark/5 rounded-xl flex items-center justify-center text-premium-orange group-hover:bg-premium-orange group-hover:text-white transition-all">
+                                                    <i class="fa-solid fa-box-archive"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="font-bold text-premium-dark"
+                                                        th:text="${c.produit != null ? c.produit.nom : 'Service'}">Nom
+                                                    </p>
+                                                    <p
+                                                        class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-widest">
+                                                        #BC-<span th:text="${c.id}">001</span></p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-8 py-6 text-center text-sm font-medium text-premium-dark/60"
+                                            th:text="${#temporals.format(c.dateCommande, 'dd MMM yyyy')}">Date</td>
+                                        <td class="px-8 py-6 text-center font-extrabold text-premium-dark"
+                                            th:text="${c.total} + ' F'">Total</td>
+                                        <td class="px-8 py-6 text-right">
+                                            <span
+                                                class="px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-premium-orange/10 text-premium-orange border border-premium-orange/20"
+                                                th:text="${c.statut}">Statut</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div th:if="${#lists.isEmpty(commandes)}" class="p-20 text-center space-y-6">
+                            <div
+                                class="w-20 h-20 bg-premium-dark/5 rounded-full flex items-center justify-center mx-auto text-premium-dark/10 text-3xl">
+                                <i class="fa-solid fa-inbox"></i>
+                            </div>
+                            <p class="text-premium-dark/40 font-bold italic">Aucune commande enregistrée pour le moment.
+                            </p>
+                            <a th:href="@{/projets}"
+                                class="inline-flex bg-premium-orange text-white px-8 py-3 rounded-xl font-bold hover:bg-premium-dark transition-all">Découvrir
+                                nos services</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Quick Profile & Actions -->
+                <div class="space-y-8">
+                    <h2 class="text-xl font-extrabold flex items-center gap-3">
+                        <span class="w-2 h-8 bg-premium-accent rounded-full"></span>
+                        Profil & Sécurité
+                    </h2>
+
+                    <div class="bg-premium-dark rounded-[2.5rem] p-8 text-white relative overflow-hidden">
+                        <div class="absolute inset-0 opacity-10 mix-blend-soft-light pointer-events-none"
+                            style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');">
+                        </div>
+                        <div class="relative z-10 space-y-8">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 bg-premium-orange text-white rounded-2xl flex items-center justify-center text-2xl font-extrabold"
+                                    th:text="${#strings.substring(#authentication.name, 0, 1)}">U</div>
+                                <div>
+                                    <p class="font-extrabold text-xl leading-none mb-1" sec:authentication="name">Nom
+                                    </p>
+                                    <p class="text-[10px] font-bold text-white/40 uppercase tracking-widest">Client
+                                        Vérifié</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div
+                                    class="bg-white/5 p-4 rounded-2xl border border-white/10 flex justify-between items-center">
+                                    <span
+                                        class="text-xs font-bold text-white/40 uppercase tracking-widest">Sécurité</span>
+                                    <span
+                                        class="text-[10px] font-bold bg-green-500/20 text-green-400 px-3 py-1 rounded-full uppercase tracking-widest">Optimale</span>
+                                </div>
+                            </div>
+                            <button
+                                class="w-full bg-white text-premium-dark py-4 rounded-2xl font-bold hover:bg-premium-orange hover:text-white transition-all">Paramètres
+                                du compte</button>
+                        </div>
+                    </div>
+
+                    <!-- Promo/Help -->
+                    <div
+                        class="bg-premium-accent/10 border-2 border-dashed border-premium-accent/20 rounded-[2.5rem] p-8 space-y-4">
+                        <h4 class="font-extrabold text-premium-dark">Besoin d'aide ?</h4>
+                        <p class="text-sm text-premium-dark/50 leading-relaxed">Notre équipe de support est disponible
+                            pour répondre à toutes vos questions concernant vos réservations.</p>
+                        <a th:href="@{/propos}"
+                            class="inline-flex items-center gap-2 font-bold text-premium-orange hover:gap-3 transition-all">Contacter
+                            l'assistance <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</head>
+
+</html>

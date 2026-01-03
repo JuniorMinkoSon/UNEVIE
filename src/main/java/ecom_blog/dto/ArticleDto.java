@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,6 +17,7 @@ public class ArticleDto {
     private String titre;
     private String contenu;
     private String imageUrl;
+    private java.util.List<String> imageUrls = new java.util.ArrayList<>();
 
     private Long categoryId;
     private String categoryName;

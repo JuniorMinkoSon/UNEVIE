@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Component
 public class ArticleMapper {
 
@@ -36,7 +35,6 @@ public class ArticleMapper {
         return article;
     }
 
-
     public void updateEntity(UpdateArticleDto dto, Article article) {
         if (dto == null || article == null) {
             return;
@@ -59,6 +57,7 @@ public class ArticleMapper {
         dto.setTitre(article.getTitre());
         dto.setContenu(article.getContenu());
         dto.setImageUrl(article.getImageUrl());
+        dto.setImageUrls(new java.util.ArrayList<>(article.getImageUrls()));
         dto.setCreated_at(article.getCreated_at());
         dto.setUpdated_at(article.getUpdated_at());
 

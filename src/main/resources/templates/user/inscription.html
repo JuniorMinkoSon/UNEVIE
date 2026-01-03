@@ -1,94 +1,140 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription - Baraka CI</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <style>
-        body {
-            background: linear-gradient(135deg, #004080, #002b5b);
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        premium: {
+                            orange: '#f97316',
+                            dark: '#1a1a1a',
+                            light: '#fdfcfb',
+                            accent: '#fbbf24'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
         }
-        .register-card {
-            background: #fff;
-            color: #333;
-            border-radius: 15px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
-            padding: 2rem;
-            width: 100%;
-            max-width: 450px;
-            animation: slideUp 0.8s ease;
-        }
-        .register-card h1 {
-            color: #002b5b;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-        }
-        .btn-register {
-            background: #e0a800;
-            border: none;
-            width: 100%;
-            transition: 0.3s;
-        }
-        .btn-register:hover {
-            background: #c99700;
-            transform: scale(1.03);
-        }
-        .form-control:focus {
-            border-color: #e0a800;
-            box-shadow: 0 0 0 0.2rem rgba(224,168,0,0.25);
-        }
-        .alert-danger {
-            border-radius: 10px;
-        }
-        @keyframes slideUp {
-            from {opacity: 0; transform: translateY(25px);}
-            to {opacity: 1; transform: translateY(0);}
-        }
-    </style>
+    </script>
 </head>
-<body>
 
-<div class="register-card">
-    <h1><i class="fa fa-user-plus"></i> Créer un compte</h1>
+<body class="bg-premium-dark font-sans min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+    <!-- Background Accents -->
+    <div class="absolute top-0 left-0 w-full h-full opacity-10 mix-blend-overlay pointer-events-none"
+        style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');"></div>
+    <div
+        class="absolute -top-24 -right-24 w-96 h-96 bg-premium-orange/20 rounded-full blur-[120px] pointer-events-none">
+    </div>
+    <div
+        class="absolute -bottom-24 -left-24 w-96 h-96 bg-premium-accent/10 rounded-full blur-[120px] pointer-events-none">
+    </div>
 
-    <!-- ✅ Message d'erreur -->
-    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <div class="w-full max-w-lg relative z-10 space-y-8">
+        <!-- Logo -->
+        <div class="text-center space-y-4">
+            <a th:href="@{/}" class="inline-flex items-center gap-3 group">
+                <div class="bg-premium-orange p-2 rounded-xl shadow-lg group-hover:rotate-12 transition-transform">
+                    <img src="/images/logo.svg" class="h-8 w-auto brightness-0 invert" alt="U">
+                </div>
+                <span class="font-extrabold text-3xl text-white tracking-tight">
+                    UNE<span class="text-premium-orange">VIE</span>
+                </span>
+            </a>
+            <p class="text-white/40 text-sm font-medium tracking-wide uppercase">Créez votre compte en quelques instants
+            </p>
+        </div>
 
-    <form th:action="@{/register}" method="post" th:object="${user}">
+        <!-- card -->
+        <div
+            class="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-10 md:p-12 shadow-2xl space-y-8">
+            <h2 class="text-2xl font-bold text-white text-center">Inscription</h2>
 
-        <input type="text" th:field="*{nom}" class="form-control" placeholder="Nom complet" required>
+            <!-- ✅ Message d'erreur -->
+            <div th:if="${error}"
+                class="bg-red-500/10 border border-red-500/20 text-red-400 px-6 py-4 rounded-2xl text-sm font-medium"
+                th:text="${error}"></div>
 
-        <input type="email" th:field="*{email}" class="form-control" placeholder="Email" required>
+            <form th:action="@{/register}" method="post" th:object="${user}" class="space-y-6">
 
-        <input type="password" th:field="*{password}" class="form-control" placeholder="Mot de passe" required>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold uppercase tracking-widest text-white/40 ml-1">Nom
+                            complet</label>
+                        <input type="text" th:field="*{nom}" required placeholder="Jean Dupont"
+                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white outline-none focus:ring-2 focus:ring-premium-orange/20 focus:border-premium-orange transition-all placeholder:text-white/10">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold uppercase tracking-widest text-white/40 ml-1">Téléphone</label>
+                        <input type="text" th:field="*{telephone}" required placeholder="+225 00000000"
+                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white outline-none focus:ring-2 focus:ring-premium-orange/20 focus:border-premium-orange transition-all placeholder:text-white/10">
+                    </div>
+                </div>
 
-        <input type="text" th:field="*{telephone}" class="form-control" placeholder="Téléphone" required>
+                <div class="space-y-2">
+                    <label class="text-xs font-bold uppercase tracking-widest text-white/40 ml-1">Adresse Email</label>
+                    <input type="email" th:field="*{email}" required placeholder="email@exemple.com"
+                        class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white outline-none focus:ring-2 focus:ring-premium-orange/20 focus:border-premium-orange transition-all placeholder:text-white/10">
+                </div>
 
-        <!-- 🔽 TYPE UTILISATEUR -->
-        <select name="type" class="form-control mt-3" required>
-            <option value="USER">Client</option>
-            <option value="LIVREUR">Fournisseur / Livreur</option>
-        </select>
+                <div class="space-y-2">
+                    <label class="text-xs font-bold uppercase tracking-widest text-white/40 ml-1">Mot de passe</label>
+                    <input type="password" th:field="*{password}" required placeholder="••••••••"
+                        class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white outline-none focus:ring-2 focus:ring-premium-orange/20 focus:border-premium-orange transition-all placeholder:text-white/10">
+                </div>
 
-        <button type="submit" class="btn btn-register mt-4">
-            S’inscrire
-        </button>
-    </form>
+                <div class="space-y-2">
+                    <label class="text-xs font-bold uppercase tracking-widest text-white/40 ml-1">Je suis un</label>
+                    <select name="type" required
+                        class="w-full bg-premium-dark border border-white/10 rounded-2xl px-6 py-4 text-white outline-none focus:ring-2 focus:ring-premium-orange/20 focus:border-premium-orange transition-all appearance-none cursor-pointer">
+                        <option value="USER">Client (Particulier)</option>
+                        <option value="LIVREUR">Prestataire (Professionnel)</option>
+                    </select>
+                </div>
 
+                <div class="pt-4">
+                    <button type="submit"
+                        class="w-full bg-premium-orange text-white py-5 rounded-2xl font-bold text-lg hover:bg-premium-orange/90 transition-all shadow-xl shadow-premium-orange/20 flex items-center justify-center gap-3 active:scale-[0.98]">
+                        Créer mon compte
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <line x1="19" y1="8" x2="19" y2="14" />
+                            <line x1="22" y1="11" x2="16" y2="11" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
 
-    <p class="text-center mt-3">Déjà inscrit ?
-        <a th:href="@{/login}" class="text-decoration-none" style="color:#004080;">Se connecter</a>
-    </p>
-</div>
+            <div class="pt-4 text-center">
+                <p class="text-white/40 text-sm">
+                    Déjà inscrit ?
+                    <a th:href="@{/login}"
+                        class="text-premium-orange font-bold hover:text-white transition-colors ml-1">Se connecter</a>
+                </p>
+            </div>
+        </div>
+
+        <p class="text-center text-white/20 text-xs font-medium uppercase tracking-[0.2em]">© 2024 UNEVIE. Tous droits
+            réservés.</p>
+    </div>
+</body>
 
 </body>
+
 </html>

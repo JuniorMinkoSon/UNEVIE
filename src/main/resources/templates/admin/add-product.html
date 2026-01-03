@@ -2,58 +2,199 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <div th:replace="~{fragments/head :: head (title='Admin - Ajouter produit')}"></div>
-    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+    <title>Ajouter un Produit | Administration UNEVIE</title>
 </head>
 
-
-<body>
+<body class="bg-premium-light">
     <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
-        <section>
-            <div class="container-fluid">
-                <div class="glass-card">
-                    <h1>
-                        <i class="fa-solid fa-cube"></i>
-                        Ajouter un Produit
-                    </h1>
+        <section class="max-w-4xl mx-auto space-y-12">
 
+            <!-- Page Header -->
+            <div class="flex items-center gap-6">
+                <a th:href="@{/admin/products}"
+                    class="w-12 h-12 bg-white border border-premium-dark/5 rounded-2xl flex items-center justify-center text-premium-dark hover:text-premium-orange hover:border-premium-orange/20 transition-all shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <div class="space-y-1">
+                    <h1 class="text-3xl font-extrabold tracking-tight text-premium-dark">Nouveau Produit</h1>
+                    <p class="text-premium-dark/40 font-medium text-sm">Ajoutez un nouveau trésor à votre catalogue.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-[3.5rem] shadow-sm border border-premium-dark/5 overflow-hidden">
+                <div class="p-12 space-y-10">
                     <form th:action="@{/admin/product/save}" th:object="${produit}" method="post"
-                        enctype="multipart/form-data">
-                        <input class="form-input" th:field="*{nom}" placeholder="Nom du produit" required>
+                        enctype="multipart/form-data" class="space-y-8">
 
-                        <div class="form-row">
-                            <select class="form-input" th:field="*{categorie}" required>
-                                <option value="" disabled selected>Choisir une catégorie</option>
-                                <option value="Voitures">🚗 Voitures</option>
-                                <option value="Poulets">🍗 Poulets</option>
-                                <option value="Résidences">🏠 Résidences</option>
-                                <option value="Traiteur">🍽️ Traiteur</option>
-                            </select>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Nom Area -->
+                            <div class="space-y-4">
+                                <label
+                                    class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Nom
+                                    du produit</label>
+                                <input type="text" th:field="*{nom}" placeholder="Ex: Panier Gourmand" required
+                                    class="w-full bg-premium-dark/5 border border-premium-dark/5 rounded-2xl px-6 py-5 text-premium-dark outline-none focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange transition-all font-bold placeholder:text-premium-dark/20 text-lg"
+                                    th:classappend="${#fields.hasErrors('nom')} ? 'border-red-500 ring-4 ring-red-500/10' : ''">
+                                <p th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"
+                                    class="text-red-500 text-xs font-bold pl-4"></p>
+                            </div>
 
-                            <input class="form-input" th:field="*{prix}" type="number" placeholder="Prix (FCFA)" min="0"
-                                step="0.01" required>
+                            <!-- Categorie Area -->
+                            <div class="space-y-4">
+                                <label
+                                    class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Catégorie</label>
+                                <select th:field="*{categorie}" required
+                                    class="w-full bg-premium-dark/5 border border-premium-dark/5 rounded-2xl px-6 py-5 text-premium-dark outline-none focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange transition-all font-bold appearance-none cursor-pointer"
+                                    th:classappend="${#fields.hasErrors('categorie')} ? 'border-red-500 ring-4 ring-red-500/10' : ''">
+                                    <option value="">-- Choisir --</option>
+                                    <option th:each="cat : ${categories}" th:value="${cat.libelle}"
+                                        th:text="${cat.libelle}"></option>
+                                </select>
+                                <p th:if="${#fields.hasErrors('categorie')}" th:errors="*{categorie}"
+                                    class="text-red-500 text-xs font-bold pl-4"></p>
+                            </div>
                         </div>
 
-                        <textarea class="form-input" th:field="*{description}"
-                            placeholder="Description du produit..."></textarea>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Prix Area -->
+                            <div class="space-y-4">
+                                <label
+                                    class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Prix
+                                    (FCFA)</label>
+                                <div class="relative">
+                                    <input type="number" th:field="*{prix}" placeholder="0.00" required step="0.01"
+                                        class="w-full bg-premium-dark/5 border border-premium-dark/5 rounded-2xl px-6 py-5 text-premium-dark outline-none focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange transition-all font-bold placeholder:text-premium-dark/20 text-lg"
+                                        th:classappend="${#fields.hasErrors('prix')} ? 'border-red-500 ring-4 ring-red-500/10' : ''">
+                                    <span
+                                        class="absolute right-6 top-1/2 -translate-y-1/2 text-premium-dark/20 font-bold">CFA</span>
+                                </div>
+                                <p th:if="${#fields.hasErrors('prix')}" th:errors="*{prix}"
+                                    class="text-red-500 text-xs font-bold pl-4"></p>
+                            </div>
 
-                        <input type="file" name="image" accept="image/*" required>
+                            <!-- Disponibilité -->
+                            <div class="space-y-4">
+                                <label
+                                    class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Disponibilité</label>
+                                <div class="flex items-center gap-4 bg-premium-dark/5 rounded-2xl p-2 h-[68px]">
+                                    <label class="flex-1 flex items-center justify-center gap-3 cursor-pointer group">
+                                        <input type="radio" th:field="*{disponible}" th:value="true"
+                                            class="hidden peer">
+                                        <div
+                                            class="w-full py-3 rounded-xl border border-transparent flex items-center justify-center gap-2 peer-checked:bg-white peer-checked:shadow-sm peer-checked:text-premium-orange transition-all text-premium-dark/40 font-bold group-hover:text-premium-dark/60">
+                                            <i class="fa-solid fa-check-circle"></i> En stock
+                                        </div>
+                                    </label>
+                                    <label class="flex-1 flex items-center justify-center gap-3 cursor-pointer group">
+                                        <input type="radio" th:field="*{disponible}" th:value="false"
+                                            class="hidden peer">
+                                        <div
+                                            class="w-full py-3 rounded-xl border border-transparent flex items-center justify-center gap-2 peer-checked:bg-white peer-checked:shadow-sm peer-checked:text-premium-orange transition-all text-premium-dark/40 font-bold group-hover:text-premium-dark/60">
+                                            <i class="fa-solid fa-times-circle"></i> Épuisé
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 
-                        <button class="btn" type="submit">
-                            <i class="fa-solid fa-save"></i>
-                            Enregistrer le produit
-                        </button>
+                        <!-- Description Area -->
+                        <div class="space-y-4">
+                            <label
+                                class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Description</label>
+                            <textarea th:field="*{description}" placeholder="Décrivez votre produit..." rows="6"
+                                class="w-full bg-premium-dark/5 border border-premium-dark/5 rounded-3xl px-8 py-8 text-premium-dark outline-none focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange transition-all font-medium placeholder:text-premium-dark/20 leading-relaxed resize-none"></textarea>
+                        </div>
+
+                        <!-- Image Upload Area -->
+                        <div class="space-y-4">
+                            <label
+                                class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Visuels
+                                du produit</label>
+                            <div class="relative group">
+                                <input type="file" name="images" accept="image/*" multiple id="fileInput"
+                                    class="absolute inset-0 opacity-0 cursor-pointer z-30">
+                                <div id="dropZone"
+                                    class="w-full bg-premium-dark/5 border-2 border-dashed border-premium-dark/10 rounded-[2.5rem] px-6 py-12 text-premium-dark/40 flex flex-col items-center justify-center gap-4 group-hover:border-premium-orange group-hover:bg-premium-orange/5 transition-all overflow-hidden relative min-h-[220px]">
+
+                                    <!-- Multi-Preview Grid -->
+                                    <div id="previewGrid"
+                                        class="hidden w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-2 z-10">
+                                        <!-- Previews injected here -->
+                                    </div>
+
+                                    <!-- Placeholder Content -->
+                                    <div id="placeholderContent"
+                                        class="flex flex-col items-center justify-center gap-4">
+                                        <div
+                                            class="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center text-premium-dark/20 group-hover:text-premium-orange transition-colors">
+                                            <i class="fa-solid fa-images text-2xl"></i>
+                                        </div>
+                                        <div class="text-center">
+                                            <p class="text-xs font-bold" id="fileName">Cliquez ou glissez vos images ici
+                                            </p>
+                                            <p class="text-[10px] font-bold opacity-40 uppercase tracking-widest mt-1">
+                                                PNG, JPG jusqu'à 5MB par fichier</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-6 pt-6">
+                            <button type="submit"
+                                class="flex-1 bg-premium-orange text-white font-extrabold py-6 rounded-2xl hover:bg-premium-dark transition-all shadow-2xl shadow-premium-orange/30 flex items-center justify-center gap-3 active:scale-95">
+                                <i class="fa-solid fa-save text-sm"></i>
+                                Enregistrer le produit
+                            </button>
+                            <a th:href="@{/admin/products}"
+                                class="px-10 py-6 bg-premium-dark/5 text-premium-dark font-extrabold rounded-2xl hover:bg-premium-dark/10 transition-all text-center">
+                                Annuler
+                            </a>
+                        </div>
                     </form>
-
-                    <div class="text-center mt-4">
-                        <a class="btn btn-outline" th:href="@{/admin/products}">
-                            <i class="fa-solid fa-arrow-left"></i>
-                            Retour à la liste
-                        </a>
-                    </div>
                 </div>
             </div>
         </section>
+
+        <script>
+            const fileInput = document.getElementById('fileInput');
+            const fileNameDisplay = document.getElementById('fileName');
+            const previewGrid = document.getElementById('previewGrid');
+            const placeholderContent = document.getElementById('placeholderContent');
+
+            fileInput?.addEventListener('change', (e) => {
+                const files = Array.from(e.target.files);
+
+                if (files.length > 0) {
+                    // Reset grid and show it
+                    previewGrid.innerHTML = '';
+                    previewGrid.classList.remove('hidden');
+                    placeholderContent.classList.add('hidden');
+
+                    files.forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            const div = document.createElement('div');
+                            div.className = 'aspect-square rounded-2xl overflow-hidden border border-white/20 shadow-lg relative group/item';
+                            div.innerHTML = `
+                                <img src="${event.target.result}" class="w-full h-full object-cover transition-transform group-hover/item:scale-110">
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/item:opacity-100 transition-opacity flex items-center justify-center">
+                                    <span class="text-[8px] text-white font-bold uppercase tracking-tighter">Prêt</span>
+                                </div>
+                            `;
+                            previewGrid.appendChild(div);
+                        };
+                        reader.readAsDataURL(file);
+                    });
+
+                    fileNameDisplay.textContent = files.length === 1 ? files[0].name : `${files.length} fichiers sélectionnés`;
+                } else {
+                    previewGrid.classList.add('hidden');
+                    placeholderContent.classList.remove('hidden');
+                    fileNameDisplay.textContent = 'Sélectionnez une ou plusieurs images';
+                }
+            });
+        </script>
     </div>
 </body>
 

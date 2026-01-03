@@ -1,28 +1,32 @@
 <!DOCTYPE html>
-<html lang="fr"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
     <title>À propos | UNEVIE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Tailwind -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        africanOrange: '#F59E0B',
-                        africanGreen: '#15803D',
-                        africanDark: '#0F172A'
+                        premium: {
+                            orange: '#f97316',
+                            dark: '#1a1a1a',
+                            light: '#fdfcfb',
+                            accent: '#fbbf24'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
                     }
                 }
             }
@@ -30,186 +34,199 @@
     </script>
 </head>
 
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-premium-light text-premium-dark font-sans">
 
-<!-- ================= HEADER ================= -->
-<div th:replace="~{fragments/header :: header}"></div>
+    <!-- ================= HEADER ================= -->
+    <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- ================= HERO IMMERSIF ================= -->
-<section class="relative py-28 text-white overflow-hidden">
-
-    <img src="/images/voiture.jpeg"
-         class="absolute inset-0 w-full h-full object-cover">
-
-    <div class="absolute inset-0 bg-gradient-to-r from-africanGreen/90 to-africanOrange/80"></div>
-
-    <div class="relative max-w-7xl mx-auto px-6 text-center">
-        <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
-            À propos de <span class="underline">UNEVIE</span>
-        </h1>
-        <p class="max-w-3xl mx-auto text-white/90 text-lg">
-            La plateforme ivoirienne qui simplifie la réservation de services,
-            de véhicules et de résidences, partout en Côte d’Ivoire.
-        </p>
-    </div>
-</section>
-
-<!-- ================= PRÉSENTATION ================= -->
-<section class="max-w-7xl mx-auto px-6 py-24">
-    <div class="grid md:grid-cols-2 gap-16 items-center">
-
-        <div>
-            <span class="text-africanOrange font-semibold uppercase text-sm">
-                Qui sommes-nous
-            </span>
-
-            <h2 class="text-3xl font-extrabold mt-2 mb-6">
-                UNEVIE, une solution pensée pour l’Afrique
-            </h2>
-
-            <p class="text-slate-600 mb-5 leading-relaxed">
-                <strong>UNEVIE</strong> est une plateforme numérique ivoirienne
-                conçue pour connecter <strong>prestataires</strong>,
-                <strong>propriétaires</strong> et <strong>clients</strong>
-                sur un même espace fiable et intuitif.
-            </p>
-
-            <p class="text-slate-600 mb-5 leading-relaxed">
-                Nous facilitons la <strong>location de véhicules</strong>,
-                la <strong>réservation de résidences</strong> et l’accès à des
-                <strong>services événementiels et alimentaires</strong>,
-                en tenant compte de votre localisation.
-            </p>
-
-            <p class="text-slate-600 leading-relaxed">
-                Basée à <strong>Abidjan</strong>, UNEVIE répond aux réalités locales
-                avec une technologie moderne, simple et sécurisée.
-            </p>
+    <!-- ================= HERO ================= -->
+    <section class="relative py-32 overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="/images/voiture.jpeg" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-premium-dark/70 backdrop-blur-sm"></div>
+            <div class="absolute inset-0 opacity-10 mix-blend-overlay"
+                style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');"></div>
         </div>
 
-        <div class="rounded-3xl overflow-hidden shadow-2xl">
-            <img src="/images/vision.jpg"
-                 alt="Vision UNEVIE"
-                 class="w-full h-96 object-cover">
+        <div class="relative z-10 max-w-7xl mx-auto px-6 text-center space-y-8">
+            <div
+                class="inline-block px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white text-xs font-bold uppercase tracking-widest leading-none">
+                À propos de nous</div>
+            <h1 class="text-5xl md:text-6xl font-extrabold text-white leading-tight">
+                Découvrez <span class="text-premium-orange">UNEVIE</span>
+            </h1>
+            <p class="max-w-3xl mx-auto text-white/70 text-lg md:text-xl leading-relaxed">
+                La plateforme ivoirienne qui simplifie la réservation de services, de véhicules et de résidences,
+                partout en Côte d’Ivoire.
+            </p>
         </div>
+    </section>
 
-    </div>
-</section>
+    <!-- ================= PRÉSENTATION ================= -->
+    <section class="max-w-7xl mx-auto px-6 py-32">
+        <div class="grid lg:grid-cols-2 gap-20 items-center">
+            <div class="space-y-8">
+                <div class="space-y-4">
+                    <span class="text-premium-orange font-bold uppercase tracking-widest text-xs">Qui sommes-nous</span>
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-premium-dark leading-tight">UNEVIE, une solution
+                        pensée pour l’Afrique</h2>
+                </div>
 
-<!-- ================= MISSION ================= -->
-<section class="bg-white py-24">
-    <div class="max-w-7xl mx-auto px-6 text-center">
+                <div class="space-y-6 text-premium-dark/60 text-lg leading-relaxed">
+                    <p><strong>UNEVIE</strong> est une plateforme numérique ivoirienne conçue pour connecter
+                        <strong>prestataires</strong>, <strong>propriétaires</strong> et <strong>clients</strong> sur un
+                        même espace fiable et intuitif.</p>
+                    <p>Nous facilitons la <strong>location de véhicules</strong>, la <strong>réservation de
+                            résidences</strong> et l’accès à des <strong>services événementiels et
+                            alimentaires</strong>, en tenant compte de votre localisation précise.</p>
+                    <p>Basée à <strong>Abidjan</strong>, UNEVIE répond aux réalités locales avec une technologie
+                        moderne, simple et hautement sécurisée.</p>
+                </div>
+            </div>
 
-        <span class="text-africanGreen font-semibold uppercase text-sm">
-            Notre mission
-        </span>
+            <div class="relative group">
+                <div
+                    class="absolute -inset-4 bg-premium-orange/20 rounded-[3rem] blur-2xl group-hover:blur-3xl transition-all duration-700">
+                </div>
+                <div class="relative rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white">
+                    <img src="/images/vision.jpg" alt="Vision UNEVIE"
+                        class="w-full h-[500px] object-cover group-hover:scale-105 transition-transform duration-1000">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-premium-dark/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <h2 class="text-3xl font-extrabold mt-2 mb-6">
-            Simplifier le quotidien grâce au digital
-        </h2>
+    <!-- ================= MISSION & VISION ================= -->
+    <section class="bg-premium-dark py-32 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 mix-blend-soft-light"
+            style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');"></div>
 
-        <p class="text-slate-600 max-w-3xl mx-auto mb-16">
-            Offrir un accès rapide, sécurisé et transparent aux services
-            essentiels de mobilité, d’hébergement et de réservation.
-        </p>
-
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
-
-            <div class="bg-slate-50 rounded-3xl shadow-lg p-8 hover:shadow-xl transition">
-                <i class="fas fa-map-marker-alt text-africanGreen text-4xl mb-5"></i>
-                <h3 class="font-bold text-lg mb-2">Géolocalisation intelligente</h3>
-                <p class="text-sm text-slate-600">
-                    Des offres adaptées à votre position, en temps réel.
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center space-y-16">
+            <div class="space-y-4">
+                <span class="text-premium-orange font-bold uppercase tracking-widest text-xs">Notre mission</span>
+                <h2 class="text-4xl md:text-5xl font-extrabold text-white">Simplifier le quotidien grâce au digital</h2>
+                <p class="text-white/50 max-w-3xl mx-auto text-lg leading-relaxed">
+                    Offrir un accès rapide, sécurisé et transparent aux services essentiels de mobilité, d’hébergement
+                    et de réservation pour tous les Ivoiriens.
                 </p>
             </div>
 
-            <div class="bg-slate-50 rounded-3xl shadow-lg p-8 hover:shadow-xl transition">
-                <i class="fas fa-shield-alt text-africanGreen text-4xl mb-5"></i>
-                <h3 class="font-bold text-lg mb-2">Sécurité & confiance</h3>
-                <p class="text-sm text-slate-600">
-                    Prestataires vérifiés et paiements sécurisés.
+            <div class="grid md:grid-cols-3 gap-8">
+                <div
+                    class="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] space-y-6 hover:bg-white/10 transition-all duration-500 group">
+                    <div
+                        class="w-16 h-16 bg-premium-orange/20 rounded-2xl flex items-center justify-center text-premium-orange group-hover:rotate-12 transition-transform">
+                        <i class="fas fa-map-marker-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white capitalize">Géolocalisation</h3>
+                    <p class="text-white/40 leading-relaxed text-sm">Des offres adaptées à votre position, en temps
+                        réel, partout en Côte d'Ivoire.</p>
+                </div>
+
+                <div
+                    class="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] space-y-6 hover:bg-white/10 transition-all duration-500 group">
+                    <div
+                        class="w-16 h-16 bg-premium-orange/20 rounded-2xl flex items-center justify-center text-premium-orange group-hover:rotate-12 transition-transform">
+                        <i class="fas fa-shield-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white capitalize">Sécurité</h3>
+                    <p class="text-white/40 leading-relaxed text-sm">Prestataires vérifiés et paiements sécurisés pour
+                        une confiance totale.</p>
+                </div>
+
+                <div
+                    class="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] space-y-6 hover:bg-white/10 transition-all duration-500 group">
+                    <div
+                        class="w-16 h-16 bg-premium-orange/20 rounded-2xl flex items-center justify-center text-premium-orange group-hover:rotate-12 transition-transform">
+                        <i class="fas fa-bolt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white capitalize">Simplicité</h3>
+                    <p class="text-white/40 leading-relaxed text-sm">Une expérience fluide et intuitive, accessible à
+                        tous les types d'utilisateurs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= VALEURS ================= -->
+    <section class="max-w-7xl mx-auto px-6 py-32 space-y-20">
+        <div class="text-center space-y-4">
+            <span class="text-premium-orange font-bold uppercase tracking-widest text-xs">Nos valeurs</span>
+            <h2 class="text-4xl font-extrabold text-premium-dark">Ce qui guide UNEVIE</h2>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div
+                class="bg-white p-10 shadow-sm border border-premium-dark/5 rounded-[2rem] hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 text-center space-y-4">
+                <div
+                    class="w-12 h-12 bg-premium-orange/10 rounded-xl flex items-center justify-center text-premium-orange mx-auto">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3 class="text-lg font-bold">Confiance</h3>
+                <p class="text-premium-dark/40 text-sm">Transparence et respect mutuel dans toutes nos relations.</p>
+            </div>
+
+            <div
+                class="bg-white p-10 shadow-sm border border-premium-dark/5 rounded-[2rem] hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 text-center space-y-4">
+                <div
+                    class="w-12 h-12 bg-premium-orange/10 rounded-xl flex items-center justify-center text-premium-orange mx-auto">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3 class="text-lg font-bold">Innovation</h3>
+                <p class="text-premium-dark/40 text-sm">Technologie adaptée spécifiquement au contexte africain.</p>
+            </div>
+
+            <div
+                class="bg-white p-10 shadow-sm border border-premium-dark/5 rounded-[2rem] hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 text-center space-y-4">
+                <div
+                    class="w-12 h-12 bg-premium-orange/10 rounded-xl flex items-center justify-center text-premium-orange mx-auto">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="text-lg font-bold">Accessibilité</h3>
+                <p class="text-premium-dark/40 text-sm">Des services premium rendus accessibles à toute la population.
                 </p>
             </div>
 
-            <div class="bg-slate-50 rounded-3xl shadow-lg p-8 hover:shadow-xl transition">
-                <i class="fas fa-bolt text-africanGreen text-4xl mb-5"></i>
-                <h3 class="font-bold text-lg mb-2">Rapidité & simplicité</h3>
-                <p class="text-sm text-slate-600">
-                    Une expérience fluide, accessible à tous.
+            <div
+                class="bg-white p-10 shadow-sm border border-premium-dark/5 rounded-[2rem] hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 text-center space-y-4">
+                <div
+                    class="w-12 h-12 bg-premium-orange/10 rounded-xl flex items-center justify-center text-premium-orange mx-auto">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3 class="text-lg font-bold">Excellence</h3>
+                <p class="text-premium-dark/40 text-sm">Engagement constant vers la qualité et l'expérience utilisateur.
                 </p>
             </div>
-
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- ================= VALEURS ================= -->
-<section class="max-w-7xl mx-auto px-6 py-24">
+    <!-- ================= CTA ================= -->
+    <section class="max-w-7xl mx-auto px-6 pb-32">
+        <div
+            class="bg-gradient-to-br from-premium-orange to-premium-accent rounded-[3rem] p-12 md:p-24 text-center text-white space-y-10 shadow-2xl shadow-premium-orange/30 overflow-hidden relative group transition-all duration-700">
+            <div class="absolute inset-0 opacity-10 mix-blend-overlay"
+                style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');"></div>
 
-    <div class="text-center mb-16">
-        <span class="text-africanOrange font-semibold uppercase text-sm">
-            Nos valeurs
-        </span>
-        <h2 class="text-3xl font-extrabold mt-2">
-            Ce qui guide UNEVIE
-        </h2>
-    </div>
+            <div class="relative z-10 space-y-6">
+                <h2 class="text-4xl md:text-5xl font-extrabold leading-tight">UNEVIE, bien plus qu’une plateforme</h2>
+                <p class="text-white/80 text-xl max-w-2xl mx-auto">Une solution locale, fiable et moderne pour vos
+                    besoins quotidiens les plus exigeants.</p>
+            </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
-
-        <div class="bg-white rounded-2xl shadow p-6 text-center hover:shadow-lg transition">
-            <i class="fas fa-handshake text-africanOrange text-3xl mb-3"></i>
-            <h3 class="font-bold mb-2">Confiance</h3>
-            <p class="text-sm text-slate-600">
-                Transparence et respect.
-            </p>
+            <div class="relative z-10 pt-4">
+                <a th:href="@{/projets}"
+                    class="bg-white text-premium-orange font-bold px-12 py-5 rounded-2xl hover:bg-premium-dark hover:text-white transition-all text-lg shadow-xl inline-block">Découvrir
+                    nos offres</a>
+            </div>
         </div>
+    </section>
 
-        <div class="bg-white rounded-2xl shadow p-6 text-center hover:shadow-lg transition">
-            <i class="fas fa-lightbulb text-africanOrange text-3xl mb-3"></i>
-            <h3 class="font-bold mb-2">Innovation</h3>
-            <p class="text-sm text-slate-600">
-                Technologie adaptée au contexte africain.
-            </p>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow p-6 text-center hover:shadow-lg transition">
-            <i class="fas fa-users text-africanOrange text-3xl mb-3"></i>
-            <h3 class="font-bold mb-2">Accessibilité</h3>
-            <p class="text-sm text-slate-600">
-                Des services pour tous.
-            </p>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow p-6 text-center hover:shadow-lg transition">
-            <i class="fas fa-star text-africanOrange text-3xl mb-3"></i>
-            <h3 class="font-bold mb-2">Excellence</h3>
-            <p class="text-sm text-slate-600">
-                Qualité et expérience premium.
-            </p>
-        </div>
-
-    </div>
-</section>
-
-<!-- ================= CTA FINAL ================= -->
-<section class="bg-gradient-to-r from-africanGreen to-africanOrange text-white py-24 text-center">
-    <h2 class="text-3xl font-extrabold mb-4">
-        UNEVIE, bien plus qu’une plateforme
-    </h2>
-    <p class="text-white/90 mb-8">
-        Une solution locale, fiable et moderne pour vos besoins quotidiens
-    </p>
-
-    <a th:href="@{/projets}"
-       class="bg-white text-africanDark font-semibold px-10 py-4 rounded-xl
-              hover:bg-slate-100 transition">
-        Découvrir les offres
-    </a>
-</section>
-
-<!-- ================= FOOTER ================= -->
-<div th:replace="~{fragments/footer :: footer}"></div>
+    <!-- ================= FOOTER ================= -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
+
 </html>

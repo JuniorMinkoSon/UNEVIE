@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.validation.BindingResult;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import ecom_blog.service.CategorieService;
 
@@ -67,18 +68,20 @@ public class AdminController {
     @GetMapping("/product/add")
     public String showAddProductForm(Model model) {
         model.addAttribute("produit", new CreateProduitDto());
+        model.addAttribute("categories", categorieService.findAll());
         return "admin/add-product";
     }
 
     @PostMapping("/product/save")
     public String saveProduct(@Valid @ModelAttribute("produit") CreateProduitDto dto, BindingResult bindingResult,
-            @RequestParam("image") MultipartFile image) {
+            Model model, @RequestParam(value = "images", required = false) List<MultipartFile> images) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", categorieService.findAll());
             return "admin/add-product";
         }
 
         Produit produit = produitMapper.toEntity(dto);
-        produitService.save(produit, image);
+        produitService.save(produit, images);
         return "redirect:/admin/products?success=produit";
     }
 
@@ -106,9 +109,11 @@ public class AdminController {
         dto.setPrix(produit.getPrix());
         dto.setDescription(produit.getDescription());
         dto.setImageUrl(produit.getImageUrl());
+        dto.setImageUrls(new java.util.ArrayList<>(produit.getImageUrls()));
         dto.setDisponible(produit.isDisponible());
 
         model.addAttribute("produit", dto);
+        model.addAttribute("categories", categorieService.findAll());
         return "admin/edit-product";
     }
 
@@ -116,12 +121,14 @@ public class AdminController {
     public String updateProduct(@PathVariable Long id,
             @Valid @ModelAttribute("produit") UpdateProduitDto dto,
             BindingResult bindingResult,
-            @RequestParam(value = "image", required = false) MultipartFile image) {
+            Model model,
+            @RequestParam(value = "images", required = false) List<MultipartFile> images) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", categorieService.findAll());
             return "admin/edit-product";
         }
 
-        produitService.update(id, dto, image);
+        produitService.update(id, dto, images);
         return "redirect:/admin/products?success=update";
     }
 
@@ -134,14 +141,14 @@ public class AdminController {
 
     @PostMapping("/article/save")
     public String saveArticle(@Valid @ModelAttribute("article") CreateArticleDto dto, BindingResult bindingResult,
-            Model model, @RequestParam("image") MultipartFile image) {
+            Model model, @RequestParam(value = "images", required = false) java.util.List<MultipartFile> images) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", categorieService.findAll());
             return "admin/add-article";
         }
 
         Article article = articleMapper.toEntity(dto);
-        articleService.save(article, image);
+        articleService.save(article, images);
         return "redirect:/admin/dashboard?success=article";
     }
 
@@ -163,7 +170,7 @@ public class AdminController {
             @Valid @ModelAttribute("article") UpdateArticleDto dto,
             BindingResult bindingResult,
             Model model,
-            @RequestParam(value = "image", required = false) MultipartFile image) {
+            @RequestParam(value = "images", required = false) java.util.List<MultipartFile> images) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", categorieService.findAll());
 
@@ -177,7 +184,7 @@ public class AdminController {
             return "admin/edit-article";
         }
 
-        articleService.update(id, dto, image);
+        articleService.update(id, dto, images);
         return "redirect:/admin/article/list?success=update";
     }
 

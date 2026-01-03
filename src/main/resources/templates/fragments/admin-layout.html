@@ -1,130 +1,242 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<!-- Admin Layout Fragment with Sidebar & Navbar -->
+<!-- Admin Dashboard Layout with Sidebar & Navbar (Lovable Premium Aesthetic) -->
 <div th:fragment="layout(content)">
 
-    <!-- Sidebar -->
-    <aside class="admin-sidebar" id="adminSidebar">
-        <div class="sidebar-content">
-            <!-- Logo -->
-            <div class="sidebar-logo">
-                <div class="logo"><img th:src="@{/images/logo-baraka.png}" alt="Baraka Synergies Group"
-                        style="height:60px; width:100%">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        premium: {
+                            orange: '#f97316',
+                            dark: '#1a1a1a',
+                            light: '#fdfcfb',
+                            accent: '#fbbf24'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --sidebar-width: 280px;
+        }
+
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @media (max-width: 1024px) {
+            .admin-sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                z-index: 1000;
+            }
+
+            .admin-sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+            }
+        }
+
+        /* Custom scrollbar for sidebar */
+        .admin-sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .admin-sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .admin-sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+    </style>
+
+    <div class="min-h-screen bg-premium-light flex">
+
+        <!-- SIDEBAR -->
+        <aside id="adminSidebar"
+            class="admin-sidebar h-screen bg-premium-dark text-white fixed left-0 top-0 overflow-y-auto flex flex-col p-8 z-50 shadow-2xl">
+            <div class="absolute inset-0 opacity-10 mix-blend-soft-light pointer-events-none"
+                style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');"></div>
+
+            <div class="relative z-10 flex flex-col h-full">
+                <!-- Logo -->
+                <a th:href="@{/}" class="inline-flex items-center gap-3 group mb-12">
+                    <div
+                        class="bg-premium-orange p-2 rounded-xl shadow-lg shadow-premium-orange/20 group-hover:rotate-12 transition-transform">
+                        <img src="/images/logo.svg" class="h-8 w-auto brightness-0 invert" alt="U">
+                    </div>
+                    <span class="font-extrabold text-2xl tracking-tight text-white">
+                        UNE<span class="text-premium-orange">VIE</span>
+                        <span
+                            class="block text-[8px] uppercase tracking-[0.4em] text-premium-orange opacity-60">Administration</span>
+                    </span>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="flex-grow space-y-2">
+                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] pl-4 mb-4">Principal</p>
+
+                    <a th:href="@{/admin/dashboard}"
+                        class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold"
+                        th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/dashboard' ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-white/60 hover:bg-white/5 hover:text-white group'}">
+                        <i class="fa-solid fa-chart-line text-lg"
+                            th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/dashboard' ? '' : 'group-hover:text-premium-orange transition-colors'}"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] pl-4 mt-8 mb-4">Gestion
+                        Contenu</p>
+
+                    <a th:href="@{/admin/article/list}"
+                        class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold"
+                        th:classappend="${currentRequestUri != null && currentRequestUri.startsWith('/admin/article') ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-white/60 hover:bg-white/5 hover:text-white group'}">
+                        <i class="fa-solid fa-newspaper text-lg"
+                            th:classappend="${currentRequestUri != null && currentRequestUri.startsWith('/admin/article') ? '' : 'group-hover:text-premium-orange transition-colors'}"></i>
+                        <span>Articles</span>
+                    </a>
+
+                    <a th:href="@{/admin/products}"
+                        class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold"
+                        th:classappend="${currentRequestUri != null && currentRequestUri.startsWith('/admin/products') ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-white/60 hover:bg-white/5 hover:text-white group'}">
+                        <i class="fa-solid fa-box text-lg"
+                            th:classappend="${currentRequestUri != null && currentRequestUri.startsWith('/admin/products') ? '' : 'group-hover:text-premium-orange transition-colors'}"></i>
+                        <span>Produits</span>
+                    </a>
+
+                    <a th:href="@{/admin/categories}"
+                        class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold"
+                        th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/categories' ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-white/60 hover:bg-white/5 hover:text-white group'}">
+                        <i class="fa-solid fa-tags text-lg"
+                            th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/categories' ? '' : 'group-hover:text-premium-orange transition-colors'}"></i>
+                        <span>Catégories</span>
+                    </a>
+
+                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] pl-4 mt-8 mb-4">Opérations
+                    </p>
+
+                    <a th:href="@{/admin/commandes}"
+                        class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold"
+                        th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/commandes' ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-white/60 hover:bg-white/5 hover:text-white group'}">
+                        <i class="fa-solid fa-shopping-cart text-lg"
+                            th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/commandes' ? '' : 'group-hover:text-premium-orange transition-colors'}"></i>
+                        <span>Commandes</span>
+                    </a>
+                </nav>
+
+                <!-- Sidebar Footer -->
+                <div class="mt-auto pt-8 border-t border-white/10">
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit"
+                            class="w-full flex items-center gap-4 px-6 py-4 rounded-2xl bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all font-bold group">
+                            <i class="fa-solid fa-power-off group-hover:animate-pulse"></i>
+                            <span>Déconnexion</span>
+                        </button>
+                    </form>
                 </div>
-                <br />
-
             </div>
+        </aside>
 
-            <!-- Navigation Menu -->
-            <nav class="sidebar-nav">
-                <a th:href="@{/admin/dashboard}" class="nav-item" data-page="dashboard">
-                    <i class="fa-solid fa-chart-line"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a th:href="@{/admin/article/list}" class="nav-item" data-page="articles">
-                    <i class="fa-solid fa-newspaper"></i>
-                    <span>Articles</span>
-                </a>
-                <a th:href="@{/admin/products}" class="nav-item" data-page="products">
-                    <i class="fa-solid fa-box"></i>
-                    <span>Produits</span>
-                </a>
-                <a th:href="@{/admin/commandes}" class="nav-item" data-page="commandes">
-                    <i class="fa-solid fa-shopping-cart"></i>
-                    <span>Commandes</span>
-                </a>
-                <a th:href="@{/admin/categories}" class="nav-item" data-page="categories">
-                    <i class="fa-solid fa-tags"></i>
-                    <span>Catégories</span>
-                </a>
-            </nav>
+        <!-- MAIN CONTENT AREA -->
+        <div class="main-content flex-1 flex flex-col ml-[280px]">
 
-            <!-- User Profile Section -->
-            <div class="sidebar-user">
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit" class="btn">
-                        <i class="fa-solid fa-sign-out-alt"></i>
-                        <span>Déconnexion</span>
+            <!-- TOP NAVBAR -->
+            <header
+                class="h-[80px] bg-white border-b border-premium-dark/5 sticky top-0 z-40 px-8 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button id="sidebarToggle"
+                        class="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-premium-dark/5 text-premium-dark transition-colors hover:bg-premium-orange hover:text-white">
+                        <i class="fa-solid fa-bars-staggered"></i>
                     </button>
-                </form>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Main Content Wrapper -->
-    <div class="admin-main-wrapper">
-
-        <!-- Top Navbar -->
-        <header class="admin-navbar">
-            <div class="navbar-left">
-                <button class="sidebar-toggle" id="sidebarToggle">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-
-                <div class="search-bar">
-                    <i class="fa-solid fa-search"></i>
-                    <input type="text" placeholder="Rechercher...">
-                </div>
-            </div>
-
-            <div class="navbar-right">
-                <!-- Search Bar -->
-
-
-                <!-- Notifications -->
-                <div class="navbar-icon" id="notificationBtn">
-                    <i class="fa-solid fa-bell"></i>
-                    <span class="badge">3</span>
-                </div>
-
-                <!-- User Dropdown -->
-                <div class="user-dropdown">
-                    <button class="user-btn" id="userDropdownBtn">
-                        <div class="user-avatar-sm">
-                            <i class="fa-solid fa-user-circle"></i>
-                        </div>
-                        <span sec:authentication="name">Admin</span>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </button>
-
-                    <div class="admin-dropdown-menu" id="userDropdownMenu">
-                        <a th:href="@{/admin/profile}" class="admin-dropdown-item">
-                            <i class="fa-solid fa-user"></i>
-                            <span>Mon Profil</span>
-                        </a>
-                        <a th:href="@{/admin/settings}" class="admin-dropdown-item">
-                            <i class="fa-solid fa-cog"></i>
-                            <span>Paramètres</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <form th:action="@{/logout}" method="post" style="margin: 0;">
-                            <button type="submit" class="admin-dropdown-item logout-btn">
-                                <i class="fa-solid fa-sign-out-alt"></i>
-                                <span>Déconnexion</span>
-                            </button>
-                        </form>
+                    <div class="hidden md:flex items-center gap-2 text-premium-dark/40 text-sm font-medium">
+                        <i class="fa-solid fa-shield-halved text-xs text-premium-orange"></i>
+                        <span>/</span>
+                        <span class="text-premium-dark font-bold">Portail Administration</span>
                     </div>
                 </div>
-            </div>
-        </header>
 
-        <!-- Main Content Area -->
-        <main class="admin-content">
-            <div th:replace="${content}"></div>
-        </main>
+                <div class="flex items-center gap-6">
+                    <!-- Search bar for larger screens (optional/cosmetic) -->
+                    <div
+                        class="hidden xl:flex items-center bg-premium-dark/5 rounded-xl px-4 py-2 border border-premium-dark/5 group focus-within:border-premium-orange transition-all">
+                        <i class="fa-solid fa-magnifying-glass text-premium-dark/20 text-xs"></i>
+                        <input type="text" placeholder="Recherche rapide..."
+                            class="bg-transparent border-none outline-none px-3 text-xs font-medium w-48 placeholder:text-premium-dark/20">
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="relative group cursor-pointer">
+                        <div
+                            class="w-10 h-10 flex items-center justify-center rounded-xl bg-premium-dark/5 text-premium-dark hover:bg-premium-orange hover:text-white transition-all">
+                            <i class="fa-solid fa-bell"></i>
+                            <span
+                                class="absolute -top-1 -right-1 w-4 h-4 bg-premium-orange text-white text-[10px] font-bold rounded-full flex items-center justify-center">3</span>
+                        </div>
+                    </div>
+
+                    <!-- Profile Dropdown -->
+                    <div class="flex items-center gap-3 pl-6 border-l border-premium-dark/5">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-sm font-extrabold text-premium-dark leading-none" sec:authentication="name">
+                                Administrateur</p>
+                            <p class="text-[10px] font-bold text-premium-orange uppercase tracking-widest mt-1">Super
+                                Admin</p>
+                        </div>
+                        <div
+                            class="w-10 h-10 bg-premium-dark text-white rounded-xl flex items-center justify-center font-bold text-lg border-2 border-premium-orange shadow-lg shadow-premium-orange/10">
+                            <span th:text="${#strings.substring(#authentication.name, 0, 1)}">A</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- PAGE CONTENT -->
+            <main class="p-8 md:p-12">
+                <div th:replace="${content}"></div>
+            </main>
+
+        </div>
     </div>
 
-    <!-- Mobile Sidebar Backdrop -->
-    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <!-- MOBILE SCRIPTS -->
+    <script>
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const adminSidebar = document.getElementById('adminSidebar');
 
-    <!-- Bootstrap JS Bundle (includes Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', () => {
+                adminSidebar.classList.toggle('active');
+            });
+        }
 
-    <!-- Admin Dashboard JavaScript -->
-    <script th:src="@{/js/admin-dashboard.js}"></script>
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth < 1024 && adminSidebar && !adminSidebar.contains(e.target) && sidebarToggle && !sidebarToggle.contains(e.target)) {
+                adminSidebar.classList.remove('active');
+            }
+        });
+    </script>
 </div>
 
 </html>

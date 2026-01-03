@@ -25,4 +25,6 @@ public class CreateProduitDto {
 
     @Size(max = 5000, message = "La description ne doit pas dépasser 5000 caractères")
     private String description;
+
+    private boolean disponible = true;
 }

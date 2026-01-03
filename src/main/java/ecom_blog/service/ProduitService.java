@@ -21,21 +21,39 @@ public class ProduitService {
     @Autowired
     private ProduitRepository produitRepository;
 
-    // 📁 Dossier de stockage des images produits
-    private final String uploadDir = "src/main/resources/static/uploads/";
+    // 📁 Dossier de stockage des images produits (Chemin absolu dynamique)
+    private final String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/uploads/";
 
-    // 💾 Enregistrer un produit avec image
-    public void save(Produit produit, MultipartFile image) {
+    // 💾 Enregistrer un produit avec images
+    public void save(Produit produit, java.util.List<MultipartFile> images) {
         try {
-            if (image != null && !image.isEmpty()) {
-                byte[] bytes = image.getBytes();
-                Path path = Paths.get(uploadDir + image.getOriginalFilename());
-                Files.write(path, bytes);
-                produit.setImageUrl(image.getOriginalFilename());
+            if (images != null && !images.isEmpty()) {
+                Path uploadPath = Paths.get(uploadDir);
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+
+                for (MultipartFile image : images) {
+                    if (image != null && !image.isEmpty()) {
+                        // 📸 Nom unique du fichier
+                        String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+
+                        // 💾 Copier le fichier dans /static/uploads/
+                        Files.copy(image.getInputStream(), uploadPath.resolve(fileName));
+
+                        // ✅ Ajouter à la liste des images
+                        produit.getImageUrls().add(fileName);
+
+                        // ✅ Définir comme image principale si c'est la première
+                        if (produit.getImageUrl() == null) {
+                            produit.setImageUrl(fileName);
+                        }
+                    }
+                }
             }
             produitRepository.save(produit);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Erreur lors de l'enregistrement des images produit", e);
         }
     }
 
@@ -69,7 +87,7 @@ public class ProduitService {
     }
 
     // 📝 Mettre à jour un produit
-    public void update(Long id, UpdateProduitDto dto, MultipartFile image) {
+    public void update(Long id, UpdateProduitDto dto, java.util.List<MultipartFile> images) {
         Produit produit = getById(id);
         if (produit != null) {
             produit.setNom(dto.getNom());
@@ -78,14 +96,32 @@ public class ProduitService {
             produit.setDescription(dto.getDescription());
             produit.setDisponible(dto.isDisponible());
 
-            if (image != null && !image.isEmpty()) {
+            if (images != null && !images.isEmpty()) {
                 try {
-                    byte[] bytes = image.getBytes();
-                    Path path = Paths.get(uploadDir + image.getOriginalFilename());
-                    Files.write(path, bytes);
-                    produit.setImageUrl(image.getOriginalFilename());
+                    Path uploadPath = Paths.get(uploadDir);
+                    if (!Files.exists(uploadPath)) {
+                        Files.createDirectories(uploadPath);
+                    }
+
+                    for (MultipartFile image : images) {
+                        if (image != null && !image.isEmpty()) {
+                            // 📸 Nom unique du fichier
+                            String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+
+                            // 💾 Copier le fichier dans /static/uploads/
+                            Files.copy(image.getInputStream(), uploadPath.resolve(fileName));
+
+                            // ✅ Ajouter à la liste des images
+                            produit.getImageUrls().add(fileName);
+
+                            // ✅ Mettre à jour l'image principale si elle n'existe pas
+                            if (produit.getImageUrl() == null) {
+                                produit.setImageUrl(fileName);
+                            }
+                        }
+                    }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException("Erreur lors de la mise à jour des images produit", e);
                 }
             }
             produitRepository.save(produit);

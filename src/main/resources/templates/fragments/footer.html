@@ -1,81 +1,113 @@
-<div th:fragment="footer">
-    <!-- Font Awesome (Safe Load) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <footer class="bg-gray-900 text-gray-300 mt-20" style="background-color: #111827; color: #d1d5db;">
-        <div class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-4 gap-10">
+<div th:fragment="footer" class="font-sans">
+    <footer class="bg-premium-dark text-white/60 pt-24 pb-12">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 pb-20">
 
             <!-- Logo & Description -->
-            <div>
-                <h3 class="text-white font-bold text-2xl mb-4 tracking-wide" style="color: #ffffff;">UNEVIE</h3>
-                <p class="text-sm leading-relaxed text-gray-400" style="color: #9ca3af;">
-                    Plateforme digitale connectant éleveurs, fournisseurs,
-                    services, résidences et particuliers pour simplifier votre quotidien.
+            <div class="space-y-6">
+                <a th:href="@{/}" class="flex items-center gap-2">
+                    <div class="bg-premium-orange p-1.5 rounded-lg">
+                        <img src="/images/logo.svg" class="h-6 w-auto brightness-0 invert" alt="U">
+                    </div>
+                    <span class="font-extrabold text-2xl text-white tracking-tight">
+                        UNE<span class="text-premium-orange">VIE</span>
+                    </span>
+                </a>
+                <p class="text-sm leading-relaxed max-w-xs">
+                    Une solution pensée pour l'Afrique. Connectant prestataires, propriétaires et clients sur un même
+                    espace fiable.
                 </p>
+                <div class="flex gap-4">
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-premium-orange hover:border-premium-orange transition-all duration-300">
+                        <i class="fab fa-facebook-f text-sm text-white"></i>
+                    </a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-premium-orange hover:border-premium-orange transition-all duration-300">
+                        <i class="fab fa-instagram text-sm text-white"></i>
+                    </a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-premium-orange hover:border-premium-orange transition-all duration-300">
+                        <i class="fab fa-twitter text-sm text-white"></i>
+                    </a>
+                </div>
             </div>
 
             <!-- Services -->
             <div>
-                <h4 class="text-white font-semibold text-lg mb-4" style="color: #ffffff;">Services</h4>
-                <ul class="space-y-2 text-sm text-gray-400" style="color: #9ca3af;">
-                    <li class="hover:text-yellow-500 transition cursor-pointer">Vente de poulets</li>
-                    <li class="hover:text-yellow-500 transition cursor-pointer">Réservation de résidences</li>
-                    <li class="hover:text-yellow-500 transition cursor-pointer">Location de véhicules</li>
-                    <li class="hover:text-yellow-500 transition cursor-pointer">Traiteur haut de gamme</li>
+                <h4 class="text-white font-bold text-lg mb-8">Services</h4>
+                <ul class="space-y-4 text-sm">
+                    <li><a href="#" class="hover:text-premium-orange transition-colors">Location de Véhicules</a></li>
+                    <li><a href="#" class="hover:text-premium-orange transition-colors">Réservation de Résidences</a>
+                    </li>
+                    <li><a href="#" class="hover:text-premium-orange transition-colors">Services Événementiels</a></li>
+                    <li><a href="#" class="hover:text-premium-orange transition-colors">Services Alimentaires</a></li>
+                </ul>
+            </div>
+
+            <!-- Liens Utiles -->
+            <div>
+                <h4 class="text-white font-bold text-lg mb-8">Liens Utiles</h4>
+                <ul class="space-y-4 text-sm">
+                    <li><a href="#" class="hover:text-premium-orange transition-colors">Devenir Prestataire</a></li>
+                    <li><a href="#" class="hover:text-premium-orange transition-colors">À Propos</a></li>
+                    <li><a href="#" class="hover:text-premium-orange transition-colors">Contact</a></li>
+                    <li><a href="#" class="hover:text-premium-orange transition-colors">FAQ</a></li>
                 </ul>
             </div>
 
             <!-- Contact -->
             <div>
-                <h4 class="text-white font-semibold text-lg mb-4" style="color: #ffffff;">Contact</h4>
-                <ul class="space-y-3 text-sm text-gray-400" style="color: #9ca3af;">
-                    <li class="flex items-start gap-3"
-                        style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.75rem;">
-                        <i class="fas fa-map-marker-alt"
-                            style="color: #eab308; margin-top: 0.25rem; min-width: 20px; text-align: center;"></i>
-                        <span>Abidjan – Côte d’Ivoire</span>
+                <h4 class="text-white font-bold text-lg mb-8">Contact</h4>
+                <ul class="space-y-6 text-sm">
+                    <li class="flex items-start gap-4">
+                        <div class="bg-premium-orange/10 p-2.5 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="text-premium-orange">
+                                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                        </div>
+                        <span class="pt-1 text-white/80">Abidjan, Côte d'Ivoire</span>
                     </li>
-                    <li class="flex items-center gap-3"
-                        style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
-                        <i class="fas fa-phone" style="color: #eab308; min-width: 20px; text-align: center;"></i>
-                        <span>+225 07 68 18 93 40</span>
+                    <li class="flex items-start gap-4">
+                        <div class="bg-premium-orange/10 p-2.5 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="text-premium-orange">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                            </svg>
+                        </div>
+                        <span class="pt-1 text-white/80">+225 07 00 00 00 00</span>
                     </li>
-                    <li class="flex items-center gap-3"
-                        style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
-                        <i class="fas fa-envelope" style="color: #eab308; min-width: 20px; text-align: center;"></i>
-                        <span>contact@unevie.app</span>
+                    <li class="flex items-start gap-4">
+                        <div class="bg-premium-orange/10 p-2.5 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="text-premium-orange">
+                                <rect width="20" height="16" x="2" y="4" rx="2" />
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                            </svg>
+                        </div>
+                        <span class="pt-1 text-white/80">contact@unevie.ci</span>
                     </li>
                 </ul>
-            </div>
-
-            <!-- Suivez-nous -->
-            <div>
-                <h4 class="text-white font-semibold text-lg mb-4" style="color: #ffffff;">Suivez-nous</h4>
-                <div class="flex gap-4">
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-blue-600 transition"
-                        style="background-color: #1f2937; color: #ffffff;">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-pink-600 transition"
-                        style="background-color: #1f2937; color: #ffffff;">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-blue-700 transition"
-                        style="background-color: #1f2937; color: #ffffff;">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                </div>
             </div>
         </div>
 
         <!-- Copyright -->
-        <div class="border-t border-gray-800 py-6 text-center text-sm text-gray-500"
-            style="border-top-color: #1f2937; color: #6b7280;">
-            © 2025 <span class="text-white font-semibold" style="color: #ffffff;">UNEVIE</span> — Tous droits réservés.
+        <div
+            class="max-w-7xl mx-auto px-6 lg:px-8 border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
+            <p>© 2024 UNEVIE. Tous droits réservés.</p>
+            <div class="flex gap-8">
+                <a href="#" class="hover:text-white transition-colors">Mentions Légales</a>
+                <a href="#" class="hover:text-white transition-colors">Politique de Confidentialité</a>
+            </div>
+            <div class="bg-white/5 px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-2">
+                <span class="text-[10px] uppercase tracking-widest font-bold text-white/40">Built with</span>
+                <span class="font-bold text-white tracking-tight">Lovable</span>
+            </div>
         </div>
     </footer>
-
 </div>

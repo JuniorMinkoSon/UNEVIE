@@ -2,130 +2,295 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <div th:replace="~{fragments/head :: head(title='Tableau de Bord — Administration unevie')}"></div>
-    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+    <!-- We don't need a separate head fragment if the layout handles everything, 
+         but we keep it for titles and page-specific scripts -->
+    <title>Dashboard Admin | UNEVIE</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body
-    style="background:#f9fafb; font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,sans-serif; color:#1d1d1f;">
+<body class="bg-premium-light">
 
-    <!-- ✅ ADMIN LAYOUT -->
+    <!-- ✅ ADMIN LAYOUT INTEGRATION -->
     <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
-        <section>
-            <div class="container-fluid py-4">
+        <section class="space-y-12">
 
-                <!-- 🔢 STATS -->
-                <section class=" mb-5">
-                    <div class="stats-row">
-                        <div class="stat-card" th:each="entry : ${stats}">
+            <!-- Page Header -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <h1 class="text-4xl font-extrabold tracking-tight text-premium-dark">Vue d'ensemble</h1>
+                    <p class="text-premium-dark/40 font-medium text-lg">Suivez les performances et la croissance de
+                        UNEVIE en temps réel.</p>
+                </div>
 
-                            <div>
-                                <h6 th:text="${entry.key}"></h6>
-                                <h2 th:text="${entry.value}"></h2>
+                <div class="flex items-center gap-4 bg-white p-4 rounded-3xl shadow-sm border border-premium-dark/5">
+                    <div
+                        class="w-12 h-12 bg-premium-orange/10 text-premium-orange rounded-2xl flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-calendar-day"></i>
+                    </div>
+                    <div>
+                        <p
+                            class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-widest leading-none mb-1">
+                            Date actuelle</p>
+                        <p class="font-extrabold text-sm"
+                            th:text="${#temporals.format(#temporals.createNow(), 'dd MMMM yyyy')}">01 Janvier 2024</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🔢 KEY STATISTICS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div th:each="entry : ${stats}"
+                    class="group bg-white rounded-[2.5rem] p-8 shadow-sm border border-premium-dark/5 hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 relative overflow-hidden">
+                    <div
+                        class="absolute top-0 right-0 w-32 h-32 bg-premium-orange/5 rounded-bl-full -mr-16 -mt-16 group-hover:bg-premium-orange/10 transition-colors">
+                    </div>
+
+                    <div class="relative z-10 space-y-4">
+                        <div
+                            class="w-14 h-14 bg-premium-dark/5 rounded-2xl flex items-center justify-center text-premium-orange group-hover:scale-110 transition-transform duration-500">
+                            <i
+                                th:class="${entry.key == 'Ventes' ? 'fa-solid fa-cart-shopping' : 
+                                            entry.key == 'Commandes' ? 'fa-solid fa-box' : 
+                                            entry.key == 'Clients' ? 'fa-solid fa-users' : 'fa-solid fa-chart-simple'} + ' text-xl'"></i>
+                        </div>
+                        <div class="space-y-1">
+                            <p class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-widest"
+                                th:text="${entry.key}">Statistique</p>
+                            <p class="text-3xl font-extrabold text-premium-dark" th:text="${entry.value}">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- 📊 SALES CHART -->
+                <div
+                    class="lg:col-span-2 bg-white rounded-[3rem] p-10 shadow-sm border border-premium-dark/5 space-y-8">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xl font-extrabold flex items-center gap-3 text-premium-dark">
+                            <span class="w-2 h-8 bg-premium-orange rounded-full"></span>
+                            Commandes Mensuelles
+                        </h2>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-premium-orange"></span>
+                            <span
+                                class="text-[10px] font-bold text-premium-dark/40 uppercase tracking-widest">Performances</span>
+                        </div>
+                    </div>
+
+                    <div class="relative h-[350px]">
+                        <canvas id="orderChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- ℹ️ SYSTEM OVERVIEW / QUICK INFO -->
+                <div class="bg-premium-dark rounded-[3rem] p-10 text-white relative overflow-hidden shadow-2xl">
+                    <div class="absolute inset-0 opacity-10 mix-blend-soft-light pointer-events-none"
+                        style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');">
+                    </div>
+
+                    <div class="relative z-10 space-y-8 h-full flex flex-col">
+                        <h2 class="text-xl font-extrabold">Accès Rapides Administration</h2>
+
+                        <div class="flex-grow space-y-4">
+                            <a th:href="@{/admin/products/add}"
+                                class="flex items-center gap-4 p-5 rounded-3xl bg-white/5 hover:bg-premium-orange transition-all group">
+                                <div
+                                    class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                                    <i class="fa-solid fa-plus text-sm"></i>
+                                </div>
+                                <span class="font-bold">Nouveau Produit</span>
+                            </a>
+                            <a th:href="@{/admin/article/add}"
+                                class="flex items-center gap-4 p-5 rounded-3xl bg-white/5 hover:bg-premium-orange transition-all group">
+                                <div
+                                    class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                                    <i class="fa-solid fa-pen-nib text-sm"></i>
+                                </div>
+                                <span class="font-bold">Rédiger un Article</span>
+                            </a>
+                        </div>
+
+                        <div class="p-6 bg-white/5 rounded-3xl border border-white/10 space-y-4">
+                            <p class="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em]">Santé du système
+                            </p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium">Statut API</span>
+                                <span
+                                    class="px-3 py-1 bg-green-500/20 text-green-400 text-[10px] font-bold rounded-full uppercase tracking-widest border border-green-500/20">Opérationnel</span>
                             </div>
                         </div>
                     </div>
-                </section>
-                <br />
+                </div>
+            </div>
 
-                <section class="dashboard-card mb-5">
-                    <h4 class="section-title">
-                        <i class="fa-solid fa-chart-bar text-primary"></i>
-                        Commandes Mensuelles
-                    </h4>
-                    <div style="height: 300px; position: relative;">
-                        <canvas id="orderChart"></canvas>
-                    </div>
-                </section>
+            <!-- 🧾 RECENT ORDERS TABLE -->
+            <div class="space-y-8">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-extrabold flex items-center gap-3 text-premium-dark">
+                        <span class="w-2 h-8 bg-premium-orange rounded-full"></span>
+                        Dernières Commandes
+                    </h2>
+                    <a th:href="@{/admin/commandes}"
+                        class="text-sm font-bold text-premium-orange hover:bg-premium-orange/10 px-6 py-3 rounded-2xl transition-all uppercase tracking-widest border border-premium-orange/20">Tout
+                        voir</a>
+                </div>
 
-                <script th:inline="javascript">
-                    document.addEventListener("DOMContentLoaded", () => {
-                        const stats = /*[[${orderStats}]]*/ {};
-                        const labels = Object.keys(stats);
-                        const data = Object.values(stats);
+                <div
+                    class="overflow-x-auto bg-white rounded-[3rem] shadow-sm border border-premium-dark/5 overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-premium-dark/5">
+                                <th
+                                    class="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-premium-dark/40">
+                                    ID</th>
+                                <th
+                                    class="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-premium-dark/40">
+                                    Client</th>
+                                <th
+                                    class="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-premium-dark/40">
+                                    Date</th>
+                                <th
+                                    class="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-premium-dark/40">
+                                    Total</th>
+                                <th
+                                    class="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-premium-dark/40">
+                                    Statut</th>
+                                <th
+                                    class="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-premium-dark/40 text-right">
+                                    Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-premium-dark/5">
+                            <tr th:each="cmd : ${recentCommandes}"
+                                class="hover:bg-premium-orange/[0.02] transition-colors group">
+                                <td class="px-10 py-8">
+                                    <span
+                                        class="text-sm font-extrabold text-premium-dark/40 group-hover:text-premium-orange transition-colors"
+                                        th:text="'#' + ${cmd.id}">#123</span>
+                                </td>
+                                <td class="px-10 py-8">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 bg-premium-dark text-white rounded-xl flex items-center justify-center font-bold text-xs"
+                                            th:text="${#strings.substring(cmd.user != null ? cmd.user.nom : 'A', 0, 1)}">
+                                            A</div>
+                                        <div class="space-y-0.5">
+                                            <p class="font-bold text-premium-dark leading-tight"
+                                                th:text="${cmd.user != null ? cmd.user.nom : 'Anonyme'}">Client</p>
+                                            <p class="text-[10px] font-bold text-premium-dark/30 tracking-wide uppercase"
+                                                th:text="${cmd.user != null ? cmd.user.email : '—'}">email@example.com
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-10 py-8">
+                                    <span class="text-sm font-bold text-premium-dark/60"
+                                        th:text="${#temporals.format(cmd.dateCommande, 'dd MMM yyyy')}">Date</span>
+                                </td>
+                                <td class="px-10 py-8">
+                                    <span class="text-lg font-extrabold text-premium-dark"
+                                        th:text="${#numbers.formatDecimal(cmd.total, 0, 'COMMA', 0, 'POINT')} + ' F'">0
+                                        F</span>
+                                </td>
+                                <td class="px-10 py-8">
+                                    <span th:text="${cmd.statut}" th:classappend="${cmd.statut == 'EN_ATTENTE' ? 'bg-orange-500/10 text-orange-500 border-orange-500/20' : 
+                                                         cmd.statut == 'EN_COURS' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' : 
+                                                         'bg-green-500/10 text-green-500 border-green-500/20'}"
+                                        class="px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest leading-none border">
+                                    </span>
+                                </td>
+                                <td class="px-10 py-8 text-right">
+                                    <button
+                                        class="w-10 h-10 rounded-xl bg-premium-dark/5 text-premium-dark hover:bg-premium-dark hover:text-white transition-all">
+                                        <i class="fa-solid fa-ellipsis-v text-xs"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(recentCommandes)}">
+                                <td colspan="6" class="px-10 py-24 text-center space-y-6">
+                                    <div
+                                        class="w-20 h-20 bg-premium-dark/5 rounded-full flex items-center justify-center mx-auto text-premium-dark/10 text-3xl">
+                                        <i class="fa-solid fa-inbox"></i>
+                                    </div>
+                                    <p class="text-premium-dark/30 font-bold italic text-lg">Aucune commande récente
+                                        pour le moment.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-                        const ctx = document.getElementById('orderChart').getContext('2d');
-                        new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: labels,
-                                datasets: [{
-                                    label: 'Nombre de commandes',
-                                    data: data,
-                                    backgroundColor: '#0d6efd',
-                                    borderRadius: 8,
-                                    borderWidth: 0
-                                }]
+            <!-- Chart Initialization -->
+            <script th:inline="javascript">
+                document.addEventListener("DOMContentLoaded", () => {
+                    const stats = /*[[${orderStats}]]*/ {};
+                    const labels = Object.keys(stats);
+                    const data = Object.values(stats);
+
+                    const ctx = document.getElementById('orderChart').getContext('2d');
+
+                    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+                    gradient.addColorStop(0, 'rgba(249, 115, 22, 0.4)');
+                    gradient.addColorStop(1, 'rgba(249, 115, 22, 0)');
+
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Commandes',
+                                data: data,
+                                borderColor: '#f97316',
+                                backgroundColor: gradient,
+                                fill: true,
+                                tension: 0.4,
+                                borderWidth: 4,
+                                pointBackgroundColor: '#fff',
+                                pointBorderColor: '#f97316',
+                                pointBorderWidth: 2,
+                                pointRadius: 6,
+                                pointHoverRadius: 8
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            interaction: {
+                                intersect: false,
+                                mode: 'index',
                             },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                scales: {
-                                    y: {
-                                        beginAtZero: true,
-                                        ticks: { stepSize: 1 }
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: '#1a1a1a',
+                                    titleFont: { size: 14, weight: '800', family: 'Outfit' },
+                                    bodyFont: { size: 13, family: 'Outfit' },
+                                    padding: 16,
+                                    cornerRadius: 12,
+                                    displayColors: false
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: { color: 'rgba(0,0,0,0.03)' },
+                                    ticks: {
+                                        stepSize: 1,
+                                        font: { family: 'Outfit', weight: '600' }
                                     }
                                 },
-                                plugins: {
-                                    legend: { display: false }
+                                x: {
+                                    grid: { display: false },
+                                    ticks: { font: { family: 'Outfit', weight: '600' } }
                                 }
                             }
-                        });
+                        }
                     });
-                </script>
-
-                <!-- 🧾 DERNIÈRES COMMANDES -->
-                <section class="dashboard-card mt-5">
-                    <h4 class="section-title">
-                        <i class="fa-solid fa-clock-rotate-left text-primary"></i>
-                        Dernières Commandes
-                    </h4>
-
-                    <!-- Aucun résultat -->
-                    <div th:if="${#lists.isEmpty(recentCommandes)}" class="empty-state">
-                        <i class="fa-solid fa-inbox"></i>
-                        <p>Aucune commande récente.</p>
-                    </div>
-
-                    <!-- Tableau -->
-                    <div th:if="${!#lists.isEmpty(recentCommandes)}" class="table-responsive">
-                        <table class="table align-middle text-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Client</th>
-                                    <th>Email</th>
-                                    <th>Téléphone</th>
-                                    <th>Total</th>
-                                    <th>Statut</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="cmd : ${recentCommandes}">
-                                    <td class="fw-bold text-primary" th:text="${cmd.id}"></td>
-                                    <td th:text="${cmd.user != null ? cmd.user.nom : 'Anonyme'}"></td>
-                                    <td class="text-muted" th:text="${cmd.user != null ? cmd.user.email : '—'}"></td>
-                                    <td class="text-muted" th:text="${cmd.user != null ? cmd.user.telephone : '—'}">
-                                    </td>
-                                    <td class="fw-bold text-success" th:text="${cmd.total} + ' FCFA'"></td>
-                                    <td>
-                                        <span class="badge rounded-pill"
-                                            th:classappend="${cmd.statut == 'EN_ATTENTE' ? 'bg-warning text-dark' : cmd.statut == 'EN_COURS' ? 'bg-primary' : 'bg-success'}"
-                                            th:text="${cmd.statut}">
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-
-            </div>
+                });
+            </script>
         </section>
     </div>
-
-
 
 </body>
 

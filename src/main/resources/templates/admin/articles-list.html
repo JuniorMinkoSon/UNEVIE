@@ -2,99 +2,130 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <div th:replace="~{fragments/head :: head (title='Admin - Liste des Articles')}"></div>
-    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+    <title>Gestion des Articles | Administration UNEVIE</title>
 </head>
 
-
-<body>
+<body class="bg-premium-light">
     <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
-        <section>
-            <div class="container-fluid">
-                <div class="glass-card">
-                    <div class="header-actions d-flex justify-content-between align-items-center mb-4">
-                        <h1 class="h3 fw-bold text-gray-800 m-0">
-                            <i class="fa-solid fa-newspaper text-primary me-2"></i>
-                            Gestion des Articles
-                        </h1>
-                        <div>
-                            <a class="btn btn-primary rounded-pill px-4" th:href="@{/admin/article/add}">
-                                <i class="fa-solid fa-plus me-2"></i>
-                                Nouvel Article
-                            </a>
-                        </div>
-                    </div>
+        <section class="space-y-12">
 
-                    <!-- Messages de succès -->
-                    <div class="alert alert-success" th:if="${param.success}">
-                        <i class="fa-solid fa-circle-check"></i>
-                        <span th:if="${param.success[0] == 'update'}">Article modifié avec succès !</span>
-                        <span th:if="${param.success[0] == 'delete'}">Article supprimé avec succès !</span>
-                    </div>
-
-                    <!-- Table des articles -->
-                    <div class="table-container" th:if="${articles != null && !articles.isEmpty()}">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Image</th>
-                                    <th>Titre</th>
-                                    <th>Catégorie</th>
-                                    <th>Date de création</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="article : ${articles}">
-                                    <td>
-                                        <img th:src="@{/uploads/{img}(img=${article.imageUrl})}"
-                                            th:alt="${article.titre}" class="article-image" width="60%">
-                                    </td>
-                                    <td>
-                                        <div class="article-title" th:text="${article.titre}">Titre de l'article</div>
-                                    </td>
-                                    <td>
-                                        <span class="category-badge" th:text="${article.categoryName}">Catégorie</span>
-                                    </td>
-                                    <td>
-                                        <span class="date-text"
-                                            th:text="${#temporals.format(article.created_at, 'dd/MM/yyyy')}">12/12/2024</span>
-                                    </td>
-                                    <td>
-                                        <div class="actions">
-                                            <a class="btn btn-success btn-sm"
-                                                th:href="@{/admin/article/edit/{id}(id=${article.id})}">
-                                                <i class="fa-solid fa-pen"></i>
-                                                Modifier
-                                            </a>
-                                            <a class="btn btn-danger btn-sm"
-                                                th:href="@{/admin/article/delete/{id}(id=${article.id})}"
-                                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?')">
-                                                <i class="fa-solid fa-trash"></i>
-                                                Supprimer
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- État vide -->
-                    <div class="empty-state" th:if="${articles == null || articles.isEmpty()}">
-                        <i class="fa-regular fa-newspaper"></i>
-                        <h2 style="margin-bottom: 10px; color: #1d1d1f;">Aucun article trouvé</h2>
-                        <p>Commencez par créer votre premier article !</p>
-                        <a class="btn" th:href="@{/admin/article/add}" style="margin-top: 24px;">
-                            <i class="fa-solid fa-plus"></i>
-                            Créer un article
-                        </a>
-                    </div>
+            <!-- Page Header -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <h1 class="text-4xl font-extrabold tracking-tight text-premium-dark">Gestion des Articles</h1>
+                    <p class="text-premium-dark/40 font-medium text-lg">Publiez et gérez vos articles de blog pour
+                        engager votre communauté.</p>
                 </div>
-        </section>
 
-    </div>
-    </section>
+                <a th:href="@{/admin/article/add}"
+                    class="bg-premium-orange text-white font-extrabold px-8 py-4 rounded-2xl hover:bg-premium-dark transition-all shadow-xl shadow-premium-orange/20 flex items-center gap-3 active:scale-95">
+                    <i class="fa-solid fa-plus"></i>
+                    Nouvel Article
+                </a>
+            </div>
+
+            <!-- Messages de succès -->
+            <div th:if="${param.success}"
+                class="flex items-center gap-4 p-6 bg-green-500/10 border border-green-500/20 rounded-[2rem] text-green-600 animate-in fade-in slide-in-from-top-4 duration-500">
+                <div
+                    class="w-10 h-10 bg-green-500 text-white rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-green-500/20">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <p class="font-bold" th:if="${param.success[0] == 'update'}">L'article a été mis à jour avec succès.</p>
+                <p class="font-bold" th:if="${param.success[0] == 'delete'}">L'article a été supprimé de la plateforme.
+                </p>
+            </div>
+
+            <!-- State: Empty -->
+            <div th:if="${articles == null || articles.isEmpty()}"
+                class="py-32 text-center space-y-8 bg-white rounded-[3.5rem] border border-premium-dark/5 shadow-sm">
+                <div
+                    class="w-24 h-24 bg-premium-dark/5 rounded-full flex items-center justify-center mx-auto text-premium-dark/10 text-4xl">
+                    <i class="fa-regular fa-newspaper"></i>
+                </div>
+                <div class="space-y-2">
+                    <h2 class="text-2xl font-extrabold text-premium-dark">Aucun article trouvé</h2>
+                    <p class="text-premium-dark/40 max-w-sm mx-auto">Votre blog est actuellement vide. Commencez à
+                        partager votre vision avec le monde.</p>
+                </div>
+                <a th:href="@{/admin/article/add}"
+                    class="bg-premium-orange text-white font-bold px-10 py-4 rounded-2xl hover:bg-premium-dark transition-all shadow-xl shadow-premium-orange/20 inline-block">Créer
+                    mon premier article</a>
+            </div>
+
+            <!-- Table Section -->
+            <div th:if="${articles != null && !articles.isEmpty()}" class="space-y-6">
+                <div
+                    class="overflow-x-auto bg-white rounded-[3rem] shadow-sm border border-premium-dark/5 overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-premium-dark/5">
+                                <th
+                                    class="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-premium-dark/40 w-48">
+                                    Image</th>
+                                <th
+                                    class="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-premium-dark/40">
+                                    Contenu</th>
+                                <th
+                                    class="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-premium-dark/40">
+                                    Catégorie</th>
+                                <th
+                                    class="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-premium-dark/40">
+                                    Date</th>
+                                <th
+                                    class="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-premium-dark/40 text-right">
+                                    Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-premium-dark/5">
+                            <tr th:each="article : ${articles}"
+                                class="hover:bg-premium-orange/[0.02] transition-colors group">
+                                <td class="px-10 py-8">
+                                    <div
+                                        class="w-32 aspect-video rounded-2xl bg-premium-dark/5 overflow-hidden border border-premium-dark/5 group-hover:scale-105 transition-transform duration-500">
+                                        <img th:src="@{/uploads/{img}(img=${article.imageUrl})}"
+                                            th:alt="${article.titre}" class="w-full h-full object-cover">
+                                    </div>
+                                </td>
+                                <td class="px-10 py-8">
+                                    <div class="space-y-1">
+                                        <p class="text-lg font-extrabold text-premium-dark group-hover:text-premium-orange transition-colors line-clamp-1"
+                                            th:text="${article.titre}">Titre de l'article</p>
+                                        <p class="text-xs font-bold text-premium-dark/30 uppercase tracking-widest">ID:
+                                            #<span th:text="${article.id}">0</span></p>
+                                    </div>
+                                </td>
+                                <td class="px-10 py-8">
+                                    <span
+                                        class="px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest leading-none bg-premium-orange/10 text-premium-orange border border-premium-orange/20"
+                                        th:text="${article.categoryName}">Catégorie</span>
+                                </td>
+                                <td class="px-10 py-8">
+                                    <span class="text-sm font-bold text-premium-dark/60"
+                                        th:text="${#temporals.format(article.created_at, 'dd MMM yyyy')}">Date</span>
+                                </td>
+                                <td class="px-10 py-8 text-right">
+                                    <div
+                                        class="flex items-center justify-end gap-3 opacity-40 group-hover:opacity-100 transition-opacity">
+                                        <a th:href="@{/admin/article/edit/{id}(id=${article.id})}"
+                                            class="w-10 h-10 bg-premium-dark/5 text-premium-dark rounded-xl flex items-center justify-center hover:bg-premium-dark hover:text-white transition-all shadow-sm"
+                                            title="Modifier">
+                                            <i class="fa-solid fa-pen text-xs"></i>
+                                        </a>
+                                        <a th:href="@{/admin/article/delete/{id}(id=${article.id})}"
+                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?')"
+                                            class="w-10 h-10 bg-red-500/10 text-red-500 rounded-xl flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-sm"
+                                            title="Supprimer">
+                                            <i class="fa-solid fa-trash text-xs"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
     </div>
 </body>
 

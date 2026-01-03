@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class ArticleService {
 
-    private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
+    private static final String UPLOAD_DIR = System.getProperty("user.dir") + "/src/main/resources/static/uploads/";
 
     @Autowired
     private ArticleRepository articleRepository;
@@ -58,71 +58,79 @@ public class ArticleService {
     /**
      * Créer un nouvel article
      */
-    public void save(Article article, MultipartFile image) {
+    public void save(Article article, List<MultipartFile> images) {
         try {
-            if (image != null && !image.isEmpty()) {
-                // 📸 Nom unique du fichier
-                String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-
-                // 📂 Dossier de destination
+            if (images != null && !images.isEmpty()) {
                 Path uploadPath = Paths.get(UPLOAD_DIR);
-
-                // Créer le dossier s'il n'existe pas
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
                 }
 
-                // 💾 Copier le fichier dans /static/uploads/
-                Files.copy(image.getInputStream(), uploadPath.resolve(fileName));
+                for (MultipartFile image : images) {
+                    if (image != null && !image.isEmpty()) {
+                        // 📸 Nom unique du fichier
+                        String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
 
-                // ✅ Ne pas inclure "uploads/" dans la base de données
-                article.setImageUrl(fileName);
+                        // 💾 Copier le fichier dans /static/uploads/
+                        Files.copy(image.getInputStream(), uploadPath.resolve(fileName));
+
+                        // ✅ Ajouter à la liste des images
+                        article.getImageUrls().add(fileName);
+
+                        // ✅ Mettre à jour l'image principale si c'est la première
+                        if (article.getImageUrl() == null) {
+                            article.setImageUrl(fileName);
+                        }
+                    }
+                }
             }
-
             // Enregistrement de l'article en base
             articleRepository.save(article);
-
         } catch (IOException e) {
-            throw new RuntimeException("Erreur lors de l'enregistrement de l'image", e);
+            throw new RuntimeException("Erreur lors de l'enregistrement des images", e);
         }
     }
 
     /**
      * Mettre à jour un article existant
      */
-    public void update(Long id, UpdateArticleDto dto, MultipartFile image) {
+    public void update(Long id, UpdateArticleDto dto, java.util.List<MultipartFile> images) {
         Article article = articleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Article non trouvé avec l'ID: " + id));
 
         // Mettre à jour les champs de l'article
         articleMapper.updateEntity(dto, article);
 
-        // Gérer l'image si fournie
+        // Gérer les images si fournies
         try {
-            if (image != null && !image.isEmpty()) {
-                // 📸 Nom unique du fichier
-                String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-
-                // 📂 Dossier de destination
+            if (images != null && !images.isEmpty()) {
                 Path uploadPath = Paths.get(UPLOAD_DIR);
-
-                // Créer le dossier s'il n'existe pas
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
                 }
 
-                // 💾 Copier le fichier dans /static/uploads/
-                Files.copy(image.getInputStream(), uploadPath.resolve(fileName));
+                for (MultipartFile image : images) {
+                    if (image != null && !image.isEmpty()) {
+                        // 📸 Nom unique du fichier
+                        String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
 
-                // ✅ Mettre à jour l'URL de l'image
-                article.setImageUrl(fileName);
+                        // 💾 Copier le fichier dans /static/uploads/
+                        Files.copy(image.getInputStream(), uploadPath.resolve(fileName));
+
+                        // ✅ Ajouter à la liste des images
+                        article.getImageUrls().add(fileName);
+
+                        // ✅ Mettre à jour l'image principale si elle n'existe pas
+                        if (article.getImageUrl() == null) {
+                            article.setImageUrl(fileName);
+                        }
+                    }
+                }
             }
-
             // Enregistrement de l'article en base
             articleRepository.save(article);
-
         } catch (IOException e) {
-            throw new RuntimeException("Erreur lors de l'enregistrement de l'image", e);
+            throw new RuntimeException("Erreur lors de l'enregistrement des images", e);
         }
     }
 

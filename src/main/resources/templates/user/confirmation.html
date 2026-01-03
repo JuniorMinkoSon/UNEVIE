@@ -1,15 +1,79 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head (title='Commande confirmée')}"></head>
-<body>
-<div th:replace="~{fragments/header :: header}"></div>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
-<section class="container" style="padding:80px 0; text-align:center;">
-    <h1>✅ Merci pour votre commande !</h1>
-    <p>Votre commande a été enregistrée avec succès.</p>
-    <a th:href="@{/}" class="btn-primary">Retour à l'accueil</a>
-</section>
+<head>
+    <meta charset="UTF-8">
+    <title>Commande Confirmée - UNEVIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-<div th:replace="~{fragments/footer :: footer}"></div>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        premium: {
+                            orange: '#f97316',
+                            dark: '#1a1a1a',
+                            light: '#fdfcfb',
+                            accent: '#fbbf24'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    class="bg-premium-light text-premium-dark font-sans min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
+    <!-- Background Accents -->
+    <div class="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none"
+        style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');"></div>
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-premium-orange/10 rounded-full blur-[120px] pointer-events-none">
+    </div>
+    <div
+        class="absolute -bottom-24 -right-24 w-96 h-96 bg-premium-accent/5 rounded-full blur-[120px] pointer-events-none">
+    </div>
+
+    <div class="w-full max-w-2xl relative z-10 text-center space-y-12">
+        <div class="bg-white rounded-[3.5rem] p-12 md:p-20 shadow-2xl border border-premium-dark/5 space-y-10 group">
+            <div
+                class="w-32 h-32 bg-green-500 rounded-full flex items-center justify-center mx-auto shadow-2xl shadow-green-500/30 group-hover:scale-110 transition-transform duration-700 animate-in zoom-in-50 duration-500">
+                <i class="fas fa-check text-5xl text-white"></i>
+            </div>
+
+            <div class="space-y-4">
+                <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">Merci pour votre commande !</h1>
+                <p class="text-premium-dark/40 text-lg md:text-xl leading-relaxed max-w-md mx-auto">
+                    Votre demande a été enregistrée avec succès. Un responsable de <span
+                        class="text-premium-orange font-bold">UNEVIE</span> vous contactera très prochainement.
+                </p>
+            </div>
+
+            <div class="pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <a th:href="@{/}"
+                    class="bg-premium-dark text-white font-bold py-5 rounded-2xl hover:bg-premium-orange transition-all shadow-xl shadow-premium-dark/10 active:scale-95">
+                    Retour à l'accueil
+                </a>
+                <a th:href="@{/produits/mes-commandes}"
+                    class="bg-premium-orange/10 text-premium-orange border border-premium-orange/20 font-bold py-5 rounded-2xl hover:bg-premium-orange hover:text-white transition-all active:scale-95 shadow-lg">
+                    Voir mes commandes
+                </a>
+            </div>
+        </div>
+
+        <p class="text-xs font-bold text-premium-dark/20 uppercase tracking-[0.3em]">© 2024 UNEVIE. Votre confort est
+            notre priorité.</p>
+    </div>
 </body>
+
 </html>

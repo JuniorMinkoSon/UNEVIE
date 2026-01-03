@@ -2,74 +2,154 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <div th:replace="~{fragments/head :: head (title='Admin - Modifier Article')}"></div>
-    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+    <title>Modifier l'Article | Administration UNEVIE</title>
 </head>
 
-
-<body>
+<body class="bg-premium-light">
     <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
-        <section>
-            <div class="container-fluid">
-                <div class="glass-card">
-                    <h1>
-                        <i class="fa-solid fa-pen-to-square"></i>
-                        Modifier l'Article
-                    </h1>
+        <section class="max-w-4xl mx-auto space-y-12">
 
+            <!-- Page Header -->
+            <div class="flex items-center gap-6">
+                <a th:href="@{/admin/article/list}"
+                    class="w-12 h-12 bg-white border border-premium-dark/5 rounded-2xl flex items-center justify-center text-premium-dark hover:text-premium-orange hover:border-premium-orange/20 transition-all shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <div class="space-y-1">
+                    <h1 class="text-3xl font-extrabold tracking-tight text-premium-dark">Modifier l'Article</h1>
+                    <p class="text-premium-dark/40 font-medium text-sm">Affinez votre contenu pour un impact maximal.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-[3.5rem] shadow-sm border border-premium-dark/5 overflow-hidden">
+                <div class="p-12 space-y-10">
                     <form th:action="@{/admin/article/update/{id}(id=${article.id})}" th:object="${article}"
-                        method="post" enctype="multipart/form-data">
-                        <div>
-                            <label for="titre">Titre de l'article</label>
-                            <input id="titre" class="form-input" type="text" th:field="*{titre}"
-                                placeholder="Titre de l'article" required>
+                        method="post" enctype="multipart/form-data" class="space-y-8">
+
+                        <input type="hidden" th:field="*{id}">
+                        <input type="hidden" th:field="*{imageUrl}">
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Titre Area -->
+                            <div class="space-y-4">
+                                <label
+                                    class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Titre
+                                    de l'article</label>
+                                <input type="text" th:field="*{titre}" placeholder="Titre de l'article" required
+                                    class="w-full bg-premium-dark/5 border border-premium-dark/5 rounded-2xl px-6 py-5 text-premium-dark outline-none focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange transition-all font-bold placeholder:text-premium-dark/20 text-xl">
+                            </div>
+
+                            <!-- Catégorie Area -->
+                            <div class="space-y-4">
+                                <label
+                                    class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Classification</label>
+                                <select th:field="*{category}" required
+                                    class="w-full bg-premium-dark/5 border border-premium-dark/5 rounded-2xl px-6 py-5 text-premium-dark outline-none focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange transition-all font-bold appearance-none cursor-pointer">
+                                    <option value="">-- Choisir une catégorie --</option>
+                                    <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.libelle}">
+                                    </option>
+                                </select>
+                            </div>
                         </div>
 
-                        <div>
-                            <label for="category">Catégorie</label>
-                            <select id="category" class="form-input" th:field="*{categoryId}" required>
-                                <option value="">-- Choisir une catégorie --</option>
-                                <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.libelle}"
-                                    th:selected="${cat.id == article.categoryId}">
-                                </option>
-                            </select>
+                        <!-- Image Management Area -->
+                        <div class="space-y-4">
+                            <label
+                                class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Images
+                                de couverture</label>
+                            <div class="relative group">
+                                <input type="file" name="images" accept="image/*" multiple id="fileInput"
+                                    class="absolute inset-0 opacity-0 cursor-pointer z-30">
+                                <div id="dropZone"
+                                    class="w-full bg-premium-dark/5 border-2 border-dashed border-premium-dark/10 rounded-[2rem] px-6 py-10 text-premium-dark/40 flex flex-col items-center justify-center gap-4 group-hover:border-premium-orange group-hover:bg-premium-orange/5 transition-all overflow-hidden relative min-h-[120px]">
+
+                                    <!-- Multi-Preview Grid -->
+                                    <div id="previewGrid" class="w-full grid grid-cols-3 md:grid-cols-5 gap-4 p-2 z-10">
+                                        <!-- Existing Images -->
+                                        <div th:each="img : ${article.imageUrls}"
+                                            class="aspect-square rounded-xl overflow-hidden border-2 border-premium-orange relative">
+                                            <img th:src="@{'/uploads/' + ${img}}" class="w-full h-full object-cover">
+                                            <div
+                                                class="absolute inset-0 bg-premium-orange/20 flex items-center justify-center">
+                                                <span
+                                                    class="bg-premium-orange text-white text-[8px] font-bold px-2 py-1 rounded-full uppercase">Actuel</span>
+                                            </div>
+                                        </div>
+                                        <!-- New Previews injected here -->
+                                    </div>
+
+                                    <!-- Placeholder -->
+                                    <div id="placeholderContent"
+                                        th:classappend="${!article.imageUrls.isEmpty() ? 'hidden' : ''}"
+                                        class="text-center">
+                                        <p class="text-xs font-bold" id="fileName">Ajouter d'autres images</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div>
-                            <label for="contenu">Contenu</label>
-                            <textarea id="contenu" class="form-input" th:field="*{contenu}"
-                                placeholder="Contenu de l'article..." required></textarea>
+                        <!-- Content Area -->
+                        <div class="space-y-4">
+                            <label
+                                class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Contenu
+                                de l'article</label>
+                            <textarea th:field="*{contenu}" placeholder="Modifiez votre article..." rows="12"
+                                class="w-full bg-premium-dark/5 border border-premium-dark/5 rounded-3xl px-8 py-8 text-premium-dark outline-none focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange transition-all font-medium placeholder:text-premium-dark/20 leading-relaxed resize-none"></textarea>
                         </div>
 
-                        <!-- Image actuelle -->
-                        <div class="current-image" th:if="${article.imageUrl}">
-                            <p>Image actuelle :</p>
-                            <img th:src="@{/uploads/{img}(img=${article.imageUrl})}" alt="Image actuelle">
+                        <div class="flex items-center gap-6 pt-6">
+                            <button type="submit"
+                                class="flex-1 bg-premium-orange text-white font-extrabold py-6 rounded-2xl hover:bg-premium-dark transition-all shadow-2xl shadow-premium-orange/30 flex items-center justify-center gap-3 active:scale-95">
+                                <i class="fa-solid fa-check text-sm"></i>
+                                Enregistrer les modifications
+                            </button>
+                            <a th:href="@{/admin/article/list}"
+                                class="px-10 py-6 bg-premium-dark/5 text-premium-dark font-extrabold rounded-2xl hover:bg-premium-dark/10 transition-all text-center">
+                                Annuler
+                            </a>
                         </div>
-
-                        <div>
-                            <label for="image">Changer l'image (optionnel)</label>
-                            <input id="image" type="file" name="image" accept="image/*">
-                            <small style="color: #6e6e73; font-size: 0.875rem; display: block; margin-top: 8px;">
-                                Laissez vide pour garder l'image actuelle
-                            </small>
-                        </div>
-
-                        <button class="btn" type="submit">
-                            <i class="fa-solid fa-check"></i>
-                            Enregistrer les modifications
-                        </button>
                     </form>
-
-                    <div class="text-center mt-4">
-                        <a class="btn btn-outline" th:href="@{/admin/article/list}">
-                            <i class="fa-solid fa-arrow-left"></i>
-                            Retour à la liste
-                        </a>
-                    </div>
                 </div>
             </div>
         </section>
+
+        <script>
+            const fileInput = document.getElementById('fileInput');
+            const fileNameDisplay = document.getElementById('fileName');
+            const previewGrid = document.getElementById('previewGrid');
+            const placeholderContent = document.getElementById('placeholderContent');
+
+            fileInput?.addEventListener('change', (e) => {
+                const files = Array.from(e.target.files);
+
+                if (files.length > 0) {
+                    placeholderContent.classList.add('hidden');
+
+                    // Nettoyer les anciens aperçus "nouveaux"
+                    const newPreviews = previewGrid.querySelectorAll('.new-preview');
+                    newPreviews.forEach(p => p.remove());
+
+                    files.forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            const div = document.createElement('div');
+                            div.className = 'new-preview aspect-square rounded-xl overflow-hidden border border-white/20 shadow-sm relative group/item';
+                            div.innerHTML = `
+                                <img src="${event.target.result}" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover/item:opacity-100 transition-opacity">
+                                    <span class="text-[8px] text-white font-bold uppercase">Nouveau</span>
+                                </div>
+                            `;
+                            previewGrid.appendChild(div);
+                        };
+                        reader.readAsDataURL(file);
+                    });
+
+                    fileNameDisplay.textContent = `${files.length} nouvelles images`;
+                }
+            });
+        </script>
     </div>
 </body>
 

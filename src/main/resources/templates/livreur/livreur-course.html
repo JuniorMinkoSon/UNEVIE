@@ -1,79 +1,155 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Détails commande</title>
+    <title>Détails Mission - UNEVIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        premium: {
+                            orange: '#f97316',
+                            dark: '#1a1a1a',
+                            light: '#fdfcfb',
+                            accent: '#fbbf24'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 
-<body class="bg-gray-100 min-h-screen">
-
-<div class="max-w-3xl mx-auto p-8">
-
-    <div class="bg-white rounded-xl shadow p-6">
-
-        <h2 class="text-2xl font-bold mb-6">Détails de la commande</h2>
-
-        <div th:if="${commande != null}" class="space-y-3">
-
-            <p><strong>ID :</strong> <span th:text="${commande.id}"></span></p>
-
-            <p>
-                <strong>Client :</strong>
-                <span th:text="${commande.user != null ? commande.user.username : 'Non défini'}"></span>
-            </p>
-
-            <p>
-                <strong>Statut :</strong>
-                <span class="px-2 py-1 bg-yellow-200 rounded"
-                      th:text="${commande.statut}">
-                </span>
-            </p>
-
-            <p>
-                <strong>Adresse :</strong>
-                <span th:text="${commande.adresseLivraison}"></span>
-            </p>
-
-            <p>
-                <strong>Mode de paiement :</strong>
-                <span th:text="${commande.modePaiement}"></span>
-            </p>
-
-            <!-- ACTIONS -->
-            <div class="flex gap-4 mt-6">
-
-                <form th:action="@{/livreur/commande/accepter/{id}(id=${commande.id})}"
-                      method="post">
-                    <button
-                            class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded">
-                        Accepter
-                    </button>
-                </form>
-
-                <form th:action="@{/livreur/commande/refuser/{id}(id=${commande.id})}"
-                      method="post">
-                    <button
-                            class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded">
-                        Refuser
-                    </button>
-                </form>
-
-                <a href="/livreur/dashboard"
-                   class="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded">
-                    Retour
-                </a>
-            </div>
-
-        </div>
-
-        <div th:if="${commande == null}">
-            <p class="text-red-600">Aucune commande trouvée.</p>
-        </div>
-
+<body class="bg-premium-light text-premium-dark font-sans min-h-screen py-24 px-6 flex items-center justify-center">
+    <!-- Background Accents -->
+    <div class="fixed inset-0 opacity-10 mix-blend-overlay pointer-events-none"
+        style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');"></div>
+    <div class="fixed -top-24 -left-24 w-96 h-96 bg-premium-orange/10 rounded-full blur-[120px] pointer-events-none">
     </div>
 
-</div>
+    <div class="w-full max-w-2xl relative z-10 space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
+        <!-- Breadcrumb / Back -->
+        <a th:href="@{/livreur/dashboard}"
+            class="inline-flex items-center gap-2 text-xs font-bold text-premium-dark/40 hover:text-premium-orange transition-all uppercase tracking-[0.2em] group">
+            <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+            Retour au dashboard
+        </a>
 
+        <!-- Main Card -->
+        <div class="bg-white rounded-[3.5rem] shadow-2xl border border-premium-dark/5 overflow-hidden">
+            <!-- Header Section -->
+            <div class="p-10 md:p-14 bg-premium-dark text-white space-y-6 relative overflow-hidden">
+                <div class="absolute inset-0 opacity-10 mix-blend-soft-light pointer-events-none"
+                    style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');"></div>
+                <div class="relative z-10 flex justify-between items-start">
+                    <div class="space-y-1">
+                        <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.3em]">Mission de prestation
+                        </p>
+                        <h1 class="text-3xl font-extrabold" th:text="'Commande #' + ${commande.id}">Commande #123</h1>
+                    </div>
+                    <span th:text="${commande.statut}"
+                        class="px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest leading-none bg-premium-orange/20 text-premium-orange border border-premium-orange/30">
+                        STATUT
+                    </span>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="p-10 md:p-14 space-y-10">
+                <div th:if="${commande != null}" class="space-y-10">
+
+                    <!-- ℹ️ Informations Client -->
+                    <div class="space-y-6">
+                        <h3 class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-[0.2em] pl-1">
+                            Informations Client</h3>
+                        <div class="p-8 bg-premium-dark/5 rounded-[2.5rem] flex items-center gap-6">
+                            <div class="w-16 h-16 bg-premium-dark text-white rounded-2xl flex items-center justify-center text-xl font-bold"
+                                th:text="${#strings.substring(commande.user != null ? commande.user.nom : 'C', 0, 1)}">
+                                C</div>
+                            <div class="space-y-1">
+                                <p class="text-xl font-extrabold"
+                                    th:text="${commande.user != null ? commande.user.nom : 'Non défini'}">Nom du
+                                    client</p>
+                                <p class="text-xs font-bold text-premium-dark/40 flex items-center gap-2">
+                                    <i class="fa-solid fa-phone text-premium-orange"></i>
+                                    Numéro de contact disponible après acceptation
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 📍 Détails Prestation -->
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <p class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-[0.2em] pl-1">
+                                Adresse de livraison</p>
+                            <div class="p-6 bg-white border border-premium-dark/5 rounded-3xl shadow-sm space-y-2">
+                                <i class="fa-solid fa-map-location-dot text-premium-orange text-lg"></i>
+                                <p class="font-bold text-premium-dark leading-relaxed"
+                                    th:text="${commande.localisation}">
+                                    Adresse de livraison ici...</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <p class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-[0.2em] pl-1">
+                                Paiement</p>
+                            <div class="p-6 bg-white border border-premium-dark/5 rounded-3xl shadow-sm space-y-2">
+                                <i class="fa-solid fa-credit-card text-premium-orange text-lg"></i>
+                                <p class="font-bold text-premium-dark" th:text="${commande.modePaiement}">Mode de
+                                    paiement...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-10 flex flex-col sm:flex-row gap-4 border-t border-premium-dark/5">
+                        <form th:action="@{/livreur/course/{id}/accepter(id=${commande.id})}" method="post"
+                            class="flex-1">
+                            <button type="submit"
+                                class="w-full bg-premium-orange text-white font-extrabold py-5 rounded-2xl shadow-xl shadow-premium-orange/20 hover:bg-premium-dark transition-all active:scale-95 flex items-center justify-center gap-3 group">
+                                <i class="fa-solid fa-check-circle group-hover:rotate-12 transition-transform"></i>
+                                Accepter la mission
+                            </button>
+                        </form>
+
+                        <form th:action="@{/livreur/course/{id}/refuser(id=${commande.id})}" method="post"
+                            class="flex-1">
+                            <button type="submit"
+                                class="w-full bg-premium-dark/5 text-premium-dark/40 font-extrabold py-5 rounded-2xl hover:bg-red-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-3">
+                                <i class="fa-solid fa-times-circle"></i>
+                                Refuser
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Error Case -->
+                <div th:if="${commande == null}" class="py-20 text-center space-y-6">
+                    <div
+                        class="w-20 h-20 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center mx-auto text-3xl">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <p class="text-xl font-bold text-premium-dark">Aucune commande trouvée.</p>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-center text-[10px] font-bold text-premium-dark/20 uppercase tracking-[0.3em]">Confidentialité
+            garantie - Espace Sécurisé UNEVIE</p>
+    </div>
 </body>
+
 </html>

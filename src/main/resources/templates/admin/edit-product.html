@@ -2,86 +2,198 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <div th:replace="~{fragments/head :: head (title='Admin - Modifier produit')}"></div>
-    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+    <title>Modifier le Produit | Administration UNEVIE</title>
 </head>
 
-<body>
+<body class="bg-premium-light">
     <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
-        <section>
-            <div class="container-fluid">
-                <div class="glass-card">
-                    <h1>
-                        <i class="fa-solid fa-pen-to-square"></i>
-                        Modifier le Produit
-                    </h1>
+        <section class="max-w-4xl mx-auto space-y-12">
 
-                    <form th:action="@{'/admin/product/update/' + ${produit.id}}" th:object="${produit}" method="post"
-                        enctype="multipart/form-data">
+            <!-- Page Header -->
+            <div class="flex items-center gap-6">
+                <a th:href="@{/admin/products}"
+                    class="w-12 h-12 bg-white border border-premium-dark/5 rounded-2xl flex items-center justify-center text-premium-dark hover:text-premium-orange hover:border-premium-orange/20 transition-all shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <div class="space-y-1">
+                    <h1 class="text-3xl font-extrabold tracking-tight text-premium-dark">Modifier le Produit</h1>
+                    <p class="text-premium-dark/40 font-medium text-sm">Perfectionnez les détails de votre offre.</p>
+                </div>
+            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Nom du produit</label>
-                            <input class="form-input" th:field="*{nom}" placeholder="Nom du produit" required>
-                        </div>
+            <div class="bg-white rounded-[3.5rem] shadow-sm border border-premium-dark/5 overflow-hidden">
+                <div class="p-12 space-y-10">
+                    <form th:action="@{/admin/product/update/{id}(id=${produit.id})}" th:object="${produit}"
+                        method="post" enctype="multipart/form-data" class="space-y-8">
 
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Catégorie</label>
-                                <select class="form-input" th:field="*{categorie}" required>
-                                    <option value="Voitures">🚗 Voitures</option>
-                                    <option value="Poulets">🍗 Poulets</option>
-                                    <option value="Résidences">🏠 Résidences</option>
-                                    <option value="Traiteur">🍽️ Traiteur</option>
+                        <input type="hidden" th:field="*{id}">
+                        <input type="hidden" th:field="*{imageUrl}">
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Nom -->
+                            <div class="space-y-4">
+                                <label
+                                    class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Nom
+                                    du produit</label>
+                                <input type="text" th:field="*{nom}" placeholder="Nom du produit" required
+                                    class="w-full bg-premium-dark/5 border border-premium-dark/5 rounded-2xl px-6 py-5 text-premium-dark outline-none focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange transition-all font-bold placeholder:text-premium-dark/20 text-lg">
+                            </div>
+
+                            <!-- Catégorie -->
+                            <div class="space-y-4">
+                                <label
+                                    class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Catégorie</label>
+                                <select th:field="*{categorie}" required
+                                    class="w-full bg-premium-dark/5 border border-premium-dark/5 rounded-2xl px-6 py-5 text-premium-dark outline-none focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange transition-all font-bold appearance-none cursor-pointer">
+                                    <option th:each="cat : ${categories}" th:value="${cat.libelle}"
+                                        th:text="${cat.libelle}"></option>
                                 </select>
                             </div>
+                        </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Prix (FCFA)</label>
-                                <input class="form-input" th:field="*{prix}" type="number" placeholder="Prix (FCFA)"
-                                    min="0" step="0.01" required>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Prix -->
+                            <div class="space-y-4">
+                                <label
+                                    class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Prix
+                                    (FCFA)</label>
+                                <input type="number" th:field="*{prix}" placeholder="0.00" required step="0.01"
+                                    class="w-full bg-premium-dark/5 border border-premium-dark/5 rounded-2xl px-6 py-5 text-premium-dark outline-none focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange transition-all font-bold placeholder:text-premium-dark/20 text-lg">
+                            </div>
+
+                            <!-- Disponibilité -->
+                            <div class="space-y-4">
+                                <label
+                                    class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Disponibilité</label>
+                                <div class="flex items-center gap-4 bg-premium-dark/5 rounded-2xl p-2 h-[68px]">
+                                    <label class="flex-1 flex items-center justify-center gap-3 cursor-pointer group">
+                                        <input type="radio" th:field="*{disponible}" th:value="true"
+                                            class="hidden peer">
+                                        <div
+                                            class="w-full py-3 rounded-xl border border-transparent flex items-center justify-center gap-2 peer-checked:bg-white peer-checked:shadow-sm peer-checked:text-premium-orange transition-all text-premium-dark/40 font-bold group-hover:text-premium-dark/60">
+                                            <i class="fa-solid fa-check-circle"></i> En stock
+                                        </div>
+                                    </label>
+                                    <label class="flex-1 flex items-center justify-center gap-3 cursor-pointer group">
+                                        <input type="radio" th:field="*{disponible}" th:value="false"
+                                            class="hidden peer">
+                                        <div
+                                            class="w-full py-3 rounded-xl border border-transparent flex items-center justify-center gap-2 peer-checked:bg-white peer-checked:shadow-sm peer-checked:text-premium-orange transition-all text-premium-dark/40 font-bold group-hover:text-premium-dark/60">
+                                            <i class="fa-solid fa-times-circle"></i> Épuisé
+                                        </div>
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Description</label>
-                            <textarea class="form-input" th:field="*{description}"
-                                placeholder="Description du produit..."></textarea>
+                        <!-- Description -->
+                        <div class="space-y-4">
+                            <label
+                                class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Description</label>
+                            <textarea th:field="*{description}" placeholder="Description du produit..." rows="6"
+                                class="w-full bg-premium-dark/5 border border-premium-dark/5 rounded-3xl px-8 py-8 text-premium-dark outline-none focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange transition-all font-medium placeholder:text-premium-dark/20 leading-relaxed resize-none"></textarea>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label d-block">Statut du produit</label>
-                            <div class="form-check form-switch h5">
-                                <input class="form-check-input" type="checkbox" th:field="*{disponible}"
-                                    id="dispoSwitch">
-                                <label class="form-check-label" for="dispoSwitch">Produit en stock / Disponible</label>
+                        <!-- Image Management Area -->
+                        <div class="space-y-4">
+                            <label
+                                class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Visuels
+                                du produit</label>
+                            <div class="relative group">
+                                <input type="file" name="images" accept="image/*" multiple id="fileInput"
+                                    class="absolute inset-0 opacity-0 cursor-pointer z-30">
+                                <div id="dropZone"
+                                    class="w-full bg-premium-dark/5 border-2 border-dashed border-premium-dark/10 rounded-[2.5rem] px-6 py-12 text-premium-dark/40 flex flex-col items-center justify-center gap-4 group-hover:border-premium-orange group-hover:bg-premium-orange/5 transition-all overflow-hidden relative min-h-[220px]">
+
+                                    <!-- Multi-Preview Grid -->
+                                    <div id="previewGrid"
+                                        class="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-2 z-10">
+                                        <!-- Existing Images -->
+                                        <div th:each="img : ${produit.imageUrls}"
+                                            class="aspect-square rounded-2xl overflow-hidden border-2 border-premium-orange relative group/existing">
+                                            <img th:src="@{'/uploads/' + ${img}}" class="w-full h-full object-cover">
+                                            <div
+                                                class="absolute inset-0 bg-premium-orange/20 flex items-center justify-center">
+                                                <span
+                                                    class="bg-premium-orange text-white text-[8px] font-bold px-2 py-1 rounded-full uppercase">Actuel</span>
+                                            </div>
+                                        </div>
+                                        <!-- New Previews injected here -->
+                                    </div>
+
+                                    <!-- Placeholder Content (Hidden if existing images) -->
+                                    <div id="placeholderContent"
+                                        th:classappend="${!produit.imageUrls.isEmpty() ? 'hidden' : ''}"
+                                        class="flex flex-col items-center justify-center gap-4">
+                                        <div
+                                            class="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center text-premium-dark/20 group-hover:text-premium-orange transition-colors">
+                                            <i class="fa-solid fa-images text-2xl"></i>
+                                        </div>
+                                        <div class="text-center">
+                                            <p class="text-xs font-bold" id="fileName">Ajouter d'autres images</p>
+                                            <p class="text-[10px] font-bold opacity-40 uppercase tracking-widest mt-1">
+                                                PNG, JPG jusqu'à 5MB</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Image actuelle</label>
-                            <div th:if="*{imageUrl}" class="mb-2">
-                                <img th:src="@{'/uploads/' + *{imageUrl}}" class="rounded-3 shadow-sm border"
-                                    style="height: 120px; width: 120px; object-fit: cover;">
-                            </div>
-                            <input type="file" name="image" accept="image/*" class="form-control">
-                            <small class="text-muted">Laissez vide pour conserver l'image actuelle.</small>
+                        <div class="flex items-center gap-6 pt-6">
+                            <button type="submit"
+                                class="flex-1 bg-premium-orange text-white font-extrabold py-6 rounded-2xl hover:bg-premium-dark transition-all shadow-2xl shadow-premium-orange/30 flex items-center justify-center gap-3 active:scale-95">
+                                <i class="fa-solid fa-check text-sm"></i>
+                                Enregistrer les modifications
+                            </button>
+                            <a th:href="@{/admin/products}"
+                                class="px-10 py-6 bg-premium-dark/5 text-premium-dark font-extrabold rounded-2xl hover:bg-premium-dark/10 transition-all text-center">
+                                Annuler
+                            </a>
                         </div>
-
-                        <button class="btn btn-primary d-block w-100" type="submit">
-                            <i class="fa-solid fa-save me-2"></i>
-                            Enregistrer les modifications
-                        </button>
                     </form>
-
-                    <div class="text-center mt-4">
-                        <a class="btn btn-outline" th:href="@{/admin/products}">
-                            <i class="fa-solid fa-arrow-left me-2"></i>
-                            Retour à la liste
-                        </a>
-                    </div>
                 </div>
             </div>
         </section>
+
+        <script>
+            const fileInput = document.getElementById('fileInput');
+            const fileNameDisplay = document.getElementById('fileName');
+            const previewGrid = document.getElementById('previewGrid');
+            const placeholderContent = document.getElementById('placeholderContent');
+
+            fileInput?.addEventListener('change', (e) => {
+                const files = Array.from(e.target.files);
+
+                if (files.length > 0) {
+                    // Keep existing but hide placeholder if still there
+                    placeholderContent.classList.add('hidden');
+
+                    // Clear only previous NEW previews (keep existing ones if we were doing more complex logic, 
+                    // but for simplicity we keep the current image and add new ones)
+                    // Let's remove any previously added NEW previews
+                    const newPreviews = previewGrid.querySelectorAll('.new-preview');
+                    newPreviews.forEach(p => p.remove());
+
+                    files.forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            const div = document.createElement('div');
+                            div.className = 'new-preview aspect-square rounded-2xl overflow-hidden border border-white/20 shadow-lg relative group/item';
+                            div.innerHTML = `
+                                <img src="${event.target.result}" class="w-full h-full object-cover transition-transform group-hover/item:scale-110">
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/item:opacity-100 transition-opacity flex items-center justify-center">
+                                    <span class="text-[8px] text-white font-bold uppercase tracking-tighter">Nouveau</span>
+                                </div>
+                            `;
+                            previewGrid.appendChild(div);
+                        };
+                        reader.readAsDataURL(file);
+                    });
+
+                    fileNameDisplay.textContent = `${files.length} nouveaux fichiers`;
+                }
+            });
+        </script>
     </div>
 </body>
 

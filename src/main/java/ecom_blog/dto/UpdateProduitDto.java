@@ -23,5 +23,6 @@ public class UpdateProduitDto {
 
     private String description;
     private String imageUrl;
+    private java.util.List<String> imageUrls = new java.util.ArrayList<>();
     private boolean disponible = true;
 }

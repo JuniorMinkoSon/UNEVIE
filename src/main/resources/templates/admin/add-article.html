@@ -2,58 +2,151 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <div th:replace="~{fragments/head :: head (title='Admin - Ajouter article')}"></div>
-    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+    <title>Nouvel Article | Administration UNEVIE</title>
 </head>
 
-
-<body>
+<body class="bg-premium-light">
     <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
-        <section>
-            <div class="container-fluid">
-                <div class="glass-card">
-                    <h1>
-                        <i class="fa-solid fa-pen-nib"></i>
-                        Ajouter un Article
-                    </h1>
+        <section class="max-w-4xl mx-auto space-y-12">
 
+            <!-- Page Header -->
+            <div class="flex items-center gap-6">
+                <a th:href="@{/admin/article/list}"
+                    class="w-12 h-12 bg-white border border-premium-dark/5 rounded-2xl flex items-center justify-center text-premium-dark hover:text-premium-orange hover:border-premium-orange/20 transition-all shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <div class="space-y-1">
+                    <h1 class="text-3xl font-extrabold tracking-tight text-premium-dark">Publier un Article</h1>
+                    <p class="text-premium-dark/40 font-medium text-sm">Partagez l'actualité et les valeurs d'UNEVIE.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-[3.5rem] shadow-sm border border-premium-dark/5 overflow-hidden">
+                <div class="p-12 space-y-10">
                     <form th:action="@{/admin/article/save}" th:object="${article}" method="post"
-                        enctype="multipart/form-data">
-                        <input class="form-input" th:field="*{titre}" placeholder="Titre de l'article" required>
+                        enctype="multipart/form-data" class="space-y-8">
 
-                        <label>Catégorie</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Titre Area -->
+                            <div class="space-y-4">
+                                <label
+                                    class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Titre
+                                    de l'article</label>
+                                <input type="text" th:field="*{titre}" placeholder="Titre captivant..." required
+                                    class="w-full bg-premium-dark/5 border border-premium-dark/5 rounded-2xl px-6 py-5 text-premium-dark outline-none focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange transition-all font-bold placeholder:text-premium-dark/20 text-xl">
+                            </div>
 
-                        <select class="form-input" th:field="*{category}" required>
+                            <!-- Catégorie Area -->
+                            <div class="space-y-4">
+                                <label
+                                    class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Classification</label>
+                                <select th:field="*{category}" required
+                                    class="w-full bg-premium-dark/5 border border-premium-dark/5 rounded-2xl px-6 py-5 text-premium-dark outline-none focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange transition-all font-bold appearance-none cursor-pointer">
+                                    <option value="">-- Choisir une catégorie --</option>
+                                    <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.libelle}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
 
-                            <option value="">-- Choisir une catégorie --</option>
+                        <!-- Image Upload Area -->
+                        <div class="space-y-4">
+                            <label
+                                class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Images
+                                de couverture</label>
+                            <div class="relative group">
+                                <input type="file" name="images" accept="image/*" multiple id="fileInput"
+                                    class="absolute inset-0 opacity-0 cursor-pointer z-30">
+                                <div id="dropZone"
+                                    class="w-full bg-premium-dark/5 border-2 border-dashed border-premium-dark/10 rounded-[2.5rem] px-6 py-12 text-premium-dark/40 flex flex-col items-center justify-center gap-4 group-hover:border-premium-orange group-hover:bg-premium-orange/5 transition-all overflow-hidden relative min-h-[120px]">
 
-                            <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.libelle}">
-                            </option>
+                                    <!-- Multi-Preview Grid -->
+                                    <div id="previewGrid"
+                                        class="hidden w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 p-2 z-10">
+                                        <!-- Previews injected here -->
+                                    </div>
 
-                        </select>
+                                    <!-- Placeholder Content -->
+                                    <div id="placeholderContent" class="flex items-center justify-between w-full p-4">
+                                        <div class="flex items-center gap-4">
+                                            <div
+                                                class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-premium-dark/20 group-hover:text-premium-orange transition-colors">
+                                                <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <p class="text-xs font-bold" id="fileName">Sélectionnez vos images</p>
+                                                <p class="text-[10px] opacity-40 font-bold uppercase tracking-widest">
+                                                    PNG, JPG</p>
+                                            </div>
+                                        </div>
+                                        <span
+                                            class="text-[10px] font-extrabold bg-premium-dark/5 px-4 py-2 rounded-full uppercase tracking-widest group-hover:bg-premium-orange group-hover:text-white transition-all">Parcourir</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
+                        <!-- Content Area -->
+                        <div class="space-y-4">
+                            <label
+                                class="block text-[10px] font-extrabold text-premium-dark/30 uppercase tracking-[0.2em] pl-4">Contenu
+                                de l'article</label>
+                            <textarea th:field="*{contenu}" placeholder="Il était une fois à UNEVIE..." rows="12"
+                                class="w-full bg-premium-dark/5 border border-premium-dark/5 rounded-3xl px-8 py-8 text-premium-dark outline-none focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange transition-all font-medium placeholder:text-premium-dark/20 leading-relaxed resize-none"></textarea>
+                        </div>
 
-
-                        <textarea class="form-input" th:field="*{contenu}"
-                            placeholder="Contenu de l'article..."></textarea>
-
-                        <input type="file" name="image" accept="image/*" required>
-
-                        <button class="btn" type="submit">
-                            <i class="fa-solid fa-paper-plane"></i>
-                            Publier l'article
-                        </button>
+                        <div class="flex items-center gap-6 pt-6">
+                            <button type="submit"
+                                class="flex-1 bg-premium-orange text-white font-extrabold py-6 rounded-2xl hover:bg-premium-dark transition-all shadow-2xl shadow-premium-orange/30 flex items-center justify-center gap-3 active:scale-95">
+                                <i class="fa-solid fa-paper-plane text-sm"></i>
+                                Publier l'article
+                            </button>
+                            <a th:href="@{/admin/article/list}"
+                                class="px-10 py-6 bg-premium-dark/5 text-premium-dark font-extrabold rounded-2xl hover:bg-premium-dark/10 transition-all text-center">
+                                Annuler
+                            </a>
+                        </div>
                     </form>
-
-                    <div class="text-center mt-4">
-                        <a class="btn btn-outline" th:href="@{/admin/dashboard}">
-                            <i class="fa-solid fa-arrow-left"></i>
-                            Retour au tableau de bord
-                        </a>
-                    </div>
                 </div>
             </div>
         </section>
+
+        <script>
+            const fileInput = document.getElementById('fileInput');
+            const fileNameDisplay = document.getElementById('fileName');
+            const previewGrid = document.getElementById('previewGrid');
+            const placeholderContent = document.getElementById('placeholderContent');
+
+            fileInput?.addEventListener('change', (e) => {
+                const files = Array.from(e.target.files);
+
+                if (files.length > 0) {
+                    previewGrid.innerHTML = '';
+                    previewGrid.classList.remove('hidden');
+                    placeholderContent.classList.add('hidden');
+
+                    files.forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            const div = document.createElement('div');
+                            div.className = 'aspect-square rounded-xl overflow-hidden border border-white/20 shadow-md relative group/item';
+                            div.innerHTML = `
+                                <img src="${event.target.result}" class="w-full h-full object-cover transition-transform group-hover/item:scale-110">
+                            `;
+                            previewGrid.appendChild(div);
+                        };
+                        reader.readAsDataURL(file);
+                    });
+
+                    fileNameDisplay.textContent = `${files.length} images sélectionnées`;
+                } else {
+                    previewGrid.classList.add('hidden');
+                    placeholderContent.classList.remove('hidden');
+                    fileNameDisplay.textContent = 'Sélectionnez vos images';
+                }
+            });
+        </script>
     </div>
 </body>
 

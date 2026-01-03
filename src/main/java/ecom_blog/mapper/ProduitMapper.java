@@ -18,6 +18,7 @@ public class ProduitMapper {
         produit.setCategorie(dto.getCategorie());
         produit.setPrix(dto.getPrix());
         produit.setDescription(dto.getDescription());
+        produit.setDisponible(dto.isDisponible());
         return produit;
     }
 
