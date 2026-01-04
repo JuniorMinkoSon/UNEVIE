@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -16,8 +17,7 @@ public class UserServiceImpl implements UserService {
 
     public UserServiceImpl(
             UserRepository userRepository,
-            PasswordEncoder passwordEncoder
-    ) {
+            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -43,7 +43,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email);
     }
 
-    // ✅ MÉTHODE MANQUANTE (CORRECTION)
+    @Override
+    public Optional<User> findByEmailOptional(String email) {
+        return Optional.ofNullable(userRepository.findByEmail(email));
+    }
+
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();

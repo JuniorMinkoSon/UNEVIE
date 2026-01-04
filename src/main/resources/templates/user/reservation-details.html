@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails Réservation | UneVie</title>
+</head>
+
+<body>
+    <div th:replace="~{fragments/user-layout :: layout(~{::content})}">
+        <div th:fragment="content">
+
+            <div class="flex items-center gap-4 mb-8">
+                <a th:href="@{/reservation/mes-reservations}"
+                    class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm hover:bg-slate-50">
+                    <i class="fa-solid fa-arrow-left text-slate-600"></i>
+                </a>
+                <div>
+                    <h1 class="text-3xl font-extrabold text-slate-800">Détails de la Réservation</h1>
+                    <p class="text-slate-500">ID: #RES-<span th:text="${reservation.id}">001</span></p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Content -->
+                <div class="lg:col-span-2 space-y-8">
+
+                    <!-- Status Card -->
+                    <div
+                        class="bg-white rounded-3xl p-8 shadow-lg flex items-center justify-between overflow-hidden relative">
+                        <div class="relative z-10">
+                            <p class="text-slate-400 font-bold text-xs uppercase tracking-widest mb-1">Statut Actuel</p>
+                            <h2 class="text-2xl font-black text-slate-800" th:switch="${reservation.statut.name()}">
+                                <span th:case="'EN_COURS'" class="text-blue-500">EN ATTENTE DE VALIDATION</span>
+                                <span th:case="'ACCEPTE'" class="text-emerald-500">CONFIRMÉE PAR LE FOURNISSEUR</span>
+                                <span th:case="'REFUSE'" class="text-red-500">RÉSERVATION REFUSÉE</span>
+                                <span th:case="'TERMINE'" class="text-slate-500">SERVICE PASSÉ</span>
+                            </h2>
+                            <p class="text-slate-500 mt-2 text-sm" th:text="${reservation.notesFournisseur}">Note du
+                                fournisseur...</p>
+                        </div>
+                        <div class="opacity-10 absolute -right-4 -bottom-4">
+                            <i
+                                th:class="${reservation.statut.name() == 'ACCEPTE' ? 'fa-solid fa-circle-check text-9xl' : 'fa-solid fa-clock text-9xl'}"></i>
+                        </div>
+                    </div>
+
+                    <!-- Service Details -->
+                    <div class="bg-white rounded-3xl p-8 shadow-lg">
+                        <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                            <i class="fa-solid fa-info-circle text-premium-orange"></i>
+                            Informations du Service
+                        </h3>
+
+                        <div class="flex gap-6 items-start">
+                            <div class="w-24 h-24 bg-slate-100 rounded-3xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-concierge-bell text-slate-400 text-3xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-extrabold text-slate-800" th:text="${reservation.service.nom}">
+                                    Nom du Service</h4>
+                                <p class="text-slate-500 mt-1" th:text="${reservation.service.description}">
+                                    Description...</p>
+                                <div class="flex items-center gap-4 mt-4">
+                                    <div class="px-4 py-2 bg-slate-50 rounded-xl text-xs font-bold text-slate-600">
+                                        <i class="fa-solid fa-tag text-premium-orange mr-1"></i>
+                                        <span
+                                            th:text="${#numbers.formatDecimal(reservation.service.prix, 0, 'COMMA', 0, 'POINT')}">0</span>
+                                        FCFA
+                                    </div>
+                                    <div class="text-xs font-bold text-slate-500">
+                                        Secteur: <span class="text-blue-500"
+                                            th:text="${reservation.service.secteur}">VOITURE</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Booking Meta -->
+                    <div class="bg-white rounded-3xl p-8 shadow-lg">
+                        <h3 class="text-xl font-bold text-slate-800 mb-6">Détails de la Demande</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <p class="text-slate-400 text-xs font-bold uppercase mb-2">Période du service</p>
+                                <div class="flex items-center gap-3 text-slate-700 font-bold">
+                                    <i class="fa-solid fa-calendar text-premium-orange"></i>
+                                    <span
+                                        th:text="${#temporals.format(reservation.dateService, 'dd/MM/yyyy')}">Début</span>
+                                    <span th:if="${reservation.dateFinService != null}" class="text-slate-300">→</span>
+                                    <span th:if="${reservation.dateFinService != null}"
+                                        th:text="${#temporals.format(reservation.dateFinService, 'dd/MM/yyyy')}">Fin</span>
+                                </div>
+                            </div>
+                            <div th:if="${reservation.nombrePersonnes != null}">
+                                <p class="text-slate-400 text-xs font-bold uppercase mb-2">Nombre de personnes</p>
+                                <div class="flex items-center gap-3 text-slate-700 font-bold">
+                                    <i class="fa-solid fa-users text-premium-orange"></i>
+                                    <span th:text="${reservation.nombrePersonnes}">0</span> personnes
+                                </div>
+                            </div>
+                            <div th:if="${reservation.avecChauffeur}">
+                                <p class="text-slate-400 text-xs font-bold uppercase mb-2">Option de conduite</p>
+                                <div class="flex items-center gap-3 text-emerald-600 font-bold">
+                                    <i class="fa-solid fa-id-card"></i>
+                                    Avec chauffeur inclus
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Info -->
+                <div class="space-y-8">
+                    <!-- Supplier Info -->
+                    <div class="bg-premium-dark text-white rounded-3xl p-8 shadow-xl">
+                        <h3 class="text-orange-500 font-bold text-sm uppercase mb-6">Fournisseur</h3>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
+                                <i class="fa-solid fa-building-user text-orange-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-extrabold text-lg" th:text="${reservation.fournisseur.nomEntreprise}">
+                                    Entreprise</p>
+                                <p class="text-white/50 text-xs" th:text="${reservation.fournisseur.ville}">Ville</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4 pt-6 border-t border-white/10">
+                            <button
+                                class="w-full py-3 bg-white/5 hover:bg-white/10 rounded-xl transition-all text-sm font-bold flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-phone-flip text-orange-400"></i> Contacter
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Price Summary -->
+                    <div class="bg-white rounded-3xl p-8 shadow-lg">
+                        <h3 class="text-slate-800 font-extrabold text-xl mb-6">Récapitulatif Financier</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between text-slate-500">
+                                <span>Prix unitaire</span>
+                                <span
+                                    th:text="${#numbers.formatDecimal(reservation.service.prix, 0, 'COMMA', 0, 'POINT')} + ' FCFA'">0</span>
+                            </div>
+                            <div th:if="${reservation.nombreJours != null}" class="flex justify-between text-slate-500">
+                                <span>Durée</span>
+                                <span th:text="${reservation.nombreJours} + ' jours'">0 jours</span>
+                            </div>
+                            <div class="pt-4 border-t border-slate-100 flex justify-between items-center italic">
+                                <span class="text-slate-800 font-extrabold text-lg">TOTAL</span>
+                                <span class="text-premium-orange font-black text-2xl"
+                                    th:text="${#numbers.formatDecimal(reservation.montant, 0, 'COMMA', 0, 'POINT')} + ' FCFA'">0</span>
+                            </div>
+                        </div>
+
+                        <button th:if="${reservation.statut.name() == 'ACCEPTE'}"
+                            class="w-full mt-8 py-4 bg-gradient-to-r from-premium-orange to-orange-600 text-white font-black rounded-2xl shadow-lg shadow-orange-500/30 hover:scale-[1.02] transition-transform">
+                            PROCÉDER AU PAIEMENT
+                        </button>
+                        <p th:if="${reservation.statut.name() == 'EN_COURS'}"
+                            class="text-center text-slate-400 text-xs mt-4">
+                            <i class="fa-solid fa-lock mr-1"></i> Le paiement sera débloqué après confirmation du
+                            fournisseur.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

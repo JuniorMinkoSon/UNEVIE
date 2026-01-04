@@ -76,18 +76,18 @@
 
         <!-- SIDEBAR -->
         <aside id="adminSidebar"
-            class="admin-sidebar h-screen bg-premium-dark text-white fixed left-0 top-0 overflow-y-auto flex flex-col p-8 z-50 shadow-2xl">
-            <div class="absolute inset-0 opacity-10 mix-blend-soft-light pointer-events-none"
+            class="admin-sidebar h-screen bg-white border-r border-slate-200 text-slate-800 fixed left-0 top-0 overflow-y-auto flex flex-col p-8 z-50 shadow-sm">
+            <div class="absolute inset-0 opacity-5 pointer-events-none"
                 style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');"></div>
 
             <div class="relative z-10 flex flex-col h-full">
                 <!-- Logo -->
                 <a th:href="@{/}" class="inline-flex items-center gap-3 group mb-12">
                     <div
-                        class="bg-premium-orange p-2 rounded-xl shadow-lg shadow-premium-orange/20 group-hover:rotate-12 transition-transform">
-                        <img src="/images/logo.svg" class="h-8 w-auto brightness-0 invert" alt="U">
+                        class="bg-premium-orange p-2 rounded-xl shadow-lg shadow-premium-orange/20 group-hover:rotate-12 transition-transform text-white">
+                        <i class="fa-solid fa-star"></i>
                     </div>
-                    <span class="font-extrabold text-2xl tracking-tight text-white">
+                    <span class="font-extrabold text-2xl tracking-tight text-slate-800">
                         UNE<span class="text-premium-orange">VIE</span>
                         <span
                             class="block text-[8px] uppercase tracking-[0.4em] text-premium-orange opacity-60">Administration</span>
@@ -96,22 +96,22 @@
 
                 <!-- Navigation -->
                 <nav class="flex-grow space-y-2">
-                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] pl-4 mb-4">Principal</p>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] pl-4 mb-4">Principal</p>
 
                     <a th:href="@{/admin/dashboard}"
                         class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold"
-                        th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/dashboard' ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-white/60 hover:bg-white/5 hover:text-white group'}">
+                        th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/dashboard' ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-slate-600 hover:bg-slate-50 hover:text-premium-orange group'}">
                         <i class="fa-solid fa-chart-line text-lg"
                             th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/dashboard' ? '' : 'group-hover:text-premium-orange transition-colors'}"></i>
                         <span>Dashboard</span>
                     </a>
 
-                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] pl-4 mt-8 mb-4">Gestion
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] pl-4 mt-8 mb-4">Gestion
                         Contenu</p>
 
                     <a th:href="@{/admin/article/list}"
                         class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold"
-                        th:classappend="${currentRequestUri != null && currentRequestUri.startsWith('/admin/article') ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-white/60 hover:bg-white/5 hover:text-white group'}">
+                        th:classappend="${currentRequestUri != null && currentRequestUri.startsWith('/admin/article') ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-slate-600 hover:bg-slate-50 hover:text-premium-orange group'}">
                         <i class="fa-solid fa-newspaper text-lg"
                             th:classappend="${currentRequestUri != null && currentRequestUri.startsWith('/admin/article') ? '' : 'group-hover:text-premium-orange transition-colors'}"></i>
                         <span>Articles</span>
@@ -119,7 +119,7 @@
 
                     <a th:href="@{/admin/products}"
                         class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold"
-                        th:classappend="${currentRequestUri != null && currentRequestUri.startsWith('/admin/products') ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-white/60 hover:bg-white/5 hover:text-white group'}">
+                        th:classappend="${currentRequestUri != null && currentRequestUri.startsWith('/admin/products') ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-slate-600 hover:bg-slate-50 hover:text-premium-orange group'}">
                         <i class="fa-solid fa-box text-lg"
                             th:classappend="${currentRequestUri != null && currentRequestUri.startsWith('/admin/products') ? '' : 'group-hover:text-premium-orange transition-colors'}"></i>
                         <span>Produits</span>
@@ -127,30 +127,49 @@
 
                     <a th:href="@{/admin/categories}"
                         class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold"
-                        th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/categories' ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-white/60 hover:bg-white/5 hover:text-white group'}">
+                        th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/categories' ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-slate-600 hover:bg-slate-50 hover:text-premium-orange group'}">
                         <i class="fa-solid fa-tags text-lg"
                             th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/categories' ? '' : 'group-hover:text-premium-orange transition-colors'}"></i>
                         <span>Catégories</span>
                     </a>
 
-                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] pl-4 mt-8 mb-4">Opérations
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] pl-4 mt-8 mb-4">Opérations
                     </p>
 
                     <a th:href="@{/admin/commandes}"
                         class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold"
-                        th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/commandes' ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-white/60 hover:bg-white/5 hover:text-white group'}">
+                        th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/commandes' ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-slate-600 hover:bg-slate-50 hover:text-premium-orange group'}">
                         <i class="fa-solid fa-shopping-cart text-lg"
                             th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/commandes' ? '' : 'group-hover:text-premium-orange transition-colors'}"></i>
                         <span>Commandes</span>
                     </a>
+
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] pl-4 mt-8 mb-4">UneVie
+                        Réservation</p>
+
+                    <a th:href="@{/admin/statistiques}"
+                        class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold"
+                        th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/statistiques' ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-slate-600 hover:bg-slate-50 hover:text-premium-orange group'}">
+                        <i class="fa-solid fa-chart-pie text-lg"
+                            th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/statistiques' ? '' : 'group-hover:text-premium-orange transition-colors'}"></i>
+                        <span>Statistiques platform</span>
+                    </a>
+
+                    <a th:href="@{/admin/fournisseurs}"
+                        class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold"
+                        th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/fournisseurs' ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-slate-600 hover:bg-slate-50 hover:text-premium-orange group'}">
+                        <i class="fa-solid fa-building-user text-lg"
+                            th:classappend="${currentRequestUri != null && currentRequestUri == '/admin/fournisseurs' ? '' : 'group-hover:text-premium-orange transition-colors'}"></i>
+                        <span>Fournisseurs</span>
+                    </a>
                 </nav>
 
                 <!-- Sidebar Footer -->
-                <div class="mt-auto pt-8 border-t border-white/10">
+                <div class="mt-auto pt-8 border-t border-slate-100">
                     <form th:action="@{/logout}" method="post">
                         <button type="submit"
-                            class="w-full flex items-center gap-4 px-6 py-4 rounded-2xl bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all font-bold group">
-                            <i class="fa-solid fa-power-off group-hover:animate-pulse"></i>
+                            class="w-full flex items-center gap-4 px-6 py-4 rounded-2xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-all font-bold group">
+                            <i class="fa-solid fa-power-off"></i>
                             <span>Déconnexion</span>
                         </button>
                     </form>
@@ -196,15 +215,15 @@
                     </div>
 
                     <!-- Profile Dropdown -->
-                    <div class="flex items-center gap-3 pl-6 border-l border-premium-dark/5">
+                    <div class="flex items-center gap-3 pl-6 border-l border-slate-200">
                         <div class="text-right hidden sm:block">
-                            <p class="text-sm font-extrabold text-premium-dark leading-none" sec:authentication="name">
+                            <p class="text-sm font-extrabold text-slate-800 leading-none" sec:authentication="name">
                                 Administrateur</p>
                             <p class="text-[10px] font-bold text-premium-orange uppercase tracking-widest mt-1">Super
                                 Admin</p>
                         </div>
                         <div
-                            class="w-10 h-10 bg-premium-dark text-white rounded-xl flex items-center justify-center font-bold text-lg border-2 border-premium-orange shadow-lg shadow-premium-orange/10">
+                            class="w-10 h-10 bg-slate-100 text-slate-800 rounded-xl flex items-center justify-center font-bold text-lg border border-slate-200 shadow-sm">
                             <span th:text="${#strings.substring(#authentication.name, 0, 1)}">A</span>
                         </div>
                     </div>

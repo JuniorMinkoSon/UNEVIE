@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${service.nom} + ' | UneVie'">Service | UneVie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { premium: { orange: '#f97316', dark: '#1a1a1a' } },
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-slate-50 min-h-screen font-sans">
+
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <div class="container mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+
+            <!-- Service Details -->
+            <div class="lg:col-span-2">
+                <!-- Breadcrumb -->
+                <nav class="flex items-center gap-2 text-slate-400 text-sm mb-6">
+                    <a th:href="@{/}" class="hover:text-slate-600">Accueil</a>
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                    <a th:href="@{/reservation/secteurs}" class="hover:text-slate-600">Secteurs</a>
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                    <span class="text-slate-800 font-bold" th:text="${service.nom}">Service</span>
+                </nav>
+
+                <!-- Image -->
+                <div class="h-80 bg-slate-200 rounded-3xl overflow-hidden mb-8">
+                    <img th:if="${service.imageUrl != null}" th:src="${service.imageUrl}"
+                        class="w-full h-full object-cover" alt="">
+                    <div th:unless="${service.imageUrl != null}" class="w-full h-full flex items-center justify-center">
+                        <i class="fa-solid fa-image text-slate-400 text-5xl"></i>
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div class="bg-white rounded-3xl p-8 shadow-lg mb-8">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-14 h-14 bg-premium-orange rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-store text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-slate-400 text-sm">Proposé par</p>
+                            <p class="font-bold text-slate-800 text-lg" th:text="${fournisseur.nomEntreprise}">
+                                Fournisseur</p>
+                        </div>
+                    </div>
+
+                    <h1 class="text-3xl font-extrabold text-slate-800 mb-4" th:text="${service.nom}">Service</h1>
+                    <p class="text-slate-600 leading-relaxed" th:text="${service.description}">Description</p>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6 border-t border-slate-100">
+                        <div class="text-center p-4 bg-slate-50 rounded-xl">
+                            <i class="fa-solid fa-tag text-premium-orange text-xl mb-2"></i>
+                            <p class="text-2xl font-extrabold text-slate-800"
+                                th:text="${#numbers.formatDecimal(service.prix, 0, 'COMMA', 0, 'POINT')}">0</p>
+                            <p class="text-slate-400 text-sm">FCFA</p>
+                        </div>
+                        <div th:if="${service.prixParJour != null}" class="text-center p-4 bg-slate-50 rounded-xl">
+                            <i class="fa-solid fa-calendar-day text-blue-500 text-xl mb-2"></i>
+                            <p class="text-2xl font-extrabold text-slate-800"
+                                th:text="${#numbers.formatDecimal(service.prixParJour, 0, 'COMMA', 0, 'POINT')}">0</p>
+                            <p class="text-slate-400 text-sm">FCFA/jour</p>
+                        </div>
+                        <div th:if="${service.capacite != null}" class="text-center p-4 bg-slate-50 rounded-xl">
+                            <i class="fa-solid fa-users text-emerald-500 text-xl mb-2"></i>
+                            <p class="text-2xl font-extrabold text-slate-800" th:text="${service.capacite}">0</p>
+                            <p class="text-slate-400 text-sm">Capacité</p>
+                        </div>
+                        <div class="text-center p-4 bg-slate-50 rounded-xl">
+                            <i class="fa-solid fa-star text-amber-500 text-xl mb-2"></i>
+                            <p class="text-2xl font-extrabold text-slate-800" th:text="${service.nombreReservations}">0
+                            </p>
+                            <p class="text-slate-400 text-sm">Réservations</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reservation Form -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-3xl p-8 shadow-xl sticky top-24">
+                    <h2 class="text-2xl font-extrabold text-slate-800 mb-6">
+                        <i class="fa-solid fa-calendar-plus text-premium-orange mr-2"></i>
+                        Réserver
+                    </h2>
+
+                    <form th:action="@{/reservation/reserver}" method="post" th:object="${reservationDto}">
+                        <input type="hidden" th:field="*{serviceId}" th:value="${service.id}">
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Votre nom *</label>
+                                <input type="text" th:field="*{nomClient}" required
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-premium-orange focus:border-transparent">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Téléphone *</label>
+                                <input type="tel" th:field="*{telephone}" required
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-premium-orange focus:border-transparent">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Email</label>
+                                <input type="email" th:field="*{email}"
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-premium-orange focus:border-transparent">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Date du service *</label>
+                                <input type="date" th:field="*{dateService}" required
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-premium-orange focus:border-transparent">
+                            </div>
+
+                            <!-- Champs optionnels selon secteur -->
+                            <div th:if="${service.fournisseur.secteur.name() == 'VOITURE'}">
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Date de fin</label>
+                                <input type="date" th:field="*{dateFinService}"
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-premium-orange focus:border-transparent">
+
+                                <label class="flex items-center gap-3 mt-4 cursor-pointer">
+                                    <input type="checkbox" th:field="*{avecChauffeur}"
+                                        class="w-5 h-5 rounded border-slate-300 text-premium-orange focus:ring-premium-orange">
+                                    <span class="text-slate-700 font-medium">Avec chauffeur</span>
+                                </label>
+                            </div>
+
+                            <div
+                                th:if="${service.fournisseur.secteur.name() == 'EVENEMENTIEL' || service.fournisseur.secteur.name() == 'ALIMENTAIRE'}">
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Nombre de personnes</label>
+                                <input type="number" th:field="*{nombrePersonnes}" min="1"
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-premium-orange focus:border-transparent">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Notes (optionnel)</label>
+                                <textarea th:field="*{notes}" rows="3"
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-premium-orange focus:border-transparent resize-none"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 rounded-xl p-4 mt-6">
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-600">Total estimé</span>
+                                <span class="text-2xl font-extrabold text-slate-800">
+                                    <span
+                                        th:text="${#numbers.formatDecimal(service.prix, 0, 'COMMA', 0, 'POINT')}">0</span>
+                                    FCFA
+                                </span>
+                            </div>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full mt-6 py-4 bg-gradient-to-r from-premium-orange to-amber-500 text-white font-bold text-lg rounded-xl hover:from-orange-600 hover:to-amber-600 transition-all shadow-lg shadow-premium-orange/30">
+                            <i class="fa-solid fa-calendar-check mr-2"></i>
+                            Réserver maintenant
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+
+</html>

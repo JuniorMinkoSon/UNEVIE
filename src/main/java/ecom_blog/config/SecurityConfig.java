@@ -12,67 +12,73 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
+
 @Configuration
 public class SecurityConfig {
 
-    private final CustomLoginSuccessHandler successHandler;
+        private final CustomLoginSuccessHandler successHandler;
 
-    public SecurityConfig(CustomLoginSuccessHandler successHandler) {
-        this.successHandler = successHandler;
-    }
+        public SecurityConfig(CustomLoginSuccessHandler successHandler) {
+                this.successHandler = successHandler;
+        }
 
-    @Bean
-    public HttpFirewall allowDoubleSlashFirewall() {
-        StrictHttpFirewall firewall = new StrictHttpFirewall();
-        firewall.setAllowUrlEncodedDoubleSlash(true);
-        firewall.setAllowSemicolon(true);
-        firewall.setAllowBackSlash(true);
-        firewall.setAllowUrlEncodedSlash(true);
-        return firewall;
-    }
+        @Bean
+        public HttpFirewall allowDoubleSlashFirewall() {
+                StrictHttpFirewall firewall = new StrictHttpFirewall();
+                firewall.setAllowUrlEncodedDoubleSlash(true);
+                firewall.setAllowSemicolon(true);
+                firewall.setAllowBackSlash(true);
+                firewall.setAllowUrlEncodedSlash(true);
+                return firewall;
+        }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(
-            HttpSecurity http,
-            CustomUserDetailsService userDetailsService
-    ) throws Exception {
+        @Bean
+        public SecurityFilterChain securityFilterChain(
+                        HttpSecurity http,
+                        CustomUserDetailsService userDetailsService) throws Exception {
 
-        http
-                .csrf(csrf -> csrf.disable())
-                .userDetailsService(userDetailsService)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/", "/index", "/index.html",
-                                "/register", "/login", "/error",
-                                "/blog/**", "/projets", "/services", "/objectifs",
-                                "/propos", "/produits/**", "/contact",
-                                "/css/**", "/js/**", "/images/**", "/uploads/**"
-                        ).permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/livreur/**").hasRole("LIVREUR")
-                        .requestMatchers("/user/**").hasRole("USER")
-                        .anyRequest().authenticated()
-                )
-                .formLogin(login -> login
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .usernameParameter("email")
-                        .passwordParameter("password")
-                        .successHandler(successHandler)
-                        .failureUrl("/login?error")
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
-                );
+                http
+                                .csrf(csrf -> csrf.disable())
+                                .userDetailsService(userDetailsService)
+                                .authorizeHttpRequests(auth -> auth
+                                                .requestMatchers(
+                                                                "/", "/index", "/index.html",
+                                                                "/register", "/login", "/error", "/change-password",
+                                                                "/blog/**", "/projets", "/services", "/objectifs",
+                                                                "/propos", "/produits/**", "/contact",
+                                                                "/reservation/secteurs", "/reservation/voitures",
+                                                                "/reservation/loisirs", "/reservation/alimentaire",
+                                                                "/reservation/evenementiel",
+                                                                "/reservation/fournisseur/**",
+                                                                "/reservation/service/**", "/reservation/recherche",
+                                                                "/css/**", "/js/**", "/images/**", "/uploads/**")
+                                                .permitAll()
+                                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                                .requestMatchers("/livreur/**").hasRole("LIVREUR")
+                                                .requestMatchers("/fournisseur/**").hasRole("FOURNISSEUR")
+                                                .requestMatchers("/reservation/reserver",
+                                                                "/reservation/mes-reservations",
+                                                                "/reservation/confirmation/**")
+                                                .hasAnyRole("USER", "ADMIN")
+                                                .requestMatchers("/user/**").hasRole("USER")
+                                                .anyRequest().authenticated())
+                                .formLogin(login -> login
+                                                .loginPage("/login")
+                                                .loginProcessingUrl("/login")
+                                                .usernameParameter("email")
+                                                .passwordParameter("password")
+                                                .successHandler(successHandler)
+                                                .failureUrl("/login?error"))
+                                .logout(logout -> logout
+                                                .logoutUrl("/logout")
+                                                .logoutSuccessUrl("/login?logout"));
 
-        return http.build();
-    }
+                return http.build();
+        }
 
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config
-    ) throws Exception {
-        return config.getAuthenticationManager();
-    }
+        @Bean
+        public AuthenticationManager authenticationManager(
+                        AuthenticationConfiguration config) throws Exception {
+                return config.getAuthenticationManager();
+        }
 }

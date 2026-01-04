@@ -11,7 +11,8 @@ import ecom_blog.model.Produit;
 import ecom_blog.service.ArticleService;
 import ecom_blog.service.CommandeService;
 import ecom_blog.service.ProduitService;
-import ecom_blog.service.UserService;
+import ecom_blog.service.ReservationService;
+import ecom_blog.service.StatistiquesService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,10 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.validation.BindingResult;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import ecom_blog.service.CategorieService;
+import ecom_blog.service.UserService;
 
 @Controller
 @RequestMapping("/admin")
@@ -39,8 +39,6 @@ public class AdminController {
     private CommandeService commandeService;
 
     @Autowired
-    private UserService userService;
-    @Autowired
     private CategorieService categorieService;
 
     @Autowired
@@ -49,20 +47,134 @@ public class AdminController {
     @Autowired
     private ArticleMapper articleMapper;
 
+    @Autowired
+    private ReservationService reservationService;
+
+    @Autowired
+    private ecom_blog.service.FournisseurService fournisseurService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private StatistiquesService statistiquesService;
+
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
-        Map<String, Object> stats = new LinkedHashMap<>();
-        stats.put("👥 Utilisateurs", userService.count());
-        stats.put("🛍️ Produits", produitService.count());
-        stats.put("📰 Articles", articleService.count());
-        stats.put("📦 Commandes", commandeService.count());
-        stats.put("🚚 Livrées", commandeService.countByStatut("LIVRÉ"));
-
-        model.addAttribute("stats", stats);
+        model.addAttribute("stats", statistiquesService.getGlobalKpis());
         model.addAttribute("recentCommandes", commandeService.findLast5());
         model.addAttribute("orderStats", commandeService.getMonthlyOrders());
 
+        // Stats financières UneVie
+        var financialSummary = statistiquesService.getFinancialSummary();
+        model.addAttribute("totalCommissions", financialSummary.get("totalCommissions"));
+        model.addAttribute("totalRevenus", financialSummary.get("revenueServices")); // Pour garder la compatibilité
+                                                                                     // avec le template existant
+                                                                                     // (Services only for now on
+                                                                                     // dashboard)
+
         return "admin/dashboard";
+    }
+
+    @GetMapping("/statistiques")
+    public String statistiques(Model model) {
+        java.time.LocalDate now = java.time.LocalDate.now();
+
+        model.addAttribute("totalCommissions", reservationService.getTotalCommissions());
+        model.addAttribute("totalRevenus", reservationService.getTotalRevenus());
+        model.addAttribute("statsMensuelles", reservationService.getStatistiquesMensuelles(now.getYear()));
+        model.addAttribute("statsFournisseurs", reservationService.getStatistiquesParFournisseur());
+        model.addAttribute("fournisseursActifs", fournisseurService.findActifs());
+
+        return "admin/statistiques";
+    }
+
+    @GetMapping("/fournisseurs")
+    public String listFournisseurs(Model model) {
+        model.addAttribute("fournisseurs", fournisseurService.findAll());
+        model.addAttribute("newFournisseur", new ecom_blog.dto.AdminCreateFournisseurDto());
+        model.addAttribute("secteurs", ecom_blog.model.Secteur.values());
+        model.addAttribute("openModal", false);
+        model.addAttribute("isEdit", false);
+        return "admin/fournisseurs-list";
+    }
+
+    @PostMapping("/fournisseurs/save")
+    public String saveFournisseur(@Valid @ModelAttribute("newFournisseur") ecom_blog.dto.AdminCreateFournisseurDto dto,
+            BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("fournisseurs", fournisseurService.findAll());
+            model.addAttribute("secteurs", ecom_blog.model.Secteur.values());
+            model.addAttribute("openModal", true);
+            return "admin/fournisseurs-list";
+        }
+
+        // 1. Créer l'utilisateur
+        ecom_blog.model.User user = new ecom_blog.model.User();
+        user.setEmail(dto.getEmail());
+        user.setNom(dto.getNom());
+        user.setTelephone(dto.getTelephone());
+        user.setRole(ecom_blog.model.Role.ROLE_FOURNISSEUR);
+        user.setPassword("UNEVIE-2024"); // Mot de passe par défaut
+        user.setMustChangePassword(true); // Forcer le changement
+
+        java.util.Optional<ecom_blog.model.User> existing = userService.findByEmailOptional(dto.getEmail());
+        if (existing.isPresent()) {
+            bindingResult.rejectValue("email", "error.user", "Cet email est déjà utilisé");
+            model.addAttribute("fournisseurs", fournisseurService.findAll());
+            model.addAttribute("secteurs", ecom_blog.model.Secteur.values());
+            model.addAttribute("openModal", true);
+            model.addAttribute("isEdit", false);
+            return "admin/fournisseurs-list";
+        }
+
+        user = userService.saveUser(user);
+
+        // 2. Créer le fournisseur
+        fournisseurService.inscrireFournisseur(
+                user,
+                dto.getNomEntreprise(),
+                dto.getSecteur(),
+                dto.getDescription(),
+                dto.getAdresse(),
+                dto.getVille(),
+                dto.getTelephone());
+
+        return "redirect:/admin/fournisseurs?success";
+    }
+
+    @GetMapping("/fournisseurs/{id}")
+    @ResponseBody
+    public ecom_blog.dto.AdminCreateFournisseurDto getFournisseur(@PathVariable Long id) {
+        ecom_blog.model.Fournisseur f = fournisseurService.findById(id)
+                .orElseThrow(() -> new RuntimeException("Fournisseur non trouvé"));
+
+        ecom_blog.dto.AdminCreateFournisseurDto dto = new ecom_blog.dto.AdminCreateFournisseurDto();
+        dto.setId(f.getId());
+        dto.setEmail(f.getUser().getEmail());
+        dto.setNom(f.getUser().getNom());
+        dto.setNomEntreprise(f.getNomEntreprise());
+        dto.setSecteur(f.getSecteur());
+        dto.setDescription(f.getDescription());
+        dto.setAdresse(f.getAdresse());
+        dto.setVille(f.getVille());
+        dto.setTelephone(f.getTelephone());
+        return dto;
+    }
+
+    @PostMapping("/fournisseurs/update")
+    public String updateFournisseur(
+            @Valid @ModelAttribute("newFournisseur") ecom_blog.dto.AdminCreateFournisseurDto dto,
+            BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("fournisseurs", fournisseurService.findAll());
+            model.addAttribute("secteurs", ecom_blog.model.Secteur.values());
+            model.addAttribute("openModal", true);
+            return "admin/fournisseurs-list";
+        }
+
+        fournisseurService.updateFournisseur(dto);
+        return "redirect:/admin/fournisseurs?updated";
     }
 
     @GetMapping("/product/add")

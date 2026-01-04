@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Contrat | Fournisseur UneVie</title>
+</head>
+
+<body>
+    <div th:replace="~{fragments/fournisseur-layout :: layout(~{::content})}">
+        <div th:fragment="content">
+
+            <div class="mb-10">
+                <h1 class="text-4xl font-extrabold text-slate-800">Mon Contrat</h1>
+                <p class="text-slate-500 mt-2">Contrat de partenariat avec UneVie Réservation</p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-premium-dark to-slate-800 p-8">
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 bg-premium-orange rounded-2xl flex items-center justify-center">
+                            <i class="fa-solid fa-file-contract text-white text-2xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-extrabold text-white">Contrat de Partenariat</h2>
+                            <p class="text-white/60">Version <span th:text="${contrat.versionContrat}">1.0</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statut -->
+                <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                    <div class="flex items-center gap-4">
+                        <div th:if="${contrat.signe}"
+                            class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-check-circle text-emerald-500 text-xl"></i>
+                        </div>
+                        <div th:unless="${contrat.signe}"
+                            class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-clock text-amber-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <p th:if="${contrat.signe}" class="font-bold text-emerald-600">Contrat signé</p>
+                            <p th:unless="${contrat.signe}" class="font-bold text-amber-600">En attente de signature</p>
+                            <p class="text-sm text-slate-400">
+                                Généré le <span
+                                    th:text="${#temporals.format(contrat.dateGeneration, 'dd/MM/yyyy HH:mm')}">Date</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div th:if="${contrat.signe}" class="text-right">
+                        <p class="text-sm text-slate-400">Signé le</p>
+                        <p class="font-bold text-slate-800"
+                            th:text="${#temporals.format(contrat.dateSignature, 'dd/MM/yyyy HH:mm')}">Date</p>
+                    </div>
+                </div>
+
+                <!-- Contenu -->
+                <div class="p-8">
+                    <div class="bg-slate-50 rounded-2xl p-8 font-mono text-sm text-slate-700 whitespace-pre-wrap leading-relaxed border border-slate-200"
+                        th:text="${contrat.contenuContrat}">
+                        Contenu du contrat...
+                    </div>
+                </div>
+
+                <!-- Action -->
+                <div th:unless="${contrat.signe}" class="p-8 bg-amber-50 border-t border-amber-100">
+                    <div class="flex items-center gap-4 mb-6">
+                        <input type="checkbox" id="acceptTerms"
+                            class="w-5 h-5 rounded border-slate-300 text-premium-orange focus:ring-premium-orange">
+                        <label for="acceptTerms" class="text-slate-700">
+                            J'ai lu et j'accepte les termes du contrat de partenariat
+                        </label>
+                    </div>
+                    <form th:action="@{/fournisseur/contrat/signer}" method="post">
+                        <button type="submit" id="signBtn" disabled
+                            class="px-8 py-4 bg-premium-orange text-white font-bold text-lg rounded-xl hover:bg-orange-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-signature mr-2"></i>
+                            Signer le contrat
+                        </button>
+                    </form>
+                </div>
+
+                <div th:if="${contrat.signe}"
+                    class="p-8 bg-emerald-50 border-t border-emerald-100 flex items-center gap-4">
+                    <i class="fa-solid fa-shield-check text-emerald-500 text-2xl"></i>
+                    <p class="text-emerald-700 font-medium">
+                        Votre compte fournisseur est actif. Merci de votre confiance !
+                    </p>
+                </div>
+            </div>
+
+            <script>
+                const checkbox = document.getElementById('acceptTerms');
+                const btn = document.getElementById('signBtn');
+                if (checkbox && btn) {
+                    checkbox.addEventListener('change', () => {
+                        btn.disabled = !checkbox.checked;
+                    });
+                }
+            </script>
+
+        </div>
+    </div>
+</body>
+
+</html>

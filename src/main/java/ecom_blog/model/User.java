@@ -9,7 +9,8 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 public class User extends BaseEntity implements Serializable {
 
@@ -27,6 +28,9 @@ public class User extends BaseEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean mustChangePassword = false;
 
     // ================= LIVREUR / FOURNISSEUR =================
     private boolean actif = true;

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation Confirmée | UneVie</title>
+</head>
+
+<body class="bg-slate-50 flex items-center justify-center min-h-screen p-6 font-sans">
+
+    <div class="max-w-2xl w-full bg-white rounded-[2.5rem] p-12 shadow-2xl text-center relative overflow-hidden">
+        <!-- Decoration -->
+        <div class="absolute -top-10 -right-10 w-40 h-40 bg-premium-orange/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
+
+        <div
+            class="w-24 h-24 bg-emerald-100 text-emerald-500 rounded-3xl flex items-center justify-center mx-auto mb-8 animate-bounce">
+            <i class="fa-solid fa-check text-5xl"></i>
+        </div>
+
+        <h1 class="text-4xl font-black text-slate-800 mb-4 tracking-tight">Demande Envoyée !</h1>
+        <p class="text-slate-500 text-lg leading-relaxed mb-10 px-6">
+            Votre demande de réservation pour <span class="text-slate-800 font-bold"
+                th:text="${reservation.service.nom}">le service</span> a été transmise à <span
+                class="text-premium-orange font-bold"
+                th:text="${reservation.fournisseur.nomEntreprise}">l'entreprise</span>.
+        </p>
+
+        <div class="bg-slate-50 rounded-3xl p-8 mb-10 border border-slate-100">
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-slate-400 font-bold text-sm uppercase tracking-widest">Numéro de réservation</span>
+                <span class="text-slate-800 font-black" th:text="'#RES-' + ${reservation.id}">#RES-001</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="text-left bg-white p-4 rounded-2xl border border-slate-100">
+                    <p class="text-slate-400 text-xs font-bold mb-1">Date prévue</p>
+                    <p class="text-slate-800 font-bold"
+                        th:text="${#temporals.format(reservation.dateService, 'dd/MM/yyyy')}">12/05/2024</p>
+                </div>
+                <div class="text-left bg-white p-4 rounded-2xl border border-slate-100">
+                    <p class="text-slate-400 text-xs font-bold mb-1">Montant estimé</p>
+                    <p class="text-premium-orange font-black"
+                        th:text="${#numbers.formatDecimal(reservation.montant, 0, 'COMMA', 0, 'POINT')} + ' FCFA'">
+                        50,000 FCFA</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <div class="flex items-center gap-3 justify-center text-slate-400 text-sm mb-6">
+                <i class="fa-solid fa-bell-circle-exclamation text-blue-500"></i>
+                <span>Vous recevrez une notification dès que le fournisseur aura validé votre demande.</span>
+            </div>
+
+            <a th:href="@{/reservation/mes-reservations}"
+                class="block w-full py-4 bg-premium-dark text-white font-black rounded-2xl hover:scale-[1.02] transition-transform shadow-xl">
+                SUIVRE MA RÉSERVATION
+            </a>
+
+            <a th:href="@{/}" class="block w-full py-4 text-slate-400 font-bold hover:text-slate-800 transition-colors">
+                Retour à l'accueil
+            </a>
+        </div>
+    </div>
+
+    <!-- Font Awesome & Outfit Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { premium: { orange: '#f97316', dark: '#1a1a1a' } },
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

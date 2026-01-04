@@ -63,68 +63,75 @@
 
         <!-- SIDEBAR -->
         <aside id="userSidebar"
-            class="user-sidebar h-screen bg-premium-dark text-white fixed left-0 top-0 overflow-y-auto flex flex-col p-8 z-50">
-            <div class="absolute inset-0 opacity-10 mix-blend-soft-light pointer-events-none"
+            class="user-sidebar h-screen bg-white border-r border-slate-200 text-slate-800 fixed left-0 top-0 overflow-y-auto flex flex-col p-8 z-50 shadow-sm">
+            <div class="absolute inset-0 opacity-5 pointer-events-none"
                 style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');"></div>
 
             <div class="relative z-10 flex flex-col h-full">
                 <!-- Logo -->
                 <a th:href="@{/}" class="inline-flex items-center gap-3 group mb-12">
                     <div
-                        class="bg-premium-orange p-2 rounded-xl shadow-lg shadow-premium-orange/20 group-hover:rotate-12 transition-transform">
-                        <img src="/images/logo.svg" class="h-8 w-auto brightness-0 invert" alt="U">
+                        class="bg-premium-orange p-2 rounded-xl shadow-lg shadow-premium-orange/20 group-hover:rotate-12 transition-transform text-white">
+                        <i class="fa-solid fa-star"></i>
                     </div>
-                    <span class="font-extrabold text-2xl tracking-tight text-white">
+                    <span class="font-extrabold text-2xl tracking-tight text-slate-800">
                         UNE<span class="text-premium-orange">VIE</span>
                     </span>
                 </a>
 
                 <!-- Navigation -->
                 <nav class="flex-grow space-y-2">
-                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] pl-4 mb-4">Tableau de bord
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] pl-4 mb-4">Tableau de bord
                     </p>
 
                     <a th:href="@{/user/dashboard}"
                         class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold"
-                        th:classappend="${currentRequestUri != null && currentRequestUri == '/user/dashboard' ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-white/60 hover:bg-white/5 hover:text-white'}">
+                        th:classappend="${currentRequestUri != null && currentRequestUri == '/user/dashboard' ? 'bg-premium-orange text-white shadow-xl shadow-premium-orange/20' : 'text-slate-600 hover:bg-slate-50 hover:text-premium-orange'}">
                         <i class="fa-solid fa-house-chimney text-lg"></i>
                         <span>Vue d'ensemble</span>
                     </a>
 
                     <a th:href="@{/produits/mes-commandes}"
-                        class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-white/60 hover:bg-white/5 hover:text-white group">
+                        class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-slate-600 hover:bg-slate-50 hover:text-premium-orange group">
                         <i
                             class="fa-solid fa-basket-shopping text-lg group-hover:text-premium-orange transition-colors"></i>
                         <span>Mes Commandes</span>
                     </a>
 
+                    <a th:href="@{/reservation/mes-reservations}"
+                        class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-slate-600 hover:bg-slate-50 hover:text-premium-orange group">
+                        <i
+                            class="fa-solid fa-calendar-check text-lg group-hover:text-premium-orange transition-colors"></i>
+                        <span>Mes Réservations</span>
+                    </a>
+
                     <a href="#"
-                        class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-white/60 hover:bg-white/5 hover:text-white group">
+                        class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-slate-600 hover:bg-slate-50 hover:text-premium-orange group">
                         <i class="fa-solid fa-heart text-lg group-hover:text-premium-orange transition-colors"></i>
                         <span>Mes Favoris</span>
                     </a>
 
-                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] pl-4 mt-8 mb-4">Gestion
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] pl-4 mt-8 mb-4">Gestion
                         Compte</p>
 
                     <a href="#"
-                        class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-white/60 hover:bg-white/5 hover:text-white group">
+                        class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-slate-600 hover:bg-slate-50 hover:text-premium-orange group">
                         <i class="fa-solid fa-user-pen text-lg group-hover:text-premium-orange transition-colors"></i>
                         <span>Mon Profil</span>
                     </a>
 
                     <a href="#"
-                        class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-white/60 hover:bg-white/5 hover:text-white group">
+                        class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-slate-600 hover:bg-slate-50 hover:text-premium-orange group">
                         <i class="fa-solid fa-wallet text-lg group-hover:text-premium-orange transition-colors"></i>
                         <span>Paiements</span>
                     </a>
                 </nav>
 
                 <!-- Sidebar Footer -->
-                <div class="mt-auto pt-8 border-t border-white/10">
+                <div class="mt-auto pt-8 border-t border-slate-100">
                     <form th:action="@{/logout}" method="post">
                         <button type="submit"
-                            class="w-full flex items-center gap-4 px-6 py-4 rounded-2xl bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all font-bold">
+                            class="w-full flex items-center gap-4 px-6 py-4 rounded-2xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-all font-bold">
                             <i class="fa-solid fa-power-off"></i>
                             <span>Déconnexion</span>
                         </button>

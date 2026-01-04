@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Réservations | Fournisseur UneVie</title>
+</head>
+
+<body>
+    <div th:replace="~{fragments/fournisseur-layout :: layout(~{::content})}">
+        <div th:fragment="content">
+
+            <div class="mb-10">
+                <h1 class="text-4xl font-extrabold text-slate-800">Réservations</h1>
+                <p class="text-slate-500 mt-2">Gérez les demandes de réservation de vos clients</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex gap-4 mb-8 overflow-x-auto pb-2">
+                <button class="px-6 py-3 bg-premium-orange text-white font-bold rounded-xl whitespace-nowrap">
+                    Toutes
+                </button>
+                <button
+                    class="px-6 py-3 bg-white text-slate-600 font-bold rounded-xl hover:bg-slate-50 whitespace-nowrap">
+                    En attente
+                </button>
+                <button
+                    class="px-6 py-3 bg-white text-slate-600 font-bold rounded-xl hover:bg-slate-50 whitespace-nowrap">
+                    Acceptées
+                </button>
+                <button
+                    class="px-6 py-3 bg-white text-slate-600 font-bold rounded-xl hover:bg-slate-50 whitespace-nowrap">
+                    Terminées
+                </button>
+            </div>
+
+            <!-- Reservations List -->
+            <div th:if="${reservations.empty}" class="bg-white rounded-3xl p-12 text-center shadow-lg">
+                <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fa-solid fa-calendar-xmark text-slate-400 text-4xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">Aucune réservation</h3>
+                <p class="text-slate-500">Vous recevrez ici les demandes de réservation de vos clients.</p>
+            </div>
+
+            <div th:unless="${reservations.empty}" class="bg-white rounded-3xl shadow-lg overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-slate-50 border-b border-slate-100">
+                            <tr>
+                                <th class="text-left px-6 py-4 text-sm font-bold text-slate-400 uppercase">Client</th>
+                                <th class="text-left px-6 py-4 text-sm font-bold text-slate-400 uppercase">Service</th>
+                                <th class="text-left px-6 py-4 text-sm font-bold text-slate-400 uppercase">Date</th>
+                                <th class="text-left px-6 py-4 text-sm font-bold text-slate-400 uppercase">Montant</th>
+                                <th class="text-left px-6 py-4 text-sm font-bold text-slate-400 uppercase">Statut</th>
+                                <th class="text-right px-6 py-4 text-sm font-bold text-slate-400 uppercase">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr th:each="r : ${reservations}" class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-5">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                            <i class="fa-solid fa-user text-blue-500"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-bold text-slate-800" th:text="${r.nomClient}">Client</p>
+                                            <p class="text-sm text-slate-400" th:text="${r.telephoneClient}">Tel</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-5">
+                                    <p class="font-medium text-slate-800" th:text="${r.service.nom}">Service</p>
+                                </td>
+                                <td class="px-6 py-5">
+                                    <p class="text-slate-800"
+                                        th:text="${#temporals.format(r.dateService, 'dd MMM yyyy')}">Date</p>
+                                </td>
+                                <td class="px-6 py-5">
+                                    <p class="font-bold text-slate-800">
+                                        <span
+                                            th:text="${#numbers.formatDecimal(r.montant, 0, 'COMMA', 0, 'POINT')}">0</span>
+                                        <span class="text-sm text-slate-400">FCFA</span>
+                                    </p>
+                                    <p th:if="${r.statut.name() == 'ACCEPTE'}" class="text-xs text-emerald-500">
+                                        Net: <span
+                                            th:text="${#numbers.formatDecimal(r.montantNet, 0, 'COMMA', 0, 'POINT')}">0</span>
+                                        FCFA
+                                    </p>
+                                </td>
+                                <td class="px-6 py-5">
+                                    <span th:if="${r.statut.name() == 'EN_COURS'}"
+                                        class="px-3 py-1 bg-blue-100 text-blue-600 text-sm font-bold rounded-full">
+                                        En attente
+                                    </span>
+                                    <span th:if="${r.statut.name() == 'ACCEPTE'}"
+                                        class="px-3 py-1 bg-emerald-100 text-emerald-600 text-sm font-bold rounded-full">
+                                        Acceptée
+                                    </span>
+                                    <span th:if="${r.statut.name() == 'REFUSE'}"
+                                        class="px-3 py-1 bg-red-100 text-red-600 text-sm font-bold rounded-full">
+                                        Refusée
+                                    </span>
+                                    <span th:if="${r.statut.name() == 'TERMINE'}"
+                                        class="px-3 py-1 bg-slate-100 text-slate-600 text-sm font-bold rounded-full">
+                                        Terminée
+                                    </span>
+                                </td>
+                                <td class="px-6 py-5 text-right">
+                                    <div th:if="${r.statut.name() == 'EN_COURS'}" class="flex gap-2 justify-end">
+                                        <form th:action="@{/fournisseur/reservations/{id}/accepter(id=${r.id})}"
+                                            method="post">
+                                            <button type="submit"
+                                                class="px-4 py-2 bg-emerald-500 text-white text-sm font-bold rounded-lg hover:bg-emerald-600">
+                                                <i class="fa-solid fa-check mr-1"></i> Accepter
+                                            </button>
+                                        </form>
+                                        <form th:action="@{/fournisseur/reservations/{id}/refuser(id=${r.id})}"
+                                            method="post">
+                                            <button type="submit"
+                                                class="px-4 py-2 bg-red-100 text-red-500 text-sm font-bold rounded-lg hover:bg-red-500 hover:text-white">
+                                                <i class="fa-solid fa-times mr-1"></i> Refuser
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div th:if="${r.statut.name() == 'ACCEPTE'}">
+                                        <form th:action="@{/fournisseur/reservations/{id}/terminer(id=${r.id})}"
+                                            method="post">
+                                            <button type="submit"
+                                                class="px-4 py-2 bg-slate-100 text-slate-600 text-sm font-bold rounded-lg hover:bg-slate-200">
+                                                <i class="fa-solid fa-flag-checkered mr-1"></i> Terminer
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

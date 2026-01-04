@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Fournisseurs | UneVie Admin</title>
+</head>
+
+<body>
+    <div th:replace="~{fragments/admin-layout :: layout(~{::content})}">
+        <div th:fragment="content">
+
+            <!-- Registration Modal -->
+            <div id="providerModal"
+                th:class="${openModal == true ? 'fixed inset-0 z-50 flex items-center justify-center p-4' : 'fixed inset-0 z-50 flex items-center justify-center p-4 hidden'}">
+                <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="toggleModal()"></div>
+                <div
+                    class="relative bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden border border-slate-100 animate-fade-in-up">
+                    <div class="px-10 py-8 border-b border-slate-50 bg-slate-50/50 flex items-center justify-between">
+                        <div>
+                            <h3 id="modalTitle" class="text-2xl font-black text-slate-800"
+                                th:text="${isEdit == true ? 'Modifier Partenaire' : 'Nouveau Partenaire'}">Nouveau
+                                Partenaire</h3>
+                            <p class="text-slate-500 text-sm font-medium">Enregistrez ou gérez un établissement sur la
+                                plateforme.</p>
+                        </div>
+                        <button type="button" onclick="closeModal()"
+                            class="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-red-500 transition-all">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <form id="providerForm"
+                        th:action="${isEdit == true ? '/admin/fournisseurs/update' : '/admin/fournisseurs/save'}"
+                        th:object="${newFournisseur}" method="POST" class="p-10">
+                        <input type="hidden" th:field="*{id}" id="providerId">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Section Utilisateur -->
+                            <div class="md:col-span-2">
+                                <h4 class="text-[10px] font-black text-premium-orange uppercase tracking-[0.2em] mb-4">
+                                    Informations de Connexion</h4>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Email
+                                    Responsable</label>
+                                <input type="email" th:field="*{email}" id="providerEmail"
+                                    placeholder="admin@entreprise.com" required th:readonly="${isEdit == true}"
+                                    th:classappend="${isEdit == true ? 'bg-slate-100' : ''}"
+                                    class="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange outline-none transition-all font-bold">
+                                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                    class="text-red-500 text-[10px] font-bold mt-1 ml-1"></p>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Nom
+                                    Complet</label>
+                                <input type="text" th:field="*{nom}" id="providerNom" placeholder="Jean Dupont" required
+                                    class="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange outline-none transition-all font-bold">
+                            </div>
+
+                            <!-- Section Entreprise -->
+                            <div class="md:col-span-2 mt-4">
+                                <h4 class="text-[10px] font-black text-premium-orange uppercase tracking-[0.2em] mb-4">
+                                    Détails de l'Entreprise</h4>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Nom de
+                                    l'Etablissement</label>
+                                <input type="text" th:field="*{nomEntreprise}" id="providerNomEntreprise"
+                                    placeholder="Hôtel Prestige" required
+                                    class="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange outline-none transition-all font-bold">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Secteur
+                                    d'Activité</label>
+                                <select th:field="*{secteur}" id="providerSecteur" required
+                                    class="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange outline-none transition-all font-bold appearance-none">
+                                    <option th:each="s : ${secteurs}" th:value="${s}" th:text="${s}"></option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label
+                                    class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Téléphone</label>
+                                <input type="text" th:field="*{telephone}" id="providerTelephone" placeholder="+221 ..."
+                                    required
+                                    class="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange outline-none transition-all font-bold">
+                            </div>
+                            <div class="space-y-2">
+                                <label
+                                    class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Ville</label>
+                                <input type="text" th:field="*{ville}" id="providerVille" placeholder="Dakar" required
+                                    class="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange outline-none transition-all font-bold">
+                            </div>
+                            <div class="md:col-span-2 space-y-2">
+                                <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Adresse
+                                    Complète</label>
+                                <input type="text" th:field="*{adresse}" id="providerAdresse"
+                                    placeholder="Rue 12, Plateau..." required
+                                    class="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-premium-orange/10 focus:border-premium-orange outline-none transition-all font-bold">
+                            </div>
+                        </div>
+
+                        <div class="mt-10 flex items-center justify-between bg-slate-50 -mx-10 -mb-10 p-10">
+                            <p id="modalInfo" class="text-[10px] font-bold text-slate-400 max-w-[200px]">
+                                <i class="fa-solid fa-info-circle mr-1"></i>
+                                Un mot de passe par défaut sera généré et devra être changé à la première connexion.
+                            </p>
+                            <button type="submit" id="submitBtn"
+                                class="px-10 py-5 bg-premium-orange text-white font-black rounded-2xl shadow-xl shadow-orange-500/20 hover:bg-orange-600 hover:-translate-y-1 transition-all"
+                                th:text="${isEdit == true ? 'Mettre à jour' : 'Enregistrer le Partenaire'}">
+                                Enregistrer le Partenaire
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <script th:inline="javascript">
+                function openAddModal() {
+                    document.getElementById('modalTitle').innerText = "Nouveau Partenaire";
+                    document.getElementById('modalInfo').classList.remove('hidden');
+                    document.getElementById('submitBtn').innerText = "Enregistrer le Partenaire";
+                    document.getElementById('providerForm').action = /*[[@{/admin/fournisseurs/save}]]*/ '/admin/fournisseurs/save';
+                    document.getElementById('providerId').value = "";
+                    document.getElementById('providerEmail').value = "";
+                    document.getElementById('providerNom').value = "";
+                    document.getElementById('providerNomEntreprise').value = "";
+                    document.getElementById('providerTelephone').value = "";
+                    document.getElementById('providerVille').value = "";
+                    document.getElementById('providerAdresse').value = "";
+                    document.getElementById('providerEmail').readOnly = false;
+                    document.getElementById('providerEmail').classList.remove('bg-slate-100');
+
+                    document.getElementById('providerModal').classList.remove('hidden');
+                }
+
+                function openEditModal(id) {
+                    fetch('/admin/fournisseurs/' + id)
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('modalTitle').innerText = "Modifier Partenaire";
+                            document.getElementById('modalInfo').classList.add('hidden');
+                            document.getElementById('submitBtn').innerText = "Mettre à jour";
+                            document.getElementById('providerForm').action = /*[[@{/admin/fournisseurs/update}]]*/ '/admin/fournisseurs/update';
+
+                            document.getElementById('providerId').value = data.id;
+                            document.getElementById('providerEmail').value = data.email;
+                            document.getElementById('providerEmail').readOnly = true; // Email non modifiable
+                            document.getElementById('providerEmail').classList.add('bg-slate-100');
+                            document.getElementById('providerNom').value = data.nom;
+                            document.getElementById('providerNomEntreprise').value = data.nomEntreprise;
+                            document.getElementById('providerSecteur').value = data.secteur;
+                            document.getElementById('providerTelephone').value = data.telephone;
+                            document.getElementById('providerVille').value = data.ville;
+                            document.getElementById('providerAdresse').value = data.adresse;
+
+                            document.getElementById('providerModal').classList.remove('hidden');
+                        });
+                }
+
+                function closeModal() {
+                    document.getElementById('providerModal').classList.add('hidden');
+                }
+            </script>
+
+            <!-- Success Notification -->
+            <div th:if="${param.success}"
+                class="fixed bottom-10 right-10 bg-emerald-500 text-white px-8 py-5 rounded-3xl shadow-2xl flex items-center gap-4 animate-bounce z-[60]">
+                <i class="fa-solid fa-circle-check text-2xl"></i>
+                <div>
+                    <p class="font-black">Succès !</p>
+                    <p class="text-xs font-bold opacity-80">Le partenaire a été enregistré avec succès.</p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between mb-10">
+                <div>
+                    <h1 class="text-4xl font-extrabold text-slate-800">Fournisseurs</h1>
+                    <p class="text-slate-500 mt-2">Gestion des partenaires et prestataires de services</p>
+                </div>
+                <button onclick="openAddModal()"
+                    class="px-6 py-3 bg-premium-orange text-white font-black rounded-xl shadow-lg shadow-orange-500/30 hover:bg-orange-600 transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i> Nouveau Fournisseur
+                </button>
+            </div>
+
+            <div class="bg-white rounded-[2.5rem] shadow-xl overflow-hidden border border-slate-100">
+                <div
+                    class="p-8 border-b border-slate-50 bg-slate-50/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="relative flex-grow max-w-md">
+                        <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" placeholder="Rechercher une entreprise..."
+                            class="w-full pl-12 pr-4 py-3 bg-white border border-slate-200 rounded-2xl focus:ring-2 focus:ring-premium-orange outline-none transition-all">
+                    </div>
+                    <div class="flex gap-2">
+                        <button
+                            class="px-4 py-3 bg-white border border-slate-200 rounded-xl font-bold text-slate-600 hover:bg-slate-50">Secteur:
+                            Tous</button>
+                        <button
+                            class="px-4 py-3 bg-white border border-slate-200 rounded-xl font-bold text-slate-600 hover:bg-slate-50">Statut:
+                            Actif</button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50/50">
+                                <th class="px-8 py-5 text-slate-400 font-bold text-xs uppercase tracking-widest">
+                                    Entreprise</th>
+                                <th class="px-8 py-5 text-slate-400 font-bold text-xs uppercase tracking-widest">Secteur
+                                </th>
+                                <th
+                                    class="px-8 py-5 text-slate-400 font-bold text-xs uppercase tracking-widest text-center">
+                                    Réservations</th>
+                                <th
+                                    class="px-8 py-5 text-slate-400 font-bold text-xs uppercase tracking-widest text-right">
+                                    C.A Total</th>
+                                <th
+                                    class="px-8 py-5 text-slate-400 font-bold text-xs uppercase tracking-widest text-center">
+                                    Statut</th>
+                                <th
+                                    class="px-8 py-5 text-slate-400 font-bold text-xs uppercase tracking-widest text-right">
+                                    Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            <tr th:each="f : ${fournisseurs}" class="hover:bg-slate-50/80 transition-colors group">
+                                <td class="px-8 py-6">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-500 font-black text-xl group-hover:bg-premium-orange/10 group-hover:text-premium-orange transition-colors"
+                                            th:text="${#strings.substring(f.nomEntreprise, 0, 1)}">E</div>
+                                        <div>
+                                            <p class="font-extrabold text-slate-800" th:text="${f.nomEntreprise}">Nom
+                                                Entreprise</p>
+                                            <p class="text-slate-400 text-xs" th:text="${f.ville}">Ville</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-8 py-6 text-sm font-bold text-blue-500" th:text="${f.secteur}">Secteur
+                                </td>
+                                <td class="px-8 py-6 text-center">
+                                    <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-bold"
+                                        th:text="${f.nombreReservations}">0</span>
+                                </td>
+                                <td class="px-8 py-6 text-right font-black text-slate-800">
+                                    <span
+                                        th:text="${#numbers.formatDecimal(f.chiffreAffaires, 0, 'COMMA', 0, 'POINT')}">0</span>
+                                    <span class="text-[10px] text-slate-400 uppercase ml-1">FCFA</span>
+                                </td>
+                                <td class="px-8 py-6 text-center">
+                                    <span th:if="${f.actif}"
+                                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-600 text-[10px] font-black uppercase">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Actif
+                                    </span>
+                                    <span th:unless="${f.actif}"
+                                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-400 text-[10px] font-black uppercase">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span> Inactif
+                                    </span>
+                                </td>
+                                <td class="px-8 py-6 text-right">
+                                    <div class="flex items-center justify-end gap-2">
+                                        <button th:onclick="'openEditModal(' + ${f.id} + ')'"
+                                            class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-100 text-slate-400 hover:bg-premium-orange hover:text-white transition-all">
+                                            <i class="fa-solid fa-pen-to-square text-sm"></i>
+                                        </button>
+                                        <button
+                                            class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-100 text-slate-400 hover:bg-red-500 hover:text-white transition-all">
+                                            <i class="fa-solid fa-trash text-sm"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:if="${fournisseurs.empty}">
+                                <td colspan="6" class="px-8 py-20 text-center">
+                                    <p class="text-slate-400 font-bold">Aucun fournisseur trouvé.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

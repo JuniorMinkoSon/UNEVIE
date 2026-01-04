@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Profil Entreprise | UneVie</title>
+</head>
+
+<body>
+    <div th:replace="~{fragments/fournisseur-layout :: layout(~{::content})}">
+        <div th:fragment="content">
+
+            <!-- Header -->
+            <div class="mb-10 animate-fade-in-up">
+                <h1 class="text-4xl font-extrabold text-slate-800 mb-2">
+                    Profil <span class="text-premium-orange">Entreprise</span>
+                </h1>
+                <p class="text-slate-500 text-lg">Gérez les informations de votre établissement et vos contacts.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column: Company Info -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Basic Info Card -->
+                    <div class="glass-card rounded-[2.5rem] p-8 shadow-xl animate-fade-in-up"
+                        style="animation-delay: 0.1s;">
+                        <div class="flex items-center gap-6 mb-8 pb-6 border-b border-slate-100">
+                            <div
+                                class="w-20 h-20 bg-gradient-to-br from-premium-orange to-amber-500 text-white rounded-[2rem] flex items-center justify-center text-3xl shadow-lg shadow-premium-orange/20">
+                                <i class="fa-solid fa-building"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-extrabold text-slate-800"
+                                    th:text="${fournisseur.nomEntreprise}">Nom Entreprise</h2>
+                                <span
+                                    class="px-4 py-1.5 bg-orange-50 text-premium-orange text-xs font-bold rounded-full uppercase tracking-wider"
+                                    th:text="${fournisseur.secteur}">Secteur</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-1">
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Adresse
+                                    complète</p>
+                                <p class="text-slate-700 font-bold" th:text="${fournisseur.adresse}">123 Rue Exemple</p>
+                            </div>
+                            <div class="space-y-1">
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Ville</p>
+                                <p class="text-slate-700 font-bold" th:text="${fournisseur.ville}">Abidjan</p>
+                            </div>
+                            <div class="space-y-1">
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Téléphone
+                                    Professionnel</p>
+                                <p class="text-slate-700 font-bold" th:text="${fournisseur.telephone}">+225 00 00 00 00
+                                </p>
+                            </div>
+                            <div class="space-y-1">
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Date
+                                    d'inscription</p>
+                                <p class="text-slate-700 font-bold"
+                                    th:text="${#temporals.format(fournisseur.createdAt, 'dd MMMM yyyy')}">01 Janvier
+                                    2024</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-8 border-t border-slate-100">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">À propos de
+                                l'entreprise</p>
+                            <p class="text-slate-600 leading-relaxed" th:text="${fournisseur.description}">Description
+                                de l'entreprise...</p>
+                        </div>
+                    </div>
+
+                    <!-- Services Summary -->
+                    <div class="glass-card rounded-[2.5rem] p-8 shadow-xl animate-fade-in-up"
+                        style="animation-delay: 0.2s;">
+                        <div class="flex items-center justify-between mb-8">
+                            <h3 class="text-xl font-extrabold text-slate-800">Nos Services Actifs</h3>
+                            <a th:href="@{/fournisseur/services}"
+                                class="text-premium-orange font-bold text-sm hover:underline">Gérer les services</a>
+                        </div>
+
+                        <div th:if="${fournisseur.services == null || fournisseur.services.empty}"
+                            class="text-center py-10 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+                            <p class="text-slate-400 font-medium">Vous n'avez pas encore de services actifs.</p>
+                        </div>
+
+                        <div th:if="${fournisseur.services != null && !fournisseur.services.empty}"
+                            class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div th:each="service : ${fournisseur.services}"
+                                class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-between">
+                                <div>
+                                    <p class="font-bold text-slate-800" th:text="${service.nom}">Nom du service</p>
+                                    <p class="text-xs text-premium-orange font-bold"
+                                        th:text="${#numbers.formatDecimal(service.prix, 0, 'COMMA', 0, 'POINT')} + ' FCFA'">
+                                        0 FCFA</p>
+                                </div>
+                                <div th:if="${service.disponible}"
+                                    class="w-2 h-2 bg-emerald-500 rounded-full shadow-lg shadow-emerald-500/50"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: User & Account -->
+                <div class="space-y-8">
+                    <!-- User Contact Card -->
+                    <div class="glass-card rounded-[2.5rem] p-8 shadow-xl animate-fade-in-up"
+                        style="animation-delay: 0.3s;">
+                        <h3 class="text-xl font-extrabold text-slate-800 mb-8">Responsable</h3>
+
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center text-4xl text-slate-400 mb-4 border-4 border-white shadow-lg">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <h4 class="text-lg font-extrabold text-slate-800" th:text="${user.nom}">Nom du responsable
+                            </h4>
+                            <p class="text-sm font-bold text-premium-orange uppercase tracking-widest mb-6">Propriétaire
+                            </p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
+                                <div
+                                    class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-slate-400 shadow-sm">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                <div class="truncate">
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Email</p>
+                                    <p class="text-slate-700 font-bold truncate" th:text="${user.email}">
+                                        email@example.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Status Card -->
+                    <div class="glass-card rounded-[2.5rem] p-8 shadow-xl bg-premium-dark text-white animate-fade-in-up"
+                        style="animation-delay: 0.4s;">
+                        <h3 class="text-xl font-extrabold mb-8">Statut du Compte</h3>
+
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between">
+                                <span class="text-white/60 font-medium">Contrat signé</span>
+                                <span
+                                    class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-extrabold rounded-full border border-emerald-500/30 uppercase">Confirmé</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-white/60 font-medium">Compte vérifié</span>
+                                <span
+                                    class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-extrabold rounded-full border border-emerald-500/30 uppercase">Actif</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-white/60 font-medium">Type de compte</span>
+                                <span
+                                    class="px-3 py-1 bg-white/10 text-white text-[10px] font-extrabold rounded-full border border-white/10 uppercase"
+                                    th:text="${fournisseur.premium ? 'Premium' : 'Standard'}">Standard</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-8 border-t border-white/5">
+                            <p class="text-xs text-white/40 italic">Dernière mise à jour le <span
+                                    th:text="${#temporals.format(fournisseur.updatedAt, 'dd/MM/yyyy')}">...</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

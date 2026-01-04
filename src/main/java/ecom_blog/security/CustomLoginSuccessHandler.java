@@ -12,12 +12,25 @@ import java.io.IOException;
 @Component
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
+    private final ecom_blog.service.UserService userService;
+
+    public CustomLoginSuccessHandler(ecom_blog.service.UserService userService) {
+        this.userService = userService;
+    }
+
     @Override
     public void onAuthenticationSuccess(
             HttpServletRequest request,
             HttpServletResponse response,
-            Authentication authentication
-    ) throws IOException {
+            Authentication authentication) throws IOException {
+
+        String email = authentication.getName();
+        java.util.Optional<ecom_blog.model.User> userOpt = userService.findByEmailOptional(email);
+
+        if (userOpt.isPresent() && userOpt.get().isMustChangePassword()) {
+            response.sendRedirect("/change-password");
+            return;
+        }
 
         for (GrantedAuthority authority : authentication.getAuthorities()) {
 
@@ -30,6 +43,11 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
             if ("ROLE_LIVREUR".equals(role)) {
                 response.sendRedirect("/livreur/dashboard");
+                return;
+            }
+
+            if ("ROLE_FOURNISSEUR".equals(role)) {
+                response.sendRedirect("/fournisseur/dashboard");
                 return;
             }
 

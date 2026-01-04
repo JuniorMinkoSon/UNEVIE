@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance & Analytics | UneVie Premium Admin</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        premium: {
+                            orange: '#f97316',
+                            'orange-hover': '#ea580c',
+                            dark: '#1a1a1a',
+                            light: '#fdfcfb',
+                            accent: '#6366f1',
+                            surface: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'Outfit', 'sans-serif']
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #1a1a1a 0%, #3a3a3a 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-card-orange {
+            background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-[#f8fafc] min-h-screen font-sans text-premium-dark/80 selection:bg-premium-orange/20 selection:text-premium-orange">
+
+    <!-- ✅ ADMIN LAYOUT INTEGRATION -->
+    <div th:replace="~{fragments/admin-layout :: layout(content=~{::section})}">
+        <section class="space-y-10 py-6">
+
+            <!-- Page Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 animate-fade-in-up">
+                <div class="space-y-3">
+                    <div
+                        class="inline-flex items-center gap-2 px-4 py-1.5 bg-premium-orange/10 rounded-full border border-premium-orange/20">
+                        <span class="relative flex h-2 w-2">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-premium-orange opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-premium-orange"></span>
+                        </span>
+                        <span class="text-[10px] font-extrabold text-premium-orange uppercase tracking-widest">Temps
+                            Réel</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-premium-dark">Analytics <span
+                            class="text-premium-orange">Financiers</span></h1>
+                    <p class="text-premium-dark/40 font-medium text-lg max-w-2xl leading-relaxed">Suivez méticuleusement
+                        vos revenus, commissions et les performances globales de l'écosystème UNEVIE.</p>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button
+                        class="bg-white px-6 py-4 rounded-2xl font-bold text-premium-dark shadow-sm border border-slate-200 hover:border-premium-orange/30 hover:shadow-md transition-all flex items-center gap-2 group">
+                        <i
+                            class="fa-solid fa-cloud-arrow-down group-hover:-translate-y-0.5 transition-transform text-premium-orange"></i>
+                        Exporter les rapports
+                    </button>
+                    <div class="h-14 w-[1px] bg-slate-200 mx-2 hidden md:block"></div>
+                    <div
+                        class="flex items-center gap-4 bg-white p-2 pr-6 rounded-2xl shadow-sm border border-slate-200">
+                        <div
+                            class="w-12 h-12 bg-premium-dark rounded-xl flex items-center justify-center text-white text-xl">
+                            <i class="fa-solid fa-calendar"></i>
+                        </div>
+                        <div>
+                            <p
+                                class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-widest leading-none mb-1">
+                                Rapport Annuel</p>
+                            <p class="font-extrabold text-sm"
+                                th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2024</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Metrics (The "WOW" Grid) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 animate-fade-in-up" style="animation-delay: 0.1s;">
+
+                <!-- Card 1: Revenue -->
+                <div
+                    class="group relative overflow-hidden glass-card rounded-[2.5rem] p-1 shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                    <div class="bg-white rounded-[2.3rem] p-8 h-full flex flex-col justify-between relative z-10">
+                        <div class="space-y-6">
+                            <div class="flex justify-between items-start">
+                                <div
+                                    class="w-16 h-16 bg-premium-orange/10 text-premium-orange rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-500">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                </div>
+                                <div
+                                    class="px-3 py-1 bg-emerald-500/10 text-emerald-600 rounded-full text-[10px] font-extrabold flex items-center gap-1">
+                                    <i class="fa-solid fa-arrow-up"></i> 15%
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-[11px] font-bold text-premium-dark/30 uppercase tracking-[0.2em] mb-2">
+                                    Volume d'affaires (GMV)</p>
+                                <div class="flex items-baseline gap-2">
+                                    <h3 class="text-4xl font-extrabold text-premium-dark tracking-tighter tabular-nums"
+                                        th:text="${#numbers.formatDecimal(totalRevenus, 0, 'COMMA', 0, 'POINT')}">
+                                        1,250,000</h3>
+                                    <span class="text-lg font-bold text-premium-dark/40 uppercase">CFA</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-slate-50">
+                            <p class="text-xs font-semibold text-slate-400">Total cumulé des réservations acceptées.</p>
+                        </div>
+                        <!-- Subtle BG pattern -->
+                        <div
+                            class="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none group-hover:scale-150 transition-transform duration-1000">
+                            <i class="fa-solid fa-basket-shopping text-9xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Commissions -->
+                <div
+                    class="group relative overflow-hidden glass-card rounded-[2.5rem] p-1 shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                    <div
+                        class="bg-premium-dark rounded-[2.3rem] p-8 h-full flex flex-col justify-between relative z-10">
+                        <div class="space-y-6">
+                            <div class="flex justify-between items-start">
+                                <div
+                                    class="w-16 h-16 bg-white/10 text-premium-orange rounded-2xl flex items-center justify-center text-2xl group-hover:rotate-12 transition-transform duration-500 font-extrabold">
+                                    %
+                                </div>
+                                <div
+                                    class="px-3 py-1 bg-premium-orange/20 text-premium-orange rounded-full text-[10px] font-extrabold border border-premium-orange/30">
+                                    Fixe 5%
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-[11px] font-bold text-white/40 uppercase tracking-[0.2em] mb-2">
+                                    Commissions UneVie</p>
+                                <div class="flex items-baseline gap-2">
+                                    <h3 class="text-4xl font-extrabold text-white tracking-tighter tabular-nums"
+                                        th:text="${#numbers.formatDecimal(totalCommissions, 0, 'COMMA', 0, 'POINT')}">
+                                        62,500</h3>
+                                    <span class="text-lg font-bold text-white/30 uppercase">CFA</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-white/5">
+                            <p class="text-xs font-semibold text-white/30">Revenu net généré par la plateforme.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Net Providers -->
+                <div
+                    class="group relative overflow-hidden glass-card rounded-[2.5rem] p-1 shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                    <div class="bg-white rounded-[2.3rem] p-8 h-full flex flex-col justify-between relative z-10">
+                        <div class="space-y-6">
+                            <div class="flex justify-between items-start">
+                                <div
+                                    class="w-16 h-16 bg-accent/10 text-premium-accent rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-500">
+                                    <i class="fa-solid fa-wallet"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-[11px] font-bold text-premium-dark/30 uppercase tracking-[0.2em] mb-2">
+                                    Part Partenaires (95%)</p>
+                                <div class="flex items-baseline gap-2">
+                                    <h3 class="text-4xl font-extrabold text-premium-dark tracking-tighter tabular-nums"
+                                        th:text="${#numbers.formatDecimal(totalRevenus - totalCommissions, 0, 'COMMA', 0, 'POINT')}">
+                                        1,187,500</h3>
+                                    <span class="text-lg font-bold text-premium-dark/40 uppercase">CFA</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-slate-50">
+                            <p class="text-xs font-semibold text-slate-400">Total reversé aux prestataires de services.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Main Charts Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 animate-fade-in-up" style="animation-delay: 0.2s;">
+
+                <!-- Performance Evolution Chart -->
+                <div class="lg:col-span-2 glass-card rounded-[3rem] p-10 bg-white">
+                    <div class="flex items-center justify-between mb-10">
+                        <div class="space-y-1">
+                            <h3 class="text-2xl font-extrabold text-premium-dark">Évolution des Flux</h3>
+                            <p class="text-sm font-medium text-slate-400">Comparaisons mensuelles des revenus</p>
+                        </div>
+                        <div class="flex gap-4 p-1.5 bg-slate-100 rounded-2xl border border-slate-200/50">
+                            <button
+                                class="px-6 py-2 bg-white rounded-xl shadow-sm text-xs font-extrabold text-premium-dark">Volume</button>
+                            <button
+                                class="px-6 py-2 text-xs font-extrabold text-slate-400 hover:text-premium-dark transition-colors">Commissions</button>
+                        </div>
+                    </div>
+
+                    <div class="relative h-[400px]">
+                        <canvas id="mainRevenueChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Provider Performance Table (Re-styled) -->
+                <div class="glass-card rounded-[3rem] bg-white p-10 flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-8">
+                        <div class="space-y-1">
+                            <h3 class="text-xl font-extrabold text-premium-dark">Top Partenaires</h3>
+                            <p class="text-xs font-medium text-slate-400">Classement par volume généré</p>
+                        </div>
+                        <div
+                            class="w-10 h-10 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center text-slate-400 hover:text-premium-orange transition-colors cursor-pointer">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="flex-grow overflow-y-auto hide-scrollbar space-y-4">
+                        <div th:each="s, iter : ${statsFournisseurs}"
+                            class="flex items-center justify-between p-5 rounded-3xl bg-slate-50 border border-transparent hover:border-premium-orange/10 transition-all hover:bg-white hover:shadow-xl group">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-white shadow-sm rounded-2xl flex items-center justify-center font-extrabold text-premium-dark transition-colors group-hover:bg-premium-orange group-hover:text-white"
+                                    th:text="${#strings.substring(s[1], 0, 1)}">F</div>
+                                <div class="space-y-0.5">
+                                    <p class="font-extrabold text-premium-dark text-sm truncate max-w-[120px]"
+                                        th:text="${s[1]}">Nom</p>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider"
+                                        th:text="${s[2]} + ' Réservations'">0 Rés.</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-extrabold text-premium-dark"
+                                    th:text="${#numbers.formatDecimal(s[3], 0, 'COMMA', 0, '0')} + ' F'">0 F</p>
+                                <p class="text-[10px] font-bold text-premium-orange uppercase tracking-widest mt-0.5">
+                                    Gold Tier</p>
+                            </div>
+                        </div>
+
+                        <!-- Empty state if needed -->
+                        <div th:if="${#lists.isEmpty(statsFournisseurs)}" class="p-10 text-center space-y-4">
+                            <div
+                                class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-slate-300">
+                                <i class="fa-solid fa-users-slash text-2xl"></i>
+                            </div>
+                            <p class="text-sm font-bold text-slate-400 italic">Aucune donnée disponible</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Detailed Data Table -->
+            <div class="glass-card rounded-[3rem] bg-white overflow-hidden animate-fade-in-up"
+                style="animation-delay: 0.3s;">
+                <div
+                    class="px-10 py-8 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="space-y-1">
+                        <h3 class="text-2xl font-extrabold text-premium-dark">Registre Mensuel</h3>
+                        <p class="text-sm font-medium text-slate-400">Ventilation détaillée par période fiscale</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="relative group">
+                            <i
+                                class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-premium-orange transition-colors"></i>
+                            <input type="text" placeholder="Rechercher un mois..."
+                                class="pl-11 pr-6 py-3 bg-slate-100 border border-transparent rounded-2xl text-sm font-bold focus:bg-white focus:border-premium-orange/40 focus:ring-0 outline-none w-full md:w-64 transition-all">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="bg-slate-50/50">
+                                <th
+                                    class="px-10 py-6 text-[10px] font-extrabold uppercase tracking-[0.2em] text-premium-dark/40">
+                                    Mois</th>
+                                <th
+                                    class="px-10 py-6 text-[10px] font-extrabold uppercase tracking-[0.2em] text-premium-dark/40 text-center">
+                                    Activité</th>
+                                <th
+                                    class="px-10 py-6 text-[10px] font-extrabold uppercase tracking-[0.2em] text-premium-dark/40 text-right">
+                                    Volume (GMV)</th>
+                                <th
+                                    class="px-10 py-6 text-[10px] font-extrabold uppercase tracking-[0.2em] text-premium-dark/40 text-right">
+                                    Com. UneVie</th>
+                                <th
+                                    class="px-10 py-6 text-[10px] font-extrabold uppercase tracking-[0.2em] text-premium-dark/40 text-right">
+                                    Revenu Net Prest.</th>
+                                <th
+                                    class="px-10 py-6 text-[10px] font-extrabold uppercase tracking-[0.2em] text-premium-dark/40 text-right">
+                                    Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr th:each="m : ${statsMensuelles}" class="group hover:bg-slate-50 transition-colors">
+                                <td class="px-10 py-7">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-2 h-8 bg-premium-orange rounded-full group-hover:scale-y-125 transition-transform duration-500">
+                                        </div>
+                                        <span class="text-lg font-extrabold text-premium-dark"
+                                            th:text="${#strings.arraySplit('Janvier,Février,Mars,Avril,Mai,Juin,Juillet,Août,Septembre,Octobre,Novembre,Décembre', ',')[m[0]-1]}">Mars</span>
+                                    </div>
+                                </td>
+                                <td class="px-10 py-7 text-center">
+                                    <span
+                                        class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-extrabold text-premium-dark shadow-sm group-hover:border-premium-orange/30 group-hover:text-premium-orange transition-all"
+                                        th:text="${m[1]} + ' réservations'">12 réservations</span>
+                                </td>
+                                <td class="px-10 py-7 text-right">
+                                    <span class="text-lg font-extrabold text-premium-dark tabular-nums"
+                                        th:text="${#numbers.formatDecimal(m[2], 0, 'COMMA', 0, '0')} + ' F'">450,000
+                                        F</span>
+                                </td>
+                                <td class="px-10 py-7 text-right">
+                                    <span
+                                        class="px-3 py-1 bg-premium-orange/10 text-premium-orange rounded-lg text-sm font-extrabold border border-premium-orange/10 tabular-nums"
+                                        th:text="${#numbers.formatDecimal(m[3], 0, 'COMMA', 0, '0')} + ' F'">22,500
+                                        F</span>
+                                </td>
+                                <td class="px-10 py-7 text-right">
+                                    <span class="text-lg font-extrabold text-emerald-600 tabular-nums"
+                                        th:text="${#numbers.formatDecimal(m[4], 0, 'COMMA', 0, '0')} + ' F'">427,500
+                                        F</span>
+                                </td>
+                                <td class="px-10 py-7 text-right">
+                                    <button
+                                        class="w-10 h-10 bg-slate-100 rounded-xl text-slate-400 hover:bg-premium-dark hover:text-white transition-all">
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Footer Quote / Disclaimer -->
+            <div class="text-center py-10 opacity-30 select-none">
+                <p class="text-sm font-bold italic">UneVie Engine v2.5 — Premium Analytics Architecture</p>
+            </div>
+
+        </section>
+    </div>
+
+    <!-- Enhanced Chart Scripts -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        document.addEventListener("DOMContentLoaded", () => {
+            const statsMensuelles = /*[[${statsMensuelles}]]*/[];
+            const labels = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
+
+            const volumeData = new Array(12).fill(0);
+            const commissionData = new Array(12).fill(0);
+
+            statsMensuelles.forEach(m => {
+                const index = m[0] - 1;
+                volumeData[index] = m[2];
+                commissionData[index] = m[3];
+            });
+
+            const ctx = document.getElementById('mainRevenueChart').getContext('2d');
+
+            // Create Gradient
+            const gradientVolume = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientVolume.addColorStop(0, 'rgba(249, 115, 22, 0.4)');
+            gradientVolume.addColorStop(1, 'rgba(249, 115, 22, 0)');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Volume (GMV)',
+                        data: volumeData,
+                        borderColor: '#f97316',
+                        backgroundColor: gradientVolume,
+                        fill: true,
+                        tension: 0.45,
+                        borderWidth: 5,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#f97316',
+                        pointBorderWidth: 3,
+                        pointRadius: 6,
+                        pointHoverRadius: 9,
+                        pointHoverBorderWidth: 4,
+                        pointHoverBackgroundColor: '#f97316',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1a1a1a',
+                            titleFont: { size: 14, weight: '800', family: 'Plus Jakarta Sans' },
+                            bodyFont: { size: 13, family: 'Plus Jakarta Sans' },
+                            padding: 20,
+                            cornerRadius: 15,
+                            displayColors: false,
+                            callbacks: {
+                                label: function (context) {
+                                    return context.parsed.y.toLocaleString() + ' FCFA';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            border: { display: false },
+                            grid: { color: 'rgba(0,0,0,0.03)', drawTicks: false },
+                            ticks: {
+                                font: { family: 'Plus Jakarta Sans', weight: '700', size: 11 },
+                                padding: 10,
+                                callback: function (value) {
+                                    return (value / 1000) + 'kF';
+                                }
+                            }
+                        },
+                        x: {
+                            border: { display: false },
+                            grid: { display: false },
+                            ticks: {
+                                font: { family: 'Plus Jakarta Sans', weight: '700', size: 11 },
+                                padding: 10
+                            }
+                        }
+                    }
+                }
+            });
+        });
+        /*]]>*/
+    </script>
+</body>
+
+</html>
