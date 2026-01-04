@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Politique de Confidentialité | UNEVIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        premium: { orange: '#f97316', dark: '#1a1a1a', light: '#fdfcfb' }
+                    },
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-premium-light text-premium-dark font-sans">
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <section class="max-w-4xl mx-auto px-6 py-24">
+        <h1 class="text-4xl font-extrabold mb-12 border-b pb-6">Politique de <span
+                class="text-premium-orange">Confidentialité</span></h1>
+
+        <div class="prose prose-slate max-w-none space-y-10 text-premium-dark/70 leading-relaxed">
+            <section>
+                <h2 class="text-2xl font-bold text-premium-dark mb-4">1. Collecte des données</h2>
+                <p>
+                    Nous collections les informations que vous nous fournissez lors de votre inscription (nom, email,
+                    téléphone) ainsi que les données relatives à vos réservations et commandes.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl font-bold text-premium-dark mb-4">2. Utilisation des données</h2>
+                <p>
+                    Les informations que nous recueillons sont utilisées pour :
+                </p>
+                <ul class="list-disc pl-6 space-y-2 mt-4">
+                    <li>Gérer vos réservations et commandes.</li>
+                    <li>Améliorer le service client et vos besoins de prise en charge.</li>
+                    <li>Vous contacter par e-mail ou téléphone concernant vos activités sur la plateforme.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-2xl font-bold text-premium-dark mb-4">3. Protection des informations</h2>
+                <p>
+                    Nous mettons en œuvre une variété de mesures de sécurité pour préserver la sécurité de vos
+                    informations personnelles. Nous utilisons un cryptage à la pointe de la technologie pour protéger
+                    les informations sensibles transmises en ligne.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl font-bold text-premium-dark mb-4">4. Divulgation à des tiers</h2>
+                <p>
+                    Nous ne vendons, n'échangeons ni ne transférons vos informations personnelles identifiables à des
+                    tiers. Cela ne comprend pas les tierces parties de confiance qui nous aident à exploiter notre site
+                    Web, tant que ces parties conviennent de garder ces informations confidentielles.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-2xl font-bold text-premium-dark mb-4">5. Droits des utilisateurs</h2>
+                <p>
+                    Conformément aux lois applicables, vous disposez d'un droit d'accès, de rectification et de
+                    suppression de vos données personnelles. Vous pouvez exercer ces droits en nous contactant à
+                    l'adresse email indiquée dans les mentions légales.
+                </p>
+            </section>
+        </div>
+    </section>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+
+</html>

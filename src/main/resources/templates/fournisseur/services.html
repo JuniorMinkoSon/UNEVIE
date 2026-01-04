@@ -108,7 +108,12 @@
                             enctype="multipart/form-data">
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-sm font-bold text-slate-700 mb-2">Nom du service *</label>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"
+                                        th:text="${fournisseur.secteur.name() == 'VOITURE' ? 'Modèle du véhicule *' : 
+                                                 (fournisseur.secteur.name() == 'ALIMENTAIRE' ? 'Nom du plat / Menu *' : 
+                                                 (fournisseur.secteur.name() == 'LOISIRS' || fournisseur.secteur.name() == 'EVENEMENTIEL' ? 'Nom de l''activité / Salle *' : 'Nom du service *'))}">
+                                        Nom du service *
+                                    </label>
                                     <input type="text" th:field="*{nom}" required
                                         class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-premium-orange focus:border-transparent">
                                 </div>
@@ -126,7 +131,10 @@
                                             class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-premium-orange focus:border-transparent">
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-700 mb-2">Prix/jour</label>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2"
+                                            th:text="${fournisseur.secteur.name() == 'VOITURE' ? 'Prix par jour (Location)' : 'Prix/jour'}">
+                                            Prix/jour
+                                        </label>
                                         <input type="number" th:field="*{prixParJour}" min="0"
                                             class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-premium-orange focus:border-transparent">
                                     </div>
@@ -134,13 +142,20 @@
 
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-700 mb-2">Durée
-                                            (heures)</label>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2"
+                                            th:text="${fournisseur.secteur.name() == 'ALIMENTAIRE' ? 'Temps de préparation (min)' : 'Durée (heures)'}">
+                                            Durée (heures)
+                                        </label>
                                         <input type="number" th:field="*{duree}" min="0"
                                             class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-premium-orange focus:border-transparent">
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-700 mb-2">Capacité</label>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2"
+                                            th:text="${fournisseur.secteur.name() == 'VOITURE' ? 'Nombre de places' : 
+                                                     (fournisseur.secteur.name() == 'ALIMENTAIRE' ? 'Quantité disponible / Stock' : 
+                                                     (fournisseur.secteur.name() == 'LOISIRS' || fournisseur.secteur.name() == 'EVENEMENTIEL' ? 'Capacité d''accueil' : 'Capacité'))}">
+                                            Capacité
+                                        </label>
                                         <input type="number" th:field="*{capacite}" min="0"
                                             class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-premium-orange focus:border-transparent">
                                     </div>

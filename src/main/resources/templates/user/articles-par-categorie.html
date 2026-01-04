@@ -90,16 +90,18 @@
                         <div
                             class="flex items-center gap-2 text-premium-dark/30 text-[10px] font-bold uppercase tracking-widest">
                             <i class="fa-regular fa-calendar"></i>
-                            <span th:text="${#temporals.format(a.createdAt, 'dd MMM yyyy')}">Date</span>
+                            <span th:text="${#temporals.format(a.created_at, 'dd MMM yyyy')}">Date</span>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold leading-tight group-hover:text-premium-orange transition-colors"
-                        th:text="${a.titre}">Titre de l'article</h3>
+                    <a th:href="@{/blog/article/{id}(id=${a.id})}">
+                        <h3 class="text-xl font-bold leading-tight group-hover:text-premium-orange transition-colors"
+                            th:text="${a.titre}">Titre de l'article</h3>
+                    </a>
                     <p class="text-premium-dark/50 text-sm leading-relaxed line-clamp-3"
                         th:text="${#strings.abbreviate(a.contenu, 150)}">Extrait du contenu...</p>
 
                     <div class="pt-6 mt-auto border-t border-premium-dark/5">
-                        <a href="#"
+                        <a th:href="@{/blog/article/{id}(id=${a.id})}"
                             class="inline-flex items-center gap-3 text-premium-dark font-bold text-xs uppercase tracking-widest hover:text-premium-orange transition-colors group/btn">
                             Lire la suite
                             <i class="fa-solid fa-arrow-right group-hover/btn:translate-x-2 transition-transform"></i>

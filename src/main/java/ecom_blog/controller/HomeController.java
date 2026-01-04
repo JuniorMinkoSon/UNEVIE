@@ -45,6 +45,13 @@ public class HomeController {
 
         return "user/articles-par-categorie";
     }
+
+    // 📖 Détail d'un article spécifique
+    @GetMapping("/blog/article/{id}")
+    public String articleDetail(@PathVariable Long id, Model model) {
+        model.addAttribute("article", articleService.findById(id));
+        return "user/article-details";
+    }
     //
     // @GetMapping("/produits")
     // public String produits(Model model) {
@@ -81,6 +88,21 @@ public class HomeController {
     @GetMapping("/objectifs")
     public String objectifs() {
         return "user/objectifs";
+    }
+
+    @GetMapping("/faq")
+    public String faq() {
+        return "user/faq";
+    }
+
+    @GetMapping("/mentions-legales")
+    public String mentionsLegales() {
+        return "user/mentions-legales";
+    }
+
+    @GetMapping("/politique")
+    public String politique() {
+        return "user/politique";
     }
 
 }

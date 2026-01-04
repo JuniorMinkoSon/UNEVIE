@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FAQ | UNEVIE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        premium: { orange: '#f97316', dark: '#1a1a1a', light: '#fdfcfb' }
+                    },
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-premium-light text-premium-dark font-sans">
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <section class="relative py-24 bg-premium-dark overflow-hidden">
+        <div class="absolute inset-0 opacity-10"
+            style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');"></div>
+        <div class="relative z-10 max-w-7xl mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6">Foire Aux <span
+                    class="text-premium-orange">Questions</span></h1>
+            <p class="text-white/60 text-lg max-w-2xl mx-auto">Trouvez rapidement des réponses à vos questions sur
+                l'utilisation de la plateforme UNEVIE.</p>
+        </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-6 py-20">
+        <div class="space-y-6">
+            <!-- Question 1 -->
+            <div
+                class="bg-white rounded-3xl p-8 shadow-sm border border-premium-dark/5 hover:shadow-xl transition-all group">
+                <h3 class="text-xl font-bold flex items-center justify-between cursor-pointer"
+                    onclick="this.nextElementSibling.classList.toggle('hidden')">
+                    Comment devenir un prestataire sur UNEVIE ?
+                    <i class="fas fa-chevron-down text-premium-orange transition-transform"></i>
+                </h3>
+                <div class="mt-4 text-premium-dark/60 leading-relaxed">
+                    Pour devenir prestataire, cliquez sur le bouton "Devenir Prestataire" dans le menu ou le footer,
+                    remplissez le formulaire d'inscription, et notre équipe reviendra vers vous pour valider votre
+                    compte.
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-premium-dark/5 hover:shadow-xl transition-all">
+                <h3 class="text-xl font-bold flex items-center justify-between cursor-pointer"
+                    onclick="this.nextElementSibling.classList.toggle('hidden')">
+                    Quels sont les modes de paiement acceptés ?
+                    <i class="fas fa-chevron-down text-premium-orange"></i>
+                </h3>
+                <div class="mt-4 text-premium-dark/60 leading-relaxed hidden">
+                    Nous acceptons les paiements via Mobile Money (Wave, Orange Money, MTN Moov), ainsi que les
+                    paiements par carte bancaire.
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-premium-dark/5 hover:shadow-xl transition-all">
+                <h3 class="text-xl font-bold flex items-center justify-between cursor-pointer"
+                    onclick="this.nextElementSibling.classList.toggle('hidden')">
+                    Comment puis-je annuler une réservation ?
+                    <i class="fas fa-chevron-down text-premium-orange"></i>
+                </h3>
+                <div class="mt-4 text-premium-dark/60 leading-relaxed hidden">
+                    Vous pouvez annuler votre réservation depuis votre espace client dans la section "Mes Réservations".
+                    Veuillez noter que des frais d'annulation peuvent s'appliquer selon les conditions du prestataire.
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-premium-dark/5 hover:shadow-xl transition-all">
+                <h3 class="text-xl font-bold flex items-center justify-between cursor-pointer"
+                    onclick="this.nextElementSibling.classList.toggle('hidden')">
+                    La plateforme est-elle sécurisée ?
+                    <i class="fas fa-chevron-down text-premium-orange"></i>
+                </h3>
+                <div class="mt-4 text-premium-dark/60 leading-relaxed hidden">
+                    Absolument. Toutes les transactions sont sécurisées et nous vérifions l'identité de chaque
+                    prestataire avant qu'il ne puisse proposer ses services sur la plateforme.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+
+</html>

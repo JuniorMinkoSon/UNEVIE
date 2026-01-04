@@ -84,14 +84,16 @@
                             2024</span>
                     </div>
 
-                    <h3 class="text-2xl font-extrabold text-premium-dark group-hover:text-premium-orange transition-colors line-clamp-2"
-                        th:text="${a.titre}">Titre de l'article</h3>
+                    <a th:href="@{/blog/article/{id}(id=${a.id})}">
+                        <h3 class="text-2xl font-extrabold text-premium-dark group-hover:text-premium-orange transition-colors line-clamp-2"
+                            th:text="${a.titre}">Titre de l'article</h3>
+                    </a>
 
                     <p class="text-sm text-premium-dark/50 leading-relaxed line-clamp-3"
                         th:text="${#strings.abbreviate(a.contenu, 200)}">Extrait de l'article...</p>
 
                     <div class="pt-6 border-t border-premium-dark/5 mt-auto">
-                        <a href="#"
+                        <a th:href="@{/blog/article/{id}(id=${a.id})}"
                             class="inline-flex items-center gap-2 text-premium-dark font-bold hover:text-premium-orange transition-all group/link">
                             Lire l'article
                             <svg class="group-hover/link:translate-x-1 transition-transform" width="18" height="18"

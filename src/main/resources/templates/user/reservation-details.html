@@ -109,6 +109,40 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Contract Section -->
+                    <div th:if="${reservation.contratContenu != null}"
+                        class="bg-white rounded-3xl p-8 shadow-lg border-2 border-premium-orange/10">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-bold text-slate-800 flex items-center gap-3">
+                                <i class="fa-solid fa-file-contract text-premium-orange"></i>
+                                Contrat Juridique de Location
+                            </h3>
+                            <span
+                                class="px-3 py-1 bg-emerald-500/10 text-emerald-600 text-[10px] font-bold uppercase tracking-widest rounded-full">
+                                <i class="fa-solid fa-check-double mr-1"></i> Signé numériquement
+                            </span>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 font-mono text-sm text-slate-600 whitespace-pre-line leading-relaxed h-64 overflow-y-auto"
+                            th:text="${reservation.contratContenu}">
+                            Contenu du contrat...
+                        </div>
+
+                        <div
+                            class="mt-6 flex items-center gap-4 p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+                            <div
+                                class="w-10 h-10 bg-emerald-500 text-white rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-signature"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-emerald-800 font-bold">Document certifié conforme</p>
+                                <p class="text-[10px] text-emerald-600">Accepté le <span
+                                        th:text="${#temporals.format(reservation.dateReservation, 'dd/MM/yyyy à HH:mm')}">date</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Sidebar Info -->

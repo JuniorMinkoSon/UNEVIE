@@ -122,7 +122,10 @@ public class ReservationController {
 
         model.addAttribute("service", service);
         model.addAttribute("fournisseur", service.getFournisseur());
-        model.addAttribute("reservationDto", new CreateReservationDto());
+
+        CreateReservationDto dto = new CreateReservationDto();
+        dto.setServiceId(id);
+        model.addAttribute("reservationDto", dto);
 
         return "user/service-details";
     }
@@ -134,10 +137,28 @@ public class ReservationController {
             Model model) {
 
         if (result.hasErrors()) {
+            if (dto.getServiceId() == null) {
+                return "redirect:/reservation/secteurs";
+            }
             ServiceFournisseur service = fournisseurService.findServiceById(dto.getServiceId())
                     .orElseThrow(() -> new RuntimeException("Service non trouvé"));
             model.addAttribute("service", service);
             model.addAttribute("fournisseur", service.getFournisseur());
+            return "user/service-details";
+        }
+
+        if (dto.getServiceId() == null) {
+            return "redirect:/reservation/secteurs";
+        }
+
+        ServiceFournisseur service = fournisseurService.findServiceById(dto.getServiceId())
+                .orElseThrow(() -> new RuntimeException("Service non trouvé"));
+
+        // Validation contrat pour voiture
+        if (service.getSecteur() == Secteur.VOITURE && !dto.isContratAccepte()) {
+            model.addAttribute("service", service);
+            model.addAttribute("fournisseur", service.getFournisseur());
+            model.addAttribute("errorContrat", "Vous devez accepter le contrat juridique pour réserver un véhicule");
             return "user/service-details";
         }
 

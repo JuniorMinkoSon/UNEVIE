@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <div th:replace="~{fragments/user-layout :: layout(content=~{::section})}">
+        <section class="max-w-4xl mx-auto space-y-12">
+            <!-- Header -->
+            <div class="space-y-4 text-center">
+                <h1 class="text-4xl font-extrabold tracking-tight">Mon Profil</h1>
+                <p class="text-premium-dark/40 text-lg">Gérez vos informations personnelles et sécurisez votre compte.
+                </p>
+            </div>
+
+            <!-- Success Alert -->
+            <div th:if="${param.success}"
+                class="p-4 bg-emerald-50 border border-emerald-100 rounded-2xl flex items-center gap-4 text-emerald-600 animate-fade-in">
+                <i class="fa-solid fa-circle-check text-xl"></i>
+                <p class="font-bold">Votre profil a été mis à jour avec succès !</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Profile Card -->
+                <div class="md:col-span-1 space-y-6">
+                    <div
+                        class="bg-white rounded-[2.5rem] p-8 border border-premium-dark/5 shadow-sm text-center space-y-6">
+                        <div class="relative inline-block">
+                            <div class="w-24 h-24 bg-premium-orange text-white rounded-3xl flex items-center justify-center text-4xl font-extrabold mx-auto shadow-xl shadow-premium-orange/20"
+                                th:text="${#strings.substring(user.nom, 0, 1)}">U</div>
+                            <button
+                                class="absolute -bottom-2 -right-2 w-8 h-8 bg-premium-dark text-white rounded-xl flex items-center justify-center shadow-lg hover:bg-premium-orange transition-colors">
+                                <i class="fa-solid fa-camera text-xs"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-xl" th:text="${user.nom}">Nom Utilisateur</h3>
+                            <p class="text-[10px] font-bold text-premium-orange uppercase tracking-widest mt-1">Client
+                                UNEVIE</p>
+                        </div>
+                        <div class="pt-6 border-t border-premium-dark/5">
+                            <p class="text-xs text-premium-dark/40 italic">Inscrit depuis le <span
+                                    th:text="${#temporals.format(user.created_at, 'dd MMMM yyyy')}">Janvier 2024</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-premium-dark rounded-[2.5rem] p-8 text-white relative overflow-hidden">
+                        <div class="absolute inset-0 opacity-10 mix-blend-soft-light"
+                            style="background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');">
+                        </div>
+                        <div class="relative z-10 space-y-4">
+                            <h4 class="font-bold">Besoin d'aide ?</h4>
+                            <p class="text-sm text-white/60">Contactez notre support pour toute question relative à
+                                votre compte.</p>
+                            <a th:href="@{/contact}"
+                                class="block text-center py-3 bg-white/10 hover:bg-white/20 transition-all rounded-xl font-bold text-sm">Contacter
+                                le support</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Card -->
+                <div class="md:col-span-2">
+                    <div class="bg-white rounded-[2.5rem] p-10 border border-premium-dark/5 shadow-sm">
+                        <form th:action="@{/user/profil/update}" method="post" class="space-y-8">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label
+                                        class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-widest pl-2">Nom
+                                        Complet</label>
+                                    <input type="text" name="nom" th:value="${user.nom}" required
+                                        class="w-full bg-premium-dark/5 border border-transparent focus:border-premium-orange focus:bg-white outline-none px-6 py-4 rounded-2xl font-bold transition-all">
+                                </div>
+                                <div class="space-y-2">
+                                    <label
+                                        class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-widest pl-2">Téléphone</label>
+                                    <input type="tel" name="telephone" th:value="${user.telephone}" required
+                                        class="w-full bg-premium-dark/5 border border-transparent focus:border-premium-orange focus:bg-white outline-none px-6 py-4 rounded-2xl font-bold transition-all">
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label
+                                    class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-widest pl-2">Email
+                                    (Non modifiable)</label>
+                                <input type="email" th:value="${user.email}" readonly
+                                    class="w-full bg-premium-dark/5 border border-transparent px-6 py-4 rounded-2xl font-bold text-premium-dark/40 cursor-not-allowed">
+                            </div>
+
+                            <div class="h-px bg-premium-dark/5"></div>
+
+                            <div class="flex items-center justify-between gap-6">
+                                <p class="text-xs text-premium-dark/30 italic">Vos données sont sécurisées et cryptées.
+                                </p>
+                                <button type="submit"
+                                    class="bg-premium-orange text-white px-10 py-4 rounded-2xl font-bold hover:bg-premium-dark hover:shadow-2xl transition-all active:scale-95 shadow-xl shadow-premium-orange/20">
+                                    Enregistrer les modifications
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</head>
+
+</html>

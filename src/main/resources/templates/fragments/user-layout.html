@@ -91,7 +91,7 @@
                         <span>Vue d'ensemble</span>
                     </a>
 
-                    <a th:href="@{/produits/mes-commandes}"
+                    <a th:href="@{/mes-commandes}"
                         class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-slate-600 hover:bg-slate-50 hover:text-premium-orange group">
                         <i
                             class="fa-solid fa-basket-shopping text-lg group-hover:text-premium-orange transition-colors"></i>
@@ -105,7 +105,7 @@
                         <span>Mes Réservations</span>
                     </a>
 
-                    <a href="#"
+                    <a th:href="@{/user/favoris}"
                         class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-slate-600 hover:bg-slate-50 hover:text-premium-orange group">
                         <i class="fa-solid fa-heart text-lg group-hover:text-premium-orange transition-colors"></i>
                         <span>Mes Favoris</span>
@@ -114,13 +114,13 @@
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] pl-4 mt-8 mb-4">Gestion
                         Compte</p>
 
-                    <a href="#"
+                    <a th:href="@{/user/profil}"
                         class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-slate-600 hover:bg-slate-50 hover:text-premium-orange group">
                         <i class="fa-solid fa-user-pen text-lg group-hover:text-premium-orange transition-colors"></i>
                         <span>Mon Profil</span>
                     </a>
 
-                    <a href="#"
+                    <a th:href="@{/user/paiements}"
                         class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-slate-600 hover:bg-slate-50 hover:text-premium-orange group">
                         <i class="fa-solid fa-wallet text-lg group-hover:text-premium-orange transition-colors"></i>
                         <span>Paiements</span>

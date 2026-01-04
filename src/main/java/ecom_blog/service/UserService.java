@@ -15,4 +15,6 @@ public interface UserService {
     List<User> getAllUsers();
 
     long count();
+
+    User updateProfile(Long id, String nom, String telephone);
 }

@@ -84,7 +84,56 @@ public class FournisseurService {
         // Générer le contrat automatiquement
         genererContrat(fournisseur);
 
+        // Créer un service par défaut selon le secteur
+        creerServiceParDefaut(fournisseur);
+
         return fournisseur;
+    }
+
+    /**
+     * Crée un service initial pour le fournisseur basé sur son secteur
+     */
+    private void creerServiceParDefaut(Fournisseur fournisseur) {
+        ServiceFournisseur service = new ServiceFournisseur();
+        service.setFournisseur(fournisseur);
+        service.setSecteur(fournisseur.getSecteur());
+        service.setDisponible(true);
+
+        String nomService;
+        String descService;
+        Double prixInitial = 0.0;
+
+        switch (fournisseur.getSecteur()) {
+            case VOITURE:
+                nomService = "Location de véhicule - " + fournisseur.getNomEntreprise();
+                descService = "Service de location de voitures premium.";
+                prixInitial = 25000.0;
+                break;
+            case ALIMENTAIRE:
+                nomService = "Service Restauration / Traiteur";
+                descService = "Découvrez nos menus gastronomiques.";
+                prixInitial = 5000.0;
+                break;
+            case LOISIRS:
+                nomService = "Activité de Loisirs & Détente";
+                descService = "Profitez d'un moment inoubliable.";
+                prixInitial = 10000.0;
+                break;
+            case EVENEMENTIEL:
+                nomService = "Prestation Événementielle";
+                descService = "Organisation et espace pour vos événements.";
+                prixInitial = 50000.0;
+                break;
+            default:
+                nomService = "Service Général";
+                descService = "Prestation de service de qualité.";
+        }
+
+        service.setNom(nomService);
+        service.setDescription(descService);
+        service.setPrix(prixInitial);
+
+        serviceFournisseurRepository.save(service);
     }
 
     /**
@@ -111,6 +160,10 @@ public class FournisseurService {
 
     public List<ServiceFournisseur> getServicesActifsByFournisseur(Fournisseur fournisseur) {
         return serviceFournisseurRepository.findByFournisseurAndDisponibleTrue(fournisseur);
+    }
+
+    public List<ServiceFournisseur> getAllServices() {
+        return serviceFournisseurRepository.findAll();
     }
 
     public Optional<ServiceFournisseur> findServiceById(Long id) {

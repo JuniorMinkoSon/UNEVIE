@@ -36,11 +36,15 @@
             <div>
                 <h4 class="text-white font-bold text-lg mb-8">Services</h4>
                 <ul class="space-y-4 text-sm">
-                    <li><a href="#" class="hover:text-premium-orange transition-colors">Location de Véhicules</a></li>
-                    <li><a href="#" class="hover:text-premium-orange transition-colors">Réservation de Résidences</a>
+                    <li><a th:href="@{/projets(categorie='VOITURE')}"
+                            class="hover:text-premium-orange transition-colors">Location de Véhicules</a></li>
+                    <li><a th:href="@{/projets(categorie='EVENEMENTIEL')}"
+                            class="hover:text-premium-orange transition-colors">Réservation de Résidences</a>
                     </li>
-                    <li><a href="#" class="hover:text-premium-orange transition-colors">Services Événementiels</a></li>
-                    <li><a href="#" class="hover:text-premium-orange transition-colors">Services Alimentaires</a></li>
+                    <li><a th:href="@{/projets(categorie='EVENEMENTIEL')}"
+                            class="hover:text-premium-orange transition-colors">Services Événementiels</a></li>
+                    <li><a th:href="@{/projets(categorie='ALIMENTAIRE')}"
+                            class="hover:text-premium-orange transition-colors">Services Alimentaires</a></li>
                 </ul>
             </div>
 
@@ -48,10 +52,11 @@
             <div>
                 <h4 class="text-white font-bold text-lg mb-8">Liens Utiles</h4>
                 <ul class="space-y-4 text-sm">
-                    <li><a href="#" class="hover:text-premium-orange transition-colors">Devenir Prestataire</a></li>
-                    <li><a href="#" class="hover:text-premium-orange transition-colors">À Propos</a></li>
-                    <li><a href="#" class="hover:text-premium-orange transition-colors">Contact</a></li>
-                    <li><a href="#" class="hover:text-premium-orange transition-colors">FAQ</a></li>
+                    <li><a th:href="@{/register}" class="hover:text-premium-orange transition-colors">Devenir
+                            Prestataire</a></li>
+                    <li><a th:href="@{/propos}" class="hover:text-premium-orange transition-colors">À Propos</a></li>
+                    <li><a th:href="@{/contact}" class="hover:text-premium-orange transition-colors">Contact</a></li>
+                    <li><a th:href="@{/faq}" class="hover:text-premium-orange transition-colors">FAQ</a></li>
                 </ul>
             </div>
 
@@ -101,13 +106,10 @@
             class="max-w-7xl mx-auto px-6 lg:px-8 border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
             <p>© 2024 UNEVIE. Tous droits réservés.</p>
             <div class="flex gap-8">
-                <a href="#" class="hover:text-white transition-colors">Mentions Légales</a>
-                <a href="#" class="hover:text-white transition-colors">Politique de Confidentialité</a>
+                <a th:href="@{/mentions-legales}" class="hover:text-white transition-colors">Mentions Légales</a>
+                <a th:href="@{/politique}" class="hover:text-white transition-colors">Politique de Confidentialité</a>
             </div>
-            <div class="bg-white/5 px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-2">
-                <span class="text-[10px] uppercase tracking-widest font-bold text-white/40">Built with</span>
-                <span class="font-bold text-white tracking-tight">Lovable</span>
-            </div>
+
         </div>
     </footer>
 </div>

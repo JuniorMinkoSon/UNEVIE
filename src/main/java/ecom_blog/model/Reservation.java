@@ -73,6 +73,11 @@ public class Reservation extends BaseEntity {
     private Integer nombreJours; // Voitures
     private boolean avecChauffeur; // Voitures
 
+    // Contrat juridique (pour le secteur VOITURE)
+    @Column(columnDefinition = "TEXT")
+    private String contratContenu;
+    private boolean contratSigne = false;
+
     /**
      * Calcule et applique la commission de 5% lors de l'acceptation
      */

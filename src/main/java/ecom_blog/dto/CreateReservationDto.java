@@ -36,4 +36,6 @@ public class CreateReservationDto {
     private String modePaiement;
 
     private String operateur;
+
+    private boolean contratAccepte;
 }

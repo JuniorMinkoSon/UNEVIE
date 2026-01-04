@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <div th:replace="~{fragments/user-layout :: layout(content=~{::section})}">
+        <section class="max-w-6xl mx-auto space-y-12">
+            <!-- Header -->
+            <div class="flex flex-col md:flex-row justify-between items-end gap-6">
+                <div class="space-y-4">
+                    <h1 class="text-4xl font-extrabold tracking-tight">Mes Paiements</h1>
+                    <p class="text-premium-dark/40 text-lg">Consultez l'historique de vos transactions sécurisées sur
+                        UNEVIE.</p>
+                </div>
+                <div class="bg-premium-dark rounded-2xl px-8 py-4 text-white">
+                    <p class="text-[10px] font-bold text-white/40 uppercase tracking-widest leading-none mb-1">Dépenses
+                        Totales</p>
+                    <p class="text-2xl font-extrabold text-premium-orange">
+                        <span
+                            th:with="totalCmd=${#aggregates.sum(commandes.![total])}, totalRes=${#aggregates.sum(reservations.![montant])}"
+                            th:text="${#numbers.formatDecimal((totalCmd != null ? totalCmd : 0) + (totalRes != null ? totalRes : 0), 0, 'COMMA', 0, 'POINT')} + ' F'">0
+                            F</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-6 bg-white rounded-3xl border border-premium-dark/5 flex items-center gap-6">
+                    <div
+                        class="w-12 h-12 bg-premium-orange/10 text-premium-orange rounded-2xl flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-widest mt-1">Commandes
+                        </p>
+                        <p class="text-xl font-extrabold" th:text="${#lists.size(commandes)}">0</p>
+                    </div>
+                </div>
+                <div class="p-6 bg-white rounded-3xl border border-premium-dark/5 flex items-center gap-6">
+                    <div
+                        class="w-12 h-12 bg-blue-500/10 text-blue-500 rounded-2xl flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-widest mt-1">
+                            Réservations</p>
+                        <p class="text-xl font-extrabold" th:text="${#lists.size(reservations)}">0</p>
+                    </div>
+                </div>
+                <div class="p-6 bg-emerald-500 rounded-3xl text-white flex items-center gap-6">
+                    <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-shield-check"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-white/60 uppercase tracking-widest mt-1">Sécurité</p>
+                        <p class="text-xl font-extrabold italic">Certifiée</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs/Lists -->
+            <div class="space-y-8">
+                <!-- Orders Table -->
+                <div class="space-y-6">
+                    <h2 class="text-xl font-extrabold flex items-center gap-3">
+                        <span class="w-2 h-8 bg-premium-orange rounded-full"></span>
+                        Historique des Achats
+                    </h2>
+                    <div class="bg-white rounded-[2.5rem] border border-premium-dark/5 shadow-sm overflow-hidden">
+                        <table class="w-full text-left" th:if="${!#lists.isEmpty(commandes)}">
+                            <thead
+                                class="bg-premium-dark/5 border-b border-premium-dark/5 text-[10px] font-bold uppercase tracking-widest text-premium-dark/30">
+                                <tr>
+                                    <th class="px-8 py-6">Référence</th>
+                                    <th class="px-8 py-6">Produit</th>
+                                    <th class="px-8 py-6">Date</th>
+                                    <th class="px-8 py-6 text-right">Montant</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-premium-dark/5">
+                                <tr th:each="c : ${commandes}" class="hover:bg-premium-light/50 transition-colors">
+                                    <td class="px-8 py-6 font-bold text-premium-dark/40" th:text="'#BC-' + ${c.id}">
+                                        #BC-001</td>
+                                    <td class="px-8 py-6 font-bold"
+                                        th:text="${c.produit != null ? c.produit.nom : 'Produit'}">Produit</td>
+                                    <td class="px-8 py-6 text-premium-dark/60 text-sm"
+                                        th:text="${#temporals.format(c.dateCommande, 'dd MMM yyyy')}">Date</td>
+                                    <td class="px-8 py-6 text-right font-extrabold text-premium-dark"
+                                        th:text="${c.total} + ' F'">0 F</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div th:if="${#lists.isEmpty(commandes)}"
+                            class="p-16 text-center text-premium-dark/30 italic font-medium">
+                            Aucun achat enregistré.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reservations Table -->
+                <div class="space-y-6">
+                    <h2 class="text-xl font-extrabold flex items-center gap-3">
+                        <span class="w-2 h-8 bg-blue-500 rounded-full"></span>
+                        Historique des Réservations
+                    </h2>
+                    <div class="bg-white rounded-[2.5rem] border border-premium-dark/5 shadow-sm overflow-hidden">
+                        <table class="w-full text-left" th:if="${!#lists.isEmpty(reservations)}">
+                            <thead
+                                class="bg-premium-dark/5 border-b border-premium-dark/5 text-[10px] font-bold uppercase tracking-widest text-premium-dark/30">
+                                <tr>
+                                    <th class="px-8 py-6">Référence</th>
+                                    <th class="px-8 py-6">Service</th>
+                                    <th class="px-8 py-6">Date</th>
+                                    <th class="px-8 py-6 text-right">Montant</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-premium-dark/5">
+                                <tr th:each="r : ${reservations}" class="hover:bg-premium-light/50 transition-colors">
+                                    <td class="px-8 py-6 font-bold text-premium-dark/40" th:text="'#RES-' + ${r.id}">
+                                        #RES-001</td>
+                                    <td class="px-8 py-6 font-bold" th:text="${r.service.nom}">Service</td>
+                                    <td class="px-8 py-6 text-premium-dark/60 text-sm"
+                                        th:text="${#temporals.format(r.dateReservation, 'dd MMM yyyy')}">Date</td>
+                                    <td class="px-8 py-6 text-right font-extrabold text-premium-dark"
+                                        th:text="${r.montant} + ' F'">0 F</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div th:if="${#lists.isEmpty(reservations)}"
+                            class="p-16 text-center text-premium-dark/30 italic font-medium">
+                            Aucune réservation enregistrée.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</head>
+
+</html>

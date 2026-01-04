@@ -52,6 +52,10 @@ public class ReservationService {
             Integer nombrePersonnes, Integer nombreJours,
             boolean avecChauffeur, String notes) {
 
+        if (serviceId == null) {
+            throw new IllegalArgumentException("L'ID du service ne peut pas être nul");
+        }
+
         ServiceFournisseur service = serviceFournisseurRepository.findById(serviceId)
                 .orElseThrow(() -> new RuntimeException("Service non trouvé"));
 
@@ -81,7 +85,43 @@ public class ReservationService {
         double montant = calculerMontant(service, nombreJours);
         reservation.setMontant(montant);
 
+        // Générer le contrat si c'est une voiture
+        if (service.getSecteur() == Secteur.VOITURE) {
+            reservation.setContratContenu(genererContratLocation(reservation));
+            reservation.setContratSigne(true); // Signé par acceptation du formulaire
+        }
+
         return reservationRepository.save(reservation);
+    }
+
+    /**
+     * Génère le texte d'un contrat de location de voiture
+     */
+    private String genererContratLocation(Reservation r) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("CONTRAT DE LOCATION DE VÉHICULE\n\n");
+        sb.append("Entre d'une part :\n");
+        sb.append("L'entreprise ").append(r.getFournisseur().getNomEntreprise()).append("\n");
+        sb.append("Adresse : ").append(r.getFournisseur().getAdresse()).append(", ")
+                .append(r.getFournisseur().getVille()).append("\n\n");
+
+        sb.append("Et d'autre part :\n");
+        sb.append("M/Mme ").append(r.getNomClient()).append("\n");
+        sb.append("Téléphone : ").append(r.getTelephoneClient()).append("\n\n");
+
+        sb.append("II A ÉTÉ CONVENU CE QUI SUIT :\n\n");
+        sb.append("1. OBJET DU CONTRAT : Le loueur met à disposition du client le véhicule : ")
+                .append(r.getService().getNom()).append(".\n");
+        sb.append("2. DURÉE : La location est prévue du ").append(r.getDateService()).append(" au ")
+                .append(r.getDateFinService()).append(".\n");
+        sb.append("3. MONTANT : Le montant total de la location est de ").append(r.getMontant()).append(" FCFA.\n");
+        if (r.isAvecChauffeur()) {
+            sb.append("4. OPTION : La location inclut un chauffeur.\n");
+        }
+        sb.append(
+                "\nLe client s'engage à restituer le véhicule dans l'état où il l'a reçu et à respecter les conditions d'utilisation définies par le loueur.");
+
+        return sb.toString();
     }
 
     /**

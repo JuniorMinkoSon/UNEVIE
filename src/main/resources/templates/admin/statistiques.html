@@ -294,7 +294,7 @@
                             </div>
                             <div class="text-right">
                                 <p class="text-sm font-extrabold text-premium-dark"
-                                    th:text="${#numbers.formatDecimal(s[3], 0, 'COMMA', 0, '0')} + ' F'">0 F</p>
+                                    th:text="${#numbers.formatDecimal(s[3], 0, 'COMMA', 0, 'POINT')} + ' F'">0 F</p>
                                 <p class="text-[10px] font-bold text-premium-orange uppercase tracking-widest mt-0.5">
                                     Gold Tier</p>
                             </div>
@@ -374,18 +374,18 @@
                                 </td>
                                 <td class="px-10 py-7 text-right">
                                     <span class="text-lg font-extrabold text-premium-dark tabular-nums"
-                                        th:text="${#numbers.formatDecimal(m[2], 0, 'COMMA', 0, '0')} + ' F'">450,000
+                                        th:text="${#numbers.formatDecimal(m[2], 0, 'COMMA', 0, 'POINT')} + ' F'">450,000
                                         F</span>
                                 </td>
                                 <td class="px-10 py-7 text-right">
                                     <span
                                         class="px-3 py-1 bg-premium-orange/10 text-premium-orange rounded-lg text-sm font-extrabold border border-premium-orange/10 tabular-nums"
-                                        th:text="${#numbers.formatDecimal(m[3], 0, 'COMMA', 0, '0')} + ' F'">22,500
+                                        th:text="${#numbers.formatDecimal(m[3], 0, 'COMMA', 0, 'POINT')} + ' F'">22,500
                                         F</span>
                                 </td>
                                 <td class="px-10 py-7 text-right">
                                     <span class="text-lg font-extrabold text-emerald-600 tabular-nums"
-                                        th:text="${#numbers.formatDecimal(m[4], 0, 'COMMA', 0, '0')} + ' F'">427,500
+                                        th:text="${#numbers.formatDecimal(m[4], 0, 'COMMA', 0, 'POINT')} + ' F'">427,500
                                         F</span>
                                 </td>
                                 <td class="px-10 py-7 text-right">

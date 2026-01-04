@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <div th:replace="~{fragments/user-layout :: layout(content=~{::section})}">
+        <section class="min-h-[60vh] flex flex-col items-center justify-center space-y-8 animate-fade-in">
+            <!-- Icon with Glow -->
+            <div class="relative">
+                <div class="absolute inset-0 bg-premium-orange/20 blur-[60px] rounded-full"></div>
+                <div
+                    class="relative w-24 h-24 bg-white rounded-[2rem] shadow-2xl flex items-center justify-center text-premium-orange text-4xl border border-premium-orange/10 rotate-12 hover:rotate-0 transition-transform duration-500">
+                    <i class="fa-solid fa-heart"></i>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="text-center space-y-4 max-w-md mx-auto">
+                <h1 class="text-3xl font-extrabold tracking-tight">Mes Favoris</h1>
+                <p class="text-premium-dark/40 font-medium">Bientôt, vous pourrez sauvegarder vos services et produits
+                    préférés ici pour les retrouver plus tard.</p>
+            </div>
+
+            <!-- Action -->
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a th:href="@{/projets}"
+                    class="px-8 py-4 bg-premium-orange text-white font-bold rounded-2xl shadow-xl shadow-premium-orange/20 hover:scale-105 transition-all">
+                    Explorer les services
+                </a>
+                <a th:href="@{/user/dashboard}"
+                    class="px-8 py-4 bg-premium-dark text-white font-bold rounded-2xl hover:bg-premium-orange transition-all">
+                    Retour au dashboard
+                </a>
+            </div>
+
+            <!-- Feature Preview (Visual Only) -->
+            <div class="grid grid-cols-2 gap-4 opacity-10 blur-[1px] select-none pointer-events-none pt-12">
+                <div class="w-40 h-40 bg-white rounded-3xl border border-premium-dark/5"></div>
+                <div class="w-40 h-40 bg-white rounded-3xl border border-premium-dark/5"></div>
+            </div>
+        </section>
+    </div>
+</head>
+
+</html>

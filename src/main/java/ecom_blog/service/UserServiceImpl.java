@@ -57,4 +57,13 @@ public class UserServiceImpl implements UserService {
     public long count() {
         return userRepository.count();
     }
+
+    @Override
+    public User updateProfile(Long id, String nom, String telephone) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+        user.setNom(nom);
+        user.setTelephone(telephone);
+        return userRepository.save(user);
+    }
 }
