@@ -49,6 +49,19 @@
                     class="text-premium-orange">Blog</span></h1>
             <p class="max-w-2xl mx-auto text-white/60 text-lg md:text-xl leading-relaxed"> Actualités, conseils et
                 astuces pour vos projets immobiliers et de construction en Côte d'Ivoire. </p>
+
+            <div class="max-w-xl mx-auto pt-8">
+                <form th:action="@{/universal-search}" method="get" class="relative group">
+                    <input type="text" name="q" placeholder="Rechercher un article..."
+                        class="w-full pl-14 pr-6 py-5 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl text-white placeholder-white/40 focus:bg-white focus:text-slate-800 focus:outline-none transition-all">
+                    <i
+                        class="fa-solid fa-magnifying-glass absolute left-6 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-premium-orange transition-colors"></i>
+                    <button type="submit"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 px-5 py-2.5 bg-premium-orange text-white text-xs font-bold rounded-xl shadow-lg hover:bg-orange-600 transition-all">
+                        ABR SEARCH
+                    </button>
+                </form>
+            </div>
         </div>
     </section>
 

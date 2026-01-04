@@ -1,14 +1,21 @@
 package ecom_blog.controller;
 
 import ecom_blog.model.Categorie;
+import ecom_blog.model.ServiceFournisseur;
+import ecom_blog.repository.ServiceFournisseurRepository;
 import ecom_blog.service.ArticleService;
 import ecom_blog.service.CategorieService;
 import ecom_blog.service.ProduitService;
+import ecom_blog.service.SearchService;
+import ecom_blog.util.SearchItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -19,11 +26,27 @@ public class HomeController {
     private ArticleService articleService;
     @Autowired
     private CategorieService categorieService;
+    @Autowired
+    private ServiceFournisseurRepository serviceFournisseurRepository;
+    @Autowired
+    private SearchService searchService;
 
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("produits", produitService.getAll());
         model.addAttribute("articles", articleService.getAll());
+
+        // 🔥 Services Populaires (Top Rated ou Most Reserved)
+        List<ServiceFournisseur> topServices = serviceFournisseurRepository.findTopRated();
+        if (topServices.isEmpty()) {
+            topServices = serviceFournisseurRepository.findMostPopular();
+        }
+        // Limiter à 4 services
+        if (topServices.size() > 4) {
+            topServices = topServices.subList(0, 4);
+        }
+        model.addAttribute("topServices", topServices);
+
         return "user/index";
     }
 
@@ -52,7 +75,20 @@ public class HomeController {
         model.addAttribute("article", articleService.findById(id));
         return "user/article-details";
     }
-    //
+
+    // 🔍 Recherche universelle utilisant l'algorithme ABR (Arbre Binaire de
+    // Recherche)
+    @GetMapping("/universal-search")
+    public String universalSearch(@RequestParam(required = false) String q, Model model) {
+        List<SearchItem> results = searchService.search(q);
+        model.addAttribute("results", results);
+        model.addAttribute("query", q);
+
+        // Explications de l'algo (pour le plaisir de l'utilisateur)
+        model.addAttribute("algoInfo", "Recherche optimisée par Arbre Binaire de Recherche (ABR)");
+
+        return "user/universal-search-results";
+    }
     // @GetMapping("/produits")
     // public String produits(Model model) {
     // model.addAttribute("produits", produitService.getAll());

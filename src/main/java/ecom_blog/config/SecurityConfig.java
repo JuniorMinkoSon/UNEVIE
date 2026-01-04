@@ -51,6 +51,7 @@ public class SecurityConfig {
                                                                 "/reservation/evenementiel",
                                                                 "/reservation/fournisseur/**",
                                                                 "/reservation/service/**", "/reservation/recherche",
+                                                                "/universal-search",
                                                                 "/css/**", "/js/**", "/images/**", "/uploads/**")
                                                 .permitAll()
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
@@ -58,7 +59,8 @@ public class SecurityConfig {
                                                 .requestMatchers("/fournisseur/**").hasRole("FOURNISSEUR")
                                                 .requestMatchers("/reservation/reserver",
                                                                 "/reservation/mes-reservations",
-                                                                "/reservation/confirmation/**")
+                                                                "/reservation/confirmation/**",
+                                                                "/evaluation/**")
                                                 .hasAnyRole("USER", "ADMIN")
                                                 .requestMatchers("/user/**").hasRole("USER")
                                                 .anyRequest().authenticated())

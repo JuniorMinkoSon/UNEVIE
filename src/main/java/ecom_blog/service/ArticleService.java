@@ -26,6 +26,9 @@ public class ArticleService {
     @Autowired
     private ArticleMapper articleMapper;
 
+    @Autowired
+    private SearchService searchService;
+
     /**
      * Récupérer tous les articles sous forme de DTOs
      */
@@ -86,6 +89,7 @@ public class ArticleService {
             }
             // Enregistrement de l'article en base
             articleRepository.save(article);
+            searchService.refreshIndex();
         } catch (IOException e) {
             throw new RuntimeException("Erreur lors de l'enregistrement des images", e);
         }
@@ -129,6 +133,7 @@ public class ArticleService {
             }
             // Enregistrement de l'article en base
             articleRepository.save(article);
+            searchService.refreshIndex();
         } catch (IOException e) {
             throw new RuntimeException("Erreur lors de l'enregistrement des images", e);
         }
@@ -141,5 +146,6 @@ public class ArticleService {
         Article article = articleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Article non trouvé avec l'ID: " + id));
         articleRepository.delete(article);
+        searchService.refreshIndex();
     }
 }

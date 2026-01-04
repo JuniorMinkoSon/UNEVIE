@@ -25,6 +25,9 @@ public class FournisseurService {
     @Autowired
     private ContratFournisseurRepository contratRepository;
 
+    @Autowired
+    private SearchService searchService;
+
     // ==================== CRUD FOURNISSEUR ====================
 
     public Fournisseur save(Fournisseur fournisseur) {
@@ -86,6 +89,8 @@ public class FournisseurService {
 
         // Créer un service par défaut selon le secteur
         creerServiceParDefaut(fournisseur);
+
+        searchService.refreshIndex();
 
         return fournisseur;
     }
@@ -151,7 +156,9 @@ public class FournisseurService {
     public ServiceFournisseur ajouterService(Fournisseur fournisseur, ServiceFournisseur service) {
         service.setFournisseur(fournisseur);
         service.setSecteur(fournisseur.getSecteur());
-        return serviceFournisseurRepository.save(service);
+        ServiceFournisseur s = serviceFournisseurRepository.save(service);
+        searchService.refreshIndex();
+        return s;
     }
 
     public List<ServiceFournisseur> getServicesByFournisseur(Fournisseur fournisseur) {
@@ -171,11 +178,14 @@ public class FournisseurService {
     }
 
     public ServiceFournisseur updateService(ServiceFournisseur service) {
-        return serviceFournisseurRepository.save(service);
+        ServiceFournisseur s = serviceFournisseurRepository.save(service);
+        searchService.refreshIndex();
+        return s;
     }
 
     public void deleteService(Long serviceId) {
         serviceFournisseurRepository.deleteById(serviceId);
+        searchService.refreshIndex();
     }
 
     // ==================== RECHERCHE ====================

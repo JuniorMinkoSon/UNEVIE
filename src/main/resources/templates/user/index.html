@@ -129,7 +129,8 @@
             </div>
 
             <!-- Search Box -->
-            <div class="max-w-4xl mx-auto bg-white p-2 md:p-3 rounded-2xl md:rounded-3xl shadow-2xl flex flex-col md:flex-row gap-2 animate-slide-up"
+            <form th:action="@{/universal-search}" method="get"
+                class="max-w-4xl mx-auto bg-white p-2 md:p-3 rounded-2xl md:rounded-3xl shadow-2xl flex flex-col md:flex-row gap-2 animate-slide-up"
                 style="animation-delay: 0.2s">
                 <div
                     class="flex-1 flex items-center gap-3 px-4 py-3 border-b md:border-b-0 md:border-r border-premium-dark/5">
@@ -139,7 +140,7 @@
                         <circle cx="11" cy="11" r="8" />
                         <path d="m21 21-4.3-4.3" />
                     </svg>
-                    <input type="text" placeholder="Que recherchez-vous ?"
+                    <input type="text" name="q" placeholder="Que recherchez-vous ?"
                         class="w-full outline-none text-premium-dark placeholder:text-premium-dark/30 bg-transparent">
                 </div>
                 <div
@@ -150,10 +151,10 @@
                         <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                         <circle cx="12" cy="10" r="3" />
                     </svg>
-                    <input type="text" placeholder="Abidjan"
+                    <input type="text" placeholder="Localisation..."
                         class="w-full outline-none text-premium-dark placeholder:text-premium-dark/30 bg-transparent">
                 </div>
-                <button
+                <button type="submit"
                     class="bg-premium-orange text-white px-10 py-4 rounded-xl md:rounded-2xl font-bold hover:bg-premium-orange/90 transition-all flex items-center justify-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -162,7 +163,7 @@
                     </svg>
                     Rechercher
                 </button>
-            </div>
+            </form>
 
             <!-- Stats -->
             <div class="flex flex-wrap justify-center gap-12 pt-10 border-t border-white/10 max-w-3xl mx-auto">
@@ -371,26 +372,28 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <!-- Product card 1 -->
-            <div
+            <!-- Dynamic Service Cards -->
+            <div th:each="s : ${topServices}"
                 class="group bg-white rounded-3xl overflow-hidden border border-premium-dark/5 shadow-sm hover:shadow-2xl transition-all duration-500">
                 <div class="relative h-56 overflow-hidden">
-                    <img src="/images/voiture.jpeg"
+                    <img th:src="${s.imageUrl != null} ? @{/uploads/{img}(img=${s.imageUrl})} : @{/images/chantier.jpg}"
                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    <div
-                        class="absolute top-4 left-4 bg-premium-orange text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest italic">
-                        Véhicule</div>
+                    <div class="absolute top-4 left-4 bg-premium-orange text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest italic"
+                        th:text="${s.secteur}">Secteur</div>
                 </div>
                 <div class="p-6 space-y-4">
                     <div class="flex justify-between items-start">
-                        <h4 class="font-bold text-premium-dark">Toyota Land Cruiser</h4>
+                        <h4 class="font-bold text-premium-dark" th:text="${s.nom}">Nom du Service</h4>
                         <div class="flex items-center gap-1 text-premium-accent font-bold text-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
                                 fill="currentColor">
                                 <polygon
                                     points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                             </svg>
-                            <span>4.9 <span class="text-premium-dark/30 font-medium">(138)</span></span>
+                            <span><span
+                                    th:text="${s.noteMoyenne != null ? #numbers.formatDecimal(s.noteMoyenne, 1, 1) : '0.0'}">0.0</span>
+                                <span class="text-premium-dark/30 font-medium"
+                                    th:text="'(' + ${s.nombreAvis} + ')'">(0)</span></span>
                         </div>
                     </div>
                     <div class="flex items-center gap-2 text-premium-dark/40 text-xs">
@@ -399,132 +402,24 @@
                             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                             <circle cx="12" cy="10" r="3" />
                         </svg>
-                        <span>Cocody, Abidjan</span>
+                        <span th:text="${s.fournisseur.ville}">Ville</span>
                     </div>
                     <div class="flex items-center justify-between pt-4 border-t border-premium-dark/5">
-                        <div class="text-premium-orange font-extrabold text-lg">75 000 F<span
-                                class="text-[10px] text-premium-dark/30 ml-1">/Jour</span></div>
-                        <a href="#"
-                            class="bg-premium-dark/5 px-4 py-2 rounded-lg text-premium-dark font-bold text-xs hover:bg-premium-orange hover:text-white transition-all">Voir
-                            détails</a>
+                        <div class="text-premium-orange font-extrabold text-lg">
+                            <span th:text="${#numbers.formatDecimal(s.prix, 0, 'COMMA', 0, 'POINT')}">50,000</span> F
+                            <span th:if="${s.secteur.name() == 'VOITURE'}"
+                                class="text-[10px] text-premium-dark/30 ml-1">/Jour</span>
+                        </div>
+                        <a th:href="@{/reservation/service/{id}(id=${s.id})}"
+                            class="bg-premium-dark/5 px-4 py-2 rounded-lg text-premium-dark font-bold text-xs hover:bg-premium-orange hover:text-white transition-all">Réserver</a>
                     </div>
                 </div>
             </div>
-            <!-- Product card 2 -->
-            <div
-                class="group bg-white rounded-3xl overflow-hidden border border-premium-dark/5 shadow-sm hover:shadow-2xl transition-all duration-500">
-                <div class="relative h-56 overflow-hidden">
-                    <img src="/images/residence1.jpeg"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    <div
-                        class="absolute top-4 left-4 bg-premium-orange text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest italic">
-                        Résidence</div>
-                </div>
-                <div class="p-6 space-y-4">
-                    <div class="flex justify-between items-start">
-                        <h4 class="font-bold text-premium-dark">Villa Palmier</h4>
-                        <div class="flex items-center gap-1 text-premium-accent font-bold text-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                fill="currentColor">
-                                <polygon
-                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                            </svg>
-                            <span>4.8 <span class="text-premium-dark/30 font-medium">(95)</span></span>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2 text-premium-dark/40 text-xs">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                            <circle cx="12" cy="10" r="3" />
-                        </svg>
-                        <span>Assinie, Grand-Bassam</span>
-                    </div>
-                    <div class="flex items-center justify-between pt-4 border-t border-premium-dark/5">
-                        <div class="text-premium-orange font-extrabold text-lg">150 000 F<span
-                                class="text-[10px] text-premium-dark/30 ml-1">/Nuit</span></div>
-                        <a href="#"
-                            class="bg-premium-dark/5 px-4 py-2 rounded-lg text-premium-dark font-bold text-xs hover:bg-premium-orange hover:text-white transition-all">Voir
-                            détails</a>
-                    </div>
-                </div>
-            </div>
-            <!-- card 3 -->
-            <div
-                class="group bg-white rounded-3xl overflow-hidden border border-premium-dark/5 shadow-sm hover:shadow-2xl transition-all duration-500">
-                <div class="relative h-56 overflow-hidden">
-                    <img src="/images/traiteurs.jpeg"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    <div
-                        class="absolute top-4 left-4 bg-premium-orange text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest italic">
-                        Événement</div>
-                </div>
-                <div class="p-6 space-y-4">
-                    <div class="flex justify-between items-start">
-                        <h4 class="font-bold text-premium-dark">DJ Maestro</h4>
-                        <div class="flex items-center gap-1 text-premium-accent font-bold text-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                fill="currentColor">
-                                <polygon
-                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                            </svg>
-                            <span>5.0 <span class="text-premium-dark/30 font-medium">(44)</span></span>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2 text-premium-dark/40 text-xs">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                            <circle cx="12" cy="10" r="3" />
-                        </svg>
-                        <span>Plateau, Abidjan</span>
-                    </div>
-                    <div class="flex items-center justify-between pt-4 border-t border-premium-dark/5">
-                        <div class="text-premium-orange font-extrabold text-lg">250 000 F<span
-                                class="text-[10px] text-premium-dark/30 ml-1">/Forfait</span></div>
-                        <a href="#"
-                            class="bg-premium-dark/5 px-4 py-2 rounded-lg text-premium-dark font-bold text-xs hover:bg-premium-orange hover:text-white transition-all">Voir
-                            détails</a>
-                    </div>
-                </div>
-            </div>
-            <!-- card 4 -->
-            <div
-                class="group bg-white rounded-3xl overflow-hidden border border-premium-dark/5 shadow-sm hover:shadow-2xl transition-all duration-500">
-                <div class="relative h-56 overflow-hidden">
-                    <img src="/images/poulets.jpeg"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    <div
-                        class="absolute top-4 left-4 bg-premium-orange text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest italic">
-                        Alimentaire</div>
-                </div>
-                <div class="p-6 space-y-4">
-                    <div class="flex justify-between items-start">
-                        <h4 class="font-bold text-premium-dark">Traiteur Délices...</h4>
-                        <div class="flex items-center gap-1 text-premium-accent font-bold text-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                fill="currentColor">
-                                <polygon
-                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                            </svg>
-                            <span>4.7 <span class="text-premium-dark/30 font-medium">(110)</span></span>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2 text-premium-dark/40 text-xs">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                            <circle cx="12" cy="10" r="3" />
-                        </svg>
-                        <span>Marcory, Abidjan</span>
-                    </div>
-                    <div class="flex items-center justify-between pt-4 border-t border-premium-dark/5">
-                        <div class="text-premium-orange font-extrabold text-lg">Sur devis</div>
-                        <a href="#"
-                            class="bg-premium-dark/5 px-4 py-2 rounded-lg text-premium-dark font-bold text-xs hover:bg-premium-orange hover:text-white transition-all">Voir
-                            détails</a>
-                    </div>
-                </div>
+
+            <!-- Fallback if no services -->
+            <div th:if="${#lists.isEmpty(topServices)}"
+                class="col-span-full py-12 text-center text-slate-400 font-bold italic bg-white rounded-3xl border border-dashed border-slate-200">
+                Découvrez nos services bientôt...
             </div>
         </div>
     </section>

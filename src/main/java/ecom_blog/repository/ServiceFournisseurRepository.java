@@ -27,6 +27,9 @@ public interface ServiceFournisseurRepository extends JpaRepository<ServiceFourn
     @Query("SELECT s FROM ServiceFournisseur s WHERE s.disponible = true ORDER BY s.nombreReservations DESC")
     List<ServiceFournisseur> findMostPopular();
 
+    @Query("SELECT s FROM ServiceFournisseur s WHERE s.disponible = true AND s.nombreAvis > 0 ORDER BY s.noteMoyenne DESC, s.nombreAvis DESC")
+    List<ServiceFournisseur> findTopRated();
+
     @Query("SELECT s FROM ServiceFournisseur s WHERE s.secteur = :secteur AND s.disponible = true ORDER BY s.nombreReservations DESC")
     List<ServiceFournisseur> findMostPopularBySecteur(Secteur secteur);
 

@@ -119,7 +119,14 @@
                     <div class="p-6">
                         <p class="text-sm text-slate-400 font-medium" th:text="${s.fournisseur.nomEntreprise}">
                             Fournisseur</p>
-                        <h3 class="text-xl font-bold text-slate-800 mt-1" th:text="${s.nom}">Service</h3>
+                        <div class="flex items-center justify-between mt-1">
+                            <h3 class="text-xl font-bold text-slate-800" th:text="${s.nom}">Service</h3>
+                            <div class="flex items-center gap-1 text-amber-500 text-sm font-bold">
+                                <i class="fa-solid fa-star"></i>
+                                <span
+                                    th:text="${s.noteMoyenne != null ? #numbers.formatDecimal(s.noteMoyenne, 1, 1) : '0.0'}">0.0</span>
+                            </div>
+                        </div>
                         <p class="text-slate-500 text-sm mt-2 line-clamp-2" th:text="${s.description}">Description</p>
 
                         <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-100">

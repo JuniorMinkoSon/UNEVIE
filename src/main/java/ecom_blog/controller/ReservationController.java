@@ -5,6 +5,7 @@ import ecom_blog.model.*;
 import ecom_blog.service.FournisseurService;
 import ecom_blog.service.ReservationService;
 import ecom_blog.service.UserService;
+import ecom_blog.repository.EvaluationRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,6 +29,9 @@ public class ReservationController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EvaluationRepository evaluationRepository;
 
     // ==================== PAGES SECTEURS ====================
 
@@ -123,6 +127,9 @@ public class ReservationController {
         model.addAttribute("service", service);
         model.addAttribute("fournisseur", service.getFournisseur());
 
+        List<Evaluation> evaluations = evaluationRepository.findByServiceId(id);
+        model.addAttribute("evaluations", evaluations);
+
         CreateReservationDto dto = new CreateReservationDto();
         dto.setServiceId(id);
         model.addAttribute("reservationDto", dto);
@@ -200,7 +207,24 @@ public class ReservationController {
 
         List<Reservation> reservations = reservationService.getReservationsClient(user.getId());
 
+        // On vérifie pour chaque réservation terminée si elle a déjà été évaluée
+        reservations.forEach(r -> {
+            if (r.getStatut() == StatutReservation.TERMINE) {
+                boolean isEvalue = evaluationRepository.existsByReservationId(r.getId());
+                // On peut utiliser une note/commentaire existant ou juste un flag transient
+                // Pour simplifier ici, on va passer une Map au modèle
+            }
+        });
+
+        // Version plus propre : Passer une liste d'IDs évalués
+        List<Long> evaluatedIds = reservations.stream()
+                .filter(r -> r.getStatut() == StatutReservation.TERMINE)
+                .map(Reservation::getId)
+                .filter(id -> evaluationRepository.existsByReservationId(id))
+                .toList();
+
         model.addAttribute("reservations", reservations);
+        model.addAttribute("evaluatedIds", evaluatedIds);
 
         return "user/mes-reservations";
     }
