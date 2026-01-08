@@ -34,7 +34,7 @@ public class DataInitializer implements CommandLineRunner {
             long userCount = userRepository.count();
             log.info("Nombre d'utilisateurs existants: {}", userCount);
 
-            String adminEmail = "admin@barikaweb.com";
+            String adminEmail = "admin@unevie.ci";
             log.info("Recherche de l'admin avec email: {}", adminEmail);
 
             User existingAdmin = userRepository.findByEmail(adminEmail);

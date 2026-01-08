@@ -98,7 +98,9 @@
                                         </div>
                                         <p class="text-xs font-bold text-premium-dark/30 flex items-center gap-2">
                                             <i class="fa-solid fa-shop text-[10px] text-premium-orange"></i>
-                                            <span th:text="${cmd.produit.nom}">Nom du produit</span>
+                                            <span
+                                                th:text="${cmd.produit != null ? cmd.produit.nom : (cmd.service != null ? cmd.service.nom : 'Service')}">Nom
+                                                du produit</span>
                                         </p>
                                     </div>
                                 </td>

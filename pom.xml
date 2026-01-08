@@ -16,7 +16,7 @@
     <artifactId>ecom-vente</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ecom-blog</name>
-    <description>Site e-commerce et blog - BarikaWeb</description>
+    <description>Site e-commerce et blog - UNEVIE</description>
 
     <properties>
         <java.version>21</java.version>
@@ -80,6 +80,26 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- 🔌 WebSocket pour communication temps réel -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+        <!-- 📧 Email -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+        <!-- 🌐 HTTP Client pour Mapbox API -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+
+        <!-- 🗄️ PostgreSQL -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>

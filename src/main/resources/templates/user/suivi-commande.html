@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suivi de Commande</title>
+
+    <!-- Mapbox CSS -->
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        #map {
+            width: 100%;
+            height: 600px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .eta-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .eta-time {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+
+        .livreur-info {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .status-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #dee2e6;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -1.4rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background: #6c757d;
+            border: 3px solid white;
+        }
+
+        .timeline-dot.active {
+            background: #28a745;
+            box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container py-5">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="mb-2">
+                    <i class="fas fa-shipping-fast"></i> Suivi de votre commande
+                </h1>
+                <p class="text-muted">Commande #<span th:text="${commande.id}"></span></p>
+
+                <!-- Payment Warning -->
+                <div class="alert alert-warning d-flex align-items-center" role="alert">
+                    <i class="fas fa-coins me-3 fa-lg"></i>
+                    <div>
+                        <strong>Paiement à la livraison uniquement (Espèce)</strong>
+                        <div class="small">Veuillez préparer le montant exact de <strong
+                                th:text="${commande.total} + ' FCFA'"></strong>. Les autres moyens de paiement ne sont
+                            pas disponibles pour le moment.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Carte -->
+            <div class="col-lg-8 mb-4">
+                <div class="card border-0">
+                    <div class="card-body p-0">
+                        <div id="map"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informations -->
+            <div class="col-lg-4">
+                <!-- ETA -->
+                <div class="eta-card mb-4">
+                    <div>
+                        <i class="fas fa-clock fa-2x mb-2"></i>
+                        <h5>Temps estimé d'arrivée</h5>
+                    </div>
+                    <div class="eta-time" id="eta-display">
+                        Calcul en cours...
+                    </div>
+                    <p class="mb-0 small">Mise à jour en temps réel</p>
+                </div>
+
+                <!-- Informations livreur -->
+                <div class="livreur-info mb-4" th:if="${commande.livreur != null}">
+                    <h6 class="mb-3">
+                        <i class="fas fa-user"></i> Votre livreur
+                    </h6>
+                    <p class="mb-2">
+                        <strong>Nom:</strong> <span th:text="${commande.livreur.nom}"></span>
+                    </p>
+                    <p class="mb-0">
+                        <strong>Tél:</strong> <span th:text="${commande.livreur.telephone}"></span>
+                    </p>
+                </div>
+
+                <!-- Timeline statut -->
+                <div class="card border-0">
+                    <div class="card-body">
+                        <h6 class="mb-3">
+                            <i class="fas fa-list"></i> Statut de la commande
+                        </h6>
+                        <div class="status-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot active"></div>
+                                <strong>Commande passée</strong>
+                                <p class="small text-muted mb-0"
+                                    th:text="${#temporals.format(commande.dateCommande, 'dd/MM/yyyy HH:mm')}"></p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"
+                                    th:classappend="${commande.statut == 'ACCEPTEE' || commande.statut == 'EN_COURS_LIVRAISON' || commande.statut == 'LIVREE' ? 'active' : ''}">
+                                </div>
+                                <strong>Acceptée</strong>
+                                <p class="small text-muted mb-0">En attente de livraison</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"
+                                    th:classappend="${commande.statut == 'EN_COURS_LIVRAISON' || commande.statut == 'LIVREE' ? 'active' : ''}">
+                                </div>
+                                <strong>En cours de livraison</strong>
+                                <p class="small text-muted mb-0">Le livreur est en route</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"
+                                    th:classappend="${commande.statut == 'LIVREE' ? 'active' : ''}"></div>
+                                <strong>Livrée</strong>
+                                <p class="small text-muted mb-0">Commande terminée</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mapbox JS -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
+
+    <!-- SockJS & STOMP -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const MAPBOX_TOKEN = /*[[${@environment.getProperty('mapbox.access.token')}]]*/ '';
+        const COMMANDE_ID = /*[[${commande.id}]]*/ 0;
+        const DESTINATION_LAT = /*[[${commande.latitudeDestination}]]*/ 0;
+        const DESTINATION_LNG = /*[[${commande.longitudeDestination}]]*/ 0;
+
+        let map = null;
+        let livreurMarker = null;
+        let destinationMarker = null;
+
+        // Initialiser la carte
+        mapboxgl.accessToken = MAPBOX_TOKEN;
+        map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [DESTINATION_LNG || -17.4677, DESTINATION_LAT || 14.6937],
+            zoom: 13
+        });
+
+        // Ajouter contrôles
+        map.addControl(new mapboxgl.NavigationControl());
+
+        // Marqueur destination
+        if (DESTINATION_LAT && DESTINATION_LNG) {
+            destinationMarker = new mapboxgl.Marker({ color: '#28a745' })
+                .setLngLat([DESTINATION_LNG, DESTINATION_LAT])
+                .setPopup(new mapboxgl.Popup().setHTML('<strong>Votre adresse</strong>'))
+                .addTo(map);
+        }
+
+        // WebSocket
+        const socket = new SockJS('/ws');
+        const stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function (frame) {
+            console.log('WebSocket connecté: ' + frame);
+
+            // S'abonner aux mises à jour de position
+            stompClient.subscribe('/topic/livraison/' + COMMANDE_ID, function (message) {
+                const data = JSON.parse(message.body);
+                console.log('Position reçue:', data);
+
+                updateLivreurPosition(data.latitude, data.longitude);
+                updateETA(data.eta);
+            });
+        });
+
+        function updateLivreurPosition(lat, lng) {
+            if (livreurMarker) {
+                livreurMarker.setLngLat([lng, lat]);
+            } else {
+                // Créer un élément DOM personnalisé pour le marqueur moto
+                const el = document.createElement('div');
+                el.className = 'marker-livreur';
+                el.innerHTML = '<div style="background-color: #FF6B35; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; border: 3px solid white; box-shadow: 0 4px 6px rgba(0,0,0,0.3);"><i class="fa-solid fa-motorcycle fa-lg"></i></div>';
+
+                livreurMarker = new mapboxgl.Marker(el)
+                    .setLngLat([lng, lat])
+                    .setPopup(new mapboxgl.Popup().setHTML('<strong>Votre livreur</strong>'))
+                    .addTo(map);
+            }
+
+            // Mettre à jour la route
+            if (DESTINATION_LAT && DESTINATION_LNG) {
+                getRoute([lng, lat], [DESTINATION_LNG, DESTINATION_LAT]);
+            }
+
+            // Ajuster la vue pour voir les deux marqueurs
+            if (destinationMarker) {
+                const bounds = new mapboxgl.LngLatBounds();
+                bounds.extend([lng, lat]);
+                bounds.extend([DESTINATION_LNG, DESTINATION_LAT]);
+                map.fitBounds(bounds, { padding: 100 });
+            } else {
+                map.flyTo({ center: [lng, lat], zoom: 14 });
+            }
+        }
+
+        async function getRoute(start, end) {
+            // Utilisation du profil 'driving-traffic' pour l'optimisation trafic (style Dijkstra)
+            const query = await fetch(
+                `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&annotations=congestion&overview=full&access_token=${mapboxgl.accessToken}`,
+                { method: 'GET' }
+            );
+            const json = await query.json();
+            const data = json.routes[0];
+            const route = data.geometry.coordinates;
+            const congestions = data.legs[0].annotation ? data.legs[0].annotation.congestion : [];
+
+            // Création de segments colorés selon le trafic
+            const segments = [];
+            for (let i = 0; i < route.length - 1; i++) {
+                const congestionLevel = congestions[i] || 'low';
+                segments.push({
+                    type: 'Feature',
+                    properties: {
+                        congestion: congestionLevel
+                    },
+                    geometry: {
+                        type: 'LineString',
+                        coordinates: [route[i], route[i + 1]]
+                    }
+                });
+            }
+
+            const geojson = {
+                type: 'FeatureCollection',
+                features: segments
+            };
+
+            if (map.getSource('route')) {
+                map.getSource('route').setData(geojson);
+            } else {
+                map.addLayer({
+                    id: 'route',
+                    type: 'line',
+                    source: {
+                        type: 'geojson',
+                        data: geojson
+                    },
+                    layout: {
+                        'line-join': 'round',
+                        'line-cap': 'round'
+                    },
+                    paint: {
+                        'line-width': 6,
+                        // Couleur dynamique basée sur la congestion
+                        'line-color': [
+                            'match',
+                            ['get', 'congestion'],
+                            'low', '#3887be',     // Bleu (Fluide)
+                            'moderate', '#fbb03b', // Orange (Modéré)
+                            'heavy', '#e55e5e',    // Rouge (Dense)
+                            'severe', '#b20000',   // Rouge foncé (Très dense)
+                            '#3887be'             // Défaut
+                        ]
+                    }
+                });
+            }
+        }
+
+        function updateETA(seconds) {
+            if (!seconds || seconds === 0) {
+                document.getElementById('eta-display').textContent = 'Calcul...';
+                return;
+            }
+
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const remainingMinutes = minutes % 60;
+
+            let etaText = '';
+            if (hours > 0) {
+                etaText = hours + 'h ' + remainingMinutes + 'min';
+            } else {
+                etaText = minutes + ' min';
+            }
+
+            document.getElementById('eta-display').textContent = etaText;
+        }
+
+        // Charger la position initiale
+        fetch(`/api/tracking/commande/${COMMANDE_ID}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.latitude && data.longitude) {
+                    updateLivreurPosition(data.latitude, data.longitude);
+                    updateETA(data.eta);
+                }
+            })
+            .catch(error => console.error('Erreur chargement tracking:', error));
+        /*]]>*/
+    </script>
+</body>
+
+</html>

@@ -76,5 +76,14 @@ public class CommandeService {
         }
 
         return stats;
+
+    }
+
+    public List<Commande> getCommandesEnCoursLivraison() {
+        return commandeRepository.findCommandesEnCoursLivraison();
+    }
+
+    public Commande findById(Long id) {
+        return commandeRepository.findById(id).orElse(null);
     }
 }

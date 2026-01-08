@@ -49,7 +49,8 @@
 
                         <div class="space-y-2">
                             <h3 class="text-xl font-bold leading-tight group-hover:text-premium-orange transition-colors"
-                                th:text="${c.produit != null ? c.produit.nom : 'Produit supprimé'}">Nom du produit</h3>
+                                th:text="${c.produit != null ? c.produit.nom : (c.service != null ? c.service.nom : 'Service')}">
+                                Nom du produit</h3>
                             <p class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-[0.2em]">Réf:
                                 #BC-<span th:text="${c.id}">001</span></p>
                         </div>
@@ -69,6 +70,23 @@
                                 <p class="text-xl font-extrabold text-premium-dark"
                                     th:text="${#numbers.formatDecimal(c.total,0,'COMMA',0,'POINT')} + ' F'"></p>
                             </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="pt-4">
+                            <a th:href="@{/suivi-commande/{id}(id=${c.id})}"
+                                class="block w-full py-3 bg-premium-dark/5 text-premium-dark font-bold text-center rounded-xl hover:bg-premium-orange hover:text-white transition-all">
+                                <i class="fa-solid fa-map-location-dot mr-2"></i> Suivre la commande
+                            </a>
+
+                            <form th:if="${c.statut == 'EN_ATTENTE'}" th:action="@{/commande/annuler/{id}(id=${c.id})}"
+                                method="post" class="mt-2">
+                                <button type="submit"
+                                    onclick="return confirm('Êtes-vous sûr de vouloir annuler cette commande ?')"
+                                    class="block w-full py-3 bg-red-50 text-red-600 font-bold text-center rounded-xl hover:bg-red-500 hover:text-white transition-all">
+                                    <i class="fa-solid fa-times-circle mr-2"></i> Annuler
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

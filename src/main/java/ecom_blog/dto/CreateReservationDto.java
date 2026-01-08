@@ -20,8 +20,12 @@ public class CreateReservationDto {
 
     private String email;
 
+    private String adresse;
+
     @NotNull(message = "La date du service est requise")
     private LocalDate dateService;
+
+    private java.time.LocalTime heureReservation;
 
     private LocalDate dateFinService;
 

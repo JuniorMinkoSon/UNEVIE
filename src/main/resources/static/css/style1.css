@@ -96,7 +96,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0.7));
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7));
 }
 
 .featured-content h2 {
@@ -141,7 +141,7 @@ body {
 }
 
 .featured-section.light .featured-content {
-    background: linear-gradient(to left, rgba(255,255,255,0.95), rgba(255,255,255,0.8));
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8));
 }
 
 .featured-section.light .btn-discover {
@@ -322,7 +322,7 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
     padding: 30px 20px;
     color: #fff;
     text-align: center;
@@ -400,11 +400,35 @@ body {
 }
 
 /* ===== CAROUSEL HERO (inspiré) ===== */
-.hero-carousel { position: relative; overflow: hidden; }
-.carousel { position: relative; height: 80vh; }
-.carousel-track { display: flex; transition: transform 0.7s ease; height: 100%; }
-.carousel-slide { min-width: 100%; position: relative; overflow: hidden; }
-.carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-carousel {
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel {
+    position: relative;
+    height: 80vh;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.7s ease;
+    height: 100%;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 .carousel-slide .carousel-video,
 .carousel-slide video.carousel-video {
     position: absolute;
@@ -414,13 +438,46 @@ body {
     object-fit: cover;
     display: block;
 }
-.slide-caption { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: white; text-align: center; z-index: 5; max-width: 900px; padding: 0 16px; }
-.slide-caption h1 { font-size: 2.6rem; font-weight: 800; margin-bottom: 12px; text-shadow: 0 6px 20px rgba(0,0,0,0.45); }
-.slide-caption p { font-size: 1.1rem; color: #f0f0f0; margin-bottom: 18px; text-shadow: 0 4px 12px rgba(0,0,0,0.35); }
-.carousel-controls { position: absolute; inset: auto 20px 20px auto; z-index: 10; display: flex; gap: 12px; right: 22px; bottom: 22px; }
+
+.slide-caption {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    z-index: 5;
+    max-width: 900px;
+    padding: 0 16px;
+}
+
+.slide-caption h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    text-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+
+.slide-caption p {
+    font-size: 1.1rem;
+    color: #f0f0f0;
+    margin-bottom: 18px;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.carousel-controls {
+    position: absolute;
+    inset: auto 20px 20px auto;
+    z-index: 10;
+    display: flex;
+    gap: 12px;
+    right: 22px;
+    bottom: 22px;
+}
 
 /* Unified button styles for carousel controls and hero CTAs */
-.carousel-btn, .hero-cta-btn {
+.carousel-btn,
+.hero-cta-btn {
     min-height: 44px;
     padding: 10px 18px;
     display: inline-flex;
@@ -433,27 +490,69 @@ body {
     transition: var(--transition);
 }
 
-.carousel-prev, .carousel-next {
+.carousel-prev,
+.carousel-next {
     /* carousel arrow buttons share the same sizing as hero CTAs */
-    background: rgba(0,0,0,0.55);
+    background: rgba(0, 0, 0, 0.55);
     color: white;
     border: none;
     cursor: pointer;
-    padding: 0; /* padding handled by .carousel-btn */
+    padding: 0;
+    /* padding handled by .carousel-btn */
 }
-.carousel-prev::before, .carousel-next::before { content: none; }
-.carousel-prev, .carousel-next { width: auto; height: auto; }
+
+.carousel-prev::before,
+.carousel-next::before {
+    content: none;
+}
+
+.carousel-prev,
+.carousel-next {
+    width: auto;
+    height: auto;
+}
 
 /* helper classes to apply unified style */
-.carousel-prev, .carousel-next { }
-.carousel-prev.carousel-btn, .carousel-next.carousel-btn { }
-.carousel-indicators { position: absolute; left: 50%; transform: translateX(-50%); bottom: 18px; display: flex; gap: 8px; z-index: 10; }
-.carousel-indicators button { width: 10px; height: 10px; border-radius: 50%; border: none; background: rgba(255,255,255,0.5); cursor: pointer; }
-.carousel-indicators button.active { background: var(--accent); }
+.carousel-prev,
+.carousel-next {}
+
+.carousel-prev.carousel-btn,
+.carousel-next.carousel-btn {}
+
+.carousel-indicators {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 18px;
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.carousel-indicators button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
+
+.carousel-indicators button.active {
+    background: var(--accent);
+}
 
 /* Collections grid */
-.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
-.collections .card-service img { height: 260px; object-fit: cover; }
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+}
+
+.collections .card-service img {
+    height: 260px;
+    object-fit: cover;
+}
 
 
 /* ===== CARDS ===== */
@@ -604,26 +703,51 @@ body {
 
 /* ===== ANIMATIONS ===== */
 @keyframes fade-in-up {
-    0% { opacity: 0; transform: translateY(40px); }
-    100% { opacity: 1; transform: translateY(0); }
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .animate-fade-in-up {
     animation: fade-in-up 1s ease forwards;
 }
 
-.delay-100 { animation-delay: 0.1s; }
-.delay-200 { animation-delay: 0.2s; }
-.delay-300 { animation-delay: 0.3s; }
+.delay-100 {
+    animation-delay: 0.1s;
+}
+
+.delay-200 {
+    animation-delay: 0.2s;
+}
+
+.delay-300 {
+    animation-delay: 0.3s;
+}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-    .hero-content h1 { font-size: 1.8rem; }
-    .section { padding: 60px 5%; }
-    .cta-content { flex-direction: column; text-align: center; }
+    .hero-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .section {
+        padding: 60px 5%;
+    }
+
+    .cta-content {
+        flex-direction: column;
+        text-align: center;
+    }
 }
+
 /* ============================
-   🌑 FOOTER STYLING (BarikaWeb)
+   🌑 FOOTER STYLING (UNEVIE)
    ============================ */
 
 .footer {
@@ -759,8 +883,9 @@ body {
         padding: 60px 5% 20px;
     }
 }
+
 /* =======================================
-   🌐 HEADER MODERNE — BarikaWeb
+   🌐 HEADER MODERNE — UNEVIE
    ======================================= */
 
 header {
@@ -776,10 +901,11 @@ header {
 /* ===== TOPBAR (utility) ===== */
 .topbar {
     background: #f6f6f6;
-    border-bottom: 1px solid rgba(0,0,0,0.04);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
     font-size: 0.9rem;
     color: var(--muted);
 }
+
 .header-top {
     max-width: 1200px;
     margin: 0 auto;
@@ -788,9 +914,21 @@ header {
     justify-content: space-between;
     align-items: center;
 }
-.top-left { font-weight: 500; }
-.top-right a { color: var(--muted); text-decoration: none; margin-left: 10px; }
-.top-right .sep { margin: 0 8px; color: #ddd; }
+
+.top-left {
+    font-weight: 500;
+}
+
+.top-right a {
+    color: var(--muted);
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.top-right .sep {
+    margin: 0 8px;
+    color: #ddd;
+}
 
 /* ===== HEADER GRID: left nav, centered logo, right actions ===== */
 .header-grid {
@@ -799,11 +937,32 @@ header {
     align-items: center;
     gap: 16px;
 }
-.nav-left { justify-self: start; }
-.nav-right { justify-self: end; }
-.header-logo { justify-self: center; }
-.header-logo a { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--accent); font-weight: 700; }
-.header-logo img { height: 44px; width: auto; }
+
+.nav-left {
+    justify-self: start;
+}
+
+.nav-right {
+    justify-self: end;
+}
+
+.header-logo {
+    justify-self: center;
+}
+
+.header-logo a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.header-logo img {
+    height: 44px;
+    width: auto;
+}
 
 
 .header-inner {
@@ -980,6 +1139,7 @@ header {
         opacity: 0;
         transform: translateY(40px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -989,8 +1149,9 @@ header {
 .animate-fade-in-up {
     animation: fade-in-up 1s ease forwards;
 }
+
 /* ==========================================
-   ✉️ PAGE CONTACT — BarikaWeb
+   ✉️ PAGE CONTACT — UNEVIE
    ========================================== */
 
 .container-contact {
@@ -1158,11 +1319,13 @@ header {
         opacity: 0;
         transform: translateY(40px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
+
 /* ==========================================
    🧠 PAGE ADMIN - AJOUT ARTICLE
    ========================================== */
@@ -1297,6 +1460,7 @@ textarea.form-input:focus,
         opacity: 0;
         transform: translateY(40px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -1320,6 +1484,7 @@ textarea.form-input:focus,
         text-align: center;
     }
 }
+
 /* ==========================================
    ⚙️ PAGE ADMIN - AJOUT PRODUIT
    ========================================== */
@@ -1459,6 +1624,7 @@ textarea.form-input:focus,
         opacity: 0;
         transform: translateY(40px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -1482,6 +1648,7 @@ textarea.form-input:focus,
         text-align: center;
     }
 }
+
 /* ==========================================
    📊 ADMIN DASHBOARD - STYLE PRO
    ========================================== */
@@ -1631,6 +1798,7 @@ textarea.form-input:focus,
         opacity: 0;
         transform: translateY(40px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -1657,6 +1825,7 @@ textarea.form-input:focus,
         margin-bottom: 8px;
     }
 }
+
 /* ==========================================
    🔐 PAGE ADMIN LOGIN - STYLE PRO
    ========================================== */
@@ -1762,6 +1931,7 @@ textarea.form-input:focus,
         opacity: 0;
         transform: translateY(40px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -1773,10 +1943,12 @@ textarea.form-input:focus,
     .login-card {
         padding: 28px;
     }
+
     .login-card h1 {
         font-size: 1.5rem;
     }
 }
+
 /* ==========================================
    📰 BLOG PAGE - STYLE PRO
    ========================================== */
@@ -1918,6 +2090,7 @@ textarea.form-input:focus,
         opacity: 0;
         transform: translateY(30px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -1934,6 +2107,7 @@ textarea.form-input:focus,
         height: 160px;
     }
 }
+
 /* ==========================================
    🛒 PAGE PRODUITS - STYLE E-COMMERCE PRO
    ========================================== */
@@ -2106,11 +2280,13 @@ textarea.form-input:focus,
         opacity: 0;
         transform: translateY(30px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
     }
 }
+
 /* ==========================================
    🏗️ PAGE PROJETS / RÉALISATIONS - STYLE PRO
    ========================================== */
@@ -2281,16 +2457,18 @@ textarea.form-input:focus,
         opacity: 0;
         transform: translateY(30px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
     }
 
-.carousel-images img.active {
-    opacity: 1;
-}
+    .carousel-images img.active {
+        opacity: 1;
+    }
 
 }
+
 /* ====== Style Global Panier ====== */
 body {
     font-family: 'Poppins', sans-serif;
@@ -2306,14 +2484,15 @@ body {
     background: white;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .section h2 {
     text-align: center;
     margin-bottom: 20px;
     font-size: 28px;
-    color: #1e3a8a; /* bleu foncé */
+    color: #1e3a8a;
+    /* bleu foncé */
 }
 
 /* ====== Table Panier ====== */
@@ -2322,16 +2501,20 @@ table {
     border-collapse: collapse;
     margin-bottom: 20px;
 }
-th, td {
+
+th,
+td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #e5e5e5;
 }
+
 th {
     background-color: #f1f5f9;
     font-weight: bold;
     color: #1e293b;
 }
+
 tr:hover {
     background-color: #fafafa;
 }
@@ -2362,7 +2545,8 @@ label {
 }
 
 input[type="radio"] {
-    accent-color: #1e3a8a; /* change couleur radio bouton */
+    accent-color: #1e3a8a;
+    /* change couleur radio bouton */
     margin-right: 8px;
 }
 
@@ -2389,6 +2573,7 @@ input[type="radio"] {
     color: #6b7280;
     font-size: 16px;
 }
+
 /* === CAROUSEL === */
 .carousel {
     position: relative;
@@ -2396,7 +2581,7 @@ input[type="radio"] {
     overflow: hidden;
     border-radius: 20px;
     margin-bottom: 40px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .carousel-images img {
@@ -2413,7 +2598,7 @@ input[type="radio"] {
 .carousel-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6));
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
     display: flex;
     justify-content: center;
     align-items: center;
@@ -2445,7 +2630,8 @@ input[type="radio"] {
 }
 
 .indicator.active {
-    background: #f97316; /* orange */
+    background: #f97316;
+    /* orange */
     transform: scale(1.2);
 }
 
@@ -2469,7 +2655,7 @@ input[type="radio"] {
 .article-card {
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: 0.3s;
 }
 
@@ -2514,9 +2700,5 @@ input[type="radio"] {
     background: #fff;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
-
-
-

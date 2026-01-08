@@ -48,10 +48,20 @@ public class CommandeController {
         return "user/commande-form";
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
+    private ecom_blog.service.CommandeTimerService timerService;
+
+    @org.springframework.beans.factory.annotation.Autowired
+    private ecom_blog.service.CreneauHoraireService creneauService;
+
+    @org.springframework.beans.factory.annotation.Autowired
+    private ecom_blog.service.NotificationService notificationService;
+
     // 🛒 VALIDER LA COMMANDE
     @PostMapping("/commande/valider")
     public String validerCommande(@ModelAttribute Commande commande,
             @RequestParam Long produitId,
+            @RequestParam(required = false) Long creneauId,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
 
         Produit produit = produitService.getById(produitId);
@@ -70,13 +80,34 @@ public class CommandeController {
         commande.setStatut("EN_ATTENTE");
         commande.setAdresse(commande.getLocalisation()); // Synchronize fields
 
+        // Par défaut, données masquées aux fournisseurs
+        commande.setDonneesVisiblesFournisseur(false);
+
         // 👤 Assigner l'utilisateur si connecté
         if (userDetails != null) {
             commande.setUser(userDetails.getUser());
         }
 
+        // Assigner le créneau si sélectionné
+        if (creneauId != null) {
+            creneauService.findById(creneauId).ifPresent(creneau -> {
+                commande.setCreneau(creneau);
+                commande.setDateCreneauDebut(creneau.getDebut());
+                commande.setDateCreneauFin(creneau.getFin());
+                // Réserver le créneau
+                creneauService.reserverCreneau(creneau, commande);
+            });
+        }
+
+        // Initialiser le timer d'expiration (10 mins)
+        timerService.initialiserTimer(commande);
+
         commandeService.save(commande);
 
-        return "redirect:/projets?success=commande";
+        // Notifier l'admin
+        notificationService.notifierNouvelleCommande(commande);
+
+        // Rediriger vers le suivi de commande
+        return "redirect:/suivi-commande/" + commande.getId();
     }
 }

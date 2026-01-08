@@ -61,14 +61,15 @@ public class ContratFournisseur extends BaseEntity {
 
                 Article 3 - Limitation de responsabilité
                 ----------------------------------------
-                LA PLATEFORME N'EST PAS RESPONSABLE :
-                - Des litiges survenant entre le Client et le Fournisseur
-                - De la qualité des services fournis par le Fournisseur
-                - Des retards ou annulations de services
-                - Des dommages directs ou indirects liés aux services
+                ARTICLE 3: LIMITATION DE RESPONSABILITÉ
 
-                Le Fournisseur assume l'entière responsabilité de ses prestations
-                et de la satisfaction de ses clients.
+                La Plateforme agit en qualité d’intermédiaire technique de mise en relation entre les Clients et le Fournisseur.
+
+                À ce titre, la Plateforme ne saurait être tenue responsable de l’exécution, de la qualité ou des conséquences des services fournis par le Fournisseur.
+
+                Toutefois, la Plateforme demeure responsable des obligations lui incombant au titre du présent contrat, notamment en ce qui concerne le fonctionnement du système de réservation, la gestion des paiements et la transmission des informations.
+
+                Le Fournisseur demeure seul responsable de ses prestations et des relations contractuelles qu’il entretient avec les Clients.
 
                 Article 4 - Commission
                 ----------------------
@@ -82,9 +83,10 @@ public class ContratFournisseur extends BaseEntity {
 
                 Fait à Abidjan, Côte d'Ivoire
                 Date de génération : %s
-                """.formatted(
-                fournisseur.getNomEntreprise(),
-                dateGeneration.toString());
+                """
+                .formatted(
+                        fournisseur.getNomEntreprise(),
+                        dateGeneration.toString());
     }
 
     /**

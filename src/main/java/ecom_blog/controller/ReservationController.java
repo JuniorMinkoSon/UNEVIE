@@ -33,6 +33,20 @@ public class ReservationController {
     @Autowired
     private EvaluationRepository evaluationRepository;
 
+    @Autowired
+    private ecom_blog.service.CommandeService commandeService;
+
+    @Autowired
+    private ecom_blog.service.CommandeTimerService timerService;
+
+    @Autowired
+    private ecom_blog.service.NotificationService notificationService;
+
+    @Autowired
+    private ecom_blog.service.MapboxService mapboxService;
+
+    // ... (rest of the file)
+
     // ==================== PAGES SECTEURS ====================
 
     @GetMapping("/secteurs")
@@ -161,7 +175,6 @@ public class ReservationController {
         ServiceFournisseur service = fournisseurService.findServiceById(dto.getServiceId())
                 .orElseThrow(() -> new RuntimeException("Service non trouvé"));
 
-        // Validation contrat pour voiture
         if (service.getSecteur() == Secteur.VOITURE && !dto.isContratAccepte()) {
             model.addAttribute("service", service);
             model.addAttribute("fournisseur", service.getFournisseur());
@@ -171,6 +184,76 @@ public class ReservationController {
 
         User user = userService.findByEmailOptional(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+        // 🍔 Si c'est le secteur ALIMENTAIRE ou LOISIRS, on crée une COMMANDE au lieu
+        // d'une
+        // RÉSERVATION
+        if (service.getSecteur() == Secteur.ALIMENTAIRE || service.getSecteur() == Secteur.LOISIRS) {
+            Commande commande = new Commande();
+            commande.setService(service);
+            commande.setUser(user);
+            commande.setNomClient(dto.getNomClient());
+            commande.setTelephone(dto.getTelephone());
+
+            // On utilise le nombre de personnes comme quantité
+            int quantite = (dto.getNombrePersonnes() != null && dto.getNombrePersonnes() > 0)
+                    ? dto.getNombrePersonnes()
+                    : 1;
+            commande.setQuantite(quantite);
+
+            // Calcul du total
+            double prixUnitaire = service.getPrix() != null ? service.getPrix() : 0.0;
+            commande.setTotal(prixUnitaire * quantite);
+
+            commande.setDateCommande(java.time.LocalDateTime.now());
+            commande.setStatut("EN_ATTENTE");
+            commande.setModePaiement("ESPECE"); // Paiement en espèce par défaut pour l'instant
+
+            // Pour LOISIRS, définir le créneau horaire
+            if (service.getSecteur() == Secteur.LOISIRS && dto.getHeureReservation() != null) {
+                commande.setDateCreneauDebut(
+                        java.time.LocalDateTime.of(dto.getDateService(), dto.getHeureReservation()));
+            }
+
+            // On utilise l'adresse fournie ou celle du fournisseur par défaut
+            if (dto.getAdresse() != null && !dto.getAdresse().trim().isEmpty()) {
+                commande.setAdresse(dto.getAdresse());
+                commande.setLocalisation(dto.getAdresse()); // Ville/Localisation simplifiée
+            } else {
+                commande.setAdresse(service.getFournisseur().getAdresse());
+                commande.setLocalisation(service.getFournisseur().getVille());
+            }
+
+            commande.setDonneesVisiblesFournisseur(false);
+
+            // Initialiser le timer (10 mins)
+            timerService.initialiserTimer(commande);
+
+            // Tenter de géocoder l'adresse pour la map
+            try {
+                // IMPORTANT: Utiliser l'adresse de la commande qu'on vient de définir
+                double[] coords = mapboxService.geocodeAddress(commande.getAdresse());
+                if (coords != null) {
+                    commande.setLongitudeDestination(coords[0]);
+                    commande.setLatitudeDestination(coords[1]);
+                } else {
+                    // Fallback Dakar pour démo
+                    commande.setLongitudeDestination(-17.4677);
+                    commande.setLatitudeDestination(14.6937);
+                }
+            } catch (Exception e) {
+                // Fallback Dakar pour démo
+                commande.setLongitudeDestination(-17.4677);
+                commande.setLatitudeDestination(14.6937);
+            }
+
+            commandeService.save(commande);
+
+            // Notifier
+            notificationService.notifierNouvelleCommande(commande);
+
+            return "redirect:/suivi-commande/" + commande.getId();
+        }
 
         Reservation reservation = reservationService.creerReservation(
                 user,

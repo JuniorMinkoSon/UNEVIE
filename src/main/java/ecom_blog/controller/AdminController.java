@@ -330,4 +330,28 @@ public class AdminController {
         categorieService.delete(id);
         return "redirect:/admin/categories?deleted";
     }
+
+    /* ================== TRACKING GLOBAL ================== */
+
+    @GetMapping("/tracking")
+    public String trackingGlobal(Model model) {
+        // Commandes en cours de livraison
+        List<ecom_blog.model.Commande> commandesEnCours = commandeService
+                .getCommandesEnCoursLivraison();
+
+        // Livreurs actifs (ceux qui ont une position récente)
+        // TODO: Créer une méthode findLivreursActifs dans UserService
+        // Pour l'instant, on prend les livreurs des commandes en cours
+        java.util.Set<ecom_blog.model.User> livreursActifs = new java.util.HashSet<>();
+        for (ecom_blog.model.Commande c : commandesEnCours) {
+            if (c.getLivreur() != null) {
+                livreursActifs.add(c.getLivreur());
+            }
+        }
+
+        model.addAttribute("commandesEnCours", commandesEnCours);
+        model.addAttribute("livreursActifs", livreursActifs);
+
+        return "admin/tracking-global";
+    }
 }

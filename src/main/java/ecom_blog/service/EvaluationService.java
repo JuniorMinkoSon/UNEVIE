@@ -48,4 +48,40 @@ public class EvaluationService {
 
         serviceFournisseurRepository.save(service);
     }
+
+    // ================== ÉVALUATION AUTOMATIQUE ==================
+
+    @Autowired
+    private ecom_blog.repository.CommandeRepository commandeRepository;
+
+    @Autowired
+    private NotificationService notificationService;
+
+    @org.springframework.beans.factory.annotation.Value("${commande.evaluation.delay.hours:1}")
+    private int evaluationDelayHours;
+
+    /**
+     * Vérifie toutes les 10 minutes les commandes à évaluer
+     * Envoie automatiquement une demande d'évaluation 1h après livraison
+     */
+    @org.springframework.scheduling.annotation.Scheduled(fixedRate = 600000) // Toutes les 10 minutes
+    @Transactional
+    public void envoyerDemandesEvaluation() {
+        java.time.LocalDateTime dateLimit = java.time.LocalDateTime.now()
+                .minusHours(evaluationDelayHours);
+
+        List<ecom_blog.model.Commande> commandesAEvaluer = commandeRepository
+                .findCommandesAEvaluer(dateLimit);
+
+        org.slf4j.LoggerFactory.getLogger(EvaluationService.class)
+                .info("Envoi de {} demandes d'évaluation", commandesAEvaluer.size());
+
+        for (ecom_blog.model.Commande commande : commandesAEvaluer) {
+            notificationService.envoyerDemandeEvaluation(commande);
+
+            commande.setEvaluationEnvoyee(true);
+            commande.setDateEvaluationEnvoyee(java.time.LocalDateTime.now());
+            commandeRepository.save(commande);
+        }
+    }
 }

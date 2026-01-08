@@ -97,7 +97,8 @@
                                 </thead>
                                 <tbody class="divide-y divide-premium-dark/5">
                                     <tr th:each="c, i : ${commandes}" th:if="${i.index < 5}"
-                                        class="hover:bg-premium-light/50 transition-colors group">
+                                        class="hover:bg-premium-light/50 transition-colors group cursor-pointer"
+                                        th:onclick="'window.location.href=\'/suivi-commande/' + ${c.id} + '\''">
                                         <td class="px-8 py-6">
                                             <div class="flex items-center gap-4">
                                                 <div
@@ -106,7 +107,8 @@
                                                 </div>
                                                 <div>
                                                     <p class="font-bold text-premium-dark"
-                                                        th:text="${c.produit != null ? c.produit.nom : 'Service'}">Nom
+                                                        th:text="${c.produit != null ? c.produit.nom : (c.service != null ? c.service.nom : 'Service')}">
+                                                        Nom
                                                     </p>
                                                     <p
                                                         class="text-[10px] font-bold text-premium-dark/30 uppercase tracking-widest">

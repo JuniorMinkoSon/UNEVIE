@@ -174,6 +174,93 @@
                             </div>
 
                             <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="block text-sm font-bold text-slate-700">Adresse de livraison / Lieu de
+                                        RDV</label>
+                                    <button type="button" onclick="getLocation()"
+                                        class="text-xs text-premium-orange font-bold flex items-center gap-1 hover:text-orange-700 transition-all">
+                                        <i class="fa-solid fa-location-crosshairs"></i> Ma position
+                                    </button>
+                                </div>
+                                <div class="relative">
+                                    <input type="text" id="adresseInput" th:field="*{adresse}"
+                                        placeholder="Ex: Mermoz, Rue 5, Villa 123"
+                                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-premium-orange focus:border-transparent pl-10 transition-all">
+                                    <i
+                                        class="fa-solid fa-map-pin absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                </div>
+                                <p id="geoStatus" class="text-[10px] text-slate-400 mt-1 italic hidden">Recherche de la
+                                    position...</p>
+                            </div>
+
+                            <script th:inline="javascript">
+                                /*<![CDATA[*/
+                                const MAPBOX_TOKEN = /*[[${@environment.getProperty('mapbox.access.token')}]]*/ '';
+
+                                function getLocation() {
+                                    const status = document.getElementById('geoStatus');
+                                    status.textContent = "Recherche de la position...";
+                                    status.classList.remove('hidden');
+
+                                    if (navigator.geolocation) {
+                                        navigator.geolocation.getCurrentPosition(showPosition, showError);
+                                    } else {
+                                        status.textContent = "La géolocalisation n'est pas supportée par ce navigateur.";
+                                    }
+                                }
+
+                                function showPosition(position) {
+                                    const lat = position.coords.latitude;
+                                    const lng = position.coords.longitude;
+                                    const status = document.getElementById('geoStatus');
+
+                                    status.textContent = "Géocodage de l'adresse...";
+
+                                    // Appel Mapbox Geocoding API (Reverse)
+                                    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${MAPBOX_TOKEN}&types=address,poi&limit=1`;
+
+                                    fetch(url)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.features && data.features.length > 0) {
+                                                const address = data.features[0].place_name;
+                                                document.getElementById('adresseInput').value = address;
+                                                status.textContent = "Adresse trouvée !";
+                                                setTimeout(() => status.classList.add('hidden'), 3000);
+                                            } else {
+                                                status.textContent = "Aucune adresse trouvée pour cette position.";
+                                                // Fallback coords if address fails
+                                                document.getElementById('adresseInput').value = `${lat}, ${lng}`;
+                                            }
+                                        })
+                                        .catch(err => {
+                                            console.error(err);
+                                            status.textContent = "Erreur lors du géocodage.";
+                                            document.getElementById('adresseInput').value = `${lat}, ${lng}`;
+                                        });
+                                }
+
+                                function showError(error) {
+                                    const status = document.getElementById('geoStatus');
+                                    switch (error.code) {
+                                        case error.PERMISSION_DENIED:
+                                            status.textContent = "Vous avez refusé la demande de géolocalisation.";
+                                            break;
+                                        case error.POSITION_UNAVAILABLE:
+                                            status.textContent = "Les informations de localisation sont indisponibles.";
+                                            break;
+                                        case error.TIMEOUT:
+                                            status.textContent = "La demande de géolocalisation a expiré.";
+                                            break;
+                                        case error.UNKNOWN_ERROR:
+                                            status.textContent = "Une erreur inconnue est survenue.";
+                                            break;
+                                    }
+                                }
+                                /*]]>*/
+                            </script>
+
+                            <div>
                                 <label class="block text-sm font-bold text-slate-700 mb-2">Date du service *</label>
                                 <input type="date" th:field="*{dateService}" required
                                     class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-premium-orange focus:border-transparent">
@@ -192,6 +279,13 @@
                                 </label>
                             </div>
 
+                            <!-- Heure pour Loisirs -->
+                            <div th:if="${service.fournisseur.secteur.name() == 'LOISIRS'}">
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Heure de réservation</label>
+                                <input type="time" th:field="*{heureReservation}" required
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-premium-orange focus:border-transparent">
+                            </div>
+
                             <div
                                 th:if="${service.fournisseur.secteur.name() == 'EVENEMENTIEL' || service.fournisseur.secteur.name() == 'ALIMENTAIRE'}">
                                 <label class="block text-sm font-bold text-slate-700 mb-2">Nombre de personnes</label>
@@ -205,61 +299,173 @@
                                     class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-premium-orange focus:border-transparent resize-none"></textarea>
                             </div>
 
-                            <!-- Contrat Juridique pour Voitures -->
-                            <div th:if="${service.fournisseur.secteur.name() == 'VOITURE'}"
-                                class="mt-6 p-4 bg-premium-orange/5 border border-premium-orange/20 rounded-2xl">
-                                <h4 class="text-sm font-bold text-premium-orange mb-2 flex items-center gap-2">
-                                    <i class="fa-solid fa-file-contract"></i>
-                                    Contrat de location
-                                </h4>
-                                <p class="text-xs text-slate-500 mb-4 uppercase tracking-[0.1em] font-medium">Conditions
-                                    légales de location</p>
+                            <!-- BOUTON DÉCLENCHEUR DU MODAL -->
+                            <button type="button" onclick="openReservationModal()"
+                                class="w-full mt-6 py-4 bg-gradient-to-r from-premium-orange to-amber-500 text-white font-bold text-lg rounded-xl hover:from-orange-600 hover:to-amber-600 transition-all shadow-lg shadow-premium-orange/30">
+                                <i class="fa-solid fa-calendar-check mr-2"></i>
+                                Réserver maintenant
+                            </button>
 
-                                <div
-                                    class="h-32 overflow-y-auto bg-white/50 border border-white p-3 rounded-xl text-[10px] text-slate-600 mb-4 font-mono leading-relaxed">
-                                    CONTRAT DE LOCATION DE VÉHICULE
-                                    ------------------------------
-                                    Le client reconnaît avoir pris connaissance des conditions générales de location de
-                                    l'entreprise <span th:text="${fournisseur.nomEntreprise}"></span>.
+                            <!-- MODAL DE CONFIRMATION & CONTRAT -->
+                            <div id="reservationModal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title"
+                                role="dialog" aria-modal="true">
+                                <!-- Overlay -->
+                                <div class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm transition-opacity"
+                                    onclick="closeReservationModal()"></div>
 
-                                    1. Le client s'engage à être titulaire d'un permis de conduire valide.
-                                    2. Le véhicule est livré avec le plein de carburant et doit être restitué de même.
-                                    3. Toute dégradation constatée lors du retour sera facturée au client.
-                                    4. L'utilisation du véhicule est limitée au territoire national sauf accord écrit du
-                                    loueur.
+                                <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                                    <div
+                                        class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
 
-                                    En cochant la case ci-dessous, vous acceptez que cette réservation soit soumise aux
-                                    conditions du contrat juridique qui sera généré avec vos informations personnelles.
+                                        <div
+                                            class="relative transform overflow-hidden rounded-3xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-slate-100">
+
+                                            <!-- Header -->
+                                            <div
+                                                class="bg-slate-50 px-4 py-5 sm:px-6 border-b border-slate-100 flex justify-between items-center">
+                                                <h3 class="text-lg font-bold leading-6 text-slate-800" id="modal-title">
+                                                    <i class="fa-solid fa-file-signature text-premium-orange mr-2"></i>
+                                                    Confirmation & Contrat
+                                                </h3>
+                                                <button type="button" onclick="closeReservationModal()"
+                                                    class="text-slate-400 hover:text-slate-600 transition-colors">
+                                                    <i class="fa-solid fa-xmark text-xl"></i>
+                                                </button>
+                                            </div>
+
+                                            <!-- Body -->
+                                            <div class="px-4 py-6 sm:p-6 space-y-6">
+
+                                                <p class="text-sm text-slate-600 text-center">
+                                                    Vous êtes sur le point de finaliser votre réservation pour <br>
+                                                    <strong class="text-slate-800"
+                                                        th:text="${service.nom}">Service</strong>.
+                                                </p>
+
+                                                <!-- CONTRAT JURIDIQUE (Pour tous, ou spécifique VOITURE) -->
+                                                <!-- Affiché par défaut pour sécuriser le consentement -->
+                                                <div
+                                                    class="bg-premium-orange/5 border border-premium-orange/10 rounded-2xl p-4">
+                                                    <h4
+                                                        class="text-xs font-bold text-premium-orange mb-3 flex items-center gap-2 uppercase tracking-widest">
+                                                        Conditions légales
+                                                    </h4>
+
+                                                    <div
+                                                        class="h-48 overflow-y-auto bg-white border border-slate-200 p-3 rounded-xl text-[10px] text-slate-600 font-mono leading-relaxed shadow-inner whitespace-pre-line">
+                                                        <span
+                                                            th:if="${service.fournisseur.secteur.name() == 'VOITURE'}">
+                                                            CONTRAT DE LOCATION DE VÉHICULE
+                                                            ------------------------------
+                                                            Le client reconnaît avoir pris connaissance des conditions
+                                                            générales de location de l'entreprise <span
+                                                                th:text="${fournisseur.nomEntreprise}"></span>.
+
+                                                            1. Le client s'engage à être titulaire d'un permis de
+                                                            conduire valide.
+                                                            2. Le véhicule est livré avec le plein de carburant et doit
+                                                            être restitué de même.
+                                                            3. Toute dégradation constatée lors du retour sera facturée
+                                                            au client.
+                                                            4. L'utilisation du véhicule est limitée au territoire
+                                                            national sauf accord écrit du loueur.
+                                                        </span>
+                                                        <span
+                                                            th:unless="${service.fournisseur.secteur.name() == 'VOITURE'}">
+                                                            CONDITIONS GÉNÉRALES DE RÉSERVATION
+                                                            ------------------------------
+                                                            En validant cette réservation, le client s'engage à
+                                                            respecter les conditions de service de l'entreprise <span
+                                                                th:text="${fournisseur.nomEntreprise}"></span>.
+
+                                                            1. Le client s'engage à honorer le rendez-vous ou la
+                                                            commande effectuée.
+                                                            2. Toute annulation doit être effectuée au moins 24h à
+                                                            l'avance.
+                                                            3. Le paiement s'effectue selon les modalités convenues
+                                                            (Espèces par défaut).
+                                                        </span>
+                                                    </div>
+
+                                                    <label th:if="${service.fournisseur.secteur.name() == 'VOITURE'}"
+                                                        class="flex items-start gap-3 cursor-pointer group mt-4 p-2 hover:bg-white rounded-lg transition-colors">
+                                                        <input type="checkbox" th:field="*{contratAccepte}" required
+                                                            class="mt-1 w-5 h-5 rounded border-premium-orange/30 text-premium-orange focus:ring-premium-orange transition-all">
+                                                        <span
+                                                            class="text-xs text-slate-700 font-bold group-hover:text-premium-orange leading-snug">
+                                                            J'ai lu et j'accepte les termes du contrat juridique de
+                                                            location *
+                                                        </span>
+                                                    </label>
+                                                    <label
+                                                        th:unless="${service.fournisseur.secteur.name() == 'VOITURE'}"
+                                                        class="flex items-start gap-3 cursor-pointer group mt-4 p-2 hover:bg-white rounded-lg transition-colors">
+                                                        <input type="checkbox" required
+                                                            class="mt-1 w-5 h-5 rounded border-premium-orange/30 text-premium-orange focus:ring-premium-orange transition-all">
+                                                        <span
+                                                            class="text-xs text-slate-700 font-bold group-hover:text-premium-orange leading-snug">
+                                                            Je confirme ma réservation et j'accepte les conditions *
+                                                        </span>
+                                                    </label>
+                                                </div>
+
+                                                <p th:if="${errorContrat}"
+                                                    class="text-xs text-red-500 font-bold text-center"
+                                                    th:text="${errorContrat}"></p>
+                                            </div>
+
+                                            <!-- Footer Actions -->
+                                            <div
+                                                class="bg-slate-50 px-4 py-4 sm:flex sm:flex-row-reverse sm:px-6 border-t border-slate-100 gap-3">
+                                                <button type="submit"
+                                                    class="inline-flex w-full justify-center rounded-xl bg-premium-orange px-3 py-3 text-sm font-bold text-white shadow-lg shadow-premium-orange/20 hover:bg-orange-600 sm:ml-3 sm:w-auto transition-all">
+                                                    Confirmer la transaction
+                                                </button>
+                                                <button type="button" onclick="closeReservationModal()"
+                                                    class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-3 py-3 text-sm font-bold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 sm:mt-0 sm:w-auto transition-all">
+                                                    Annuler
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <label class="flex items-start gap-3 cursor-pointer group">
-                                    <input type="checkbox" th:field="*{contratAccepte}" required
-                                        class="mt-1 w-5 h-5 rounded border-premium-orange/30 text-premium-orange focus:ring-premium-orange transition-all">
-                                    <span class="text-xs text-slate-700 font-bold group-hover:text-premium-orange">
-                                        J'accepte les termes du contrat juridique de location *
-                                    </span>
-                                </label>
-                                <p th:if="${errorContrat}" class="mt-2 text-[10px] text-red-500 font-bold"
-                                    th:text="${errorContrat}"></p>
                             </div>
-                        </div>
 
-                        <div class="bg-slate-50 rounded-xl p-4 mt-6">
-                            <div class="flex justify-between items-center">
-                                <span class="text-slate-600">Total estimé</span>
-                                <span class="text-2xl font-extrabold text-slate-800">
-                                    <span
-                                        th:text="${#numbers.formatDecimal(service.prix, 0, 'COMMA', 0, 'POINT')}">0</span>
-                                    FCFA
-                                </span>
-                            </div>
-                        </div>
+                            <script>
+                                function openReservationModal() {
+                                    const form = document.querySelector('form');
+                                    const modal = document.getElementById('reservationModal');
 
-                        <button type="submit"
-                            class="w-full mt-6 py-4 bg-gradient-to-r from-premium-orange to-amber-500 text-white font-bold text-lg rounded-xl hover:from-orange-600 hover:to-amber-600 transition-all shadow-lg shadow-premium-orange/30">
-                            <i class="fa-solid fa-calendar-check mr-2"></i>
-                            Réserver maintenant
-                        </button>
+                                    // 1. Désactiver temporairement les champs requis DANS le modal pour ne pas bloquer l'ouverture
+                                    // (car ils sont vides par défaut et empêcheraient form.checkValidity() de passer)
+                                    const modalInputs = modal.querySelectorAll('input[required], select[required], textarea[required]');
+                                    modalInputs.forEach(input => {
+                                        input.dataset.wasRequired = 'true';
+                                        input.required = false;
+                                    });
+
+                                    // 2. Vérifier la validité des champs du formulaire principal (Nom, Tel, Date...)
+                                    if (form.checkValidity()) {
+                                        // Si tout est OK, on ouvre le modal
+                                        modal.classList.remove('hidden');
+                                    } else {
+                                        // Sinon on affiche les erreurs (focus auto sur le champ vide)
+                                        form.reportValidity();
+                                    }
+
+                                    // 3. Rétablir l'attribut required pour la validation finale lors du submit
+                                    modalInputs.forEach(input => {
+                                        if (input.dataset.wasRequired === 'true') {
+                                            input.required = true;
+                                            delete input.dataset.wasRequired;
+                                        }
+                                    });
+                                }
+
+                                function closeReservationModal() {
+                                    document.getElementById('reservationModal').classList.add('hidden');
+                                }
+                            </script>
                     </form>
                 </div>
             </div>

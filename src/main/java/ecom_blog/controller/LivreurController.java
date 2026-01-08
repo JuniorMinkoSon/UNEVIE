@@ -14,11 +14,14 @@ public class LivreurController {
 
     private final CommandeRepository commandeRepository;
     private final ItineraireService itineraireService;
+    private final ecom_blog.service.UserService userService;
 
     public LivreurController(CommandeRepository commandeRepository,
-                             ItineraireService itineraireService) {
+            ItineraireService itineraireService,
+            ecom_blog.service.UserService userService) {
         this.commandeRepository = commandeRepository;
         this.itineraireService = itineraireService;
+        this.userService = userService;
     }
 
     // DÉTAIL D’UNE COURSE
@@ -34,9 +37,31 @@ public class LivreurController {
     // ACCEPTER
     @PostMapping("/{id}/accepter")
     @Transactional
-    public String accepterCourse(@PathVariable Long id) {
+    public String accepterCourse(@PathVariable Long id,
+            @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails) {
+
         Commande commande = commandeRepository.findById(id).orElseThrow();
-        commande.setStatut("EN_COURS");
+
+        // Security check: Order must be accepted by company first
+        if (!"ACCEPTEE".equals(commande.getStatut())) {
+            throw new RuntimeException(
+                    "Cette commande n'est pas disponible pour livraison (Statut: " + commande.getStatut() + ")");
+        }
+
+        // Check expiration (5 minutes after provider acceptance)
+        if (commande.getDateExpiration() != null
+                && java.time.LocalDateTime.now().isAfter(commande.getDateExpiration())) {
+            // On pourrait passer le statut à EXPIREE ou juste bloquer
+            throw new RuntimeException("Le délai de 5 minutes pour accepter cette course est écoulé.");
+        }
+
+        // Assigner le livreur connecté
+        if (userDetails != null) {
+            userService.findByEmailOptional(userDetails.getUsername())
+                    .ifPresent(commande::setLivreur);
+        }
+
+        commande.setStatut("EN_COURS_LIVRAISON");
 
         itineraireService.calculerItineraire(commande);
 

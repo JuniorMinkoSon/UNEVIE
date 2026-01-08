@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 @EnableJpaAuditing
+@org.springframework.scheduling.annotation.EnableScheduling
 
 public class EcomBlogApplication {
 
@@ -15,7 +16,7 @@ public class EcomBlogApplication {
 
         // ✅ Générer le hash pour ton mot de passe admin
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String hash = encoder.encode("admin123");  // Ton mot de passe ici
+        String hash = encoder.encode("admin123"); // Ton mot de passe ici
         System.out.println("\n=============================");
         System.out.println("🔐 Hash généré pour admin123 :");
         System.out.println(hash);

@@ -1,6 +1,6 @@
 # 🛍️ BarikaWeb — E-commerce & Blog Admin Dashboard
 
-Bienvenue dans **BarikaWeb**, une application complète développée en **Spring Boot + Thymeleaf + MySQL**.
+Bienvenue dans **UNEVIE**, une application complète développée en **Spring Boot + Thymeleaf + MySQL**.
 Elle permet la gestion d’un site e-commerce avec un espace administrateur sécurisé, un blog et un système d’authentification.
 
 ---
@@ -103,7 +103,7 @@ CREATE TABLE spring_session_attributes (
 -- 🔹 Ajout d’un administrateur par défaut
 INSERT INTO user (email, nom, password, role)
 VALUES (
-  'admin@barikaweb.com',
+  'admin@unevie.com',
   'Administrateur',
   '$2a$10$Dow1nLr7xVwBEm90Lk6RceZo4PMBVXgS5aXoaZy.gdkv0l7gA5dSa',
   'ROLE_ADMIN'

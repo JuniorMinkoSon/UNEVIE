@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Livraisons - Livreur</title>
+
+    <!-- Mapbox CSS -->
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        #map {
+            width: 100%;
+            height: 500px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .commande-card {
+            border-left: 4px solid #FF6B35;
+            transition: transform 0.2s;
+        }
+
+        .commande-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-livraison {
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-livraison:hover {
+            background: linear-gradient(135deg, #F7931E 0%, #FF6B35 100%);
+            color: white;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-en-cours {
+            background: #FFF3CD;
+            color: #856404;
+        }
+
+        .status-livree {
+            background: #D1E7DD;
+            color: #0F5132;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">
+                    <i class="fas fa-truck"></i> Mes Livraisons
+                </h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Carte -->
+            <div class="col-lg-8 mb-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-map-marked-alt"></i> Carte de Navigation
+                        </h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="map"></div>
+                    </div>
+                </div>
+
+                <div class="card mt-3" id="commande-active-info" style="display: none;">
+                    <div class="card-body">
+                        <h5>Livraison en cours</h5>
+                        <p id="client-info"></p>
+                        <p id="adresse-info"></p>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-success" onclick="terminerLivraison()">
+                                <i class="fas fa-check"></i> Terminer la livraison
+                            </button>
+                            <button class="btn btn-secondary" onclick="arreterTracking()">
+                                <i class="fas fa-stop"></i> Arrêter le tracking
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Liste des commandes -->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-list"></i> Commandes assignées
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${commandes.empty}" class="text-center text-muted py-4">
+                            <i class="fas fa-inbox fa-3x mb-3"></i>
+                            <p>Aucune commande assignée</p>
+                        </div>
+
+                        <div th:each="commande : ${commandes}" class="commande-card card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h6 class="mb-0" th:text="'Commande #' + ${commande.id}"></h6>
+                                    <span class="status-badge status-en-cours" th:text="${commande.statut}"></span>
+                                </div>
+
+                                <p class="mb-1 small">
+                                    <i class="fas fa-user"></i>
+                                    <strong>Client:</strong> <span th:text="${commande.nomClient}"></span>
+                                </p>
+
+                                <p class="mb-1 small">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <strong>Adresse:</strong> <span th:text="${commande.adresse}"></span>
+                                </p>
+
+                                <p class="mb-2 small">
+                                    <i class="fas fa-phone"></i>
+                                    <strong>Tél:</strong> <span th:text="${commande.telephone}"></span>
+                                </p>
+
+                                <button class="btn btn-livraison btn-sm w-100"
+                                    th:onclick="'commencerLivraison(' + ${commande.id} + ')'">
+                                    <i class="fas fa-play"></i> Commencer la livraison
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mapbox JS -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
+
+    <!-- SockJS & STOMP -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const MAPBOX_TOKEN = /*[[${@environment.getProperty('mapbox.access.token')}]]*/ '';
+        let commandeEnCours = null;
+        let trackingInterval = null;
+        let map = null;
+        let stompClient = null;
+
+        // Initialiser la carte
+        mapboxgl.accessToken = MAPBOX_TOKEN;
+        map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [-17.4677, 14.6937], // Dakar par défaut
+            zoom: 12
+        });
+
+        // Ajouter contrôles de navigation
+        map.addControl(new mapboxgl.NavigationControl());
+
+        // Connecter WebSocket
+        const socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function (frame) {
+            console.log('WebSocket connecté: ' + frame);
+        });
+
+        function commencerLivraison(commandeId) {
+            if (commandeEnCours) {
+                alert('Vous avez déjà une livraison en cours !');
+                return;
+            }
+
+            if (!navigator.geolocation) {
+                alert('La géolocalisation n\'est pas supportée par votre navigateur');
+                return;
+            }
+
+            // Démarrer la livraison côté serveur
+            fetch(`/api/tracking/commande/${commandeId}/demarrer`, {
+                method: 'POST'
+            }).then(response => response.text())
+                .then(result => {
+                    if (result === 'success') {
+                        commandeEnCours = commandeId;
+                        document.getElementById('commande-active-info').style.display = 'block';
+
+                        // Démarrer le partage GPS
+                        trackingInterval = setInterval(() => {
+                            navigator.geolocation.getCurrentPosition((position) => {
+                                const data = {
+                                    commandeId: commandeId,
+                                    latitude: position.coords.latitude,
+                                    longitude: position.coords.longitude,
+                                    vitesse: position.coords.speed,
+                                    cap: position.coords.heading
+                                };
+
+                                // Envoyer via WebSocket
+                                stompClient.send("/app/livreur/position", {}, JSON.stringify(data));
+
+                                // Centrer la carte sur la position actuelle
+                                map.flyTo({
+                                    center: [position.coords.longitude, position.coords.latitude],
+                                    zoom: 14
+                                });
+
+                            }, (error) => {
+                                console.error('Erreur géolocalisation:', error);
+                            });
+                        }, 5000); // Toutes les 5 secondes
+
+                        alert('Livraison démarrée ! Votre position est partagée en temps réel.');
+                    } else {
+                        alert('Erreur lors du démarrage de la livraison');
+                    }
+                });
+        }
+
+        function terminerLivraison() {
+            if (!commandeEnCours) {
+                return;
+            }
+
+            if (confirm('Confirmer la fin de livraison ?')) {
+                fetch(`/api/tracking/commande/${commandeEnCours}/terminer`, {
+                    method: 'POST'
+                }).then(response => response.text())
+                    .then(result => {
+                        if (result === 'success') {
+                            arreterTracking();
+                            alert('Livraison terminée avec succès !');
+                            location.reload();
+                        } else {
+                            alert('Erreur lors de la fin de livraison');
+                        }
+                    });
+            }
+        }
+
+        function arreterTracking() {
+            if (trackingInterval) {
+                clearInterval(trackingInterval);
+                trackingInterval = null;
+            }
+            commandeEnCours = null;
+            document.getElementById('commande-active-info').style.display = 'none';
+        }
+        /*]]>*/
+    </script>
+</body>
+
+</html>

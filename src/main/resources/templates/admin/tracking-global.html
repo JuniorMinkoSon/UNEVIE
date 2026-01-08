@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragments/admin-layout}">
+
+<head>
+    <title>Tracking Global - Admin</title>
+
+    <!-- Mapbox CSS -->
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
+
+    <style>
+        #map {
+            width: 100%;
+            height: 70vh;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .livreur-popup {
+            max-width: 200px;
+        }
+
+        .status-dot {
+            height: 10px;
+            width: 10px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .status-dot.active {
+            background-color: #28a745;
+        }
+
+        /* Vert pour En ligne/En course */
+        .status-dot.inactive {
+            background-color: #dc3545;
+        }
+
+        /* Rouge pour Hors ligne */
+
+        .delivery-list-item {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .delivery-list-item:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="container-fluid py-4">
+            <div class="row mb-3">
+                <div class="col-12 d-flex justify-content-between align-items-center">
+                    <h1 class="h3 mb-0 text-gray-800">
+                        <i class="fas fa-satellite-dish text-primary mr-2"></i> Suivi des Flottes en Temps Réel
+                    </h1>
+                    <div>
+                        <span class="badge badge-success mr-2"><i class="fas fa-truck"></i> <span
+                                th:text="${commandesEnCours.size()}">0</span> en course</span>
+                        <span class="badge badge-info"><i class="fas fa-users"></i> <span
+                                th:text="${livreursActifs.size()}">0</span> connectés</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Carte -->
+                <div class="col-lg-9 mb-4">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Carte Globale</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div id="map"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Liste Latérale -->
+                <div class="col-lg-3">
+                    <div class="card shadow mb-4" style="height: 70vh;">
+                        <div class="card-header py-3 bg-gray-100">
+                            <h6 class="m-0 font-weight-bold text-gray-800">Livraisons Actives</h6>
+                        </div>
+                        <div class="card-body overflow-auto p-0">
+                            <div class="list-group list-group-flush" id="livraisons-list">
+                                <th:block th:each="commande : ${commandesEnCours}">
+                                    <div class="list-group-item delivery-list-item"
+                                        th:onclick="'focusOnOrder(' + ${commande.id} + ', ' + ${commande.livreur.longitude != null ? commande.livreur.longitude : -17.4677} + ', ' + ${commande.livreur.latitude != null ? commande.livreur.latitude : 14.6937} + ')'">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1 text-primary font-weight-bold"
+                                                th:text="${commande.livreur.nom}">Livreur</h6>
+                                            <small
+                                                th:text="${#temporals.format(commande.dateCommande, 'HH:mm')}">Time</small>
+                                        </div>
+                                        <p class="mb-1 small">
+                                            <i class="fas fa-user-circle"></i> Client: <span
+                                                th:text="${commande.nomClient}">Client</span>
+                                        </p>
+                                        <p class="mb-1 small text-muted">
+                                            <i class="fas fa-map-marker-alt"></i> <span
+                                                th:text="${commande.adresse}">Adresse</span>
+                                        </p>
+                                        <small class="text-success"><span class="status-dot active"></span> En
+                                            cours</small>
+                                    </div>
+                                </th:block>
+
+                                <div th:if="${commandesEnCours.empty}" class="p-3 text-center text-muted">
+                                    <i class="fas fa-inbox fa-2x mb-2"></i>
+                                    <p>Aucune livraison active pour le moment.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mapbox JS -->
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
+        <!-- SockJS & STOMP -->
+        <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            const MAPBOX_TOKEN = /*[[${@environment.getProperty('mapbox.access.token')}]]*/ '';
+            // Données initiales pour peupler la carte
+            const initialCommandes = /*[[${commandesEnCours}]]*/[];
+            const initialLivreurs = /*[[${livreursActifs}]]*/[];
+
+            // Map pour stocker les marqueurs par ID de commande ou livreur
+            const markers = {};
+
+            mapboxgl.accessToken = MAPBOX_TOKEN;
+            const map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v12',
+                center: [-17.4677, 14.6937], // Dakar
+                zoom: 11
+            });
+
+            map.addControl(new mapboxgl.NavigationControl());
+
+            // Initialiser les marqueurs existants
+            initialCommandes.forEach(c => {
+                if (c.livreur && c.livreur.latitude && c.livreur.longitude) {
+                    createOrUpdateMarker(c.id, c.livreur.latitude, c.livreur.longitude, c.livreur.nom, c.nomClient);
+                }
+            });
+
+            // WebSocket connection pour mises à jour en temps réel
+            const socket = new SockJS('/ws');
+            const stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, function (frame) {
+                console.log('Connected to Admin Tracker: ' + frame);
+
+                // S'abonner à un topic global admin (à créer dans le backend si pas fait)
+                // Ou s'abonner individuellement pour chaque commande (moins efficient mais marche avec setup actuel)
+                initialCommandes.forEach(c => {
+                    stompClient.subscribe('/topic/livraison/' + c.id, function (message) {
+                        const data = JSON.parse(message.body);
+                        createOrUpdateMarker(c.id, data.latitude, data.longitude, data.livreurNom, "Client Commande #" + c.id);
+                    });
+                });
+
+                // Idéalement: s'abonner à /topic/admin/positions pour tout recevoir d'un coup
+            });
+
+            function createOrUpdateMarker(id, lat, lng, livreurNom, clientNom) {
+                if (markers[id]) {
+                    markers[id].setLngLat([lng, lat]);
+                } else {
+                    const el = document.createElement('div');
+                    el.className = 'marker';
+                    el.style.backgroundImage = 'url(https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png)'; // Remplacer par icône camion/moto
+                    el.style.width = '32px';
+                    el.style.height = '32px';
+                    el.style.backgroundSize = '100%';
+
+                    // Simple div colorée pour l'instant
+                    el.style.backgroundColor = '#FF6B35';
+                    el.style.borderRadius = '50%';
+                    el.style.border = '2px solid white';
+
+                    markers[id] = new mapboxgl.Marker(el)
+                        .setLngLat([lng, lat])
+                        .setPopup(new mapboxgl.Popup({ offset: 25 })
+                            .setHTML(`
+                                <div class="livreur-popup">
+                                    <strong>${livreurNom}</strong><br>
+                                    <small>Vers: ${clientNom}</small>
+                                </div>
+                            `))
+                        .addTo(map);
+                }
+            }
+
+            function focusOnOrder(id, lng, lat) {
+                if (!markers[id]) {
+                    // Si pas de marqueur (ex: pas de coords GPS encore), on utilise les coords passées ou défaut
+                    console.log("Marqueur introuvable, focus générique");
+                }
+                map.flyTo({
+                    center: [lng, lat],
+                    zoom: 15,
+                    essential: true
+                });
+                // Ouvrir popup si existe
+                if (markers[id]) markers[id].togglePopup();
+            }
+            /*]]>*/
+        </script>
+    </div>
+</body>
+
+</html>

@@ -96,7 +96,9 @@
                             Payer
                         </a>
                         <button th:if="${r.statut.name() == 'TERMINE' && !evaluatedIds.contains(r.id)}"
-                            th:onclick="'openEvalModal(' + ${r.id} + ', \'' + ${r.service.nom} + '\', ' + ${r.service.id} + ')'"
+                            th:data-res-id="${r.id}" th:data-service-nom="${r.service.nom}"
+                            th:data-service-id="${r.service.id}"
+                            onclick="openEvalModal(this.getAttribute('data-res-id'), this.getAttribute('data-service-nom'), this.getAttribute('data-service-id'))"
                             class="flex-1 text-center py-2 bg-emerald-500 text-white font-bold rounded-xl hover:bg-emerald-600 transition-all text-sm">
                             Évaluer
                         </button>

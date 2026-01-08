@@ -31,4 +31,16 @@ public class Evaluation extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "commande_id")
+    private Commande commande; // Pour évaluations de livraisons produits
+
+    // Photos optionnelles
+    @ElementCollection
+    @CollectionTable(name = "evaluation_photos", joinColumns = @JoinColumn(name = "evaluation_id"))
+    @Column(name = "photo_url")
+    private java.util.List<String> photoUrls = new java.util.ArrayList<>();
+
+    private java.time.LocalDateTime dateEvaluation;
 }
