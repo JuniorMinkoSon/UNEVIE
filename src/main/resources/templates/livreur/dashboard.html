@@ -226,6 +226,37 @@
         }
         setInterval(updateCountdowns, 1000);
         updateCountdowns();
+
+        // --- TRACKING AUTOMATIQUE DU LIVREUR ---
+        function sendPosition() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const data = {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        };
+
+                        fetch('/api/tracking/livreur/status', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        })
+                            .then(res => res.text())
+                            .then(status => console.log('Tracking status:', status))
+                            .catch(err => console.error('Tracking error:', err));
+                    },
+                    (err) => console.error('Geolocation error:', err),
+                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                );
+            }
+        }
+
+        // Envoyer immédiatement puis toutes les 30 secondes
+        sendPosition();
+        setInterval(sendPosition, 30000);
     </script>
 </body>
 

@@ -98,6 +98,9 @@ public class Commande extends BaseEntity {
 
     /* ================== TRACKING GPS ================== */
 
+    private Double latitudeClient;
+    private Double longitudeClient;
+
     private Double latitudeDestination;
     private Double longitudeDestination;
 }

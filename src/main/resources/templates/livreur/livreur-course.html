@@ -152,13 +152,37 @@
                                 Accepter la mission
                             </button>
                         </form>
+                    </div>
 
-                        <form th:action="@{/livreur/course/{id}/refuser(id=${commande.id})}" method="post"
-                            class="flex-1">
+                    <!-- ACTIONS: SI LIVREUR A ACCEPTE (LIVREUR_ACCEPTE) -->
+                    <div th:if="${commande.statut == 'LIVREUR_ACCEPTE'}"
+                        class="pt-10 flex flex-col gap-4 border-t border-premium-dark/5">
+                        <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100/50 mb-2">
+                            <p class="text-sm text-blue-800 font-medium">Vous avez accepté la mission. Dirigez-vous vers
+                                le fournisseur pour récupérer le colis.</p>
+                        </div>
+                        <form th:action="@{/livreur/course/{id}/arriver(id=${commande.id})}" method="post">
                             <button type="submit"
-                                class="w-full bg-premium-dark/5 text-premium-dark/40 font-extrabold py-5 rounded-2xl hover:bg-red-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-3">
-                                <i class="fa-solid fa-times-circle"></i>
-                                Refuser
+                                class="w-full bg-blue-600 text-white font-extrabold py-5 rounded-2xl shadow-xl shadow-blue-600/20 hover:bg-blue-700 transition-all active:scale-95 flex items-center justify-center gap-3 group">
+                                <i class="fa-solid fa-location-dot group-hover:bounce transition-transform"></i>
+                                Je suis arrivé chez le fournisseur
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- ACTIONS: SI LIVREUR EST ARRIVE (LIVREUR_ARRIVE) -->
+                    <div th:if="${commande.statut == 'LIVREUR_ARRIVE'}"
+                        class="pt-10 flex flex-col gap-4 border-t border-premium-dark/5">
+                        <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-100/50 mb-2">
+                            <p class="text-sm text-emerald-800 font-medium">Le fournisseur a été notifié de votre
+                                arrivée. Une fois le colis en main, confirmez l'enlèvement pour démarrer la livraison.
+                            </p>
+                        </div>
+                        <form th:action="@{/livreur/course/{id}/enlever(id=${commande.id})}" method="post">
+                            <button type="submit"
+                                class="w-full bg-emerald-600 text-white font-extrabold py-5 rounded-2xl shadow-xl shadow-emerald-600/20 hover:bg-emerald-700 transition-all active:scale-95 flex items-center justify-center gap-3 group">
+                                <i class="fa-solid fa-box-open group-hover:scale-110 transition-transform"></i>
+                                Colis récupéré - Démarrer la livraison
                             </button>
                         </form>
                     </div>
@@ -175,7 +199,7 @@
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
-                            <a th:href="'https://www.google.com/maps/dir/?api=1&destination=' + ${commande.latitudeDestination} + ',' + ${commande.longitudeDestination}"
+                            <a th:href="'https://www.google.com/maps/dir/?api=1&destination=' + (${commande.latitudeClient != null ? commande.latitudeClient : (commande.latitudeDestination != null ? commande.latitudeDestination : '14.7167')}) + ',' + (${commande.longitudeClient != null ? commande.longitudeClient : (commande.longitudeDestination != null ? commande.longitudeDestination : '-17.4677')})"
                                 target="_blank"
                                 class="w-full bg-blue-500 text-white font-bold py-4 rounded-2xl shadow-lg shadow-blue-500/20 hover:bg-blue-600 transition-all flex items-center justify-center gap-2">
                                 <i class="fa-solid fa-location-arrow"></i>

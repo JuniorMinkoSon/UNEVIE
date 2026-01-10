@@ -41,12 +41,28 @@
                     <span class="text-slate-800 font-bold" th:text="${service.nom}">Service</span>
                 </nav>
 
-                <!-- Image -->
-                <div class="h-80 bg-slate-200 rounded-3xl overflow-hidden mb-8">
-                    <img th:if="${service.imageUrl != null}" th:src="${service.imageUrl}"
-                        class="w-full h-full object-cover" alt="">
-                    <div th:unless="${service.imageUrl != null}" class="w-full h-full flex items-center justify-center">
-                        <i class="fa-solid fa-image text-slate-400 text-5xl"></i>
+                <!-- Image Gallery -->
+                <div class="space-y-4 mb-8">
+                    <!-- Main Image -->
+                    <div class="h-96 bg-white rounded-3xl overflow-hidden shadow-xl border border-slate-100">
+                        <img id="mainImage" th:if="${service.imageUrl != null}"
+                            th:src="@{'/uploads/' + ${service.imageUrl}}"
+                            class="w-full h-full object-cover transition-all duration-500" alt="">
+                        <div th:unless="${service.imageUrl != null}"
+                            class="w-full h-full flex items-center justify-center">
+                            <i class="fa-solid fa-image text-slate-400 text-5xl"></i>
+                        </div>
+                    </div>
+
+                    <!-- Thumbnails -->
+                    <div th:if="${not service.imageUrls.empty and service.imageUrls.size() > 1}"
+                        class="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+                        <div th:each="imgUrl : ${service.imageUrls}"
+                            class="w-20 h-20 rounded-xl overflow-hidden cursor-pointer border-2 border-transparent hover:border-premium-orange transition-all flex-shrink-0 shadow-md transform hover:scale-105">
+                            <img th:src="@{'/uploads/' + ${imgUrl}}" class="w-full h-full object-cover"
+                                th:onclick="'document.getElementById(\'mainImage\').src = \'/uploads/' + ${imgUrl} + '\''"
+                                alt="">
+                        </div>
                     </div>
                 </div>
 
@@ -153,6 +169,8 @@
 
                     <form th:action="@{/reservation/reserver}" method="post" th:object="${reservationDto}">
                         <input type="hidden" th:field="*{serviceId}">
+                        <input type="hidden" th:field="*{lat}" id="hidden-lat">
+                        <input type="hidden" th:field="*{lng}" id="hidden-lng">
 
                         <div class="space-y-4">
                             <div>
@@ -203,7 +221,7 @@
                                     status.classList.remove('hidden');
 
                                     if (navigator.geolocation) {
-                                        navigator.geolocation.getCurrentPosition(showPosition, showError);
+                                        navigator.geolocation.getCurrentPosition(showPosition, showError, { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 });
                                     } else {
                                         status.textContent = "La géolocalisation n'est pas supportée par ce navigateur.";
                                     }
@@ -216,27 +234,33 @@
 
                                     status.textContent = "Géocodage de l'adresse...";
 
-                                    // Appel Mapbox Geocoding API (Reverse)
-                                    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${MAPBOX_TOKEN}&types=address,poi&limit=1`;
+                                    // Utilisation de Nominatim pour un géocodage inverse plus robuste
+                                    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`;
 
                                     fetch(url)
                                         .then(response => response.json())
                                         .then(data => {
-                                            if (data.features && data.features.length > 0) {
-                                                const address = data.features[0].place_name;
-                                                document.getElementById('adresseInput').value = address;
-                                                status.textContent = "Adresse trouvée !";
+                                            if (data && data.display_name) {
+                                                document.getElementById('adresseInput').value = data.display_name;
+                                                document.getElementById('hidden-lat').value = lat;
+                                                document.getElementById('hidden-lng').value = lng;
+                                                status.textContent = "Adresse localisée !";
                                                 setTimeout(() => status.classList.add('hidden'), 3000);
                                             } else {
-                                                status.textContent = "Aucune adresse trouvée pour cette position.";
-                                                // Fallback coords if address fails
+                                                status.textContent = "Position capturée (adresse précise non trouvée).";
                                                 document.getElementById('adresseInput').value = `${lat}, ${lng}`;
+                                                document.getElementById('hidden-lat').value = lat;
+                                                document.getElementById('hidden-lng').value = lng;
+                                                setTimeout(() => status.classList.add('hidden'), 5000);
                                             }
                                         })
                                         .catch(err => {
                                             console.error(err);
-                                            status.textContent = "Erreur lors du géocodage.";
+                                            status.textContent = "Position capturée.";
                                             document.getElementById('adresseInput').value = `${lat}, ${lng}`;
+                                            document.getElementById('hidden-lat').value = lat;
+                                            document.getElementById('hidden-lng').value = lng;
+                                            setTimeout(() => status.classList.add('hidden'), 5000);
                                         });
                                 }
 

@@ -5,7 +5,8 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PanierItem extends BaseEntity{
+@EqualsAndHashCode(callSuper = true)
+public class PanierItem extends BaseEntity {
     private Produit produit;
     private int quantite;
 

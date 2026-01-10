@@ -57,11 +57,16 @@ public class CommandeController {
     @org.springframework.beans.factory.annotation.Autowired
     private ecom_blog.service.NotificationService notificationService;
 
+    @org.springframework.beans.factory.annotation.Autowired
+    private ecom_blog.service.MapboxService mapboxService;
+
     // 🛒 VALIDER LA COMMANDE
     @PostMapping("/commande/valider")
     public String validerCommande(@ModelAttribute Commande commande,
             @RequestParam Long produitId,
             @RequestParam(required = false) Long creneauId,
+            @RequestParam(required = false) Double lat,
+            @RequestParam(required = false) Double lng,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
 
         Produit produit = produitService.getById(produitId);
@@ -82,6 +87,37 @@ public class CommandeController {
 
         // Par défaut, données masquées aux fournisseurs
         commande.setDonneesVisiblesFournisseur(false);
+
+        // Sauvegarder les coordonnées GPS du client
+        if (lat != null && lng != null) {
+            commande.setLatitudeClient(lat);
+            commande.setLongitudeClient(lng);
+            commande.setLatitudeDestination(lat);
+            commande.setLongitudeDestination(lng);
+        } else {
+            // Tenter de géocoder l'adresse
+            try {
+                double[] coords = mapboxService.geocodeAddress(commande.getAdresse());
+                if (coords != null) {
+                    commande.setLongitudeDestination(coords[0]);
+                    commande.setLatitudeDestination(coords[1]);
+                    commande.setLongitudeClient(coords[0]);
+                    commande.setLatitudeClient(coords[1]);
+                } else {
+                    // Fallback Abidjan
+                    commande.setLongitudeDestination(-3.9926);
+                    commande.setLatitudeDestination(5.3600);
+                    commande.setLongitudeClient(-3.9926);
+                    commande.setLatitudeClient(5.3600);
+                }
+            } catch (Exception e) {
+                // Fallback Abidjan
+                commande.setLongitudeDestination(-3.9926);
+                commande.setLatitudeDestination(5.3600);
+                commande.setLongitudeClient(-3.9926);
+                commande.setLatitudeClient(5.3600);
+            }
+        }
 
         // 👤 Assigner l'utilisateur si connecté
         if (userDetails != null) {

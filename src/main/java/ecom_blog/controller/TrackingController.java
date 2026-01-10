@@ -1,10 +1,13 @@
 package ecom_blog.controller;
 
+import ecom_blog.dto.CourierStatusUpdateDto;
+import ecom_blog.dto.LivreurDto;
 import ecom_blog.dto.PositionUpdateDto;
 import ecom_blog.dto.TrackingDto;
 import ecom_blog.model.Commande;
 import ecom_blog.model.User;
 import ecom_blog.repository.CommandeRepository;
+import ecom_blog.repository.UserRepository;
 import ecom_blog.service.TrackingService;
 import ecom_blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * TrackingController - Gère le tracking GPS via WebSocket et REST
@@ -27,6 +32,9 @@ public class TrackingController {
 
     @Autowired
     private CommandeRepository commandeRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -117,5 +125,36 @@ public class TrackingController {
         commandeRepository.save(commande);
 
         return "success";
+    }
+
+    /**
+     * REST endpoint pour récupérer tous les livreurs disponibles (en ligne)
+     */
+    @GetMapping("/api/tracking/couriers/available")
+    @ResponseBody
+    public List<LivreurDto> getAvailableCouriers() {
+        return userService.getDisponibleLivreurs().stream()
+                .map(u -> new LivreurDto(u.getId(), u.getNom(), u.getLatitude(), u.getLongitude()))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Endpoint pour mettre à jour le statut/position du livreur en arrière-plan
+     */
+    @PostMapping("/api/tracking/livreur/status")
+    @ResponseBody
+    public String updateLivreurStatus(@RequestBody CourierStatusUpdateDto dto, Authentication auth) {
+        try {
+            User livreur = userService.findByEmail(auth.getName());
+            if (livreur != null) {
+                livreur.setLatitude(dto.getLatitude());
+                livreur.setLongitude(dto.getLongitude());
+                userRepository.save(livreur);
+                return "success";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "error";
     }
 }
