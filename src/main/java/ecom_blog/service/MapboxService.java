@@ -44,7 +44,7 @@ public class MapboxService {
             double lonDepart, double latDepart,
             double lonArrivee, double latArrivee) {
 
-        String url = String.format(
+        String url = String.format(java.util.Locale.US,
                 "%s/directions/v5/mapbox/driving/%f,%f;%f,%f",
                 apiUrl, lonDepart, latDepart, lonArrivee, latArrivee);
 

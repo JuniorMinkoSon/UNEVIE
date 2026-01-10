@@ -28,6 +28,9 @@ public class FournisseurService {
     @Autowired
     private SearchService searchService;
 
+    // 📁 Dossier de stockage des images (Chemin absolu dynamique)
+    private final String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/uploads/";
+
     // ==================== CRUD FOURNISSEUR ====================
 
     public Fournisseur save(Fournisseur fournisseur) {
@@ -153,9 +156,34 @@ public class FournisseurService {
 
     // ==================== SERVICES FOURNISSEUR ====================
 
-    public ServiceFournisseur ajouterService(Fournisseur fournisseur, ServiceFournisseur service) {
+    public ServiceFournisseur ajouterService(Fournisseur fournisseur, ServiceFournisseur service,
+            List<org.springframework.web.multipart.MultipartFile> images) {
         service.setFournisseur(fournisseur);
         service.setSecteur(fournisseur.getSecteur());
+
+        if (images != null && !images.isEmpty()) {
+            try {
+                java.nio.file.Path uploadPath = java.nio.file.Paths.get(uploadDir);
+                if (!java.nio.file.Files.exists(uploadPath)) {
+                    java.nio.file.Files.createDirectories(uploadPath);
+                }
+
+                for (org.springframework.web.multipart.MultipartFile image : images) {
+                    if (image != null && !image.isEmpty()) {
+                        String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+                        java.nio.file.Files.copy(image.getInputStream(), uploadPath.resolve(fileName));
+
+                        service.getImageUrls().add(fileName);
+                        if (service.getImageUrl() == null) {
+                            service.setImageUrl(fileName);
+                        }
+                    }
+                }
+            } catch (java.io.IOException e) {
+                throw new RuntimeException("Erreur lors de l'enregistrement des images du service", e);
+            }
+        }
+
         ServiceFournisseur s = serviceFournisseurRepository.save(service);
         searchService.refreshIndex();
         return s;

@@ -161,9 +161,7 @@ public class FournisseurController {
                 service.setCapacite(dto.getCapacite());
                 service.setDisponible(true);
 
-                // TODO: Gérer l'upload des images
-
-                fournisseurService.ajouterService(fournisseur, service);
+                fournisseurService.ajouterService(fournisseur, service, images);
 
                 return "redirect:/fournisseur/services";
         }

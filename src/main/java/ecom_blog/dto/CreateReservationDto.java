@@ -42,4 +42,7 @@ public class CreateReservationDto {
     private String operateur;
 
     private boolean contratAccepte;
+
+    private Double lat;
+    private Double lng;
 }

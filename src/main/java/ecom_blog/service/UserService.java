@@ -17,4 +17,6 @@ public interface UserService {
     long count();
 
     User updateProfile(Long id, String nom, String telephone);
+
+    List<User> getDisponibleLivreurs();
 }

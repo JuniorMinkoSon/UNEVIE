@@ -66,4 +66,12 @@ public class UserServiceImpl implements UserService {
         user.setTelephone(telephone);
         return userRepository.save(user);
     }
+
+    @Override
+    public List<User> getDisponibleLivreurs() {
+        return userRepository.findByRoleAndDisponible(Role.ROLE_LIVREUR, true)
+                .stream()
+                .filter(u -> u.getLatitude() != null && u.getLongitude() != null)
+                .toList();
+    }
 }

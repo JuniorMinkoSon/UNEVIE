@@ -101,6 +101,21 @@ public class NotificationService {
     }
 
     /**
+     * Notifie le fournisseur de l'arrivée du livreur
+     */
+    public void notifierLivreurArrive(Commande commande) {
+        logger.info("Notification arrivée livreur pour commande {} au fournisseur", commande.getId());
+
+        if (messagingTemplate != null && commande.getService() != null
+                && commande.getService().getFournisseur() != null) {
+            messagingTemplate.convertAndSendToUser(
+                    commande.getService().getFournisseur().getUser().getEmail(),
+                    "/queue/notifications",
+                    "Le livreur est arrivé pour récupérer le colis de la commande #" + commande.getId());
+        }
+    }
+
+    /**
      * Notifie le début de livraison
      */
     public void notifierDebutLivraison(Commande commande) {

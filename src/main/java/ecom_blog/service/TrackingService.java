@@ -143,27 +143,12 @@ public class TrackingService {
                 return dto;
             }
 
-            // Fallback 2 (DEMO): Retourner coordonnées par défaut (Dakar) si aucune info
+            // Fallback 2: Pas de livreur ou pas de position
             TrackingDto dto = new TrackingDto();
-            dto.setLatitude(14.6937);
-            dto.setLongitude(-17.4677);
             dto.setTimestamp(LocalDateTime.now());
-            dto.setVitesse(0.0);
-            dto.setCap(0.0);
             if (commande.getLivreur() != null) {
                 dto.setLivreurNom(commande.getLivreur().getNom());
                 dto.setLivreurTelephone(commande.getLivreur().getTelephone());
-            } else {
-                dto.setLivreurNom("Livreur");
-                dto.setLivreurTelephone("---");
-            }
-
-            // Calculer ETA Default
-            if (commande.getLatitudeDestination() != null) {
-                long eta = mapboxService.calculerETA(
-                        dto.getLongitude(), dto.getLatitude(),
-                        commande.getLongitudeDestination(), commande.getLatitudeDestination());
-                dto.setEta(eta);
             }
             return dto;
         }

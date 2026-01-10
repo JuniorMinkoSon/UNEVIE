@@ -229,22 +229,35 @@ public class ReservationController {
             // Initialiser le timer (10 mins)
             timerService.initialiserTimer(commande);
 
-            // Tenter de géocoder l'adresse pour la map
-            try {
-                // IMPORTANT: Utiliser l'adresse de la commande qu'on vient de définir
-                double[] coords = mapboxService.geocodeAddress(commande.getAdresse());
-                if (coords != null) {
-                    commande.setLongitudeDestination(coords[0]);
-                    commande.setLatitudeDestination(coords[1]);
-                } else {
-                    // Fallback Dakar pour démo
-                    commande.setLongitudeDestination(-17.4677);
-                    commande.setLatitudeDestination(14.6937);
+            // Tenter de géocoder l'adresse pour la map ou utiliser les coordonnées du DTO
+            if (dto.getLat() != null && dto.getLng() != null) {
+                commande.setLatitudeDestination(dto.getLat());
+                commande.setLongitudeDestination(dto.getLng());
+                commande.setLatitudeClient(dto.getLat());
+                commande.setLongitudeClient(dto.getLng());
+            } else {
+                try {
+                    // IMPORTANT: Utiliser l'adresse de la commande qu'on vient de définir
+                    double[] coords = mapboxService.geocodeAddress(commande.getAdresse());
+                    if (coords != null) {
+                        commande.setLongitudeDestination(coords[0]);
+                        commande.setLatitudeDestination(coords[1]);
+                        commande.setLongitudeClient(coords[0]);
+                        commande.setLatitudeClient(coords[1]);
+                    } else {
+                        // Fallback Abidjan (au lieu de Dakar)
+                        commande.setLongitudeDestination(-3.9926);
+                        commande.setLatitudeDestination(5.3600);
+                        commande.setLongitudeClient(-3.9926);
+                        commande.setLatitudeClient(5.3600);
+                    }
+                } catch (Exception e) {
+                    // Fallback Abidjan
+                    commande.setLongitudeDestination(-3.9926);
+                    commande.setLatitudeDestination(5.3600);
+                    commande.setLongitudeClient(-3.9926);
+                    commande.setLatitudeClient(5.3600);
                 }
-            } catch (Exception e) {
-                // Fallback Dakar pour démo
-                commande.setLongitudeDestination(-17.4677);
-                commande.setLatitudeDestination(14.6937);
             }
 
             commandeService.save(commande);
