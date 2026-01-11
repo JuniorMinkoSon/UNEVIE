@@ -8,6 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: HÔTE_SSH
 
     steps:
       - name: Checkout code
