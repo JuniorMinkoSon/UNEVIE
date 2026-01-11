@@ -21,31 +21,52 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
 
-                        .requestMatchers("/", "/index", "/index.html", "/register", "/blog/**", "/projets", "/services", "/objectifs", "/propos", "/produits/**", "/contact",
-                                "/css/**", "/js/**", "/images/**", "/videos/**").permitAll()
-                        .requestMatchers("/login", "/admin/login").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/user/**").hasRole("USER")
-                        .anyRequest().authenticated()
-                )
-                .formLogin(login -> login
-                        .loginPage("/login")                // ✅ unique pour tous
-                        .loginProcessingUrl("/login")       // ✅ POST géré par Spring
-                        .usernameParameter("email")
-                        .passwordParameter("password")
-                        .successHandler(successHandler)     // ✅ Redirection personnalisée
-                        .failureUrl("/login?error")
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll()
-                );
+        http.csrf(csrf -> csrf.disable());
+
+        http.authorizeHttpRequests(auth -> auth
+                // ==== PUBLIC ====
+                .requestMatchers(
+                        "/", "/index", "/index.html", "/register",
+                        "/blog/**", "/projets", "/services", "/objectifs",
+                        "/propos", "/produits/**", "/contact", "/confirmation"
+                ).permitAll()
+
+                // ==== STATIC FILES ====
+                .requestMatchers(
+                        "/css/**", "/js/**", "/images/**", "/videos/**",
+                        "/assets/**",
+                        "/uploads/**"
+                ).permitAll()
+
+                // ==== AUTH ====
+                .requestMatchers("/login", "/admin/login").permitAll()
+
+                // ==== ADMIN ====
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                // ==== USER ====
+                .requestMatchers("/user/**").hasRole("USER")
+
+                // ==== OTHER ====
+                .anyRequest().authenticated()
+        );
+
+        http.formLogin(login -> login
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .successHandler(successHandler)
+                .failureUrl("/login?error")
+                .permitAll()
+        );
+
+        http.logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout")
+                .permitAll()
+        );
 
         return http.build();
     }

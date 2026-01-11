@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    @Autowired private ProduitService produitService;
-    @Autowired private ArticleService articleService;
+    @Autowired
+    private ProduitService produitService;
+
+    @Autowired
+    private ArticleService articleService;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -26,16 +29,11 @@ public class HomeController {
         return "user/blog";
     }
 
-    @GetMapping("/produits")
-    public String produits(Model model) {
-        model.addAttribute("produits", produitService.getAll());
-        return "user/product-list";
-    }
-
     @GetMapping("/contact")
     public String contact() {
         return "user/contact";
     }
+
     @GetMapping("/confirmation")
     public String confirmation() {
         return "user/confirmation";
@@ -43,23 +41,16 @@ public class HomeController {
 
     @GetMapping("/services")
     public String services() {
-        return "user/services"; 
+        return "user/services";
     }
 
     @GetMapping("/propos")
     public String propos() {
-        return "user/propos"; 
-    }
-
-    @GetMapping("/projets")
-    public String projets() {
-        return "user/projets"; 
+        return "user/propos";
     }
 
     @GetMapping("/objectifs")
     public String objectifs() {
-        return "user/objectifs"; 
+        return "user/objectifs";
     }
-
-
 }

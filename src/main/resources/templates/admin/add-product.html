@@ -2,23 +2,31 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head (title='Admin - Ajouter produit')}"></head>
 <body>
+
 <div th:replace="~{fragments/header :: header}"></div>
 
 <section class="container" style="padding:40px 0;max-width:720px">
-    <h1>Ajouter un produit</h1>
+    <h1 class="mb-4">Ajouter un produit</h1>
 
-    <form th:action="@{/admin/product/save}" th:object="${produit}" method="post" enctype="multipart/form-data" style="display:grid;gap:12px">
-        <input class="form-input" th:field="*{nom}" placeholder="Nom du produit" required>
-        <input class="form-input" th:field="*{categorie}" placeholder="Catégorie" required>
-        <input class="form-input" th:field="*{prix}" placeholder="Prix" required>
-        <textarea class="form-input" th:field="*{description}" placeholder="Description"></textarea>
-        <input type="file" name="image" required>
-        <button class="btn" type="submit">Enregistrer</button>
+    <form th:action="@{/admin/produits/save}"
+          th:object="${produit}"
+          method="post"
+          enctype="multipart/form-data"
+          class="d-grid gap-3">
+
+        <input class="form-control" th:field="*{nom}" placeholder="Nom du produit" required>
+        <input class="form-control" th:field="*{categorie}" placeholder="Catégorie" required>
+        <input class="form-control" th:field="*{prix}" placeholder="Prix" required>
+        <textarea class="form-control" th:field="*{description}" placeholder="Description"></textarea>
+        <input type="file" name="image" class="form-control" required>
+
+        <button class="btn btn-primary mt-2" type="submit">Enregistrer</button>
     </form>
 
-    <a class="btn-outline" th:href="@{/admin/dashboard}" style="margin-top:20px;">⬅ Retour au tableau de bord</a>
+    <a class="btn btn-outline-secondary mt-4" th:href="@{/admin/dashboard}">⬅ Retour au tableau de bord</a>
 </section>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

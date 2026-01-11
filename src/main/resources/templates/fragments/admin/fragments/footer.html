@@ -1,0 +1,87 @@
+<div th:fragment="header">
+
+    <!-- NAVBAR ADMIN -->
+    <header class="bg-gray-900 text-white shadow-lg">
+        <div class="container mx-auto flex items-center justify-between px-6 py-4">
+
+            <!-- LOGO -->
+            <a href="/admin" class="flex items-center space-x-2">
+                <i class="fa-solid fa-shield-halved text-blue-400 text-2xl"></i>
+                <span class="text-xl font-semibold tracking-wide">Dashboard Admin</span>
+            </a>
+
+            <!-- NAV LINKS -->
+            <nav class="hidden md:flex items-center space-x-8 text-gray-300 text-sm font-medium">
+
+                <a href="/admin/commandes"
+                   class="hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-box"></i> Commandes
+                </a>
+
+                <a href="/admin/products"
+                   class="hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-cubes"></i> Produits
+                </a>
+
+                <a href="/admin/messages"
+                   class="hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-envelope"></i> Messages
+                </a>
+
+                <a href="/admin/users"
+                   class="hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-users"></i> Utilisateurs
+                </a>
+
+            </nav>
+
+            <!-- ACTIONS -->
+            <div class="flex items-center gap-3">
+
+                <!-- BOUTON DECONNEXION -->
+                <a href="/logout"
+                   class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md text-sm font-semibold transition flex items-center gap-2">
+                    <i class="fa-solid fa-right-from-bracket"></i> Déconnexion
+                </a>
+
+                <!-- MENU MOBILE -->
+                <button onclick="toggleAdminMenu()"
+                        class="md:hidden text-gray-300 hover:text-white text-xl">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- MENU MOBILE -->
+        <div id="adminMobileMenu" class="hidden bg-gray-800 py-3 md:hidden">
+            <nav class="flex flex-col space-y-3 px-6 text-gray-300">
+
+                <a href="/admin/commandes" class="hover:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-box"></i> Commandes
+                </a>
+
+                <a href="/admin/products" class="hover:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-cubes"></i> Produits
+                </a>
+
+                <a href="/admin/messages" class="hover:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-envelope"></i> Messages
+                </a>
+
+                <a href="/admin/users" class="hover:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-users"></i> Utilisateurs
+                </a>
+            </nav>
+        </div>
+
+    </header>
+
+    <script>
+        function toggleAdminMenu() {
+            const menu = document.getElementById("adminMobileMenu");
+            menu.classList.toggle("hidden");
+        }
+    </script>
+
+</div>

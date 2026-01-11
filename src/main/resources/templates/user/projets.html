@@ -3,380 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Découvrez nos réalisations : projets de construction, terrains disponibles et aménagements">
+    <title>Nos Projets & Produits – Barika CI</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    <title>Nos Réalisations Baraka CI</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/style.css}">
-
-    <link rel="shortcut icon" href="images/favicon-256x256.png" type="image/x-icon">
-
 </head>
+
 <body>
-      <!-- ================= HEADER ================= -->
-      <div th:replace="~{fragments/header :: header}"></div>
 
-    <!-- ========== BANNIÈRE PAGE ========== -->
-    <section class="hero" style="padding: 5rem 2rem;">
-        <h1>Nos Projets & Réalisations</h1>
-        <p>Découvrez nos projets réussis et nos terrains disponibles</p>
-    </section>
+<!-- ================= HEADER ================= -->
+<div th:replace="~{fragments/header :: header}"></div>
 
-    <!-- ========== FILTRES (VISUELS) ========== -->
-    <section class="section" style="padding: 2rem;">
-        <div class="container">
-            <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-                <button class="btn-primary" style="background-color: var(--orange); padding: 0.8rem 1.5rem;">Tous les projets</button>
-                <button class="btn-primary" style="background-color: transparent; color: var(--bleu-fonce); border: 2px solid var(--bleu-fonce); padding: 0.8rem 1.5rem;">Constructions</button>
-                <button class="btn-primary" style="background-color: transparent; color: var(--bleu-fonce); border: 2px solid var(--bleu-fonce); padding: 0.8rem 1.5rem;">Terrains</button>
-                <button class="btn-primary" style="background-color: transparent; color: var(--bleu-fonce); border: 2px solid var(--bleu-fonce); padding: 0.8rem 1.5rem;">Finitions</button>
-            </div>
-        </div>
-    </section>
 
-    <!-- ========== PROJETS RÉALISÉS ========== -->
-    <section class="section bg-light">
-        <div class="container">
-            <h2 class="section-title">Projets Réalisés</h2>
-            <p class="section-subtitle">Un aperçu de nos réalisations récentes</p>
-            
-            <div class="projets-grid">
-                <!-- Projet 1 -->
-                <div class="projet-card">
-                    <img th:src="@{/images/projet-villa-cocody.jpg}" 
-                         src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600" 
-                         alt="Villa moderne Cocody">
-                    <div class="projet-content">
-                        <h3>Villa Moderne R+1</h3>
-                        <p><strong>Lieu :</strong> Cocody Angré</p>
-                        <p><strong>Type :</strong> Construction résidentielle</p>
-                        <p><strong>Surface :</strong> 350 m²</p>
-                        <p><strong>Année :</strong> 2024</p>
-                        <p style="margin-top: 1rem; line-height: 1.7;">
-                            Villa de standing avec 4 chambres, salon, cuisine moderne, piscine et jardin paysager. Finitions haut de gamme avec marbre italien et boiseries nobles.
-                        </p>
-                    </div>
-                </div>
+<!-- ================= HERO ================= -->
+<section class="hero text-center text-white"
+         style="padding: 6rem 2rem; background: linear-gradient(135deg, #1a3a5c, #274d75);">
+    <h1 class="fw-bold" style="font-size:3rem;">Nos Produits & Réalisations</h1>
+    <p class="mt-2">Découvrez nos terrains, projets et services disponibles.</p>
+</section>
 
-                <!-- Projet 2 -->
-                <div class="projet-card">
-                    <img th:src="@{/images/projet-immeuble-plateau.jpg}" 
-                         src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600" 
-                         alt="Immeuble commercial">
-                    <div class="projet-content">
-                        <h3>Immeuble Commercial R+4</h3>
-                        <p><strong> Lieu :</strong> Plateau</p>
-                        <p><strong> Type :</strong> Bâtiment commercial</p>
-                        <p><strong> Surface :</strong> 1200 m²</p>
-                        <p><strong> Année :</strong> 2023</p>
-                        <p style="margin-top: 1rem; line-height: 1.7;">
-                            Immeuble moderne avec espaces commerciaux au rez-de-chaussée et bureaux aux étages. Ascenseur, climatisation centralisée et parking souterrain.
-                        </p>
-                    </div>
-                </div>
 
-                <!-- Projet 3 -->
-                <div class="projet-card">
-                    <img th:src="@{/images/projet-lotissement.jpg}" 
-                         src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=600" 
-                         alt="Lotissement Bingerville">
-                    <div class="projet-content">
-                        <h3>Lotissement Sécurisé</h3>
-                        <p><strong> Lieu :</strong> Bingerville</p>
-                        <p><strong> Type :</strong> Aménagement foncier</p>
-                        <p><strong> Parcelles :</strong> 120 lots</p>
-                        <p><strong>Année :</strong> 2023-2024</p>
-                        <p style="margin-top: 1rem; line-height: 1.7;">
-                            120 parcelles titrées (ACD) de 300 à 500 m² avec voirie bitumée, électricité, eau potable, drainage et éclairage public. Sécurité 24/7.
-                        </p>
-                    </div>
-                </div>
+<!-- ================= PRODUITS DINAMIQUES ================= -->
+<section class="container py-5">
 
-                <!-- Projet 4 -->
-                <div class="projet-card">
-                    <img th:src="@{/images/projet-renovation.jpg}" 
-                         src="https://images.unsplash.com/photo-1615873968403-89e068629265?w=600" 
-                         alt="Rénovation appartement">
-                    <div class="projet-content">
-                        <h3>Rénovation Complète</h3>
-                        <p><strong>Lieu :</strong> Cocody Riviera</p>
-                        <p><strong>Type :</strong> Finitions & aménagement</p>
-                        <p><strong>Surface :</strong> 120 m²</p>
-                        <p><strong> Année :</strong> 2024</p>
-                        <p style="margin-top: 1rem; line-height: 1.7;">
-                            Rénovation complète d'un appartement : peinture, carrelage, plomberie, électricité, menuiserie et décoration. Transformation totale en 6 semaines.
-                        </p>
-                    </div>
-                </div>
+    <h2 class="fw-bold text-center mb-4">Nos Produits Disponibles</h2>
 
-                <!-- Projet 5 -->
-                <div class="projet-card">
-                    <img th:src="@{/images/projet-route.jpg}" 
-                         src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600" 
-                         alt="Voirie urbaine">
-                    <div class="projet-content">
-                        <h3>Voirie Urbaine</h3>
-                        <p><strong> Lieu :</strong> Yopougon</p>
-                        <p><strong> Type :</strong> Travaux publics</p>
-                        <p><strong> Longueur :</strong> 2.5 km</p>
-                        <p><strong> Année :</strong> 2023</p>
-                        <p style="margin-top: 1rem; line-height: 1.7;">
-                            Construction de route bitumée avec caniveaux, trottoirs et éclairage public. Amélioration significative de l'accessibilité du quartier.
-                        </p>
-                    </div>
-                </div>
+    <!-- POPUP SUCCÈS -->
+    <div id="popupSuccess"
+         style="display:none; position:fixed; top:20px; right:20px; background:#16a34a; color:white;
+                padding:15px 22px; border-radius:10px; box-shadow:0 5px 20px rgba(0,0,0,.2); z-index:9999;">
+        <i class="fa-solid fa-circle-check"></i> Produit ajouté au panier !
+    </div>
 
-                <!-- Projet 6 -->
-                <div class="projet-card">
-                    <img th:src="@{/images/projet-ecole.jpg}" 
-                         src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600" 
-                         alt="École primaire">
-                    <div class="projet-content">
-                        <h3>Groupe Scolaire</h3>
-                        <p><strong> Lieu :</strong> Abobo</p>
-                        <p><strong>Type :</strong> Bâtiment public</p>
-                        <p><strong> Classes :</strong> 12 salles</p>
-                        <p><strong> Année :</strong> 2022</p>
-                        <p style="margin-top: 1rem; line-height: 1.7;">
-                            Construction d'un groupe scolaire avec 12 classes, bureaux administratifs, cantine, terrain de sport et blocs sanitaires. Capacité d'accueil : 500 élèves.
-                        </p>
-                    </div>
+    <div class="row g-4">
+
+        <!-- PRODUCT CARD -->
+        <div class="col-md-4" th:each="prod : ${produits}">
+            <div class="card shadow-sm border-0" style="border-radius:15px; overflow:hidden;">
+
+                <img th:src="@{${prod.imageUrl}}"
+                     style="height:230px; width:100%; object-fit:cover;">
+
+                <div class="card-body">
+
+                    <h4 class="fw-bold" th:text="${prod.nom}"></h4>
+                    <p class="text-muted" th:text="${prod.categorie}"></p>
+
+                    <p class="text-primary fw-bold fs-5"
+                       th:text="${prod.prix} + ' FCFA'"></p>
+
+                    <p th:text="${prod.description}"></p>
+
+                    <form th:action="@{'/panier/ajouter/' + ${prod.id}}"
+                          method="post"
+                          onsubmit="return showPopup();">
+
+                        <button type="submit"
+                                class="btn w-100 text-white"
+                                style="background:linear-gradient(135deg,#e67e22,#d35400); border-radius:10px;">
+                            <i class="fa-solid fa-cart-plus"></i> Commander
+                        </button>
+
+                    </form>
+
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- ========== GALERIE AVANT/APRÈS ========== -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Avant / Après</h2>
-            <p class="section-subtitle">La transformation visible de nos projets</p>
-            
-            <div class="services-grid" style="margin-top: 3rem;">
-                <!-- Transformation 1 -->
-                <div class="service-card">
-                    <div style="position: relative;">
-                        <img th:src="@{/images/avant-1.jpg}" 
-                             src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600" 
-                             alt="Avant travaux">
-                        <div style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: white; padding: 0.5rem 1rem; border-radius: 5px; font-weight: 600;">AVANT</div>
-                    </div>
-                    <div class="service-content">
-                        <h3>Terrain Vague → Villa Moderne</h3>
-                        <p>Transformation d'un terrain nu en une magnifique villa familiale en 8 mois.</p>
-                    </div>
-                </div>
+    </div>
+</section>
 
-                <!-- Transformation 2 -->
-                <div class="service-card">
-                    <div style="position: relative;">
-                        <img th:src="@{/images/apres-1.jpg}" 
-                             src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600" 
-                             alt="Après travaux">
-                        <div style="position: absolute; top: 10px; left: 10px; background: var(--orange); color: white; padding: 0.5rem 1rem; border-radius: 5px; font-weight: 600;">APRÈS</div>
-                    </div>
-                    <div class="service-content">
-                        <h3>Résultat Final</h3>
-                        <p>Villa moderne avec toutes les commodités et finitions soignées.</p>
-                    </div>
-                </div>
 
-                <!-- Transformation 3 -->
-                <div class="service-card">
-                    <div style="position: relative;">
-                        <img th:src="@{/images/renovation-avant.jpg}" 
-                             src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600" 
-                             alt="Intérieur avant rénovation">
-                        <div style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: white; padding: 0.5rem 1rem; border-radius: 5px; font-weight: 600;">AVANT</div>
-                    </div>
-                    <div class="service-content">
-                        <h3>Appartement Ancien</h3>
-                        <p>État initial d'un appartement nécessitant une rénovation complète.</p>
-                    </div>
-                </div>
+<!-- ================= PROJETS STATIQUES (TES CONTENUS ACTUELS) ================= -->
+<!-- (tu peux laisser tel quel) -->
 
-                <!-- Transformation 4 -->
-                <div class="service-card">
-                    <div style="position: relative;">
-                        <img th:src="@{/images/renovation-apres.jpg}" 
-                             src="https://images.unsplash.com/photo-1615873968403-89e068629265?w=600" 
-                             alt="Intérieur après rénovation">
-                        <div style="position: absolute; top: 10px; left: 10px; background: var(--orange); color: white; padding: 0.5rem 1rem; border-radius: 5px; font-weight: 600;">APRÈS</div>
-                    </div>
-                    <div class="service-content">
-                        <h3>Transformation Moderne</h3>
-                        <p>Espace entièrement rénové avec design contemporain et équipements modernes.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- ========== TERRAINS DISPONIBLES ========== -->
-    <section class="section bg-light">
-        <div class="container">
-            <h2 class="section-title">Terrains Disponibles</h2>
-            <p class="section-subtitle">Investissez dans des parcelles titrées et sécurisées</p>
-            
-            <div class="projets-grid">
-                <!-- Terrain 1 -->
-                <div class="projet-card">
-                    <img th:src="@{/images/terrain-bingerville.jpg}" 
-                         src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600" 
-                         alt="Terrain Bingerville">
-                    <div class="projet-content">
-                        <h3>Lotissement Bingerville</h3>
-                        <p><strong> Localisation :</strong> Bingerville Centre</p>
-                        <p><strong> Superficie :</strong> 300 à 500 m²</p>
-                        <p><strong> Prix :</strong> À partir de 10M FCFA</p>
-                        <p><strong> Statut :</strong> Titré ACD</p>
-                        <p style="margin-top: 1rem; line-height: 1.7;">
-                            Parcelles viabilisées (eau, électricité, voirie). Proximité écoles et commerces. Idéal résidence familiale.
-                        </p>
-                        <a th:href="@{/contact}" class="btn-primary" style="margin-top: 1rem; display: inline-block;">Je suis intéressé</a>
-                    </div>
-                </div>
+<!-- ================= FOOTER ================= -->
+<div th:replace="~{fragments/footer :: footer}"></div>
 
-                <!-- Terrain 2 -->
-                <div class="projet-card">
-                    <img th:src="@{/images/terrain-abidjan.jpg}" 
-                         src="https://images.unsplash.com/photo-1513584684374-8bab748fbf90?w=600" 
-                         alt="Terrain Abidjan">
-                    <div class="projet-content">
-                        <h3>Zone Résidentielle Angré</h3>
-                        <p><strong> Localisation :</strong> Cocody Angré</p>
-                        <p><strong> Superficie :</strong> 400 à 600 m²</p>
-                        <p><strong> Prix :</strong> À partir de 15M FCFA</p>
-                        <p><strong> Statut :</strong> Titré ACD</p>
-                        <p style="margin-top: 1rem; line-height: 1.7;">
-                            Quartier huppé et sécurisé. Toutes commodités à proximité. Accès facile aux grands axes. Investissement de prestige.
-                        </p>
-                        <a th:href="@{/contact}" class="btn-primary" style="margin-top: 1rem; display: inline-block;">Demander infos</a>
-                    </div>
-                </div>
 
-                <!-- Terrain 3 -->
-                <div class="projet-card">
-                    <img th:src="@{/images/terrain-grand-bassam.jpg}" 
-                         src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600" 
-                         alt="Terrain Grand-Bassam">
-                    <div class="projet-content">
-                        <h3>Bord de Mer Grand-Bassam</h3>
-                        <p><strong> Localisation :</strong> Grand-Bassam</p>
-                        <p><strong> Superficie :</strong> 500 à 1000 m²</p>
-                        <p><strong> Prix :</strong> À partir de 12M FCFA</p>
-                        <p><strong> Statut :</strong> Titré ACD</p>
-                        <p style="margin-top: 1rem; line-height: 1.7;">
-                            Terrains en bord de mer. Vue imprenable sur l'océan. Parfait pour villa de vacances ou investissement touristique.
-                        </p>
-                        <a th:href="@{/contact}" class="btn-primary" style="margin-top: 1rem; display: inline-block;">Réserver maintenant</a>
-                    </div>
-                </div>
-
-                
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== POURQUOI ACHETER CHEZ NOUS ========== -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Pourquoi Acheter Votre Terrain Chez Nous ?</h2>
-            <p class="section-subtitle">Des garanties solides pour votre investissement</p>
-            
-            <div class="avantages-grid">
-                <div class="avantage-item">
-                    <div class="avantage-icon"></div>
-                    <h3>Titres Fonciers Garantis</h3>
-                    <p>100% de nos terrains sont titrés avec Arrêté de Concession Définitive (ACD). Sécurité juridique totale.</p>
-                </div>
-
-                <div class="avantage-item">
-                    <div class="avantage-icon"></div>
-                    <h3>Vérification Complète</h3>
-                    <p>Chaque terrain est vérifié auprès du Domaine et des autorités compétentes avant mise en vente.</p>
-                </div>
-
-                <div class="avantage-item">
-                    <div class="avantage-icon"></div>
-                    <h3>Terrains Viabilisés</h3>
-                    <p>Accès eau, électricité, voirie et drainage. Prêts à construire immédiatement.</p>
-                </div>
-
-                <div class="avantage-item">
-                    <div class="avantage-icon"></div>
-                    <h3>Accompagnement Juridique</h3>
-                    <p>Nous vous assistons dans toutes les démarches administratives jusqu'au transfert de propriété.</p>
-                </div>
-
-                <div class="avantage-item">
-                    <div class="avantage-icon"></div>
-                    <h3>Facilités de Paiement</h3>
-                    <p>Plans de financement flexibles adaptés à votre budget. Échelonnement possible.</p>
-                </div>
-
-                <div class="avantage-item">
-                    <div class="avantage-icon"></div>
-                    <h3>Service Construction</h3>
-                    <p>Possibilité de construire votre maison clé en main sur le terrain acheté.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    
-
-        <!-- ================= FOOTER ================= -->
-    <div th:replace="~{fragments/footer :: footer}"></div>
-
- <!-- ========== BOUTON SCROLL TO TOP ========== -->
- <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Remonter en haut">
-    <p>Haut</p>
-</button>
-
+<!-- ================= SCRIPT POPUP ================= -->
 <script>
-    const scrollBtn = document.getElementById("scrollTopBtn");
-
-    window.addEventListener("scroll", () => {
-        if (window.scrollY > 200) {
-            scrollBtn.style.display = "block";
-        } else {
-            scrollBtn.style.display = "none";
-        }
-    });
-
-    scrollBtn.addEventListener("click", () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    });
-
-     // ===== NAVIGATION ACTIVE =====
-     document.addEventListener('DOMContentLoaded', function() {
-        const currentPath = window.location.pathname;
-        const navLinks = document.querySelectorAll('nav ul li a');
-        
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            const linkPath = link.getAttribute('href');
-            
-            if (currentPath === '/' && linkPath === '/') {
-                link.classList.add('active');
-            } else if (linkPath !== '/' && currentPath.includes(linkPath)) {
-                link.classList.add('active');
-            }
-        });
-    });
-
-      //SCRIPT MENU MOBILE
-    
-      function toggleMenu() {
-        const nav = document.getElementById('mainNav');
-        nav.classList.toggle('active');
+    function showPopup() {
+        let p = document.getElementById("popupSuccess");
+        p.style.display = "block";
+        setTimeout(() => { p.style.display = "none"; }, 2500);
+        return true;
     }
 </script>
 
 </body>
 </html>
-
-           

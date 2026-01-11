@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head (title='Messages reçus')}"></head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="section">
+    <h2>Messages reçus</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Sujet</th>
+            <th>Message</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="msg : ${messages}">
+            <td th:text="${msg.nom}"></td>
+            <td th:text="${msg.email}"></td>
+            <td th:text="${msg.sujet}"></td>
+            <td th:text="${msg.message}"></td>
+            <td th:text="${#temporals.format(msg.dateEnvoi, 'dd/MM/yyyy HH:mm')}"></td>
+        </tr>
+        </tbody>
+
+    </table>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

@@ -2,41 +2,30 @@ package ecom_blog.service;
 
 import ecom_blog.model.Commande;
 import ecom_blog.repository.CommandeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CommandeService {
 
-    @Autowired
-    private CommandeRepository commandeRepository;
+    private final CommandeRepository repo;
 
-    public Commande save(Commande commande) {
-        return commandeRepository.save(commande);
+    public long count() {
+        return repo.count();
     }
 
     public List<Commande> getAll() {
-        return commandeRepository.findAll();
+        return repo.findAllByOrderByDateCommandeDesc();
     }
 
-    public Commande getById(Long id) {
-        return commandeRepository.findById(id).orElse(null);
+    public void save(Commande c) {
+        repo.save(c);
     }
 
-    @Transactional
-    public boolean delete(Long id) {
-        if (commandeRepository.existsById(id)) {
-            commandeRepository.deleteById(id);
-            return true;
-        }
-        return false;
+    public Commande findById(Long id) {
+        return repo.findById(id).orElse(null);
     }
-
-    // ✅ Ajoute cette méthode :
-    public long count() {
-        return commandeRepository.count();
-    }
-
 }

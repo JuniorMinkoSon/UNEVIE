@@ -2,8 +2,12 @@ package ecom_blog.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -16,22 +20,17 @@ public class Commande implements Serializable {
     private Long id;
 
     @ManyToOne
-    private User user;  // Client qui passe la commande
+    private User user;
 
-    private LocalDate dateCommande = LocalDate.now();
+    @CreationTimestamp
+    private LocalDateTime dateCommande;
 
-    private String statut = "EN_ATTENTE"; // EN_ATTENTE, EN_COURS, LIVRÉ
+    private String statut = "EN_ATTENTE";
 
     private double total;
 
-    private String modePaiement; // ✅ Ajout du moyen de paiement (VISA, WAVE…)
+    private String modePaiement;
 
-    // ✅ Setters/Getters explicites (si tu veux garder le contrôle)
-    public String getModePaiement() {
-        return this.modePaiement;
-    }
-
-    public void setModePaiement(String modePaiement) {
-        this.modePaiement = modePaiement;
-    }
+    @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL)
+    private List<CommandeItem> items = new ArrayList<>();
 }

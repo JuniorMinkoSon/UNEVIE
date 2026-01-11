@@ -1,69 +1,78 @@
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="header">
 
-<div th:fragment="header" class="">
+    <header>
+        <div class="header-container">
 
-  <!-- ========== HEADER ========== -->
-  <header>
-    <div class="header-container">
-        <div class="logo">
-            <a th:href="@{/}"><img src="images/logo_bar1.png" style="width:6rem; height:5rem;"></a>
+            <!-- LOGO -->
+            <div class="logo">
+                <a th:href="@{/}">
+                    <img src="images/logo_bar1.png" style="width:6rem; height:5rem;">
+                </a>
+            </div>
+
+            <!-- NAVIGATION -->
+            <nav id="mainNav">
+                <ul>
+                    <li><a th:href="@{/}" class="active">Accueil</a></li>
+                    <li><a th:href="@{/propos}">À propos</a></li>
+                    <li><a th:href="@{/services}">Services</a></li>
+                    <li><a th:href="@{/objectifs}">Objectifs</a></li>
+
+                    <!-- 🔥 ROUTE CORRIGÉE ICI -->
+                    <li><a th:href="@{/produits}">Produits</a></li>
+
+                    <!-- PANIER -->
+                    <li>
+                        <a th:href="@{/panier}">
+                            <i class="fa-solid fa-cart-shopping"></i> Panier
+                        </a>
+                    </li>
+
+                    <!-- VERSION MOBILE -->
+                    <li class="contact-item-mobile">
+                        <a th:href="@{/contact}" class="contact-nav-mobile-link">Nous contacter</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- CONTACT DESKTOP -->
+            <div class="contact-nav">
+                <a th:href="@{/contact}">Nous contacter</a>
+            </div>
+
+            <!-- MENU BURGER -->
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span><i class="fa-solid fa-bars"></i></span>
+            </div>
+
         </div>
-        <nav id="mainNav">
-            <ul>
-                <li><a th:href="@{/}" class="active">Accueil</a></li>
-                <li><a th:href="@{/propos}">À propos</a></li>
-                <li><a th:href="@{/services}">Services</a></li>
-                <li><a th:href="@{/objectifs}">Objectifs</a></li>
-                <li><a th:href="@{/projets}">Réalisations</a></li>
-                <li class="contact-item-mobile">
-                   <a th:href="@{/contact}" class="contact-nav-mobile-link">Nous contacter</a>
-                </li>
-            </ul>
-          
-        </nav>
-
-
-      
-           <!-- ordinateur -->
-        <div class="contact-nav">
-            <a th:href="@{/contact}">Nous contacter</a>
-        </div>
-
-
-       
-        <div class="menu-toggle" onclick="toggleMenu()">
-            <span><i class="fa-solid fa-bars"></i></span>
-           <!--  <span>-</span>
-            <span>-</span> -->
-        </div>
-    </div>
-</header>
+    </header>
 
 </div>
 
+<!-- SCRIPT D’ACTIVATION DU MENU -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Récupérer l'URL actuelle
+
         const currentPath = window.location.pathname;
-        
-        // Sélectionner tous les liens de navigation
         const navLinks = document.querySelectorAll('nav ul li a');
-        
-        // Retirer la classe active de tous les liens
+
         navLinks.forEach(link => {
             link.classList.remove('active');
-            
-            // Ajouter la classe active au lien correspondant
             const linkPath = link.getAttribute('href');
-            
-            // Pour la page d'accueil
+
             if (currentPath === '/' && linkPath === '/') {
                 link.classList.add('active');
             }
-            // Pour les autres pages
-            else if (currentPath.includes(linkPath) && linkPath !== '/') {
+            else if (linkPath !== '/' && currentPath.startsWith(linkPath)) {
                 link.classList.add('active');
             }
         });
     });
-    </script>
 
+    function toggleMenu() {
+        const nav = document.getElementById('mainNav');
+        nav.classList.toggle('active');
+    }
+</script>
