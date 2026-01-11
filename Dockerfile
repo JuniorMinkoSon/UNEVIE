@@ -16,7 +16,7 @@ WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
 # Définir le port d’écoute
-EXPOSE 8081
+EXPOSE 8082
 
 # Lancer l'application
 ENTRYPOINT ["java", "-jar", "app.jar"]
