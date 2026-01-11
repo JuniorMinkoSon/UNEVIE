@@ -5,9 +5,9 @@ services:
     ports:
       - "8082:8082"
     environment:
-      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
-      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
-      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=${SPRING_JPA_HIBERNATE_DDL_AUTO}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/unevie
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=05378053
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     volumes:
       - ./uploads:/app/uploads # If you have file uploads
