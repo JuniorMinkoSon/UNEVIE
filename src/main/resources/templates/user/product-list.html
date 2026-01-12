@@ -1,45 +1,128 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head (title='Projets - BarikaWeb')"></head>
-<body class="projects-body">
-<div th:replace="fragments/header :: header"></div>
 
-<main class="projects-section">
+<head th:replace="~{fragments/head :: head('Nos Produits - UNEVIE')}"></head>
+
+<body class="font-poppins bg-creme-luxe text-noir-profond">
+
     <!-- HEADER -->
-    <header class="projects-header">
-        <h1> Projets & Réalisations</h1>
-        <div class="divider"></div>
-        <p>Avant / Après, lotissements et chantiers emblématiques.</p>
-    </header>
+    <div th:replace="~{fragments/header :: header}"></div>
 
-    <!-- GRID DES PROJETS -->
-    <section class="projects-grid">
-        <div th:each="p : ${projets}" class="project-card">
-            <div class="project-image">
-                <img th:src="${p.imageUrl}" alt="Projet" />
-            </div>
-            <div class="project-content">
-                <h3 th:text="${p.nom}" class="project-title">Projet #1</h3>
-                <p th:text="${p.description}" class="project-description">Description courte du projet et résultats obtenus.</p>
-                <div class="project-actions">
-                    <a class="btn-view" th:href="@{'/projets/' + ${p.id}}">Voir détails</a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- HERO PAGE -->
+    <section class="relative py-24 md:py-32 bg-noir-profond overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-noir-profond via-noir-profond/90 to-noir-profond/70"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-or-royal/10 rounded-full blur-3xl"></div>
 
-    <!-- ÉTUDE DE CAS -->
-    <section class="case-study">
-        <h2>Étude de cas</h2>
-        <div class="case-card">
-            <p>
-                Une famille de la diaspora a sécurisé un terrain grâce à notre accompagnement (ACD),
-                puis a lancé la construction d’une maison durable dans les délais.
+        <div class="relative z-10 max-w-7xl mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-playfair font-bold text-white mb-4">
+                Nos <span class="text-or-royal">Produits</span>
+            </h1>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                Découvrez notre sélection de produits et matériaux de qualité
             </p>
         </div>
     </section>
-</main>
 
-<div th:replace="fragments/footer :: footer"></div>
+    <!-- POPUP SUCCÈS -->
+    <div id="popupSuccess"
+        class="fixed top-6 right-6 bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl z-50 hidden flex items-center gap-3">
+        <i class="fa-solid fa-circle-check text-xl"></i>
+        <span class="font-semibold">Produit ajouté au panier !</span>
+    </div>
+
+    <!-- LISTE DES PRODUITS -->
+    <section class="py-20 bg-creme-luxe">
+        <div class="max-w-7xl mx-auto px-6">
+
+            <!-- Message si aucun produit -->
+            <div th:if="${produits == null or #lists.isEmpty(produits)}"
+                class="bg-white rounded-2xl shadow-xl p-12 text-center max-w-2xl mx-auto">
+                <div class="w-24 h-24 mx-auto mb-6 bg-or-royal/10 rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-box-open text-4xl text-or-royal"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-noir-profond mb-4">Aucun produit disponible</h2>
+                <p class="text-gray-600 mb-8">
+                    Nous préparons de nouveaux produits pour vous. Revenez bientôt !
+                </p>
+                <a th:href="@{/contact}" class="btn-gold inline-flex items-center">
+                    <i class="fa-solid fa-phone mr-2"></i> Nous contacter
+                </a>
+            </div>
+
+            <!-- Grille de produits -->
+            <div th:if="${produits != null and !#lists.isEmpty(produits)}"
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+
+                <div th:each="p : ${produits}" class="card-luxury group">
+                    <!-- Image -->
+                    <div class="relative overflow-hidden">
+                        <img th:src="${p.imageUrl}" alt="Produit"
+                            class="w-full h-56 object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div th:if="${p.disponible}"
+                            class="absolute top-4 left-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                            Disponible
+                        </div>
+                        <div th:unless="${p.disponible}"
+                            class="absolute top-4 left-4 bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                            Épuisé
+                        </div>
+                    </div>
+
+                    <!-- Contenu -->
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-noir-profond mb-2 group-hover:text-or-royal transition-colors"
+                            th:text="${p.nom}">Nom du produit</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2" th:text="${p.description}">Description</p>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-or-royal" th:text="${p.prix} + ' FCFA'">0 FCFA</span>
+                            <form th:action="@{'/panier/ajouter/' + ${p.id}}" method="post"
+                                onsubmit="return showPopup();">
+                                <button type="submit" th:disabled="${!p.disponible}"
+                                    class="w-10 h-10 rounded-full bg-or-royal text-noir-profond flex items-center justify-center hover:bg-or-clair transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 bg-noir-profond">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-2xl md:text-4xl font-playfair font-bold text-white mb-6">
+                Besoin d'un <span class="text-or-royal">devis personnalisé</span> ?
+            </h2>
+            <p class="text-gray-300 mb-8">
+                Contactez-nous pour des commandes spéciales ou des quantités importantes
+            </p>
+            <a th:href="@{/contact}" class="btn-gold inline-flex items-center">
+                <i class="fa-solid fa-envelope mr-2"></i> Demander un devis
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- SCRIPT POPUP -->
+    <script>
+        function showPopup() {
+            const popup = document.getElementById("popupSuccess");
+            popup.classList.remove("hidden");
+            popup.classList.add("flex");
+            setTimeout(() => {
+                popup.classList.add("hidden");
+                popup.classList.remove("flex");
+            }, 2500);
+            return true;
+        }
+    </script>
+
 </body>
+
 </html>

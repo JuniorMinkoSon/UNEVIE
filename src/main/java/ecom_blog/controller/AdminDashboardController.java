@@ -1,7 +1,9 @@
-package ecom_blog.controller.admin;
+package ecom_blog.controller;
 
 import ecom_blog.service.MessageContactService;
 import ecom_blog.service.CommandeService;
+import ecom_blog.service.ProduitService;
+import ecom_blog.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,8 @@ public class AdminDashboardController {
 
     private final MessageContactService messageService;
     private final CommandeService commandeService;
+    private final ProduitService produitService;
+    private final ArticleService articleService;
 
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
@@ -26,11 +30,16 @@ public class AdminDashboardController {
         Map<String, Long> stats = new HashMap<>();
         stats.put("messages", messageService.count());
         stats.put("commandes", commandeService.count());
+        stats.put("produits", produitService.count());
+        stats.put("articles", articleService.count());
 
         model.addAttribute("stats", stats);
 
         // ---- DERNIERS MESSAGES ----
         model.addAttribute("messages", messageService.getLast5());
+
+        // ---- ARTICLES ----
+        model.addAttribute("articles", articleService.getAll());
 
         return "admin/dashboard";
     }

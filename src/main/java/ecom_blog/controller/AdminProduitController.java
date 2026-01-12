@@ -1,4 +1,4 @@
-package ecom_blog.controller.admin;
+package ecom_blog.controller;
 
 import ecom_blog.model.Produit;
 import ecom_blog.service.ProduitService;
@@ -27,10 +27,9 @@ public class AdminProduitController {
         return "admin/add-product";
     }
 
-
     @PostMapping("/save")
     public String save(@ModelAttribute Produit produit,
-                       @RequestParam("image") MultipartFile image) {
+            @RequestParam("image") MultipartFile image) {
 
         service.save(produit, image);
         return "redirect:/admin/produits";

@@ -1,60 +1,78 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/admin-layout :: layout(pageTitle='Gestion des Commandes', content=~{::#commandesContent})}">
 
-<head th:replace="~{fragments/head :: head (title='Commandes clients')}">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-</head>
+<div id="commandesContent">
+    <div class="mb-8">
+        <h3 class="text-2xl font-bold text-noir-profond font-playfair">Suivi des commandes</h3>
+        <p class="text-gray-500">Gérez le statut des commandes clients en temps réel.</p>
+    </div>
 
-<body>
+    <!-- Table Container -->
+    <div class="card-luxury overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-noir-profond text-white uppercase text-xs tracking-wider">
+                        <th class="px-6 py-4 font-bold">ID</th>
+                        <th class="px-6 py-4 font-bold">Client</th>
+                        <th class="px-6 py-4 font-bold">Date & Heure</th>
+                        <th class="px-6 py-4 font-bold">Total</th>
+                        <th class="px-6 py-4 font-bold">Statut</th>
+                        <th class="px-6 py-4 font-bold text-center">Mettre à jour</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    <tr th:each="cmd : ${commandes}" class="hover:bg-creme-luxe/50 transition-colors">
+                        <td class="px-6 py-4 font-bold text-noir-profond" th:text="'#' + ${cmd.id}">#1</td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-or-royal/10 flex items-center justify-center text-or-royal"
+                                    th:text="${cmd.user != null ? #strings.substring(cmd.user.username,0,1) : 'A'}">
+                                    U
+                                </div>
+                                <span class="font-medium"
+                                    th:text="${cmd.user != null ? cmd.user.username : 'Anonyme'}">Client</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-noir-profond" th:text="${cmd.dateCommande}">01/01/2026</div>
+                        </td>
+                        <td class="px-6 py-4 font-bold text-or-royal" th:text="${cmd.total} + ' FCFA'">0 FCFA</td>
+                        <td class="px-6 py-4">
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
+                                th:classappend="${cmd.statut == 'EN_ATTENTE' ? 'bg-orange/10 text-orange' : (cmd.statut == 'EN_COURS' ? 'bg-blue-500/10 text-blue-500' : 'bg-green-500/10 text-green-500')}"
+                                th:text="${cmd.statut}">Statut</span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <form th:action="@{'/admin/commandes/update/' + ${cmd.id}}" method="post"
+                                class="flex gap-2 items-center justify-center">
+                                <select name="statut"
+                                    class="px-3 py-1 text-xs rounded-lg border border-gray-200 focus:border-or-royal outline-none bg-white">
+                                    <option value="EN_ATTENTE" th:selected="${cmd.statut == 'EN_ATTENTE'}">ATTENTE
+                                    </option>
+                                    <option value="EN_COURS" th:selected="${cmd.statut == 'EN_COURS'}">EN COURS</option>
+                                    <option value="LIVRÉ" th:selected="${cmd.statut == 'LIVRÉ'}">LIVRÉ</option>
+                                </select>
+                                <button type="submit"
+                                    class="w-8 h-8 rounded-lg bg-noir-profond text-white hover:bg-noir-elegant transition-colors flex items-center justify-center">
+                                    <i class="fa-solid fa-check text-xs"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-<div th:replace="~{fragments/header :: header}"></div>
+        <!-- Empty State -->
+        <div th:if="${#lists.isEmpty(commandes)}" class="p-12 text-center">
+            <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300">
+                <i class="fa-solid fa-box-open text-3xl"></i>
+            </div>
+            <p class="text-gray-500">Aucune commande trouvée.</p>
+        </div>
+    </div>
+</div>
 
-<section class="container py-4">
-
-    <h2 class="mb-4">Liste des commandes clients</h2>
-
-    <table class="table table-striped table-bordered">
-        <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Client</th>
-            <th>Date</th>
-            <th>Total</th>
-            <th>Statut</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr th:each="cmd : ${commandes}">
-            <td th:text="${cmd.id}"></td>
-            <td th:text="${cmd.user != null ? cmd.user.username : 'Anonyme'}"></td>
-            <td th:text="${cmd.dateCommande}"></td>
-            <td th:text="${cmd.total} + ' FCFA'"></td>
-            <td>
-                <span class="badge bg-warning" th:if="${cmd.statut == 'EN_ATTENTE'}" th:text="${cmd.statut}"></span>
-                <span class="badge bg-primary" th:if="${cmd.statut == 'EN_COURS'}" th:text="${cmd.statut}"></span>
-                <span class="badge bg-success" th:if="${cmd.statut == 'LIVRÉ'}" th:text="${cmd.statut}"></span>
-            </td>
-
-            <td>
-                <form th:action="@{'/admin/commandes/update/' + ${cmd.id}}" method="post" class="d-flex">
-                    <select name="statut" class="form-select me-2">
-                        <option value="EN_ATTENTE">EN_ATTENTE</option>
-                        <option value="EN_COURS">EN_COURS</option>
-                        <option value="LIVRÉ">LIVRÉ</option>
-                    </select>
-                    <button type="submit" class="btn btn-primary">OK</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-</section>
-
-<div th:replace="~{fragments/footer :: footer}"></div>
-
-</body>
 </html>

@@ -1,220 +1,355 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Entreprise ivoirienne spécialisée en travaux publics, génie civil, immobilier et finitions">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-    <link rel="shortcut icon" href="images/favicon-256x256.png" type="image/x-icon">
+<head th:replace="~{fragments/head :: head('Accueil - UNEVIE')}"></head>
 
+<body class="font-poppins bg-creme-luxe text-noir-profond">
 
-    <title>Accueil Baraka CI</title>
-
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
-<body>
-   
     <!-- ================= HEADER ================= -->
     <div th:replace="~{fragments/header :: header}"></div>
 
+
+    <!-- ========== NOS SERVICES ========== -->
+    <!-- ... (rest of the sections) ... -->
+    <!-- (I will only replace header and footer for now) -->
+
     <!-- ========== BANNIÈRE HERO ========== -->
-    <section class="hero">
-        <div class="section_index">
-          <h1>Construisons ensemble <br/> votre patrimoine en toute  <br/> confiance</h1>
-           <p>Votre partenaire de confiance pour vos projets de construction, d'immobilier et d'aménagement en Côte d'Ivoire</p>
-        </div>
-        <div class="btn-hero">
-            <a th:href="@{/projets}" class="prim1">Voir nos réalisations</a>
-            <a th:href="@{/contact}" class="prim2">Démarrer un projet</a>
+    <section class="relative min-h-screen flex items-center bg-noir-profond overflow-hidden">
+        <!-- Background avec overlay -->
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1600" alt="Construction"
+                class="w-full h-full object-cover opacity-40">
+            <div class="absolute inset-0 bg-gradient-to-r from-noir-profond via-noir-profond/80 to-transparent"></div>
         </div>
 
+        <!-- Contenu Hero -->
+        <div class="relative z-10 max-w-7xl mx-auto px-6 py-32 md:py-40">
+            <div class="max-w-3xl">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-playfair font-bold text-white mb-6 animate-fade-in">
+                    Construisons ensemble
+                    <span class="text-gradient-gold">votre patrimoine</span>
+                    en toute confiance
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 mb-10 animate-slide-up" style="animation-delay: 0.2s;">
+                    Votre partenaire de confiance pour vos projets de construction, d'immobilier et d'aménagement en
+                    Côte d'Ivoire
+                </p>
+                <div class="flex flex-wrap gap-4 animate-slide-up" style="animation-delay: 0.4s;">
+                    <a th:href="@{/projets}" class="btn-gold">
+                        <i class="fa-solid fa-eye mr-2"></i> Voir nos réalisations
+                    </a>
+                    <a th:href="@{/contact}" class="btn-gold-outline">
+                        <i class="fa-solid fa-rocket mr-2"></i> Démarrer un projet
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Élément décoratif -->
     </section>
 
     <!-- ========== NOS SERVICES ========== -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Nos <strong class="title1"> domaines d'expertise </strong> </h2>
-            <p class="section-subtitle">Des solutions complètes pour tous vos besoins en construction et immobilier</p>
-            
-            <div class="services-grid">
-                <!-- Service 1 : Travaux publics -->
-                <div class="service-card">
-                    <img th:src="@{/images/bat4.jpg}" 
-                         src="images/bat4.jpg" 
-                         alt="Travaux publics et génie civil">
-                    <div class="service-content">
-                        <h3>Travaux publics & génie Civil</h3>
-                        <p>Construction de routes, ponts, ouvrages d'art et infrastructures publiques. Nous assurons la réalisation de vos grands projets.</p>
-                        <a th:href="@{/services}" class="btn-svce" style="margin-top: 1rem;">En savoir plus <i class="fa-solid fa-arrow-right"></i></a>
+    <section class="py-20 md:py-28 bg-creme-luxe">
+        <div class="max-w-7xl mx-auto px-6">
+            <!-- Titre de section -->
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-noir-profond mb-4">
+                    Nos <span class="text-or-royal">domaines d'expertise</span>
+                </h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Des solutions complètes pour tous vos besoins en construction et immobilier
+                </p>
+            </div>
+
+            <!-- Grille de services -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="card-luxury group">
+                    <div class="relative overflow-hidden">
+                        <img th:src="@{/images/bat4.jpg}" alt="Travaux publics et génie civil"
+                            class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-noir-profond/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-noir-profond mb-3 group-hover:text-or-royal transition-colors">
+                            Travaux publics & Génie Civil
+                        </h3>
+                        <p class="text-gray-600 mb-4">
+                            Construction de routes, ponts, ouvrages d'art et infrastructures publiques. Nous assurons la
+                            réalisation de vos grands projets.
+                        </p>
+                        <a th:href="@{/services}"
+                            class="inline-flex items-center text-or-royal font-semibold hover:gap-3 transition-all duration-300">
+                            En savoir plus <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </a>
                     </div>
                 </div>
 
-                <!-- Service 2 : Immobilier -->
-                <div class="service-card">
-                    <img th:src="@{/images/imo2.png}" 
-                         src="images/imo2.png" 
-                         alt="Immobilier et foncier sécurisé">
-                    <div class="service-content">
-                        <h3>Immobilier & foncier</h3>
-                        <p>Vente de terrains titrés, accompagnement dans vos acquisitions foncières et sécurisation juridique.</p>
-                        <a th:href="@{/services}" class="btn-svce" style="margin-top: 1rem;">En savoir plus <i class="fa-solid fa-arrow-right"></i></a>
+                <!-- Service 2 -->
+                <div class="card-luxury group">
+                    <div class="relative overflow-hidden">
+                        <img th:src="@{/images/imo2.png}" alt="Immobilier et foncier"
+                            class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-noir-profond/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-noir-profond mb-3 group-hover:text-or-royal transition-colors">
+                            Immobilier & Foncier
+                        </h3>
+                        <p class="text-gray-600 mb-4">
+                            Vente de terrains titrés, accompagnement dans vos acquisitions foncières et sécurisation
+                            juridique.
+                        </p>
+                        <a th:href="@{/services}"
+                            class="inline-flex items-center text-or-royal font-semibold hover:gap-3 transition-all duration-300">
+                            En savoir plus <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </a>
                     </div>
                 </div>
 
-                <!-- Service 3 : Finitions -->
-                <div class="service-card">
-                    <img th:src="@{/images/imo3.jpg}" 
-                         src="images/imo3.jpg" 
-                         alt="Finitions et aménagements">
-                    <div class="service-content">
-                        <h3>Finitions & aménagements</h3>
-                        <p>Décoration intérieure, menuiserie, plomberie, électricité et tous travaux de finition pour sublimer vos espaces de vie et de travail.</p>
-                        <a th:href="@{/services}" class="btn-svce" style="margin-top: 1rem;">En savoir plus<i class="fa-solid fa-arrow-right"></i></a>
+                <!-- Service 3 -->
+                <div class="card-luxury group">
+                    <div class="relative overflow-hidden">
+                        <img th:src="@{/images/imo3.jpg}" alt="Finitions et aménagements"
+                            class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-noir-profond/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-noir-profond mb-3 group-hover:text-or-royal transition-colors">
+                            Finitions & Aménagements
+                        </h3>
+                        <p class="text-gray-600 mb-4">
+                            Décoration intérieure, menuiserie, plomberie, électricité et tous travaux de finition pour
+                            sublimer vos espaces.
+                        </p>
+                        <a th:href="@{/services}"
+                            class="inline-flex items-center text-or-royal font-semibold hover:gap-3 transition-all duration-300">
+                            En savoir plus <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== NOS RÉALISATIONS RÉCENTES ========== -->
-    <section class="section bg-light">
-        <div class="container">
-            <h2 class="section-title">Nos <strong class="title2"> réalisations </strong> récentes</h2>
-            <p class="section-subtitle">Découvrez quelques-uns de nos projets réalisés avec succès</p>
-            
-            <div class="projets-grid">
+    <!-- ========== NOS RÉALISATIONS ========== -->
+    <section class="py-20 md:py-28 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-noir-profond mb-4">
+                    Nos <span class="text-marron">réalisations</span> récentes
+                </h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Découvrez quelques-uns de nos projets réalisés avec succès
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Projet 1 -->
-                <div class="projet-card">
-                    <img th:src="@{/images/bat2.jpg}" 
-                         src="images/bat2.jpg" 
-                         alt="Construction résidentielle">
-                    <div class="projet-content">
-                        <h3>Villa moderne - Cocody</h3>
-                        <p><strong>Type :</strong> Construction résidentielle</p>
-                        <p>Villa de standing avec finitions haut de gamme, piscine et jardin paysager sur 500m².</p>
+                <div class="card-luxury group">
+                    <div class="relative overflow-hidden">
+                        <img th:src="@{/images/bat2.jpg}" alt="Villa moderne"
+                            class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div
+                            class="absolute top-4 left-4 bg-or-royal text-noir-profond text-sm font-semibold px-3 py-1 rounded-full">
+                            Construction
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-noir-profond mb-2">Villa moderne - Cocody</h3>
+                        <p class="text-gray-600">
+                            Villa de standing avec finitions haut de gamme, piscine et jardin paysager sur 500m².
+                        </p>
                     </div>
                 </div>
 
                 <!-- Projet 2 -->
-                <div class="projet-card">
-                    <img th:src="@{/images/bat1.jpg}" 
-                         src="images/bat1.jpg" 
-                         alt="Immeuble commercial">
-                    <div class="projet-content">
-                        <h3>Centre commercial - Plateau</h3>
-                        <p><strong>Type :</strong> Bâtiment commercial</p>
-                        <p>Immeuble R+4 avec espaces commerciaux et bureaux, livré en 18 mois.</p>
+                <div class="card-luxury group">
+                    <div class="relative overflow-hidden">
+                        <img th:src="@{/images/bat1.jpg}" alt="Centre commercial"
+                            class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div
+                            class="absolute top-4 left-4 bg-or-royal text-noir-profond text-sm font-semibold px-3 py-1 rounded-full">
+                            Commercial
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-noir-profond mb-2">Centre commercial - Plateau</h3>
+                        <p class="text-gray-600">
+                            Immeuble R+4 avec espaces commerciaux et bureaux, livré en 18 mois.
+                        </p>
                     </div>
                 </div>
 
                 <!-- Projet 3 -->
-                <div class="projet-card">
-                    <img th:src="@{/images/lot1.png}" 
-                         src="images/lot1.png" 
-                         alt="Lotissement">
-                    <div class="projet-content">
-                        <h3>Lotissement sécurisé - Bingerville</h3>
-                        <p><strong>Type :</strong> Aménagement foncier</p>
-                        <p>120 parcelles viabilisées avec titres fonciers, voirie et réseaux complets.</p>
+                <div class="card-luxury group">
+                    <div class="relative overflow-hidden">
+                        <img th:src="@{/images/lot1.png}" alt="Lotissement"
+                            class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div
+                            class="absolute top-4 left-4 bg-or-royal text-noir-profond text-sm font-semibold px-3 py-1 rounded-full">
+                            Foncier
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-noir-profond mb-2">Lotissement sécurisé - Bingerville</h3>
+                        <p class="text-gray-600">
+                            120 parcelles viabilisées avec titres fonciers, voirie et réseaux complets.
+                        </p>
                     </div>
                 </div>
             </div>
 
-            <div class="all_projet ">
-                <a th:href="@{/projets}" >Voir tous nos projets</a>
+            <div class="text-center mt-12">
+                <a th:href="@{/projets}" class="btn-gold">
+                    <i class="fa-solid fa-images mr-2"></i> Voir tous nos projets
+                </a>
             </div>
         </div>
     </section>
 
     <!-- ========== POURQUOI NOUS CHOISIR ========== -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Pourquoi nous choisir ?</h2>
-            <p class="section-subtitle">Les garanties qui font notre différence</p>
-            
-            <div class="avantages-grid">
-                <div class="avantage-item">
-                    <div class="avantage-icon"> 
-                        <img src="images/expertise.png" /> 
+    <section class="py-20 md:py-28 bg-noir-profond text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold mb-4">
+                    Pourquoi <span class="text-or-royal">nous choisir</span> ?
+                </h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                    Les garanties qui font notre différence
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Avantage 1 -->
+                <div
+                    class="text-center p-8 rounded-2xl bg-noir-elegant border border-gray-800 hover:border-or-royal/50 transition-all duration-500 hover:-translate-y-2">
+                    <div class="w-16 h-16 mx-auto mb-6 bg-or-royal/10 rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-award text-3xl text-or-royal"></i>
                     </div>
-                    <h3>Expertise locale</h3>
-                    <p>Plus de 10 ans d'expérience sur le marché ivoirien avec une parfaite connaissance des réglementations.</p>
+                    <h3 class="text-xl font-bold mb-3">Expertise locale</h3>
+                    <p class="text-gray-400">
+                        Plus de 10 ans d'expérience sur le marché ivoirien avec une parfaite connaissance des
+                        réglementations.
+                    </p>
                 </div>
 
-                <div class="avantage-item">
-                    <div class="avantage-icon"> 
-                        <img src="images/securite.png" /> 
+                <!-- Avantage 2 -->
+                <div
+                    class="text-center p-8 rounded-2xl bg-noir-elegant border border-gray-800 hover:border-or-royal/50 transition-all duration-500 hover:-translate-y-2">
+                    <div class="w-16 h-16 mx-auto mb-6 bg-or-royal/10 rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-shield-halved text-3xl text-or-royal"></i>
                     </div>
-                    <h3>Sécurité juridique</h3>
-                    <p>Tous nos terrains sont titrés (ACD) et nos projets respectent les normes de construction en vigueur.</p>
+                    <h3 class="text-xl font-bold mb-3">Sécurité juridique</h3>
+                    <p class="text-gray-400">
+                        Tous nos terrains sont titrés (ACD) et nos projets respectent les normes de construction en
+                        vigueur.
+                    </p>
                 </div>
 
-                <div class="avantage-item">
-                    <div class="avantage-icon"> 
-                        <img src="images/garantie.png" /> 
+                <!-- Avantage 3 -->
+                <div
+                    class="text-center p-8 rounded-2xl bg-noir-elegant border border-gray-800 hover:border-or-royal/50 transition-all duration-500 hover:-translate-y-2">
+                    <div class="w-16 h-16 mx-auto mb-6 bg-or-royal/10 rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-gem text-3xl text-or-royal"></i>
                     </div>
-                    <h3>Qualité garantie</h3>
-                    <p>Matériaux de première qualité, artisans qualifiés et suivi rigoureux pour une satisfaction totale.</p>
+                    <h3 class="text-xl font-bold mb-3">Qualité garantie</h3>
+                    <p class="text-gray-400">
+                        Matériaux de première qualité, artisans qualifiés et suivi rigoureux pour une satisfaction
+                        totale.
+                    </p>
                 </div>
 
-                <div class="avantage-item">
-                    <div class="avantage-icon"> 
-                        <img src="images/accompagnement.png" /> 
+                <!-- Avantage 4 -->
+                <div
+                    class="text-center p-8 rounded-2xl bg-noir-elegant border border-gray-800 hover:border-or-royal/50 transition-all duration-500 hover:-translate-y-2">
+                    <div class="w-16 h-16 mx-auto mb-6 bg-or-royal/10 rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-handshake text-3xl text-or-royal"></i>
                     </div>
-                    <h3>Accompagnement complet</h3>
-                    <p>De la conception à la livraison, nous vous accompagnons à chaque étape de votre projet.</p>
+                    <h3 class="text-xl font-bold mb-3">Accompagnement complet</h3>
+                    <p class="text-gray-400">
+                        De la conception à la livraison, nous vous accompagnons à chaque étape de votre projet.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ========== TÉMOIGNAGES ========== -->
-    <section class="section temoignages-section">
-        <div class="container">
-            <h2 class="section-title">Ce Que Disent <strong class="title3"> Nos Clients </strong> </h2>
-            <p class="section-subtitle">La satisfaction client au cœur de nos priorités</p>
-            
-            <div class="temoignages-grid">
+    <section class="py-20 md:py-28 bg-creme-luxe">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-noir-profond mb-4">
+                    Ce que disent <span class="text-or-royal">nos clients</span>
+                </h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    La satisfaction client au cœur de nos priorités
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Témoignage 1 -->
-                <div class="temoignage-card">
-                    <p class="temoignage-text">
-                        "J'ai acheté mon terrain par leur intermédiaire et ils m'ont accompagné jusqu'à l'obtention du titre foncier. Service impeccable et très professionnel. Je recommande vivement !"
+                <div class="bg-white p-8 rounded-2xl shadow-lg relative">
+                    <div class="absolute -top-4 left-8 text-6xl text-or-royal/20 font-playfair">"</div>
+                    <p class="text-gray-600 mb-6 relative z-10">
+                        J'ai acheté mon terrain par leur intermédiaire et ils m'ont accompagné jusqu'à l'obtention du
+                        titre foncier. Service impeccable et très professionnel. Je recommande vivement !
                     </p>
-                    <div class="temoignage-auteur">
-                        <div class="auteur-avatar">KM</div>
-                        <div class="auteur-info">
-                            <h4>Kouassi Marcel</h4>
-                            <p>Propriétaire, Bingerville</p>
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-12 h-12 rounded-full bg-or-royal/10 border-2 border-or-royal flex items-center justify-center font-bold text-or-royal">
+                            KM
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-noir-profond">Kouassi Marcel</h4>
+                            <p class="text-sm text-gray-500">Propriétaire, Bingerville</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Témoignage 2 -->
-                <div class="temoignage-card">
-                    <p class="temoignage-text">
-                        "Excellente entreprise ! Ils ont rénové mon appartement en respectant les délais et le budget. Le résultat dépasse mes attentes. Équipe sérieuse et à l'écoute."
+                <div class="bg-white p-8 rounded-2xl shadow-lg relative">
+                    <div class="absolute -top-4 left-8 text-6xl text-or-royal/20 font-playfair">"</div>
+                    <p class="text-gray-600 mb-6 relative z-10">
+                        Excellente entreprise ! Ils ont rénové mon appartement en respectant les délais et le budget. Le
+                        résultat dépasse mes attentes. Équipe sérieuse et à l'écoute.
                     </p>
-                    <div class="temoignage-auteur">
-                        <div class="auteur-avatar">AD</div>
-                        <div class="auteur-info">
-                            <h4>Aya Diallo</h4>
-                            <p>Cliente, Cocody</p>
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-12 h-12 rounded-full bg-or-royal/10 border-2 border-or-royal flex items-center justify-center font-bold text-or-royal">
+                            AD
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-noir-profond">Aya Diallo</h4>
+                            <p class="text-sm text-gray-500">Cliente, Cocody</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Témoignage 3 -->
-                <div class="temoignage-card">
-                    <p class="temoignage-text">
-                        "Pour la construction de notre siège social, nous avons fait confiance à BTP CI. Résultat exceptionnel ! Professionnalisme, respect des normes et finitions soignées."
+                <div class="bg-white p-8 rounded-2xl shadow-lg relative">
+                    <div class="absolute -top-4 left-8 text-6xl text-or-royal/20 font-playfair">"</div>
+                    <p class="text-gray-600 mb-6 relative z-10">
+                        Pour la construction de notre siège social, nous avons fait confiance à BTP CI. Résultat
+                        exceptionnel ! Professionnalisme, respect des normes et finitions soignées.
                     </p>
-                    <div class="temoignage-auteur">
-                        <div class="auteur-avatar">JB</div>
-                        <div class="auteur-info">
-                            <h4>Jean-Baptiste N.</h4>
-                            <p>Directeur, Plateau</p>
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-12 h-12 rounded-full bg-or-royal/10 border-2 border-or-royal flex items-center justify-center font-bold text-or-royal">
+                            JB
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-noir-profond">Jean-Baptiste N.</h4>
+                            <p class="text-sm text-gray-500">Directeur, Plateau</p>
                         </div>
                     </div>
                 </div>
@@ -223,94 +358,32 @@
     </section>
 
     <!-- ========== APPEL À L'ACTION ========== -->
-    <section class="section" style="background: linear-gradient(135deg, var(--bleu-claire),rgb(111, 144, 194)); color: white; text-align: center;">
-        <div class="container">
-            <h2 style="color: white; font-size: 2.5rem; margin-bottom: 1rem;">Prêt à Démarrer Votre Projet ?</h2>
-            <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
+    <section
+        class="py-20 md:py-28 bg-gradient-to-br from-noir-profond via-noir-elegant to-noir-profond relative overflow-hidden">
+        <!-- Éléments décoratifs -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-or-royal/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-72 h-72 bg-or-royal/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+            <h2 class="text-3xl md:text-5xl font-playfair font-bold text-white mb-6">
+                Prêt à démarrer <span class="text-or-royal">votre projet</span> ?
+            </h2>
+            <p class="text-xl text-gray-300 mb-10">
                 Contactez-nous dès aujourd'hui pour une consultation gratuite
             </p>
-
-            <div class="btn-call">
-                <a th:href="@{/contact}" class="call">Nous Contacter</a> 
-            </div>
-
+            <a th:href="@{/contact}" class="btn-gold inline-flex items-center animate-glow">
+                <i class="fa-solid fa-phone mr-2"></i> Nous contacter
+            </a>
         </div>
     </section>
 
-   
     <!-- ================= FOOTER ================= -->
     <div th:replace="~{fragments/footer :: footer}"></div>
 
-    <!-- ========== BOUTON WHATSAPP FLOTTANT ========== -->
-    <a href="https://wa.me/2250768189340" class="whatsapp-float" target="_blank" aria-label="Contactez-nous sur WhatsApp">
-        <svg viewBox="0 0 32 32" fill="currentColor">
-            <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 7.933-2.127c2.42 1.37 5.173 2.127 8.067 2.127 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.467c-2.482 0-4.908-0.646-7.07-1.87l-0.507-0.292-5.247 1.408 1.435-5.34-0.335-0.552c-1.354-2.23-2.068-4.801-2.068-7.421 0-7.868 6.402-14.267 14.267-14.267s14.267 6.398 14.267 14.267c0 7.868-6.402 14.267-14.267 14.267zM21.984 18.508c-0.403-0.201-2.383-1.176-2.754-1.311-0.371-0.134-0.641-0.201-0.911 0.201-0.269 0.403-1.044 1.311-1.28 1.581s-0.471 0.302-0.874 0.101c-0.403-0.201-1.7-0.627-3.239-1.998-1.197-1.067-2.006-2.383-2.241-2.786s-0.025-0.621 0.176-0.822c0.181-0.181 0.403-0.471 0.604-0.707s0.269-0.403 0.403-0.672c0.134-0.269 0.067-0.504-0.034-0.707s-0.911-2.196-1.248-3.004c-0.329-0.789-0.663-0.682-0.911-0.695-0.235-0.012-0.504-0.015-0.774-0.015s-0.707 0.101-1.078 0.504c-0.371 0.403-1.416 1.384-1.416 3.377s1.449 3.914 1.65 4.184c0.201 0.269 2.831 4.324 6.859 6.063 0.958 0.415 1.707 0.663 2.291 0.848 0.965 0.307 1.843 0.264 2.538 0.161 0.774-0.116 2.383-0.974 2.72-1.916s0.337-1.75 0.236-1.916c-0.101-0.166-0.371-0.269-0.774-0.471z"/>
-        </svg>
-    </a>
+</body>
 
-  <!-- ========== BOUTON SCROLL TO TOP ========== -->
-    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Remonter en haut">
-        <p>Haut</p>
-    </button>
-
-    <script>
-        const scrollBtn = document.getElementById("scrollTopBtn");
-
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 200) {
-                scrollBtn.style.display = "block";
-            } else {
-                scrollBtn.style.display = "none";
-            }
-        });
-
-        scrollBtn.addEventListener("click", () => {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        });
-
-        // ===== NAVIGATION ACTIVE =====
-    document.addEventListener('DOMContentLoaded', function() {
-        const currentPath = window.location.pathname;
-        const navLinks = document.querySelectorAll('nav ul li a');
-        
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            const linkPath = link.getAttribute('href');
-            
-            if (currentPath === '/' && linkPath === '/') {
-                link.classList.add('active');
-            } else if (linkPath !== '/' && currentPath.includes(linkPath)) {
-                link.classList.add('active');
-            }
-        });
-    });
-
-        //SCRIPT MENU MOBILE
-    
-        function toggleMenu() {
-            const nav = document.getElementById('mainNav');
-            nav.classList.toggle('active');
-        }
-
-        nav.classList.toggle('active');
-        menuToggle.classList.toggle('active');
-        
-        // Changer l'icône
-        const icon = menuToggle.querySelector('i');
-        if (nav.classList.contains('active')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-        } else {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        }
-    
-    </script>
-
-   
+</html>
 
 </body>
+
 </html>

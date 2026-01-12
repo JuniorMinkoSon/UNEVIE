@@ -1,29 +1,58 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Message envoyé</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
 
-<body>
+<head th:replace="~{fragments/head :: head('Confirmation - UNEVIE')}"></head>
 
-<div th:replace="~{fragments/header :: header}"></div>
+<body class="font-poppins bg-creme-luxe text-noir-profond">
 
-<section class="container" style="padding:5rem 2rem; text-align:center;">
-    <h1 class="text-success">Message envoyé avec succès !</h1>
+    <!-- HEADER -->
+    <div th:replace="~{fragments/header :: header}"></div>
 
-    <p th:if="${success}"
-       style="font-size:1.3rem; margin-top:1rem;"
-       th:text="${success}">
-    </p>
+    <!-- CONTENU -->
+    <section class="min-h-[60vh] flex items-center justify-center py-20">
+        <div class="max-w-xl mx-auto px-6 text-center">
+            <div class="bg-white rounded-2xl shadow-xl p-12">
+                <!-- Icône de succès -->
+                <div
+                    class="w-24 h-24 mx-auto mb-8 bg-green-100 rounded-full flex items-center justify-center animate-bounce">
+                    <i class="fa-solid fa-check text-5xl text-green-500"></i>
+                </div>
 
-    <a th:href="@{/}" class="prim1" style="margin-top:2rem; display:inline-block;">
-        Retour à l’accueil
-    </a>
-</section>
+                <!-- Message principal -->
+                <h1 class="text-3xl font-playfair font-bold text-noir-profond mb-4">
+                    <span class="text-green-500">Succès !</span>
+                </h1>
 
-<div th:replace="~{fragments/footer :: footer}"></div>
+                <p th:if="${success}" class="text-xl text-gray-600 mb-8" th:text="${success}">
+                    Votre message a été envoyé avec succès.
+                </p>
+
+                <p th:unless="${success}" class="text-xl text-gray-600 mb-8">
+                    Votre commande a été validée avec succès. Nous vous contacterons bientôt !
+                </p>
+
+                <!-- Boutons -->
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a th:href="@{/}" class="btn-gold inline-flex items-center">
+                        <i class="fa-solid fa-home mr-2"></i> Retour à l'accueil
+                    </a>
+                    <a th:href="@{/contact}" class="btn-gold-outline inline-flex items-center">
+                        <i class="fa-solid fa-phone mr-2"></i> Nous contacter
+                    </a>
+                </div>
+            </div>
+
+            <!-- Message additionnel -->
+            <p class="mt-8 text-gray-500">
+                <i class="fa-solid fa-clock mr-2"></i>
+                Nous vous répondrons dans les 24 heures.
+            </p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
+
 </html>

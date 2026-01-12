@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
@@ -32,8 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
-=======
-# Logs
+!.vscode/extensions.json
+
+### Logs ###
 logs
 *.log
 npm-debug.log*
@@ -42,19 +42,19 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+### Web ###
 node_modules
 dist
 dist-ssr
 *.local
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+### OS/Editors ###
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
->>>>>>> a8c27643f80cdf6b893131467d034f83e94e618a
+
+### App Configuration ###
+src/main/resources/application.properties

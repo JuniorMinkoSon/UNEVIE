@@ -1,41 +1,72 @@
-<!doctype html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Produits – Admin</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-</head>
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/admin-layout :: layout(pageTitle='Gestion des Produits', content=~{::#produitsContent})}">
 
-<body>
+<div id="produitsContent">
+    <div class="flex justify-between items-center mb-8">
+        <h3 class="text-2xl font-bold text-noir-profond">Tous les produits</h3>
+        <a th:href="@{/admin/produits/add}" class="btn-gold">
+            <i class="fa-solid fa-plus-circle mr-2"></i> Ajouter un produit
+        </a>
+    </div>
 
-<div th:replace="~{fragments/header :: header}"></div>
+    <!-- Table Container -->
+    <div class="card-luxury overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-noir-profond text-white uppercase text-xs tracking-wider">
+                        <th class="px-6 py-4 font-bold">Image</th>
+                        <th class="px-6 py-4 font-bold">Produit</th>
+                        <th class="px-6 py-4 font-bold">Catégorie</th>
+                        <th class="px-6 py-4 font-bold text-right">Prix</th>
+                        <th class="px-6 py-4 font-bold text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    <tr th:each="p : ${produits}" class="hover:bg-creme-luxe/50 transition-colors">
+                        <td class="px-6 py-4">
+                            <img th:src="@{${p.imageUrl}}"
+                                class="w-16 h-16 object-cover rounded-xl shadow-sm border border-gray-100">
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="font-bold text-noir-profond" th:text="${p.nom}">Nom</div>
+                            <div class="text-xs text-gray-400" th:text="'ID: #' + ${p.id}">#1</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-3 py-1 rounded-full bg-or-royal/10 text-or-royal text-xs font-bold"
+                                th:text="${p.categorie}">Catégorie</span>
+                        </td>
+                        <td class="px-6 py-4 text-right font-bold text-noir-profond" th:text="${p.prix} + ' FCFA'">
+                            0 FCFA
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex justify-center gap-2">
+                                <a href="#"
+                                    class="w-10 h-10 rounded-lg flex items-center justify-center text-blue-500 hover:bg-blue-50 transition-colors"
+                                    title="Modifier">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <a href="#"
+                                    class="w-10 h-10 rounded-lg flex items-center justify-center text-red-500 hover:bg-red-50 transition-colors"
+                                    title="Supprimer">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-<section class="container py-4">
+        <!-- Empty State -->
+        <div th:if="${#lists.isEmpty(produits)}" class="p-12 text-center">
+            <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300">
+                <i class="fa-solid fa-folder-open text-3xl"></i>
+            </div>
+            <p class="text-gray-500">Aucun produit enregistré pour le moment.</p>
+        </div>
+    </div>
+</div>
 
-    <h1 class="mb-4">Liste des produits</h1>
-
-    <a class="btn btn-primary mb-3" th:href="@{/admin/produits/add}">+ Ajouter un produit</a>
-
-    <table class="table table-bordered table-striped">
-
-
-        <tbody>
-        <tr th:each="p : ${produits}">
-            <td th:text="${p.id}"></td>
-            <td th:text="${p.nom}"></td>
-            <td th:text="${p.categorie}"></td>
-            <td th:text="${p.prix} + ' FCFA'"></td>
-            <td>
-                <img th:src="@{${p.imageUrl}}" style="height:60px;border-radius:8px;">
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-    <a th:href="@{/admin/dashboard}" class="btn btn-secondary mt-3">⬅ Retour Dashboard</a>
-
-</section>
-
-
-</body>
 </html>

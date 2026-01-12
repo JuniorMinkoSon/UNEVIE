@@ -6,11 +6,8 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-public class MessageContact {
+public class MessageContact extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private String nom;
 

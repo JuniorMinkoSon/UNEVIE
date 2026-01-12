@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(pageTitle, content)">
+
+<head th:replace="~{fragments/head :: head (title=${pageTitle ?: 'UNEVIE - Admin'})}">
+</head>
+
+<body class="bg-creme-luxe font-poppins text-noir-profond min-h-screen">
+
+    <!-- SIDEBAR -->
+    <div th:replace="~{fragments/admin/sidebar :: sidebar}"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="md:ml-72 min-h-screen transition-all duration-300">
+        <!-- TOP HEADER -->
+        <header class="glassmorphism sticky top-0 z-40 px-6 py-4 flex justify-between items-center shadow-sm">
+            <h2 class="text-xl font-bold text-noir-profond" th:text="${pageTitle}">Dashboards</h2>
+
+            <div class="flex items-center gap-6">
+                <!-- Notifications/Search could go here -->
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-full bg-or-royal/20 flex items-center justify-center text-or-royal font-bold">
+                        A
+                    </div>
+                    <span class="hidden sm:inline font-semibold">Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENT AREA -->
+        <div class="p-6 md:p-10">
+            <div th:replace="${content}"></div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="p-6 text-center text-gray-400 text-sm">
+            <p>&copy; 2026 UNEVIE. Admin Panel Luxury Edition.</p>
+        </footer>
+    </main>
+
+    <script>
+        // Specific admin JS if needed
+    </script>
+</body>
+
+</html>

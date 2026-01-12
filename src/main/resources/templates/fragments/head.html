@@ -1,11 +1,106 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="head (title)">
-    <title th:text="${title} ?: 'BarikaWeb – Immobilier & Travaux Publics'">BarikaWeb</title>
 
-    <link rel="icon" type="image/png" th:href="@{/images/favicon.png}" />
-    <link th:href="@{/css/style.css}" rel="stylesheet" />
-    <link th:href="@{/css/header.css}" rel="stylesheet" />
-    <script defer th:src="@{/js/script.js}"></script>
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Entreprise ivoirienne spécialisée en travaux publics, génie civil, immobilier et finitions">
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Palette Luxueuse
+                        'noir-profond': '#0A0A0A',
+                        'noir-elegant': '#1A1A1A',
+                        'or-royal': '#C9A227',
+                        'or-clair': '#E8D48B',
+                        'creme-luxe': '#F5F0E8',
+                        'gris-perle': '#E5E5E5',
+                        // Couleurs existantes
+                        'bleu-fonce': '#1E3A8A',
+                        'orange': '#da8a27',
+                        'marron': '#847062',
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                        'playfair': ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'slide-up': 'slideUp 0.6s ease-out forwards',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 5px rgba(201, 162, 39, 0.5)' },
+                            '100%': { boxShadow: '0 0 20px rgba(201, 162, 39, 0.8)' },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" th:href="@{/images/favicon-256x256.png}" type="image/x-icon">
+
+    <!-- Custom CSS (conservé pour compatibilité) -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <!-- Titre dynamique -->
+    <title th:text="${title}">UNEVIE</title>
+
+    <!-- Styles Tailwind personnalisés -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-gradient-gold {
+                @apply bg-gradient-to-r from-or-royal via-or-clair to-or-royal bg-clip-text text-transparent;
+            }
+            .btn-gold {
+                @apply bg-or-royal text-noir-profond font-semibold py-3 px-8 rounded-lg 
+                       transition-all duration-300 hover:bg-or-clair hover:shadow-lg 
+                       hover:shadow-or-royal/30 hover:-translate-y-1;
+            }
+            .btn-gold-outline {
+                @apply border-2 border-or-royal text-or-royal font-semibold py-3 px-8 rounded-lg 
+                       transition-all duration-300 hover:bg-or-royal hover:text-noir-profond;
+            }
+            .card-luxury {
+                @apply bg-white rounded-xl overflow-hidden shadow-lg 
+                       transition-all duration-500 hover:shadow-2xl hover:-translate-y-2
+                       border border-gris-perle hover:border-or-royal/50;
+            }
+            .glassmorphism {
+                @apply backdrop-blur-md bg-white/80 border border-white/20;
+            }
+            .glass-dark {
+                @apply backdrop-blur-xl bg-noir-profond/70 border border-white/10;
+            }
+        }
+    </style>
 </head>
+
 </html>

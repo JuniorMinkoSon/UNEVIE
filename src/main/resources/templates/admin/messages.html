@@ -1,38 +1,77 @@
-<!doctype html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head (title='Messages reçus')}"></head>
-<body>
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/admin-layout :: layout(pageTitle='Messages Reçus', content=~{::#messagesContent})}">
 
-<div th:replace="~{fragments/header :: header}"></div>
+<div id="messagesContent">
+    <div class="mb-8 flex justify-between items-center">
+        <div>
+            <h3 class="text-2xl font-bold text-noir-profond">Messages de contact</h3>
+            <p class="text-gray-500">Consultez les demandes envoyées via le formulaire de contact.</p>
+        </div>
+        <div class="px-4 py-2 bg-or-royal/10 text-or-royal rounded-lg text-sm font-bold">
+            Total: <span th:text="${#lists.size(messages)}">0</span>
+        </div>
+    </div>
 
-<section class="section">
-    <h2>Messages reçus</h2>
+    <!-- Table Container -->
+    <div class="card-luxury overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-noir-profond text-white uppercase text-xs tracking-wider">
+                        <th class="px-6 py-4 font-bold">Expéditeur</th>
+                        <th class="px-6 py-4 font-bold">Sujet / Message</th>
+                        <th class="px-6 py-4 font-bold">Date</th>
+                        <th class="px-6 py-4 font-bold text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    <tr th:each="msg : ${messages}" class="hover:bg-creme-luxe/50 transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="font-bold text-noir-profond" th:text="${msg.nom}">Nom</div>
+                            <div class="text-xs text-gray-400 flex items-center gap-1">
+                                <i class="fa-solid fa-envelope text-[10px]"></i>
+                                <span th:text="${msg.email}">email@example.com</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="font-semibold text-or-royal text-sm mb-1" th:text="${msg.sujet}">Sujet</div>
+                            <p class="text-sm text-gray-600 line-clamp-2 max-w-md" th:text="${msg.message}">Message
+                                content preview...</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-noir-profond"
+                                th:text="${#temporals.format(msg.dateEnvoi, 'dd MMM yyyy')}">Date</div>
+                            <div class="text-xs text-gray-400" th:text="${#temporals.format(msg.dateEnvoi, 'HH:mm')}">
+                                Heure</div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex justify-center gap-2">
+                                <button
+                                    class="w-10 h-10 rounded-lg flex items-center justify-center text-or-royal hover:bg-or-royal/10 transition-colors"
+                                    title="Répondre">
+                                    <i class="fa-solid fa-reply"></i>
+                                </button>
+                                <button
+                                    class="w-10 h-10 rounded-lg flex items-center justify-center text-red-500 hover:bg-red-50 transition-colors"
+                                    title="Supprimer">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Sujet</th>
-            <th>Message</th>
-            <th>Date</th>
-        </tr>
-        </thead>
+        <!-- Empty State -->
+        <div th:if="${#lists.isEmpty(messages)}" class="p-12 text-center">
+            <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300">
+                <i class="fa-solid fa-inbox text-3xl"></i>
+            </div>
+            <p class="text-gray-500">Aucun message reçu pour le moment.</p>
+        </div>
+    </div>
+</div>
 
-        <tbody>
-        <tr th:each="msg : ${messages}">
-            <td th:text="${msg.nom}"></td>
-            <td th:text="${msg.email}"></td>
-            <td th:text="${msg.sujet}"></td>
-            <td th:text="${msg.message}"></td>
-            <td th:text="${#temporals.format(msg.dateEnvoi, 'dd/MM/yyyy HH:mm')}"></td>
-        </tr>
-        </tbody>
-
-    </table>
-</section>
-
-<div th:replace="~{fragments/footer :: footer}"></div>
-
-</body>
 </html>

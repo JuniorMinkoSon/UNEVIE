@@ -7,11 +7,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommandeItem {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class CommandeItem extends BaseEntity {
 
     @ManyToOne
     private Commande commande;

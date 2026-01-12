@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Page Introuvable - 404 - UNEVIE')}"></head>
+
+<body class="font-poppins bg-creme-luxe text-noir-profond min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow flex items-center justify-center py-20">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+
+            <div class="relative inline-block mb-12">
+                <span
+                    class="text-[12rem] md:text-[20rem] font-playfair font-bold text-noir-profond/5 leading-none">404</span>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div
+                        class="w-24 h-24 md:w-32 md:h-32 bg-or-royal/10 rounded-full flex items-center justify-center animate-pulse">
+                        <i class="fa-solid fa-map-location-dot text-4xl md:text-5xl text-or-royal"></i>
+                    </div>
+                </div>
+            </div>
+
+            <h1 class="text-3xl md:text-5xl font-playfair font-bold text-noir-profond mb-6">
+                Espace <span class="text-or-royal">Introuvable</span>
+            </h1>
+
+            <p class="text-gray-500 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+                Le terrain ou le service que vous recherchez semble s'être volatilisé.
+                Mais ne vous inquiétez pas, nos experts peuvent vous ramener sur la bonne voie.
+            </p>
+
+            <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+                <a th:href="@{/}" class="btn-gold px-10 py-4 text-lg shadow-xl shadow-or-royal/20">
+                    <i class="fa-solid fa-house-chimney mr-2"></i> Retour à l'accueil
+                </a>
+                <a th:href="@{/produits}"
+                    class="text-noir-profond hover:text-or-royal font-bold uppercase tracking-widest text-sm transition-colors decoration-2 underline-offset-8 underline decoration-or-royal/30 hover:decoration-or-royal">
+                    Explorer nos offres <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+
+</html>

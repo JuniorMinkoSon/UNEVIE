@@ -1,85 +1,103 @@
-<!-- ========== FOOTER ========== -->
-
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="footer">
-
-    <footer class="footer">
-        <div class="footer-container">
-            <!-- Colonne 1 : À propos -->
-            <div class="footer-section">
-                <img src="images/logo_bar1.png" style="width:6rem; height:5rem;">
-                <p>Votre partenaire de confiance pour tous vos projets de construction, immobilier et aménagement en Côte d'Ivoire.</p>
-               <!--  <p>
-                    Baraka Synergies Group est une entreprise ivoirienne spécialisée dans la
-                    <strong>vente de terrains</strong>, de <strong>voitures</strong>, de
-                    <strong>matériels de construction</strong> ainsi que dans la
-                    <strong>réalisation de travaux</strong> et le <strong>coaching immobilier jusqu’à l’ACD</strong>.
-                    <br>
-                    <em>BarakaWeb — la plateforme digitale du groupe qui centralise tous les services en ligne.</em>
-                </p> -->
-
-            </div>
-
-            <!-- Colonne 2 : Liens rapides -->
-            <div class="footer-section">
-                <h3>Liens Rapides</h3>
-                <a th:href="@{/}">Accueil</a>
-                <a th:href="@{/propos}">À propos</a>
-                <a th:href="@{/services}">Nos Services</a>
-                <a th:href="@{/projets}">Réalisations</a>
-                <a th:href="@{/contact}">Contact</a>
-            </div>
-
-            <!-- Colonne 3 : Contact -->
-            <div class="footer-section">
-
-                    <h3> Nous Contacter</h3>
-
-                <div class="footer_icon">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <p>Cocody Angré, Abidjan</p>
-                </div>
-
-                <div class="footer_icon">
-                    <i class="fa-solid fa-phone"></i>
-                    <p>+225 07 681 893 40 / +225 07 488 188 16</p>
-
-                </div>
-
-                <div class="footer_icon">
-                    <i class="fa-solid fa-envelope" style="color: white; font-size: 20px;"></i>
-                    <p>
-                        <a href="mailto:contacts@barakasynergiesgroup.com">contacts@barakasynergiesgroup.com</a>
+    <!-- Footer -->
+    <footer class="bg-noir-profond text-white py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <!-- Logo et description -->
+                <div class="md:col-span-1">
+                    <img th:src="@{/images/logo_bar1.png}" alt="Logo UNEVIE" class="h-16 mb-4">
+                    <p class="text-gray-400">
+                        Votre partenaire de confiance pour la construction et l'immobilier en Côte d'Ivoire.
                     </p>
-
                 </div>
-            
+
+                <!-- Liens rapides -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4 text-or-royal">Liens rapides</h4>
+                    <nav class="flex flex-col gap-2">
+                        <a th:href="@{/}" class="text-gray-400 hover:text-or-royal transition-colors">Accueil</a>
+                        <a th:href="@{/propos}" class="text-gray-400 hover:text-or-royal transition-colors">À propos</a>
+                        <a th:href="@{/services}"
+                            class="text-gray-400 hover:text-or-royal transition-colors">Services</a>
+                        <a th:href="@{/projets}" class="text-gray-400 hover:text-or-royal transition-colors">Projets</a>
+                    </nav>
+                </div>
+
+                <!-- Services -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4 text-or-royal">Nos services</h4>
+                    <nav class="flex flex-col gap-2">
+                        <span class="text-gray-400">Travaux publics</span>
+                        <span class="text-gray-400">Génie civil</span>
+                        <span class="text-gray-400">Immobilier</span>
+                        <span class="text-gray-400">Finitions</span>
+                    </nav>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4 text-or-royal">Contact</h4>
+                    <div class="flex flex-col gap-3 text-gray-400">
+                        <p><i class="fa-solid fa-location-dot text-or-royal mr-2"></i> Abidjan, Côte d'Ivoire</p>
+                        <p><i class="fa-solid fa-phone text-or-royal mr-2"></i> +225 07 68 18 93 40</p>
+                        <p><i class="fa-solid fa-envelope text-or-royal mr-2"></i> contact@unevie.ci</p>
+                    </div>
+                    <!-- Réseaux sociaux -->
+                    <div class="flex gap-4 mt-6">
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-noir-elegant border border-gray-700 flex items-center justify-center hover:border-or-royal hover:text-or-royal transition-all">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-noir-elegant border border-gray-700 flex items-center justify-center hover:border-or-royal hover:text-or-royal transition-all">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-noir-elegant border border-gray-700 flex items-center justify-center hover:border-or-royal hover:text-or-royal transition-all">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <!-- Colonne 4 : Réseaux sociaux -->
-            <div class="footer-section">
-                <h3>Suivez-nous</h3>
-                <div class="social-links">
-                    <a href="#" aria-label="Facebook">
-                        <i class="fa-brands fa-facebook"></i>
-                    </a>
-                    <a href="#" aria-label="LinkedIn">
-                        <i class="fa-brands fa-linkedin"></i>
-
-                    </a>
-                    <a href="#" aria-label="Instagram">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-
-                    <a href="#" aria-label="YouTube">
-                        <i class="fa-brands fa-youtube"></i>
-                    </a>
-                </div>
+            <!-- Copyright -->
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2026 UNEVIE. Tous droits réservés.</p>
             </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2025 <strong>Baraka Synergies Group</strong> — Tous droits réservés</p>
         </div>
     </footer>
 
+    <!-- Bouton WhatsApp Flottant -->
+    <a href="https://wa.me/2250768189340"
+        class="fixed bottom-6 right-6 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 hover:scale-110 transition-all duration-300 z-50"
+        target="_blank" aria-label="Contactez-nous sur WhatsApp">
+        <i class="fa-brands fa-whatsapp text-white text-2xl"></i>
+    </a>
+
+    <!-- Bouton Scroll to Top -->
+    <button id="scrollTopBtn"
+        class="fixed bottom-6 left-6 w-12 h-12 bg-or-royal text-noir-profond rounded-full hidden items-center justify-center shadow-lg hover:bg-or-clair hover:scale-110 transition-all duration-300 z-50"
+        aria-label="Remonter en haut" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Scroll to Top Button
+        window.addEventListener('scroll', () => {
+            const scrollBtn = document.getElementById('scrollTopBtn');
+            if (scrollBtn) {
+                if (window.scrollY > 300) {
+                    scrollBtn.classList.remove('hidden');
+                    scrollBtn.classList.add('flex');
+                } else {
+                    scrollBtn.classList.add('hidden');
+                    scrollBtn.classList.remove('flex');
+                }
+            }
+        });
+    </script>
 </div>
+
+</html>

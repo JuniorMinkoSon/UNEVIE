@@ -1,163 +1,272 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nos Services – Baraka Synergie</title>
 
-    <!-- Tailwind CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+<head th:replace="~{fragments/head :: head('Nos Services - UNEVIE')}"></head>
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="/images/favicon-256x256.png" type="image/x-icon">
-</head>
+<body class="font-poppins bg-creme-luxe text-noir-profond">
 
-<body class="bg-gray-50 text-gray-800">
+    <!-- HEADER -->
+    <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- HEADER -->
-<div th:replace="~{fragments/header :: header}"></div>
+    <!-- HERO PAGE -->
+    <section class="relative py-24 md:py-32 bg-noir-profond overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-noir-profond via-noir-profond/90 to-noir-profond/70"></div>
+        <div class="absolute top-0 left-0 w-96 h-96 bg-or-royal/10 rounded-full blur-3xl"></div>
 
-<!-- HERO -->
-<section class="bg-gradient-to-br from-blue-900 to-blue-700 text-white py-20 text-center">
-    <h1 class="text-4xl font-bold">Nos Services</h1>
-    <p class="mt-3 text-lg opacity-90">Des solutions professionnelles au service du développement</p>
-</section>
-
-<!-- INTRO – BARAKA SYNERGIE -->
-<section class="max-w-5xl mx-auto py-16 px-4 text-center">
-    <h2 class="text-3xl font-bold text-blue-900">Baraka Synergie</h2>
-    <p class="mt-4 text-gray-600 leading-relaxed text-lg">
-        Baraka Synergie est un pôle opérationnel regroupant nos expertises en
-        <strong>Travaux Publics</strong>, <strong>Immobilier</strong> et <strong>Finitions</strong>.
-        Notre objectif est simple : fournir des solutions fiables, sécurisées et durables
-        pour transformer vos projets en réalisations concrètes.
-    </p>
-</section>
-
-<!-- SERVICE 1 : TRAVAUX PUBLICS -->
-<section class="bg-white py-16">
-    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 px-5 items-center">
-
-        <img src="/images/Travaux-publics-génie-civil-2.jpg"
-             alt="Travaux Publics"
-             class="rounded-xl shadow-lg w-full object-cover">
-
-        <div>
-            <h2 class="text-3xl font-bold text-blue-900">Travaux Publics & Génie Civil</h2>
-            <p class="mt-4 text-gray-600">
-                Nous réalisons des infrastructures essentielles pour le développement du pays : routes, ouvrages d’art, assainissement, bâtiments publics.
+        <div class="relative z-10 max-w-7xl mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-playfair font-bold text-white mb-4">
+                Nos <span class="text-or-royal">Services</span>
+            </h1>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                Des solutions professionnelles au service du développement
             </p>
-
-            <ul class="mt-6 space-y-3">
-                <li class="flex items-start">
-                    <span class="text-orange-500 text-xl mr-2">✓</span> Construction de routes & voiries
-                </li>
-                <li class="flex items-start">
-                    <span class="text-orange-500 text-xl mr-2">✓</span> Ouvrages d’art (ponts, passerelles)
-                </li>
-                <li class="flex items-start">
-                    <span class="text-orange-500 text-xl mr-2">✓</span> Réseaux d’assainissement & drainage
-                </li>
-                <li class="flex items-start">
-                    <span class="text-orange-500 text-xl mr-2">✓</span> Terrassement & VRD
-                </li>
-                <li class="flex items-start">
-                    <span class="text-orange-500 text-xl mr-2">✓</span> Maintenance & réhabilitation
-                </li>
-            </ul>
-
-            <a th:href="@{/contact}"
-               class="inline-block bg-orange-500 text-white px-6 py-3 rounded-lg mt-6 font-semibold">
-                Demander un devis
-            </a>
         </div>
+    </section>
 
-    </div>
-</section>
-
-<!-- SERVICE 2 : IMMOBILIER -->
-<section class="bg-gray-100 py-16">
-    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 px-5 items-center">
-
-        <div>
-            <h2 class="text-3xl font-bold text-blue-900">Immobilier & Foncier Sécurisé (ACD)</h2>
-            <p class="mt-4 text-gray-600">
-                Nous garantissons des acquisitions immobilières sans risque grâce à des terrains titrés et des démarches juridiques maîtrisées.
+    <!-- INTRO -->
+    <section class="py-20 bg-creme-luxe">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-playfair font-bold text-noir-profond mb-6">
+                <span class="text-or-royal">Baraka Synergie</span>
+            </h2>
+            <p class="text-lg text-gray-600 leading-relaxed">
+                Baraka Synergie est un pôle opérationnel regroupant nos expertises en
+                <strong class="text-noir-profond">Travaux Publics</strong>, <strong
+                    class="text-noir-profond">Immobilier</strong> et <strong
+                    class="text-noir-profond">Finitions</strong>.
+                Notre objectif est simple : fournir des solutions fiables, sécurisées et durables
+                pour transformer vos projets en réalisations concrètes.
             </p>
-
-            <ul class="mt-6 space-y-3">
-                <li class="flex items-start">
-                    <span class="text-orange-500 text-xl mr-2">✓</span> Vente de terrains titrés (ACD)
-                </li>
-                <li class="flex items-start">
-                    <span class="text-orange-500 text-xl mr-2">✓</span> Lotissements sécurisés
-                </li>
-                <li class="flex items-start">
-                    <span class="text-orange-500 text-xl mr-2">✓</span> Viabilisation (eau, électricité, voirie)
-                </li>
-                <li class="flex items-start">
-                    <span class="text-orange-500 text-xl mr-2">✓</span> Accompagnement juridique
-                </li>
-                <li class="flex items-start">
-                    <span class="text-orange-500 text-xl mr-2">✓</span> Promotion et construction immobilière
-                </li>
-            </ul>
-
-            <a th:href="@{/projets}"
-               class="inline-block bg-orange-500 text-white px-6 py-3 rounded-lg mt-6 font-semibold">
-                Voir nos terrains disponibles
-            </a>
         </div>
+    </section>
 
-        <img src="/images/Immobilier-foncier-sécurisé-1.jpg"
-             alt="Immobilier"
-             class="rounded-xl shadow-lg w-full object-cover">
-    </div>
-</section>
+    <!-- SERVICE 1 : TRAVAUX PUBLICS -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Image -->
+                <div class="relative">
+                    <img th:src="@{/images/Travaux-publics-génie-civil-2.jpg}" alt="Travaux Publics"
+                        class="rounded-2xl shadow-2xl w-full transform hover:scale-105 transition-transform duration-500">
+                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-or-royal/20 rounded-full blur-2xl"></div>
+                </div>
 
-<!-- SERVICE 3 : FINITIONS -->
-<section class="bg-white py-16">
-    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 px-5 items-center">
+                <!-- Contenu -->
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-playfair font-bold text-noir-profond mb-6">
+                        Travaux Publics & <span class="text-or-royal">Génie Civil</span>
+                    </h2>
+                    <p class="text-gray-600 mb-8">
+                        Nous réalisons des infrastructures essentielles pour le développement du pays : routes, ouvrages
+                        d'art, assainissement, bâtiments publics.
+                    </p>
 
-        <img src="/images/bat-moderne-1.jpg"
-             alt="Finitions"
-             class="rounded-xl shadow-xl w-full object-cover">
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-or-royal/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-check text-or-royal text-sm"></i>
+                            </div>
+                            <span>Construction de routes & voiries</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-or-royal/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-check text-or-royal text-sm"></i>
+                            </div>
+                            <span>Ouvrages d'art (ponts, passerelles)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-or-royal/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-check text-or-royal text-sm"></i>
+                            </div>
+                            <span>Réseaux d'assainissement & drainage</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-or-royal/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-check text-or-royal text-sm"></i>
+                            </div>
+                            <span>Terrassement & VRD</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-or-royal/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-check text-or-royal text-sm"></i>
+                            </div>
+                            <span>Maintenance & réhabilitation</span>
+                        </li>
+                    </ul>
 
-        <div>
-            <h2 class="text-3xl font-bold text-blue-900">Finitions & Aménagements</h2>
-            <p class="mt-4 text-gray-600">
-                Nous créons des espaces intérieurs élégants, modernes et sur mesure avec des matériaux de haute qualité.
+                    <a th:href="@{/contact}" class="btn-gold inline-flex items-center">
+                        <i class="fa-solid fa-file-invoice mr-2"></i> Demander un devis
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICE 2 : IMMOBILIER -->
+    <section class="py-20 bg-noir-profond text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Contenu -->
+                <div class="order-2 lg:order-1">
+                    <h2 class="text-3xl md:text-4xl font-playfair font-bold mb-6">
+                        Immobilier & <span class="text-or-royal">Foncier Sécurisé</span> (ACD)
+                    </h2>
+                    <p class="text-gray-300 mb-8">
+                        Nous garantissons des acquisitions immobilières sans risque grâce à des terrains titrés et des
+                        démarches juridiques maîtrisées.
+                    </p>
+
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-or-royal/20 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-check text-or-royal text-sm"></i>
+                            </div>
+                            <span>Vente de terrains titrés (ACD)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-or-royal/20 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-check text-or-royal text-sm"></i>
+                            </div>
+                            <span>Lotissements sécurisés</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-or-royal/20 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-check text-or-royal text-sm"></i>
+                            </div>
+                            <span>Viabilisation (eau, électricité, voirie)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-or-royal/20 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-check text-or-royal text-sm"></i>
+                            </div>
+                            <span>Accompagnement juridique</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-or-royal/20 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-check text-or-royal text-sm"></i>
+                            </div>
+                            <span>Promotion et construction immobilière</span>
+                        </li>
+                    </ul>
+
+                    <a th:href="@{/projets}" class="btn-gold inline-flex items-center">
+                        <i class="fa-solid fa-map-location-dot mr-2"></i> Voir nos terrains
+                    </a>
+                </div>
+
+                <!-- Image -->
+                <div class="order-1 lg:order-2 relative">
+                    <img th:src="@{/images/Immobilier-foncier-sécurisé-1.jpg}" alt="Immobilier"
+                        class="rounded-2xl shadow-2xl w-full transform hover:scale-105 transition-transform duration-500">
+                    <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-or-royal/20 rounded-full blur-2xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICE 3 : FINITIONS -->
+    <section class="py-20 bg-creme-luxe">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Image -->
+                <div class="relative">
+                    <img th:src="@{/images/bat-moderne-1.jpg}" alt="Finitions"
+                        class="rounded-2xl shadow-2xl w-full transform hover:scale-105 transition-transform duration-500">
+                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-or-royal/20 rounded-full blur-2xl"></div>
+                </div>
+
+                <!-- Contenu -->
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-playfair font-bold text-noir-profond mb-6">
+                        Finitions & <span class="text-or-royal">Aménagements</span>
+                    </h2>
+                    <p class="text-gray-600 mb-8">
+                        Nous créons des espaces intérieurs élégants, modernes et sur mesure avec des matériaux de haute
+                        qualité.
+                    </p>
+
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-or-royal/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-check text-or-royal text-sm"></i>
+                            </div>
+                            <span>Peinture & décoration</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-or-royal/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-check text-or-royal text-sm"></i>
+                            </div>
+                            <span>Menuiserie & dressing</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-or-royal/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-check text-or-royal text-sm"></i>
+                            </div>
+                            <span>Plomberie & sanitaires</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-or-royal/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-check text-or-royal text-sm"></i>
+                            </div>
+                            <span>Électricité & climatisation</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-or-royal/10 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-check text-or-royal text-sm"></i>
+                            </div>
+                            <span>Aménagements extérieurs</span>
+                        </li>
+                    </ul>
+
+                    <a th:href="@{/contact}" class="btn-gold inline-flex items-center">
+                        <i class="fa-solid fa-file-invoice mr-2"></i> Demander un devis gratuit
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section
+        class="py-20 bg-gradient-to-br from-noir-profond via-noir-elegant to-noir-profond relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-or-royal/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+            <h2 class="text-3xl md:text-5xl font-playfair font-bold text-white mb-6">
+                Un projet en tête <span class="text-or-royal">?</span>
+            </h2>
+            <p class="text-xl text-gray-300 mb-10">
+                Discutons ensemble de vos besoins et trouvons la meilleure solution
             </p>
-
-            <ul class="mt-6 space-y-3">
-                <li class="flex items-start">
-                    <span class="text-orange-500 text-xl mr-2">✓</span> Peinture & décoration
-                </li>
-                <li class="flex items-start">
-                    <span class="text-orange-500 text-xl mr-2">✓</span> Menuiserie & dressing
-                </li>
-                <li class="flex items-start">
-                    <span class="text-orange-500 text-xl mr-2">✓</span> Plomberie & sanitaires
-                </li>
-                <li class="flex items-start">
-                    <span class="text-orange-500 text-xl mr-2">✓</span> Electricité & climatisation
-                </li>
-                <li class="flex items-start">
-                    <span class="text-orange-500 text-xl mr-2">✓</span> Aménagements extérieurs
-                </li>
-            </ul>
-
-            <a th:href="@{/contact}"
-               class="inline-block bg-orange-500 text-white px-6 py-3 rounded-lg mt-6 font-semibold">
-                Demander un devis gratuit
-            </a>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a th:href="@{/contact}" class="btn-gold inline-flex items-center">
+                    <i class="fa-solid fa-phone mr-2"></i> Nous contacter
+                </a>
+                <a th:href="@{/projets}" class="btn-gold-outline inline-flex items-center">
+                    <i class="fa-solid fa-images mr-2"></i> Voir nos réalisations
+                </a>
+            </div>
         </div>
+    </section>
 
-    </div>
-</section>
-
-<!-- FOOTER -->
-<div th:replace="~{fragments/footer :: footer}"></div>
+    <!-- FOOTER -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
+
 </html>

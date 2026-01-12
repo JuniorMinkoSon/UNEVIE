@@ -5,11 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "article")
-public class Article {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Article extends BaseEntity {
 
     private String titre;
     private String categorie;
@@ -18,23 +14,38 @@ public class Article {
     private String contenu;
 
     private String imageUrl;
-    private LocalDateTime datePublication = LocalDateTime.now();
 
     // --- Getters et Setters ---
-    public Long getId() { return id; }
+    public String getTitre() {
+        return titre;
+    }
 
-    public String getTitre() { return titre; }
-    public void setTitre(String titre) { this.titre = titre; }
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
 
-    public String getCategorie() { return categorie; }
-    public void setCategorie(String categorie) { this.categorie = categorie; }
+    public String getCategorie() {
+        return categorie;
+    }
 
-    public String getContenu() { return contenu; }
-    public void setContenu(String contenu) { this.contenu = contenu; }
+    public void setCategorie(String categorie) {
+        this.categorie = categorie;
+    }
 
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public String getContenu() {
+        return contenu;
+    }
 
-    public LocalDateTime getDatePublication() { return datePublication; }
-    public void setDatePublication(LocalDateTime datePublication) { this.datePublication = datePublication; }
+    public void setContenu(String contenu) {
+        this.contenu = contenu;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
 }

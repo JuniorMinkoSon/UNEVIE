@@ -1,140 +1,246 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Découvrez nos objectifs, notre vision et nos missions pour le développement en Côte d'Ivoire">
-    <title>Nos Objectifs – Baraka CI</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="shortcut icon" th:href="@{/images/favicon-256x256.png}">
-</head>
+<head th:replace="~{fragments/head :: head('Nos Objectifs - UNEVIE')}"></head>
 
-<body>
+<body class="font-poppins bg-creme-luxe text-noir-profond">
 
-<div th:replace="~{fragments/header :: header}"></div>
+    <!-- HEADER -->
+    <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- ================= HERO ================= -->
-<section class="hero" style="padding: 5rem 2rem;">
-    <h1>Nos Objectifs & Missions</h1>
-    <p>Notre vision pour un développement immobilier durable et accessible en Côte d'Ivoire</p>
-</section>
+    <!-- HERO PAGE -->
+    <section class="relative py-24 md:py-32 bg-noir-profond overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-noir-profond via-noir-profond/90 to-noir-profond/70"></div>
+        <div class="absolute top-0 right-0 w-96 h-96 bg-or-royal/10 rounded-full blur-3xl"></div>
 
-<!-- ================= OBJECTIFS ================= -->
-<section class="section">
-    <div class="container">
-        <h2 class="section-title">Nos objectifs stratégiques</h2>
-        <p class="section-subtitle">Des ambitions claires pour accompagner durablement nos clients</p>
-
-        <div class="services-grid">
-
-            <!-- Objectif 1 -->
-            <div class="service-card">
-                <img th:src="@{/images/Immobilier-foncier-sécurisé-1.jpg}" src="/images/Immobilier-foncier-sécurisé-1.jpg"
-                     alt="Sécurisation foncière" style="width:100%; height:260px; object-fit:cover; border-radius:10px 10px 0 0;">
-                <div class="service-content">
-                    <h3>Sécuriser</h3>
-                    <p>
-                        Offrir des terrains et biens immobiliers 100% sécurisés avec titres fonciers authentiques.
-                        Une acquisition sans risque ni litige.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Objectif 2 -->
-            <div class="service-card">
-                <img th:src="@{/images/chantier1.jpg}" src="/images/chantier1.jpg"
-                     alt="Accompagnement chantier" style="width:100%; height:260px; object-fit:cover; border-radius:10px 10px 0 0;">
-                <div class="service-content">
-                    <h3>Accompagner</h3>
-                    <p>
-                        Accompagner chaque client du choix du terrain jusqu’à la livraison de la maison.
-                        Un suivi complet, humain et professionnel.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Objectif 3 -->
-            <div class="service-card">
-                <img th:src="@{/images/Immobilier-foncier-sécurisé-2.jpg}" src="/images/Immobilier-foncier-sécurisé-2.jpg"
-                     alt="Accessibilité foncière" style="width:100%; height:260px; object-fit:cover; border-radius:10px 10px 0 0;">
-                <div class="service-content">
-                    <h3>Faciliter</h3>
-                    <p>
-                        Simplifier les démarches administratives et rendre la propriété accessible
-                        avec des solutions de paiement flexibles.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Objectif 4 -->
-            <div class="service-card">
-                <img th:src="@{/images/Travaux-publics-génie-civil-1.jpg}" src="/images/Travaux-publics-génie-civil-1.jpg"
-                     alt="Construction durable" style="width:100%; height:260px; object-fit:cover; border-radius:10px 10px 0 0;">
-                <div class="service-content">
-                    <h3>Construire</h3>
-                    <p>
-                        Réaliser des infrastructures publiques et privées aux normes internationales,
-                        avec un contrôle qualité strict.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Objectif 5 -->
-            <div class="service-card">
-                <img th:src="@{/images/Travaux-publics-génie-civil-2.jpg}" src="/images/Travaux-publics-génie-civil-2.jpg"
-                     alt="Innovation BTP" style="width:100%; height:260px; object-fit:cover; border-radius:10px 10px 0 0;">
-                <div class="service-content">
-                    <h3>Innover</h3>
-                    <p>
-                        Intégrer les meilleures technologies et pratiques dans les projets immobiliers et BTP.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Objectif 6 -->
-            <div class="service-card">
-                <img th:src="@{/images/chantier.jpg}" src="/images/chantier.jpg"
-                     alt="Protection environnement" style="width:100%; height:260px; object-fit:cover; border-radius:10px 10px 0 0;">
-                <div class="service-content">
-                    <h3>Préserver</h3>
-                    <p>
-                        Intégrer le respect de l’environnement dans tous nos chantiers et plans d’aménagement.
-                    </p>
-                </div>
-            </div>
-
+        <div class="relative z-10 max-w-7xl mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-playfair font-bold text-white mb-4">
+                Nos Objectifs & <span class="text-or-royal">Missions</span>
+            </h1>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                Notre vision pour un développement immobilier durable et accessible en Côte d'Ivoire
+            </p>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- ================= VISION ================= -->
-<section class="section bg-light">
-    <div class="container">
-        <h2 class="section-title">Notre vision</h2>
-        <p class="section-subtitle">Un avenir ambitieux au service de la Côte d’Ivoire</p>
-
-        <div class="about-content">
-            <div class="about-text">
-                <h3>Devenir la référence incontournable</h3>
-                <p>
-                    Notre ambition : devenir l’entreprise la plus fiable en Côte d’Ivoire dans le BTP,
-                    l’immobilier et les finitions, avec une approche transparente et professionnelle.
+    <!-- OBJECTIFS -->
+    <section class="py-20 bg-creme-luxe">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-noir-profond mb-4">
+                    Nos objectifs <span class="text-or-royal">stratégiques</span>
+                </h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Des ambitions claires pour accompagner durablement nos clients
                 </p>
             </div>
 
-            <div class="about-image">
-                <img th:src="@{/images/Immobilier-foncier-sécurisé-2.jpg}"
-                     src="/images/Immobilier-foncier-sécurisé-2.jpg"
-                     alt="Vision stratégique"
-                     style="width:100%; border-radius:10px; object-fit:cover; height:350px;">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Objectif 1 -->
+                <div class="card-luxury group">
+                    <div class="relative overflow-hidden">
+                        <img th:src="@{/images/Immobilier-foncier-sécurisé-1.jpg}" alt="Sécurisation foncière"
+                            class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div
+                            class="absolute top-4 left-4 w-12 h-12 bg-or-royal rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-shield-halved text-noir-profond text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-noir-profond mb-3 group-hover:text-or-royal transition-colors">
+                            Sécuriser
+                        </h3>
+                        <p class="text-gray-600">
+                            Offrir des terrains et biens immobiliers 100% sécurisés avec titres fonciers authentiques.
+                            Une acquisition sans risque ni litige.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Objectif 2 -->
+                <div class="card-luxury group">
+                    <div class="relative overflow-hidden">
+                        <img th:src="@{/images/chantier1.jpg}" alt="Accompagnement chantier"
+                            class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div
+                            class="absolute top-4 left-4 w-12 h-12 bg-or-royal rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-handshake text-noir-profond text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-noir-profond mb-3 group-hover:text-or-royal transition-colors">
+                            Accompagner
+                        </h3>
+                        <p class="text-gray-600">
+                            Accompagner chaque client du choix du terrain jusqu'à la livraison de la maison. Un suivi
+                            complet, humain et professionnel.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Objectif 3 -->
+                <div class="card-luxury group">
+                    <div class="relative overflow-hidden">
+                        <img th:src="@{/images/Immobilier-foncier-sécurisé-2.jpg}" alt="Accessibilité foncière"
+                            class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div
+                            class="absolute top-4 left-4 w-12 h-12 bg-or-royal rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-key text-noir-profond text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-noir-profond mb-3 group-hover:text-or-royal transition-colors">
+                            Faciliter
+                        </h3>
+                        <p class="text-gray-600">
+                            Simplifier les démarches administratives et rendre la propriété accessible avec des
+                            solutions de paiement flexibles.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Objectif 4 -->
+                <div class="card-luxury group">
+                    <div class="relative overflow-hidden">
+                        <img th:src="@{/images/Travaux-publics-génie-civil-1.jpg}" alt="Construction durable"
+                            class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div
+                            class="absolute top-4 left-4 w-12 h-12 bg-or-royal rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-building text-noir-profond text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-noir-profond mb-3 group-hover:text-or-royal transition-colors">
+                            Construire
+                        </h3>
+                        <p class="text-gray-600">
+                            Réaliser des infrastructures publiques et privées aux normes internationales, avec un
+                            contrôle qualité strict.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Objectif 5 -->
+                <div class="card-luxury group">
+                    <div class="relative overflow-hidden">
+                        <img th:src="@{/images/Travaux-publics-génie-civil-2.jpg}" alt="Innovation BTP"
+                            class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div
+                            class="absolute top-4 left-4 w-12 h-12 bg-or-royal rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-lightbulb text-noir-profond text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-noir-profond mb-3 group-hover:text-or-royal transition-colors">
+                            Innover
+                        </h3>
+                        <p class="text-gray-600">
+                            Intégrer les meilleures technologies et pratiques dans les projets immobiliers et BTP.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Objectif 6 -->
+                <div class="card-luxury group">
+                    <div class="relative overflow-hidden">
+                        <img th:src="@{/images/chantier.jpg}" alt="Protection environnement"
+                            class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div
+                            class="absolute top-4 left-4 w-12 h-12 bg-or-royal rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-leaf text-noir-profond text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-noir-profond mb-3 group-hover:text-or-royal transition-colors">
+                            Préserver
+                        </h3>
+                        <p class="text-gray-600">
+                            Intégrer le respect de l'environnement dans tous nos chantiers et plans d'aménagement.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<div th:replace="~{fragments/footer :: footer}"></div>
+    <!-- NOTRE VISION -->
+    <section class="py-20 bg-noir-profond text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Texte -->
+                <div>
+                    <h2 class="text-3xl md:text-5xl font-playfair font-bold mb-6">
+                        Notre <span class="text-or-royal">Vision</span>
+                    </h2>
+                    <h3 class="text-xl font-semibold text-or-royal mb-4">
+                        Devenir la référence incontournable
+                    </h3>
+                    <p class="text-gray-300 text-lg mb-8">
+                        Notre ambition : devenir l'entreprise la plus fiable en Côte d'Ivoire dans le BTP, l'immobilier
+                        et les finitions, avec une approche transparente et professionnelle.
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-or-royal/20 flex items-center justify-center">
+                                <i class="fa-solid fa-trophy text-or-royal text-xl"></i>
+                            </div>
+                            <span class="text-lg">Excellence dans chaque projet</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-or-royal/20 flex items-center justify-center">
+                                <i class="fa-solid fa-users text-or-royal text-xl"></i>
+                            </div>
+                            <span class="text-lg">Relation client privilégiée</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-or-royal/20 flex items-center justify-center">
+                                <i class="fa-solid fa-globe-africa text-or-royal text-xl"></i>
+                            </div>
+                            <span class="text-lg">Impact positif sur le développement</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image -->
+                <div class="relative">
+                    <img th:src="@{/images/Immobilier-foncier-sécurisé-2.jpg}" alt="Vision stratégique"
+                        class="rounded-2xl shadow-2xl w-full transform hover:scale-105 transition-transform duration-500">
+                    <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-or-royal/20 rounded-full blur-2xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 bg-creme-luxe">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-5xl font-playfair font-bold text-noir-profond mb-6">
+                Partagez notre <span class="text-or-royal">vision</span>
+            </h2>
+            <p class="text-xl text-gray-600 mb-10">
+                Rejoignez-nous dans cette aventure et concrétisons ensemble vos projets
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a th:href="@{/contact}" class="btn-gold inline-flex items-center">
+                    <i class="fa-solid fa-phone mr-2"></i> Nous contacter
+                </a>
+                <a th:href="@{/propos}" class="btn-gold-outline inline-flex items-center">
+                    <i class="fa-solid fa-users mr-2"></i> En savoir plus
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
+
 </html>

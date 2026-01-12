@@ -29,15 +29,16 @@ public class SecurityConfig {
                 .requestMatchers(
                         "/", "/index", "/index.html", "/register",
                         "/blog/**", "/projets", "/services", "/objectifs",
-                        "/propos", "/produits/**", "/contact", "/confirmation"
-                ).permitAll()
+                        "/propos", "/produits/**", "/contact", "/confirmation",
+                        "/forgot-password")
+                .permitAll()
 
                 // ==== STATIC FILES ====
                 .requestMatchers(
                         "/css/**", "/js/**", "/images/**", "/videos/**",
                         "/assets/**",
-                        "/uploads/**"
-                ).permitAll()
+                        "/uploads/**")
+                .permitAll()
 
                 // ==== AUTH ====
                 .requestMatchers("/login", "/admin/login").permitAll()
@@ -49,8 +50,7 @@ public class SecurityConfig {
                 .requestMatchers("/user/**").hasRole("USER")
 
                 // ==== OTHER ====
-                .anyRequest().authenticated()
-        );
+                .anyRequest().authenticated());
 
         http.formLogin(login -> login
                 .loginPage("/login")
@@ -59,14 +59,12 @@ public class SecurityConfig {
                 .passwordParameter("password")
                 .successHandler(successHandler)
                 .failureUrl("/login?error")
-                .permitAll()
-        );
+                .permitAll());
 
         http.logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout")
-                .permitAll()
-        );
+                .permitAll());
 
         return http.build();
     }

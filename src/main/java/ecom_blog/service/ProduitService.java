@@ -44,4 +44,8 @@ public class ProduitService {
     public Produit findById(Long id) {
         return repo.findById(id).orElse(null);
     }
+
+    public long count() {
+        return repo.count();
+    }
 }

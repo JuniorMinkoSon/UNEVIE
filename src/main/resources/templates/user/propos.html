@@ -1,285 +1,285 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>À Propos – Baraka Synergie</title>
 
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<head th:replace="~{fragments/head :: head('À Propos - UNEVIE')}"></head>
 
-    <link rel="shortcut icon" href="images/favicon-256x256.png" type="image/x-icon">
+<body class="font-poppins bg-creme-luxe text-noir-profond">
 
-    <style>
-        body {
-            font-family: "Inter", sans-serif;
-            line-height: 1.7;
-            color: #1e293b;
-        }
+    <!-- HEADER -->
+    <div th:replace="~{fragments/header :: header}"></div>
 
-        h1, h2, h3 {
-            font-weight: 700;
-        }
+    <!-- HERO PAGE -->
+    <section class="relative py-24 md:py-32 bg-noir-profond overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-noir-profond via-noir-profond/90 to-noir-profond/70"></div>
+        <div class="absolute top-0 right-0 w-96 h-96 bg-or-royal/10 rounded-full blur-3xl"></div>
 
-        .hero {
-            text-align: center;
-            padding: 6rem 2rem;
-            background: linear-gradient(135deg,#0a213d,#143b63);
-            color: white;
-        }
-
-        .about-section {
-            padding: 4rem 0;
-        }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .reverse {
-            grid-template-columns: 1fr 1fr;
-            direction: rtl;
-        }
-
-        .reverse .about-text {
-            direction: ltr;
-        }
-
-        /* IMAGE CONTROL → Fixe, propre */
-        .about-image img {
-            width: 100%;
-            max-width: 480px;
-            height: auto;
-            border-radius: 16px;
-            object-fit: cover;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.10);
-            transition: .4s;
-        }
-
-        .about-image img:hover {
-            transform: scale(1.02);
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 2.3rem;
-            color: #0f172a;
-        }
-
-        .avantages-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .avantage-item {
-            background: white;
-            padding: 2rem;
-            border-radius: 18px;
-            text-align: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-            transition: .3s;
-        }
-
-        .avantage-item:hover {
-            transform: translateY(-6px);
-        }
-
-        .icone_valeur {
-            font-size: 2.5rem;
-            color: #1e40af;
-            margin-bottom: 1rem;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2.5rem;
-            margin-top: 3rem;
-        }
-
-        .service-card {
-            border-radius: 16px;
-            overflow: hidden;
-            background: white;
-            box-shadow: 0 8px 22px rgba(0,0,0,0.08);
-            transition: .35s;
-        }
-
-        .service-card:hover {
-            transform: translateY(-6px);
-        }
-
-        .service-card img {
-            width: 100%;
-            height: 230px;
-            object-fit: cover;
-        }
-
-        .service-content {
-            padding: 1.6rem;
-        }
-
-        .service-content h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.7rem;
-            color: #0f172a;
-        }
-
-        @media(max-width: 900px) {
-            .about-grid,
-            .reverse {
-                grid-template-columns: 1fr;
-            }
-
-            .avantages-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-<!-- HEADER -->
-<div th:replace="~{fragments/header :: header}"></div>
-
-<!-- HERO -->
-<section class="hero">
-    <h1>À propos de Baraka Synergie</h1>
-    <p style="opacity:.9;font-size:1.1rem;">Deux leaders – Une vision – L’excellence pour standard</p>
-</section>
-
-<!-- PRESENTATION -->
-<section class="about-section">
-    <div class="container about-grid">
-
-        <div class="about-text">
-            <h2>Qui sommes-nous ?</h2>
-            <p>
-                <strong>Baraka Synergie</strong> est dirigée par deux hommes stratèges et déterminés, animés par
-                une mission simple : garantir des <strong>finitions haut de gamme</strong>, un accompagnement foncier
-                complet jusqu’à l'<strong>ACD</strong>, et une expertise unique dans le design, la peinture, les matériaux
-                et l’optimisation immobilière.
-            </p>
-
-            <p>
-                Notre force réside dans notre exigence, notre transparence et notre capacité à transformer les projets
-                les plus ambitieux en réalisations durables.
-            </p>
-
-            <p>
-                Baraka Synergie ne construit pas seulement des espaces : elle crée de la valeur, de la confiance,
-                et surtout, des résultats tangibles.
+        <div class="relative z-10 max-w-7xl mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-playfair font-bold text-white mb-4">
+                À propos de <span class="text-or-royal">Baraka Synergie</span>
+            </h1>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                Deux leaders – Une vision – L'excellence pour standard
             </p>
         </div>
+    </section>
 
-        <div class="about-image">
-            <img th:src="@{/images/i1.png}" src="images/i1.png" alt="Baraka Synergie">
-        </div>
+    <!-- QUI SOMMES-NOUS -->
+    <section class="py-20 bg-creme-luxe">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Texte -->
+                <div class="order-2 lg:order-1">
+                    <h2 class="text-3xl md:text-4xl font-playfair font-bold text-noir-profond mb-6">
+                        Qui <span class="text-or-royal">sommes-nous</span> ?
+                    </h2>
+                    <div class="space-y-4 text-gray-600">
+                        <p>
+                            <strong class="text-noir-profond">Baraka Synergie</strong> est dirigée par deux hommes
+                            stratèges et déterminés, animés par une mission simple : garantir des <strong
+                                class="text-or-royal">finitions haut de gamme</strong>, un accompagnement foncier
+                            complet jusqu'à l'<strong>ACD</strong>, et une expertise unique dans le design, la peinture,
+                            les matériaux et l'optimisation immobilière.
+                        </p>
+                        <p>
+                            Notre force réside dans notre exigence, notre transparence et notre capacité à transformer
+                            les projets les plus ambitieux en réalisations durables.
+                        </p>
+                        <p>
+                            Baraka Synergie ne construit pas seulement des espaces : elle crée de la valeur, de la
+                            confiance, et surtout, des résultats tangibles.
+                        </p>
+                    </div>
+                </div>
 
-    </div>
-</section>
-
-<!-- MISSION -->
-<section class="section bg-light">
-    <div class="container about-grid reverse">
-
-        <div class="about-image">
-            <img th:src="@{/images/i2.png}" src="images/i2.png" alt="Notre mission">
-        </div>
-
-        <div class="about-text">
-            <h2>Notre Mission</h2>
-            <p>
-                Proposer un service premium et accessible, basé sur la qualité, la durabilité et le professionnalisme.
-            </p>
-            <p>
-                De la finition intérieure à l’accompagnement foncier complet, nous garantissons un suivi rigoureux,
-                des matériaux fiables et des résultats maîtrisés.
-            </p>
-        </div>
-
-    </div>
-</section>
-
-<!-- VALEURS -->
-<section class="section">
-    <h2 class="section-title">Nos Valeurs</h2>
-
-    <div class="container avantages-grid">
-
-        <div class="avantage-item">
-            <div class="icone_valeur"><i class="fa-solid fa-medal"></i></div>
-            <h3>Excellence</h3>
-            <p>Des finitions impeccables, des normes strictes, un rendu premium.</p>
-        </div>
-
-        <div class="avantage-item">
-            <div class="icone_valeur"><i class="fa-solid fa-scale-balanced"></i></div>
-            <h3>Intégrité</h3>
-            <p>Transparence totale, respect des engagements, suivi sérieux.</p>
-        </div>
-
-        <div class="avantage-item">
-            <div class="icone_valeur"><i class="fa-solid fa-lightbulb"></i></div>
-            <h3>Innovation</h3>
-            <p>Design moderne, matériaux nouvelle génération, outils de précision.</p>
-        </div>
-
-        <div class="avantage-item">
-            <div class="icone_valeur"><i class="fa-solid fa-leaf"></i></div>
-            <h3>Durabilité</h3>
-            <p>Des pratiques responsables pour des résultats qui durent.</p>
-        </div>
-
-    </div>
-</section>
-
-<!-- SERVICES PREMIUM -->
-<section class="section bg-light">
-    <h2 class="section-title">Ce que nous offrons</h2>
-
-    <div class="container services-grid">
-
-        <div class="service-card">
-            <img th:src="@{/images/i3.png}" src="images/i3.png" alt="Finitions">
-            <div class="service-content">
-                <h3>Finitions haut de gamme</h3>
-                <p>Peinture, carreaux, staff, décoration, rénovation complète.</p>
+                <!-- Image -->
+                <div class="order-1 lg:order-2">
+                    <div class="relative">
+                        <img th:src="@{/images/i1.png}" alt="Baraka Synergie"
+                            class="rounded-2xl shadow-2xl w-full max-w-lg mx-auto transform hover:scale-105 transition-transform duration-500">
+                        <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-or-royal/20 rounded-full blur-2xl"></div>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="service-card">
-            <img th:src="@{/images/i4.png}" src="images/i4.png" alt="ACD">
-            <div class="service-content">
-                <h3>Accompagnement foncier</h3>
-                <p>De la recherche de terrain à l’ACD : nous gérons tout.</p>
+    <!-- NOTRE MISSION -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Image -->
+                <div>
+                    <div class="relative">
+                        <img th:src="@{/images/i2.png}" alt="Notre mission"
+                            class="rounded-2xl shadow-2xl w-full max-w-lg mx-auto transform hover:scale-105 transition-transform duration-500">
+                        <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-or-royal/20 rounded-full blur-2xl"></div>
+                    </div>
+                </div>
+
+                <!-- Texte -->
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-playfair font-bold text-noir-profond mb-6">
+                        Notre <span class="text-or-royal">Mission</span>
+                    </h2>
+                    <div class="space-y-4 text-gray-600">
+                        <p>
+                            Proposer un service premium et accessible, basé sur la qualité, la durabilité et le
+                            professionnalisme.
+                        </p>
+                        <p>
+                            De la finition intérieure à l'accompagnement foncier complet, nous garantissons un suivi
+                            rigoureux, des matériaux fiables et des résultats maîtrisés.
+                        </p>
+                    </div>
+
+                    <!-- Points clés -->
+                    <div class="mt-8 grid grid-cols-2 gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-or-royal/10 flex items-center justify-center">
+                                <i class="fa-solid fa-check text-or-royal"></i>
+                            </div>
+                            <span class="font-medium">Qualité Premium</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-or-royal/10 flex items-center justify-center">
+                                <i class="fa-solid fa-check text-or-royal"></i>
+                            </div>
+                            <span class="font-medium">Suivi Rigoureux</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-or-royal/10 flex items-center justify-center">
+                                <i class="fa-solid fa-check text-or-royal"></i>
+                            </div>
+                            <span class="font-medium">Matériaux Fiables</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-or-royal/10 flex items-center justify-center">
+                                <i class="fa-solid fa-check text-or-royal"></i>
+                            </div>
+                            <span class="font-medium">Résultats Garantis</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="service-card">
-            <img th:src="@{/images/i5.png}" src="images/i5.png" alt="Matériaux">
-            <div class="service-content">
-                <h3>Matériaux & services</h3>
-                <p>Fourniture, installation, équipes techniques expertes.</p>
+    <!-- NOS VALEURS -->
+    <section class="py-20 bg-noir-profond text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold mb-4">
+                    Nos <span class="text-or-royal">Valeurs</span>
+                </h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                    Les principes qui guident chacune de nos actions
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Valeur 1 -->
+                <div
+                    class="text-center p-8 rounded-2xl bg-noir-elegant border border-gray-800 hover:border-or-royal/50 transition-all duration-500 hover:-translate-y-2 group">
+                    <div
+                        class="w-20 h-20 mx-auto mb-6 bg-or-royal/10 rounded-full flex items-center justify-center group-hover:bg-or-royal/20 transition-colors">
+                        <i class="fa-solid fa-medal text-4xl text-or-royal"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Excellence</h3>
+                    <p class="text-gray-400">
+                        Des finitions impeccables, des normes strictes, un rendu premium.
+                    </p>
+                </div>
+
+                <!-- Valeur 2 -->
+                <div
+                    class="text-center p-8 rounded-2xl bg-noir-elegant border border-gray-800 hover:border-or-royal/50 transition-all duration-500 hover:-translate-y-2 group">
+                    <div
+                        class="w-20 h-20 mx-auto mb-6 bg-or-royal/10 rounded-full flex items-center justify-center group-hover:bg-or-royal/20 transition-colors">
+                        <i class="fa-solid fa-scale-balanced text-4xl text-or-royal"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Intégrité</h3>
+                    <p class="text-gray-400">
+                        Transparence totale, respect des engagements, suivi sérieux.
+                    </p>
+                </div>
+
+                <!-- Valeur 3 -->
+                <div
+                    class="text-center p-8 rounded-2xl bg-noir-elegant border border-gray-800 hover:border-or-royal/50 transition-all duration-500 hover:-translate-y-2 group">
+                    <div
+                        class="w-20 h-20 mx-auto mb-6 bg-or-royal/10 rounded-full flex items-center justify-center group-hover:bg-or-royal/20 transition-colors">
+                        <i class="fa-solid fa-lightbulb text-4xl text-or-royal"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Innovation</h3>
+                    <p class="text-gray-400">
+                        Design moderne, matériaux nouvelle génération, outils de précision.
+                    </p>
+                </div>
+
+                <!-- Valeur 4 -->
+                <div
+                    class="text-center p-8 rounded-2xl bg-noir-elegant border border-gray-800 hover:border-or-royal/50 transition-all duration-500 hover:-translate-y-2 group">
+                    <div
+                        class="w-20 h-20 mx-auto mb-6 bg-or-royal/10 rounded-full flex items-center justify-center group-hover:bg-or-royal/20 transition-colors">
+                        <i class="fa-solid fa-leaf text-4xl text-or-royal"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Durabilité</h3>
+                    <p class="text-gray-400">
+                        Des pratiques responsables pour des résultats qui durent.
+                    </p>
+                </div>
             </div>
         </div>
+    </section>
 
-    </div>
-</section>
+    <!-- CE QUE NOUS OFFRONS -->
+    <section class="py-20 bg-creme-luxe">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-noir-profond mb-4">
+                    Ce que nous <span class="text-or-royal">offrons</span>
+                </h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Des services complets pour répondre à tous vos besoins
+                </p>
+            </div>
 
-<!-- FOOTER -->
-<div th:replace="~{fragments/footer :: footer}"></div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="card-luxury group">
+                    <div class="relative overflow-hidden">
+                        <img th:src="@{/images/i3.png}" alt="Finitions"
+                            class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-noir-profond mb-3 group-hover:text-or-royal transition-colors">
+                            Finitions haut de gamme
+                        </h3>
+                        <p class="text-gray-600">
+                            Peinture, carreaux, staff, décoration, rénovation complète.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="card-luxury group">
+                    <div class="relative overflow-hidden">
+                        <img th:src="@{/images/i4.png}" alt="ACD"
+                            class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-noir-profond mb-3 group-hover:text-or-royal transition-colors">
+                            Accompagnement foncier
+                        </h3>
+                        <p class="text-gray-600">
+                            De la recherche de terrain à l'ACD : nous gérons tout.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="card-luxury group">
+                    <div class="relative overflow-hidden">
+                        <img th:src="@{/images/i5.png}" alt="Matériaux"
+                            class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-noir-profond mb-3 group-hover:text-or-royal transition-colors">
+                            Matériaux & services
+                        </h3>
+                        <p class="text-gray-600">
+                            Fourniture, installation, équipes techniques expertes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section
+        class="py-20 bg-gradient-to-br from-noir-profond via-noir-elegant to-noir-profond relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-or-royal/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+            <h2 class="text-3xl md:text-5xl font-playfair font-bold text-white mb-6">
+                Prêt à travailler avec <span class="text-or-royal">nous</span> ?
+            </h2>
+            <p class="text-xl text-gray-300 mb-10">
+                Contactez-nous pour discuter de votre projet
+            </p>
+            <a th:href="@{/contact}" class="btn-gold inline-flex items-center">
+                <i class="fa-solid fa-phone mr-2"></i> Nous contacter
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
+
 </html>

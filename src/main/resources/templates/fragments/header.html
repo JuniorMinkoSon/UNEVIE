@@ -1,78 +1,149 @@
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div th:fragment="header">
-
-    <header>
-        <div class="header-container">
-
+    <!-- Header Glassmorphism -->
+    <header class="fixed w-full top-0 z-50 glassmorphism shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <!-- LOGO -->
-            <div class="logo">
-                <a th:href="@{/}">
-                    <img src="images/logo_bar1.png" style="width:6rem; height:5rem;">
+            <a th:href="@{/}" class="flex items-center">
+                <img th:src="@{/images/logo_bar1.png}" alt="Logo UNEVIE" class="h-14 w-auto">
+            </a>
+
+            <!-- NAVIGATION -->
+            <nav class="hidden md:flex items-center gap-8">
+                <a th:href="@{/}" class="nav-link">
+                    Accueil
+                    <span class="nav-underline"></span>
+                </a>
+                <a th:href="@{/propos}" class="nav-link">
+                    À propos
+                    <span class="nav-underline"></span>
+                </a>
+                <a th:href="@{/services}" class="nav-link">
+                    Services
+                    <span class="nav-underline"></span>
+                </a>
+                <a th:href="@{/objectifs}" class="nav-link">
+                    Objectifs
+                    <span class="nav-underline"></span>
+                </a>
+                <a th:href="@{/produits}" class="nav-link">
+                    Produits
+                    <span class="nav-underline"></span>
+                </a>
+                <a th:href="@{/panier}"
+                    class="relative text-noir-profond font-medium hover:text-or-royal transition-colors duration-300 group">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span th:if="${cartCount > 0}"
+                        class="absolute -top-2 -right-3 bg-or-royal text-noir-profond text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm group-hover:bg-noir-profond group-hover:text-or-royal transition-colors"
+                        th:text="${cartCount}">0</span>
+                </a>
+            </nav>
+
+            <!-- BOUTONS ACTIONS -->
+            <div class="hidden md:flex items-center gap-4">
+                <!-- Connexion (Anonyme) -->
+                <a th:href="@{/login}" sec:authorize="isAnonymous()"
+                    class="text-noir-profond font-semibold hover:text-or-royal transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-user-circle text-xl"></i>
+                    <span>Connexion</span>
+                </a>
+
+                <!-- Mon Compte (Authentifié) -->
+                <div sec:authorize="isAuthenticated()" class="flex items-center gap-4">
+                    <a th:href="@{/logout}"
+                        class="text-red-500 hover:text-red-700 transition-colors text-sm font-bold uppercase tracking-tighter">
+                        <i class="fa-solid fa-sign-out-alt"></i>
+                    </a>
+                </div>
+
+                <a th:href="@{/contact}" class="btn-gold">
+                    Nous contacter
                 </a>
             </div>
 
-            <!-- NAVIGATION -->
-            <nav id="mainNav">
-                <ul>
-                    <li><a th:href="@{/}" class="active">Accueil</a></li>
-                    <li><a th:href="@{/propos}">À propos</a></li>
-                    <li><a th:href="@{/services}">Services</a></li>
-                    <li><a th:href="@{/objectifs}">Objectifs</a></li>
+            <!-- MENU BURGER MOBILE -->
+            <button class="md:hidden text-noir-profond text-2xl" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars" id="menuIcon"></i>
+            </button>
+        </div>
 
-                    <!-- 🔥 ROUTE CORRIGÉE ICI -->
-                    <li><a th:href="@{/produits}">Produits</a></li>
+        <!-- MENU MOBILE -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gris-perle">
+            <nav class="flex flex-col p-6 gap-4">
+                <a th:href="@{/}" class="text-noir-profond font-medium hover:text-or-royal py-2">Accueil</a>
+                <a th:href="@{/propos}" class="text-noir-profond font-medium hover:text-or-royal py-2">À propos</a>
+                <a th:href="@{/services}" class="text-noir-profond font-medium hover:text-or-royal py-2">Services</a>
+                <a th:href="@{/objectifs}" class="text-noir-profond font-medium hover:text-or-royal py-2">Objectifs</a>
+                <a th:href="@{/produits}" class="text-noir-profond font-medium hover:text-or-royal py-2">Produits</a>
+                <a th:href="@{/panier}" class="text-noir-profond font-medium hover:text-or-royal py-2">
+                    <i class="fa-solid fa-cart-shopping mr-2"></i> Panier
+                </a>
 
-                    <!-- PANIER -->
-                    <li>
-                        <a th:href="@{/panier}">
-                            <i class="fa-solid fa-cart-shopping"></i> Panier
-                        </a>
-                    </li>
+                <div class="h-px bg-gray-100 my-2"></div>
 
-                    <!-- VERSION MOBILE -->
-                    <li class="contact-item-mobile">
-                        <a th:href="@{/contact}" class="contact-nav-mobile-link">Nous contacter</a>
-                    </li>
-                </ul>
+                <!-- Login/Logout Mobile -->
+                <a th:href="@{/login}" sec:authorize="isAnonymous()"
+                    class="text-noir-profond font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-user-circle text-or-royal"></i> Connexion
+                </a>
+                <a th:href="@{/logout}" sec:authorize="isAuthenticated()"
+                    class="text-red-500 font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-sign-out-alt"></i> Déconnexion
+                </a>
+
+                <a th:href="@{/contact}" class="btn-gold text-center mt-4">Nous contacter</a>
             </nav>
-
-            <!-- CONTACT DESKTOP -->
-            <div class="contact-nav">
-                <a th:href="@{/contact}">Nous contacter</a>
-            </div>
-
-            <!-- MENU BURGER -->
-            <div class="menu-toggle" onclick="toggleMenu()">
-                <span><i class="fa-solid fa-bars"></i></span>
-            </div>
-
         </div>
     </header>
 
+    <!-- Spacer pour le header fixe -->
+    <div class="h-20"></div>
+
+    <style>
+        .nav-link {
+            @apply text-noir-profond font-medium hover:text-or-royal transition-colors duration-300 relative;
+        }
+
+        .nav-underline {
+            @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-or-royal transition-all duration-300;
+        }
+
+        .nav-link:hover .nav-underline,
+        .nav-link.active .nav-underline {
+            @apply w-full;
+        }
+    </style>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuIcon = document.getElementById('menuIcon');
+            mobileMenu.classList.toggle('hidden');
+
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            } else {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-times');
+            }
+        }
+
+        // Highlight active link
+        document.addEventListener('DOMContentLoaded', function () {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href');
+                if (currentPath === linkPath || (linkPath !== '/' && currentPath.startsWith(linkPath))) {
+                    link.classList.add('text-or-royal');
+                    link.querySelector('.nav-underline')?.classList.add('w-full');
+                }
+            });
+        });
+    </script>
 </div>
 
-<!-- SCRIPT D’ACTIVATION DU MENU -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-
-        const currentPath = window.location.pathname;
-        const navLinks = document.querySelectorAll('nav ul li a');
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            const linkPath = link.getAttribute('href');
-
-            if (currentPath === '/' && linkPath === '/') {
-                link.classList.add('active');
-            }
-            else if (linkPath !== '/' && currentPath.startsWith(linkPath)) {
-                link.classList.add('active');
-            }
-        });
-    });
-
-    function toggleMenu() {
-        const nav = document.getElementById('mainNav');
-        nav.classList.toggle('active');
-    }
-</script>
+</html>
